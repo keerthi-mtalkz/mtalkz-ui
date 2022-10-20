@@ -7,20 +7,9 @@ import { withRedux } from "../../../lib/redux";
 import {
   NotificationError,
 } from '../../../components/notifications'
-import {NotificationManager} from 'react-notifications'
-import axios from "axios";
+import {NotificationManager} from 'react-notifications';
+import {ax} from "../../utils/apiCalls";
 
-const ax = axios.create({
-    baseURL: 'https://app.mtalkz.cloud/api',
-    // baseURL: 'http://127.0.0.1:8000/api',
-    withCredentials: true,
-    headers: {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-      // 'Authorization': `Bearer ${token}`
-     }
-     
-  })
 
 
 const viewID = () => {

@@ -2,20 +2,9 @@ import React, {useState} from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import {useForm} from 'react-hook-form'
-import axios from "axios";
+import {ax} from "../../utils/apiCalls"
 
-const ax = axios.create({
-  
-  baseURL: 'https://app.mtalkz.cloud/api',
-  // baseURL: 'http://127.0.0.1:8000/api',
-  withCredentials: true,
-  headers: {
-    'Content-type': 'application/json',
-    'Accept': 'application/json',
-    // 'Authorization': `Bearer ${token}`
-   }
-   
-})
+
 
 
 const Login1 = () => {
@@ -34,7 +23,6 @@ const Login1 = () => {
     });
     
   };
-  const [checked, setChecked] = useState(true)
 
   return (
     <>

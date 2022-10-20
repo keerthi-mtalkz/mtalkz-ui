@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react';
 import Select from "react-select";
 import { getColor, toRGB } from "../../functions/colors";
+import {ax} from "../../utils/apiCalls"
 
 
 const Navbar = () => {
@@ -18,18 +19,7 @@ const Navbar = () => {
     }),
     shallowEqual
   )
-  const ax = axios.create({
-  
-    baseURL: 'https://app.mtalkz.cloud/api',
-    // baseURL: 'http://127.0.0.1:8000/api',
-    withCredentials: true,
-    headers: {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-      // 'Authorization': `Bearer ${token}`
-     }
-     
-  })
+ 
   const dispatch = useDispatch();
   const router = useRouter()
 

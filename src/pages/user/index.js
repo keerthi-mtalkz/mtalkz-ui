@@ -5,22 +5,11 @@ import Datatable from "../../components/datatable";
 import {USER_COLUMN_HEADERS} from "../../utils/columns"
 import { useEffect } from 'react';
 import { getUsers } from '../../utils/apiCalls';
-import axios from "axios";
 import Link from "next/link";
+import {ax} from "../../utils/apiCalls"
 
 
-const ax = axios.create({
-  
-  baseURL: 'https://app.mtalkz.cloud/api',
-  // baseURL: 'http://127.0.0.1:8000/api',
-  withCredentials: true,
-  headers: {
-    'Content-type': 'application/json',
-    'Accept': 'application/json',
-    // 'Authorization': `Bearer ${token}`
-   }
-   
-})
+
 const User=()=>{
     const [userData,setUserData]=React.useState([]);
     
@@ -34,12 +23,35 @@ const User=()=>{
         })
         .then((res) => {
           setUserData(res.data)
-          console.log(res.data,"&&&&&&&&&&&&&&&&&&&&&")
         })
         .catch((err) => {
           console.error("get /fetchUsers error", err);
         });
    }
+
+   const deleteUserApi=(id)=>{
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem('token');
+      const answer = window.confirm("are you sure?");
+      if (answer) {
+        ax.delete(`/users/${id}`, {headers: {
+          'Authorization': `Bearer ${token}`
+         }})
+          .then((res) => {
+            setTimeout(() => {
+              getUsersApi();
+            }, 1000);
+          })
+          .catch((err) => {
+            console.error("get /usres error", err.message);
+          });
+      } else {
+        console.log("Thing was not saved to the database.");
+      }
+    }
+   }
+
+  
 
 
     useEffect(()=>{
@@ -77,7 +89,7 @@ const User=()=>{
                 cursor: "pointer",
                 lineHeight: "normal",
               }}
-              onClick={() => handleDelete(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+              onClick={() => deleteUserApi(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
               </p>
               <Link href={`/users/update/${data.row.original.id}`}>
                 <a>
