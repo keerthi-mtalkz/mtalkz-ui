@@ -14,20 +14,10 @@ import {
   NotificationSuccess
 } from '../../../components/notifications'
 import {NotificationManager} from 'react-notifications'
+import {ax} from "../../utils/apiCalls";
 
-import axios from "axios";
 
-const ax = axios.create({
-    baseURL: 'https://app.mtalkz.cloud/api',
-    // baseURL: 'http://127.0.0.1:8000/api',
-    withCredentials: true,
-    headers: {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-      // 'Authorization': `Bearer ${token}`
-     }
-     
-  })
+
 
 const viewID = () => {
     const router = useRouter();
