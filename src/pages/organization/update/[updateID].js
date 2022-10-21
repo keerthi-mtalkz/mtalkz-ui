@@ -10,6 +10,7 @@ import { NotificationManager } from 'react-notifications'
 import {
     NotificationError
   } from '../../../components/notifications'
+import { error } from "autoprefixer/lib/utils";
 
 
 const updateID = () => {
@@ -17,6 +18,7 @@ const updateID = () => {
   const updateid = router.query.updateID;
   const [res, setRes] = useState({});
   const [status, setStatus] = useState(undefined);
+  const [err,setError]=useState("")
 
   const getOrganizationDetails = async () => {
     if (typeof window !== "undefined") {
@@ -59,13 +61,12 @@ const updateID = () => {
           router.push("/organization");
         })
         .catch((err) => {
-          console.error("get /Organization error", err);
+          setError(err.response.data.message)
+          console.error("get /Organization error", err.response.data.message);
           setStatus({ type: "error", err });
         });
     }
   };
-
-
 
   return (
     <Layout>
@@ -73,14 +74,14 @@ const updateID = () => {
       {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
           <div className="p-2">
-            {NotificationManager.success('Success message', 'Title here')}
+            {NotificationManager.success('Updated details successfully', 'Success')}
           </div>
         </div>
       )}
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
           <div className="p-2">
-            <NotificationError />
+           {NotificationManager.error(err,'Error')}
           </div>
         </div>
       )}
@@ -104,10 +105,13 @@ const updateID = () => {
                   className="form-input mt-1 text-xs block w-full bg-white"
                   placeholder="Enter your name"
                   defaultValue={res.name}
+                  required
+                  minLength={3}
+                  maxLength={40}
                 />
               </label>
               {errors.name && (
-                <p className="mt-1 text-xs text-red-500">Name is required</p>
+                <p className="mt-1 text-xs text-red-500">{errors.name}</p>
               )}
             </div>
 
@@ -122,6 +126,8 @@ const updateID = () => {
                   className="form-input mt-1 text-xs block w-full bg-white"
                   placeholder="Enter your email"
                   defaultValue={res.email}
+                  required
+                  
                 />
               </label>
               {errors.email && (
@@ -140,6 +146,7 @@ const updateID = () => {
                   className="form-input mt-1 text-xs block w-full bg-white"
                   placeholder="Enter your phone no"
                   defaultValue={res.phone}
+                  required
                 />
               </label>
               {errors.phone && (
@@ -160,10 +167,11 @@ const updateID = () => {
                   className="form-input mt-1 text-xs block w-full bg-white"
                   placeholder="Enter your Address"
                   defaultValue={res.address}
+                  required
                 />
               </label>
               {errors.address && (
-                <p className="mt-1 text-xs text-red-500">Phone No is required</p>
+                <p className="mt-1 text-xs text-red-500">Address is required</p>
               )}
             </div>
 
