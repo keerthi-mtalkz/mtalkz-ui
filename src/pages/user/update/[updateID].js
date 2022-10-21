@@ -75,14 +75,15 @@ return (
       {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.success('Success message', 'Title here')}
+        { NotificationManager.success('Updated user details successfully', 'Success')}
         </div>
       </div>
       )}
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-          <NotificationError />
+        { NotificationManager.error('Failed updating user details', 'Error')}
+
         </div>
       </div>
       )}
@@ -106,10 +107,13 @@ return (
             className="form-input mt-1 text-xs block w-full bg-white"
             placeholder="Enter your name"
             defaultValue={res.name}
+            required
+            minLength={3}
+            maxLength={40}
           />
         </label>
         {errors.name && (
-          <p className="mt-1 text-xs text-red-500">Name is required</p>
+          <p className="mt-1 text-xs text-red-500">{errors.name}</p>
         )}
       </div>
 
@@ -124,10 +128,11 @@ return (
             className="form-input mt-1 text-xs block w-full bg-white"
             placeholder="Enter your email"
             defaultValue={res.email}
+            required
           />
         </label>
         {errors.email && (
-          <p className="mt-1 text-xs text-red-500">Email is required</p>
+          <p className="mt-1 text-xs text-red-500">{errors.email}</p>
         )}
       </div>
 
