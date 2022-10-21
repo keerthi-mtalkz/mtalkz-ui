@@ -12,6 +12,28 @@ import {ax} from "../../utils/apiCalls";
 const Organization=()=>{
  const [organizations,setOrganizations]=useState([])
 
+ const deleteOrganization = (id) => {
+  if (typeof window !== "undefined") {
+  const token = localStorage.getItem('token');
+  const answer = window.confirm("are you sure?");
+  if (answer) {
+    ax.delete(`/organizations/${id}`, {headers: {
+      'Authorization': `Bearer ${token}`
+     }})
+      .then((res) => {
+        setTimeout(() => {
+          getOrganizations();
+        }, 1000);
+      })
+      .catch((err) => {
+        console.error("get /organizations error", err.message);
+      });
+  } else {
+    console.log("Thing was not saved to the database.");
+  }
+}
+};
+
   const getOrganizations = async () => {
     const token = localStorage.getItem('token');
     await ax
@@ -72,7 +94,7 @@ const Organization=()=>{
           cursor: "pointer",
           lineHeight: "normal",
         }}
-        onClick={() => handleDelete(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+        onClick={() => deleteOrganization(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
 </p>
 <Link href={`/organization/update/${data.row.original.id}`}>
                     <a>
