@@ -91,14 +91,14 @@ const User=()=>{
               }}
               onClick={() => deleteUserApi(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
               </p>
-              <Link href={`/users/update/${data.row.original.id}`}>
+              <Link href={`/user/update/${data.row.original.id}`}>
                 <a>
                   <p>
                     <i className="icon-note text-1xl font-bold mb-2"></i>
                   </p>
                 </a>
               </Link>
-              <Link href={`/users/setRole/${data.row.original.id}`}>
+              <Link href={`/user/setRole/${data.row.original.id}`}>
                 <a>
                   <p>
                     <i className="icon-refresh text-1xl font-bold mb-2"></i>
