@@ -23,7 +23,7 @@ const addPermission = () => {
       .then((res) => {
         setRes(res.data);
         setStatus({ type: "success" });
-        router.push("http://localhost:3333/permission");
+        router.push("/permission");
       })
       .catch((err) => {
         setStatus({ type: "error", err });
@@ -36,7 +36,7 @@ const addPermission = () => {
 
   return (
     <Layout>
-    <SectionTitle title="Create User" subtitle="" />
+    <SectionTitle title="Create Permission" subtitle="" />
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
       <div className="p-2">
