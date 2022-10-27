@@ -31,6 +31,12 @@ const navigation = [
         title: 'Permission Management',
         items: []
       },
+      {
+        url: '/resource',
+        icon: <Icon.Anchor size={20} />,
+        title: 'Resource Management',
+        items: []
+      },
 
     ]
   },

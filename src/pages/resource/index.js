@@ -6,48 +6,48 @@ import Datatable from "../../components/datatable";
 import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
 
-const Permission=()=>{
- const [permissions,setPermissions]=useState([])
+const Resource=()=>{
+ const [resources,setResources]=useState([])
  const [status, setStatus] = useState(undefined);
  const [searchQuery, setSearchQuery] = useState("");
 
 
-  const getPermissions = async () => {
+  const getResources = async () => {
     const token = localStorage.getItem('token');
     await ax
-      .get("/permissions", {headers: {
+      .get("/resources", {headers: {
         'Authorization': `Bearer ${token}`
        }})
       .then((res) => {
-        setPermissions(res.data);
+        setResources(res.data);
       })
       .catch((err) => {
         setStatus({ type: "error", err });
-        console.error("get /permissions error", err);
+        console.error("get /Resources error", err);
       });
   };
 
 
   React.useEffect(() => {
-    getPermissions();
+    getResources();
   }, []);
 
-     const deletePermission = (id) => {
+     const deleteResource = (id) => {
   if (typeof window !== "undefined") {
   const token = localStorage.getItem('token');
   const answer = window.confirm("are you sure?");
   if (answer) {
-    ax.delete(`/permissions/${id}`, {headers: {
+    ax.delete(`/resources/${id}`, {headers: {
       'Authorization': `Bearer ${token}`
      }})
       .then((res) => {
         setStatus({ type: "success" });
         setTimeout(() => {
-            getPermissions();
+            getResources();
         }, 1000);
       })
       .catch((err) => {
-        console.error("get /permissions error", err.message);
+        console.error("get /resources error", err.message);
         setStatus({ type: "error", err });
       });
   } else {
@@ -63,8 +63,8 @@ const Permission=()=>{
       accessor: 'id'
     },
       {
-        Header: 'Route',
-        accessor: 'route'
+        Header: 'Slug',
+        accessor: 'slug'
       },
       {
         Header: 'Name',
@@ -80,7 +80,7 @@ const Permission=()=>{
         cell: () => <Button variant="danger" data-tag="allowRowEvents" data-action="delete"><FontAwesomeIcon icon={faTrash} /></Button>,
         Cell: (data) => {
        
-        return (<div className="flex justify-evenly"> <Link href={`/permission/view/${data.row.original.id}`}>
+        return (<div className="flex justify-evenly"> <Link href={`/resource/view/${data.row.original.id}`}>
           <p>
             <i className="icon-eye text-1xl font-bold mb-2"></i>
           </p>
@@ -90,9 +90,9 @@ const Permission=()=>{
           cursor: "pointer",
           lineHeight: "normal",
         }}
-        onClick={() => deletePermission(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+        onClick={() => deleteResource(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
 </p>
-<Link href={`/permission/update/${data.row.original.id}`}>
+<Link href={`/resource/update/${data.row.original.id}`}>
                       <p>
                         <i className="icon-note text-1xl font-bold mb-2"></i>
                       </p>
@@ -107,7 +107,7 @@ const Permission=()=>{
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
       <div className="p-2">
-      { NotificationManager.success('Deleted permission successfully', 'Success')}
+      { NotificationManager.success('Deleted Resource successfully', 'Success')}
       </div>
     </div>
     )}
@@ -131,19 +131,19 @@ const Permission=()=>{
       </div>
       <div className="w-1/6 ">
         {" "}
-        <Link href={`/permission/addPermission`}>
+        <Link href={`/resource/addResource`}>
             <button
               className="ml-3  btn btn-default btn-indigo create-btn w-full"
               type="button"
             >
-              Add Permission
+              Add Resource
             </button>
         </Link>
       </div>
     </div>
-    <Datatable columns={columns} data={permissions} />
+    <Datatable columns={columns} data={resources} />
     </Layout>
     )
 }
 
-export default withRedux(Permission)
+export default withRedux(Resource)
