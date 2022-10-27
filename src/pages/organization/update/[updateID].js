@@ -131,7 +131,7 @@ const updateID = () => {
                 />
               </label>
               {errors.email && (
-                <p className="mt-1 text-xs text-red-500">Email is required</p>
+                <p className="mt-1 text-xs text-red-500">{errors.email}</p>
               )}
             </div>
 
@@ -150,7 +150,7 @@ const updateID = () => {
                 />
               </label>
               {errors.phone && (
-                <p className="mt-1 text-xs text-red-500">Phone No is required</p>
+                <p className="mt-1 text-xs text-red-500">{errors.phone}</p>
               )}
             </div>
 
@@ -171,7 +171,7 @@ const updateID = () => {
                 />
               </label>
               {errors.address && (
-                <p className="mt-1 text-xs text-red-500">Address is required</p>
+                <p className="mt-1 text-xs text-red-500">{errors.address}</p>
               )}
             </div>
 
