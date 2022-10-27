@@ -40,7 +40,7 @@ const addPermission = () => {
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
       <div className="p-2">
-      { NotificationManager.success('Added permission  successfully', 'Success')}
+      { NotificationManager.success('Added permission successfully', 'Success')}
       </div>
     </div>
     )}

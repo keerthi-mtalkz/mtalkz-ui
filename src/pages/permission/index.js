@@ -111,7 +111,7 @@ const Permission=()=>{
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
       <div className="p-2">
-      { NotificationManager.success('Deleted permission  successfully', 'Success')}
+      { NotificationManager.success('Deleted permission successfully', 'Success')}
       </div>
     </div>
     )}

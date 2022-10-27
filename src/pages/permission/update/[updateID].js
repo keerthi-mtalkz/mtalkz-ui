@@ -68,7 +68,7 @@ return (
      {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.success('Updated permission  successfully', 'Success')}
+        { NotificationManager.success('Updated permission successfully', 'Success')}
         </div>
       </div>
       )}
@@ -136,6 +136,7 @@ return (
              className="form-input mt-1 text-xs block w-full bg-white"
              placeholder="Enter Permission description"
              defaultValue={res.description}
+             required
            />
          </label>
          {errors.description && (
