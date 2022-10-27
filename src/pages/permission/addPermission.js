@@ -14,8 +14,6 @@ const addPermission = () => {
 
   const { register, handleSubmit, watch, errors } = useForm();
 
-  const [checked, setChecked] = useState(true)
-
   const onSubmit = (data) => {
     if (typeof window !== "undefined") {
     const token = localStorage.getItem('token');
@@ -28,8 +26,8 @@ const addPermission = () => {
         router.push("http://localhost:3333/permission");
       })
       .catch((err) => {
+        setStatus({ type: "error", err });
         console.error("get /Permissions error", err);
-        NotificationManager.error(err.response.data.message, '')
       });
 
     }
@@ -68,6 +66,7 @@ const addPermission = () => {
             ref={register({ required: true })}
             className="form-input mt-1 text-xs block w-full bg-white"
             placeholder="Enter your route"
+            required
           />
         </label>
         {errors.route && (
@@ -85,6 +84,7 @@ const addPermission = () => {
              ref={register({ required: true })}
              className="form-input mt-1 text-xs block w-full bg-white"
              placeholder="Enter your name"
+             required
            />
          </label>
          {errors.name && (
@@ -102,6 +102,7 @@ const addPermission = () => {
               ref={register({ required: true })}
               className="form-input mt-1 text-xs block w-full bg-white"
               placeholder="Enter your description"
+              required
             />
           </label>
           {errors.description && (
