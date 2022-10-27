@@ -26,7 +26,6 @@ const updateID = () => {
          }})
         .then((res) => {
           setRes(res.data.permission);
-        setStatus({ type: "success" });
 
         })
         .catch((err) => {
@@ -51,7 +50,7 @@ const updateID = () => {
       }})
         .then((res) => {
           setRes(res.data);
-          setStatus({ type: "success" });
+        setStatus({ type: "success" });
           router.push("/permission");
         })
         .catch((err) => {
@@ -66,10 +65,10 @@ const updateID = () => {
 return (
     <Layout>
      <SectionTitle title="UPDATE PERMISSION" subtitle="" />
-      {status?.type === "success" && (
+     {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.success('Success message', 'Title here')}
+        { NotificationManager.success('Updated permission  successfully', 'Success')}
         </div>
       </div>
       )}
@@ -77,7 +76,6 @@ return (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
         { NotificationManager.error(errors, 'Error')}
-
         </div>
       </div>
       )}
@@ -99,7 +97,7 @@ return (
             type="text"
             ref={register({ required: true })}
             className="form-input mt-1 text-xs block w-full bg-white"
-            placeholder="Enter your route"
+            placeholder="Route in dot notation"
             defaultValue={res.route}
             required
           />
@@ -118,7 +116,7 @@ return (
             type="text"
             ref={register({ required: true })}
             className="form-input mt-1 text-xs block w-full bg-white"
-            placeholder="Enter your name"
+            placeholder="Enter Permission name"
             defaultValue={res.name}
           />
         </label>
@@ -136,7 +134,7 @@ return (
              type="text"
              ref={register({ required: true })}
              className="form-input mt-1 text-xs block w-full bg-white"
-             placeholder="Enter your description"
+             placeholder="Enter Permission description"
              defaultValue={res.description}
            />
          </label>

@@ -37,13 +37,13 @@ const addPermission = () => {
   return (
     <Layout>
     <SectionTitle title="Create User" subtitle="" />
-         {status?.type === "success" && (
-        <div className="flex flex-wrap w-full">
-        <div className="p-2">
-        { NotificationManager.success('Data Submitted Successfully', '')}
-        </div>
+    {status?.type === "success" && (
+      <div className="flex flex-wrap w-full">
+      <div className="p-2">
+      { NotificationManager.success('Added permission  successfully', 'Success')}
       </div>
-      )}
+    </div>
+    )}
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
@@ -65,7 +65,7 @@ const addPermission = () => {
             type="text"
             ref={register({ required: true })}
             className="form-input mt-1 text-xs block w-full bg-white"
-            placeholder="Enter your route"
+            placeholder="Route in dot notation"
             required
           />
         </label>
@@ -83,7 +83,7 @@ const addPermission = () => {
              type="text"
              ref={register({ required: true })}
              className="form-input mt-1 text-xs block w-full bg-white"
-             placeholder="Enter your name"
+             placeholder="Enter Permission name"
              required
            />
          </label>
@@ -101,7 +101,7 @@ const addPermission = () => {
               type="text"
               ref={register({ required: true })}
               className="form-input mt-1 text-xs block w-full bg-white"
-              placeholder="Enter your description"
+              placeholder="Enter Permission Description"
               required
             />
           </label>

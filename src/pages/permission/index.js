@@ -20,7 +20,6 @@ const Permission=()=>{
        }})
       .then((res) => {
         setPermissions(res.data);
-        setStatus({ type: "success" });
       })
       .catch((err) => {
         setStatus({ type: "error", err });
@@ -42,6 +41,7 @@ const Permission=()=>{
       'Authorization': `Bearer ${token}`
      }})
       .then((res) => {
+        setStatus({ type: "success" });
         setTimeout(() => {
             getPermissions();
         }, 1000);
@@ -109,12 +109,12 @@ const Permission=()=>{
   return (
     <Layout>
     {status?.type === "success" && (
-        <div className="flex flex-wrap w-full">
-        <div className="p-2">
-        { NotificationManager.success('Success message', 'Title here')}
-        </div>
+      <div className="flex flex-wrap w-full">
+      <div className="p-2">
+      { NotificationManager.success('Deleted permission  successfully', 'Success')}
       </div>
-      )}
+    </div>
+    )}
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">

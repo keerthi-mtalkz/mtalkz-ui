@@ -34,7 +34,6 @@ const viewID = () => {
          }})
         .then((res) => {
           setRes(res.data.permission);
-        setStatus({ type: "success" });
         })
         .catch((err) => {
         setStatus({ type: "error", err });
@@ -54,13 +53,7 @@ const viewID = () => {
 return (
     <Layout>
      <SectionTitle title="View Organization" subtitle="" />
-      {status?.type === "success" && (
-        <div className="flex flex-wrap w-full">
-        <div className="p-2">
-        { NotificationManager.success('Success message', 'Title here')}
-        </div>
-      </div>
-      )}
+    
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
