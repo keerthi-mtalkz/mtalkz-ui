@@ -25,6 +25,12 @@ const navigation = [
         title: 'Organization Management',
         items: []
       },
+      {
+        url: '/permission',
+        icon: <Icon.Anchor size={20} />,
+        title: 'Permission Management',
+        items: []
+      },
 
     ]
   },
