@@ -118,6 +118,7 @@ return (
             className="form-input mt-1 text-xs block w-full bg-white"
             placeholder="Enter Permission name"
             defaultValue={res.name}
+            required
           />
         </label>
         {errors.name && (
@@ -136,7 +137,6 @@ return (
              className="form-input mt-1 text-xs block w-full bg-white"
              placeholder="Enter Permission description"
              defaultValue={res.description}
-             required
            />
          </label>
          {errors.description && (
