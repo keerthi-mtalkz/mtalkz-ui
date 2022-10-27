@@ -65,7 +65,7 @@ const addPermission = () => {
           <input
             name="route"
             type="text"
-            ref={register({ required: true , maxLength: 15 })}
+            ref={register({ required: true })}
             className="form-input mt-1 text-xs block w-full bg-white"
             placeholder="Enter your route"
           />
