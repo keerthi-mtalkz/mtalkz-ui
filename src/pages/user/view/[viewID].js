@@ -8,7 +8,7 @@ import {
   NotificationError,
 } from '../../../components/notifications'
 import {NotificationManager} from 'react-notifications';
-import {ax} from "../../utils/apiCalls";
+import {ax} from "../../../utils/apiCalls";
 
 
 
