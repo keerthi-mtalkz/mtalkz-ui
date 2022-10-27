@@ -81,11 +81,9 @@ const Resource=()=>{
         Cell: (data) => {
        
         return (<div className="flex justify-evenly"> <Link href={`/resource/view/${data.row.original.id}`}>
-        <a>
           <p>
             <i className="icon-eye text-1xl font-bold mb-2"></i>
           </p>
-        </a>
       </Link> <p
         style={{
          
@@ -95,11 +93,9 @@ const Resource=()=>{
         onClick={() => deleteResource(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
 </p>
 <Link href={`/resource/update/${data.row.original.id}`}>
-                    <a>
                       <p>
                         <i className="icon-note text-1xl font-bold mb-2"></i>
                       </p>
-                    </a>
                   </Link>
 </div>
         )}
@@ -136,14 +132,12 @@ const Resource=()=>{
       <div className="w-1/6 ">
         {" "}
         <Link href={`/resource/addResource`}>
-          <a>
             <button
               className="ml-3  btn btn-default btn-indigo create-btn w-full"
               type="button"
             >
               Add Resource
             </button>
-          </a>
         </Link>
       </div>
     </div>
