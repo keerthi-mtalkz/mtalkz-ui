@@ -5,49 +5,51 @@ import { useState } from 'react';
 import Datatable from "../../components/datatable";
 import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
+import { useForm } from "react-hook-form";
 
-const Permission=()=>{
- const [permissions,setPermissions]=useState([])
+const Channel=()=>{
+ const [channels,setChannels]=useState([])
  const [status, setStatus] = useState(undefined);
  const [searchQuery, setSearchQuery] = useState("");
+ const { register, handleSubmit, watch, errors } = useForm();
 
 
-  const getPermissions = async () => {
+  const getChannels = async () => {
     const token = localStorage.getItem('token');
     await ax
-      .get("/permissions", {headers: {
+      .get("/channels", {headers: {
         'Authorization': `Bearer ${token}`
        }})
       .then((res) => {
-        setPermissions(res.data);
+        setChannels(res.data);
       })
       .catch((err) => {
         setStatus({ type: "error", err });
-        console.error("get /permissions error", err);
+        console.error("get /channels error", err);
       });
   };
 
 
   React.useEffect(() => {
-    getPermissions();
+    getChannels();
   }, []);
 
-     const deletePermission = (id) => {
+     const deleteChannels = (id) => {
   if (typeof window !== "undefined") {
   const token = localStorage.getItem('token');
   const answer = window.confirm("are you sure?");
   if (answer) {
-    ax.delete(`/permissions/${id}`, {headers: {
+    ax.delete(`/channels/${id}`, {headers: {
       'Authorization': `Bearer ${token}`
      }})
       .then((res) => {
         setStatus({ type: "success" });
         setTimeout(() => {
-            getPermissions();
+            getChannels();
         }, 1000);
       })
       .catch((err) => {
-        console.error("get /permissions error", err.message);
+        console.error("get /channels error", err.message);
         setStatus({ type: "error", err });
       });
   } else {
@@ -63,16 +65,12 @@ const Permission=()=>{
       accessor: 'id'
     },
       {
-        Header: 'Route',
-        accessor: 'route'
+        Header: 'Slug',
+        accessor: 'slug'
       },
       {
         Header: 'Name',
         accessor: 'name'
-      },
-      {
-        Header: 'Description',
-        accessor: 'description'
       },
       {
         Header: 'Actions',
@@ -80,26 +78,22 @@ const Permission=()=>{
         cell: () => <Button variant="danger" data-tag="allowRowEvents" data-action="delete"><FontAwesomeIcon icon={faTrash} /></Button>,
         Cell: (data) => {
        
-        return (<div className="flex justify-evenly"> <Link href={`/permission/view/${data.row.original.id}`}>
-        <a>
+        return (<div className="flex justify-evenly"> <Link href={`/channel/view/${data.row.original.id}`}>
           <p>
             <i className="icon-eye text-1xl font-bold mb-2"></i>
           </p>
-        </a>
       </Link> <p
         style={{
          
           cursor: "pointer",
           lineHeight: "normal",
         }}
-        onClick={() => deletePermission(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+        onClick={() => deleteChannels(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
 </p>
-<Link href={`/permission/update/${data.row.original.id}`}>
-                    <a>
+<Link href={`/channel/update/${data.row.original.id}`}>
                       <p>
                         <i className="icon-note text-1xl font-bold mb-2"></i>
                       </p>
-                    </a>
                   </Link>
 </div>
         )}
@@ -111,7 +105,7 @@ const Permission=()=>{
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
       <div className="p-2">
-      { NotificationManager.success('Deleted permission successfully', 'Success')}
+      { NotificationManager.success('Deleted Channel successfully', 'Success')}
       </div>
     </div>
     )}
@@ -135,21 +129,19 @@ const Permission=()=>{
       </div>
       <div className="w-1/6 ">
         {" "}
-        <Link href={`/permission/addPermission`}>
-          <a>
+        <Link href={`/channel/addChannel`}>
             <button
               className="ml-3  btn btn-default btn-indigo create-btn w-full"
               type="button"
             >
-              Add Permission
+              Add Channel
             </button>
-          </a>
         </Link>
       </div>
     </div>
-    <Datatable columns={columns} data={permissions} />
+    <Datatable columns={columns} data={channels} />
     </Layout>
     )
 }
 
-export default withRedux(Permission)
+export default withRedux(Channel)

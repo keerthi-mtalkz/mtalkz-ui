@@ -31,6 +31,12 @@ const navigation = [
         title: 'Permission Management',
         items: []
       },
+      {
+        url: '/channel',
+        icon: <Icon.Anchor size={20} />,
+        title: 'Channel Management',
+        items: []
+      },
 
     ]
   },
