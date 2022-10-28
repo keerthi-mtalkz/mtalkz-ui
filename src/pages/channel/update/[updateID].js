@@ -64,7 +64,7 @@ const updateID = () => {
  
 return (
     <Layout>
-     <SectionTitle title="UPDATE CHANNEl" subtitle="" />
+     <SectionTitle title="UPDATE CHANNEL" subtitle="" />
      {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">

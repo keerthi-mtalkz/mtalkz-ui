@@ -85,7 +85,7 @@ const addChannel = () => {
              type="text"
              ref={register({ required: true })}
              className="form-input mt-1 text-xs block w-full bg-white"
-             placeholder="Enter Permission name"
+             placeholder="Enter Channel name"
              required
              maxLength={255}
            />
