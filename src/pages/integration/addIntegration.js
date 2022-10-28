@@ -5,7 +5,8 @@ import Layout from "../../layouts";
 import { useRouter } from "next/router";
 import { withRedux } from "../../lib/redux";
 import {ax} from "../../utils/apiCalls";
-import {NotificationManager} from 'react-notifications'
+import {HTTP_METHODS} from "../../utils/constants";
+import {NotificationManager} from 'react-notifications';
 
 const addIntegration = () => {
   const router = useRouter();
@@ -83,7 +84,7 @@ const addIntegration = () => {
              type="text"
              ref={register({ required: true })}
              className="form-input mt-1 text-xs block w-full bg-white"
-             placeholder="Enter Permission name"
+             placeholder="Enter Integartion name"
              required
            />
          </label>
@@ -95,19 +96,119 @@ const addIntegration = () => {
           {/*input*/}
           <div className="w-full mb-4">
           <label className="block">
-            <span className="text-default">Description</span>
+            <span className="text-default">Slug</span>
             <input
-              name="description"
+              name="slug"
               type="text"
               ref={register({ required: true })}
               className="form-input mt-1 text-xs block w-full bg-white"
-              placeholder="Enter Permission Description"
+              placeholder="Enter  Integration Slug"
+              required
             />
           </label>
-          {errors.description && (
-            <p className="mt-1 text-xs text-red-500">{errors.description}</p>
+          {errors.slug && (
+            <p className="mt-1 text-xs text-red-500">{errors.slug}</p>
           )}
           </div>
+
+          {/*input*/}
+          <div className="w-full mb-4">
+          <label className="block">
+            <span className="text-default">Channel Slug</span>
+            <input
+              name="channel_slug"
+              type="text"
+              ref={register({ required: true })}
+              className="form-input mt-1 text-xs block w-full bg-white"
+              placeholder="Enter Integration Channel Slug "
+              required
+            />
+          </label>
+          {errors.channel_slug && (
+            <p className="mt-1 text-xs text-red-500">{errors.channel_slug}</p>
+          )}
+          </div>
+            {/*input*/}
+            <div className="w-full mb-4">
+            <label className="block">
+              <span className="text-default">Icon Url</span>
+              <input
+                name="icon_url"
+                type="url"
+                ref={register({ required: true })}
+                className="form-input mt-1 text-xs block w-full bg-white"
+                placeholder="Enter Integration URL "
+                required
+              />
+            </label>
+            {errors.icon_url && (
+              <p className="mt-1 text-xs text-red-500">{errors.icon_url}</p>
+            )}
+            </div>
+
+             {/*input*/}
+             <div className="w-full mb-4">
+             <label className="block">
+               <span className="text-default">Description</span>
+               <input
+                 name="description"
+                 type="url"
+                 ref={register({ required: true })}
+                 className="form-input mt-1 text-xs block w-full bg-white"
+                 placeholder="Enter Integration URL "
+                 required
+               />
+             </label>
+             {errors.description && (
+               <p className="mt-1 text-xs text-red-500">{errors.description}</p>
+             )}
+             </div>
+  {/*input*/}
+  <div className="w-full mb-4">
+  <label className="block">
+    <span className="text-default">Api Url</span>
+    <input
+      name="api_url"
+      type="url"
+      ref={register({ required: true })}
+      className="form-input mt-1 text-xs block w-full bg-white"
+      placeholder="Enter Integration Api URL "
+      required
+    />
+  </label>
+  {errors.api_url && (
+    <p className="mt-1 text-xs text-red-500">{errors.api_url}</p>
+  )}
+  </div>
+
+  {/*input*/}
+  <div className="w-full mb-4">
+  <label className="block">
+    <span className="text-default">Http Method</span>
+    <select
+    name="http_method"
+    ref={register()}
+    className="form-select block w-full mt-1 text-xs">
+    {HTTP_METHODS.map((method)=>{
+      return (
+        <option value={method.value}>{method.label}</option>
+      )
+    })}
+   
+  </select>
+    <input
+      name="api_url"
+      type="url"
+      ref={register({ required: true })}
+      className="form-input mt-1 text-xs block w-full bg-white"
+      placeholder="Enter Integration Api URL "
+      required
+    />
+  </label>
+  {errors.api_url && (
+    <p className="mt-1 text-xs text-red-500">{errors.api_url}</p>
+  )}
+  </div>
 
       <div className="w-full">
         <input

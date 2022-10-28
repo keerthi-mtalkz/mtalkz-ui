@@ -37,6 +37,13 @@ const navigation = [
         title: 'Resource Management',
         items: []
       },
+      {
+        url: '/integration',
+        icon: <Icon.Anchor size={20} />,
+        title: 'Integration Management',
+        items: []
+      },
+
 
     ]
   },

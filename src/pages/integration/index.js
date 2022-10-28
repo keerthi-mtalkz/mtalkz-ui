@@ -63,16 +63,32 @@ const Integration=()=>{
       accessor: 'id'
     },
       {
-        Header: 'Route',
-        accessor: 'route'
-      },
-      {
         Header: 'Name',
         accessor: 'name'
       },
       {
+        Header: 'Slug',
+        accessor: 'slug'
+      },
+      {
+        Header: 'Channel Slug',
+        accessor: 'channel_slug'
+      },
+      {
+        Header: 'Icon Url',
+        accessor: 'icon_url'
+      },
+      {
         Header: 'Description',
         accessor: 'description'
+      },
+      {
+        Header: 'Api Url',
+        accessor: 'api_url'
+      },
+      {
+        Header: 'Param Names',
+        accessor: 'param_names'
       },
       {
         Header: 'Actions',
@@ -103,7 +119,7 @@ const Integration=()=>{
       }
     ]
   return (
-    <Layout>
+    <Layout className="overflow-x-auto">
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
       <div className="p-2">
