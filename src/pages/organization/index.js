@@ -61,11 +61,9 @@ const Organization=()=>{
         Cell: (data) => {
        
         return (<div className="flex justify-evenly"> <Link href={`/organization/view/${data.row.original.id}`}>
-        <a>
           <p>
             <i className="icon-eye text-1xl font-bold mb-2"></i>
           </p>
-        </a>
       </Link> <p
         style={{
          
@@ -75,11 +73,9 @@ const Organization=()=>{
         onClick={() => handleDelete(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
 </p>
 <Link href={`/organization/update/${data.row.original.id}`}>
-                    <a>
                       <p>
                         <i className="icon-note text-1xl font-bold mb-2"></i>
                       </p>
-                    </a>
                   </Link>
 
 </div>
