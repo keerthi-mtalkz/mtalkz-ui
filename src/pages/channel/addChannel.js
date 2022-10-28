@@ -15,7 +15,6 @@ const addChannel = () => {
   const { register, handleSubmit, watch, errors } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data,"&&&&&&&&&&&&")
     if (typeof window !== "undefined") {
     const token = localStorage.getItem('token');
     ax.post("/channels", data, {headers: {
