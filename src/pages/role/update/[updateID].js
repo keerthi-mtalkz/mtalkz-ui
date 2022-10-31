@@ -111,8 +111,6 @@ const [permissions,setPermissions]=useState([])
           setStatus(undefined)
           router.push("/role");
         }, 1000);
-          console.error("get /roles error", err);
-          setStatus({ type: "error", err });
         });
       }
     };
@@ -164,8 +162,8 @@ return (
             type="text"
             ref={register({ required: true })}
             className="form-input mt-1 text-xs block w-full bg-white"
-            placeholder="Enter your name"
-            defaultValue={res.name}
+            placeholder="Enter Role Name"
+            value={res.name}
             required
           />
         </label>
@@ -180,8 +178,8 @@ return (
             type="text"
             ref={register({ required: true })}
             className="form-input mt-1 text-xs block w-full bg-white"
-            placeholder="Enter your Description"
-            defaultValue={res.description}
+            placeholder="Enter Role Description"
+            value={res.description}
           />
         </label>
       </div>
@@ -190,7 +188,7 @@ return (
         {/*input*/}
         <div className="w-full mb-4">
         <label className="block">
-        <span className="text-default">Is system user</span>
+        <span className="text-default">System User</span>
         <Switch
         onChange={() => handleChange(!checked)}
         checked={checked}
@@ -198,7 +196,6 @@ return (
         uncheckedIcon={false}
         checkedIcon={false}
         boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
-        //activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
         height={20}
         width={48}
         className="react-switch"
@@ -209,7 +206,7 @@ return (
       <div style={{ width: "300px" }}>
       <Select
         options={permissions}
-        placeholder="Select Permission ..."
+        placeholder="Select Permissions"
         onChange={handleSwitch}
         isMulti={true}
         value={selectedPermission}

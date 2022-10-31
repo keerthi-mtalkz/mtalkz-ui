@@ -113,7 +113,7 @@ const [permissions,setPermissions]=useState([])
             type="text"
             ref={register({ required: true })}
             className="form-input mt-1 text-xs block w-full bg-white"
-            placeholder="Enter your name"
+            placeholder="Enter Role Name"
             required
           />
         </label>
@@ -128,7 +128,7 @@ const [permissions,setPermissions]=useState([])
            type="text"
            ref={register({ required: true })}
            className="form-input mt-1 text-xs block w-full bg-white"
-           placeholder="Enter your description"
+           placeholder="Enter Role Description"
            required
          />
        </label>
@@ -137,7 +137,7 @@ const [permissions,setPermissions]=useState([])
        {/*input*/}
        <div className="w-full mb-4">
        <label className="block">
-       <span className="text-default">Is system user</span>
+       <span className="text-default">System User</span>
        <Switch
        onChange={() => handleChange(!checked)}
        checked={checked}
@@ -145,21 +145,17 @@ const [permissions,setPermissions]=useState([])
        uncheckedIcon={false}
        checkedIcon={false}
        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
-       //activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
        height={20}
        width={48}
        className="react-switch"
      />
        </label>
-       {errors.is_system_role && (
-         <p className="mt-1 text-xs text-red-500">{errors.is_system_role}</p>
-       )}
      </div>
 
      <div style={{ width: "300px" }}>
      <Select
        options={permissions}
-       placeholder="Select organization ..."
+       placeholder="Select Permissions"
        onChange={handleSwitch}
        isMulti={true}
      />

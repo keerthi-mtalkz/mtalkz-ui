@@ -20,7 +20,7 @@ import {ax} from "../../../utils/apiCalls";
 const viewID = () => {
     const router = useRouter();
     const viewid = router.query.viewID;
-  
+    const [permissions,setPermissions]=useState([])
     const [res, setRes] = useState({});
     const [status, setStatus] = useState(undefined);
   
@@ -29,13 +29,11 @@ const viewID = () => {
       const token = localStorage.getItem('token');
       await ax
         .get(`/roles/${viewid}`, {headers: {
-        
           'Authorization': `Bearer ${token}`
          }})
         .then((res) => {
-          console.log(res.data,"***************************")
           setRes(res.data.role);
-          // console.log(res.data.organization);
+          setPermissions(res.data.permissions)
         })
         .catch((err) => {
           console.error("get /roles error", err);
@@ -102,6 +100,28 @@ return (
                     </div>
                 </div>
             </li>
+            <li className="py-3 sm:py-4">
+            <div className="flex items-center space-x-4">
+               
+                <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                    Permissions
+                    </p>
+                   
+                </div>
+                <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                 {permissions.map((permission)=>{
+                  return(
+                    <>
+                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{permission.name}</p>
+                    <br></br>
+                    </>
+                
+                  )
+                 })}
+                </div>
+            </div>
+        </li>
         </ul>
    </div>
 </div>
