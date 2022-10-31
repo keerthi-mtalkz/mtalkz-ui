@@ -86,7 +86,6 @@ const Role=()=>{
           sortable: false,
           cell: () => <Button variant="danger" data-tag="allowRowEvents" data-action="delete"><FontAwesomeIcon icon={faTrash} /></Button>,
           Cell: (data) => {
-            console.log('row', data.row);
             return (<div className="flex justify-evenly"> <Link href={`/role/view/${data.row.original.id}`}>
               <a>
                 <p>

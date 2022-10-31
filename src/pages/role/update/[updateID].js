@@ -58,7 +58,6 @@ const [permissions,setPermissions]=useState([])
     };
     
   const getPermissions = async () => {
-    console.log(permissions.length,"permossionsd")
     if(permissions.length == 0){
       const token = localStorage.getItem('token');
       await ax
@@ -119,7 +118,6 @@ const [permissions,setPermissions]=useState([])
     };
 
     let handleSwitch = (value) => {
-      console.log(value,"(((((((((((((((((")
       setSelectedPermission([]);
       let permissions=[]
       value.map((selectedPermission)=>{

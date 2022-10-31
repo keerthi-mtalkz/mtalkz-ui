@@ -79,8 +79,6 @@ const [permissions,setPermissions]=useState([])
       permissions.push(selectedPermission.value.toString())
     })
         setSelectedPermission([...permissions])
-    console.log(selectedPermission,"$$$$$$$$$$$$$$$$$$$$$$$$")
-
   }
      
 
