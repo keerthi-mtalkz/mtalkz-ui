@@ -6,33 +6,30 @@ import { useRouter } from "next/router";
 import { withRedux } from "../../lib/redux";
 import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
-import { status } from "nprogress";
 
-const addPermission = () => {
+const addChannel = () => {
   const router = useRouter();
-  const [res, setRes] = useState({});
   const [status, setStatus] = useState(undefined);
+
 
   const { register, handleSubmit, watch, errors } = useForm();
 
   const onSubmit = (data) => {
     if (typeof window !== "undefined") {
     const token = localStorage.getItem('token');
-    ax.post("/permissions", data, {headers: {
+    ax.post("/channels", data, {headers: {
       'Authorization': `Bearer ${token}`
      }})
       .then((res) => {
-        setRes(res.data);
         setStatus({ type: "success" });
-        router.push("/permission");
+        router.push("/channel");
       })
       .catch((err) => {
         setStatus({ type: "error",message: err.response.data.message });
         setTimeout(() => {
           setStatus(undefined)
-          router.push("/permission");
+          router.push("/channel");
         }, 1000);
-      });
       });
 
     }
@@ -41,19 +38,17 @@ const addPermission = () => {
 
   return (
     <Layout>
-    <SectionTitle title="Create Permission" subtitle="" />
+    <SectionTitle title="Create Channel" subtitle="" />
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
       <div className="p-2">
-      { NotificationManager.success('Added permission successfully', 'Success')}
+      { NotificationManager.success('Added Channel successfully', 'Success')}
       </div>
     </div>
     )}
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
-        <div className="p-2">
         {   NotificationManager.error(status.message,"Error")}
-        </div>
       </div>
       )}
 
@@ -64,17 +59,18 @@ const addPermission = () => {
       {/*input*/}
       <div className="w-full mb-4">
         <label className="block">
-          <span className="text-default">Route</span>
+          <span className="text-default">Slug</span>
           <input
-            name="route"
+            name="slug"
             type="text"
             ref={register({ required: true })}
             className="form-input mt-1 text-xs block w-full bg-white"
-            placeholder="Route in dot notation"
+            placeholder="Enter Channel Slug"
             required
+            maxLength={255}
+            pattern="[a-z0-9\-]+"
           />
         </label>
-      
       </div>
 
          {/*input*/}
@@ -86,27 +82,12 @@ const addPermission = () => {
              type="text"
              ref={register({ required: true })}
              className="form-input mt-1 text-xs block w-full bg-white"
-             placeholder="Enter Permission name"
+             placeholder="Enter Channel name"
              required
+             maxLength={255}
            />
          </label>
-       
          </div>
-
-          {/*input*/}
-          <div className="w-full mb-4">
-          <label className="block">
-            <span className="text-default">Description</span>
-            <input
-              name="description"
-              type="text"
-              ref={register({ required: true })}
-              className="form-input mt-1 text-xs block w-full bg-white"
-              placeholder="Enter Permission Description"
-            />
-          </label>
-        
-          </div>
 
       <div className="w-full">
         <input
@@ -119,5 +100,5 @@ const addPermission = () => {
     </Layout>
   );
 };
-export default withRedux(addPermission);
+export default withRedux(addChannel);
 

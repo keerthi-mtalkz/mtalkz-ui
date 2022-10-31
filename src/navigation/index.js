@@ -32,6 +32,12 @@ const navigation = [
         items: []
       },
       {
+        url: '/channel',
+        icon: <Icon.Anchor size={20} />,
+        title: 'Channel Management',
+        items: []
+      },
+      {
         url: '/resource',
         icon: <Icon.Anchor size={20} />,
         title: 'Resource Management',

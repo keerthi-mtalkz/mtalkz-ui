@@ -102,9 +102,7 @@ return (
             required
           />
         </label>
-        {errors.route && (
-          <p className="mt-1 text-xs text-red-500">{errors.route}</p>
-        )}
+     
       </div>
 
       {/*input*/}
@@ -121,9 +119,7 @@ return (
             required
           />
         </label>
-        {errors.name && (
-          <p className="mt-1 text-xs text-red-500">{errors.name}</p>
-        )}
+      
       </div>
 
          {/*input*/}
@@ -139,9 +135,7 @@ return (
              defaultValue={res.description}
            />
          </label>
-         {errors.description && (
-           <p className="mt-1 text-xs text-red-500">{errors.description}</p>
-         )}
+       
        </div>
 
 
