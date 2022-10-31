@@ -54,8 +54,11 @@ const updateID = () => {
           router.push("/channel");
         })
         .catch((err) => {
-          console.error("get /channel error", err);
-          setStatus({ type: "error", err });
+          setStatus({ type: "error",message: err.response.data.message });
+          setTimeout(() => {
+            setStatus(undefined)
+            router.push("/channel");
+          }, 1000);
         });
       }
     };
@@ -75,7 +78,7 @@ return (
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.error(errors, 'Error')}
+        { NotificationManager.error(status.message, 'Error')}
         </div>
       </div>
       )}
@@ -105,9 +108,6 @@ return (
             
           />
         </label>
-        {errors.slug && (
-          <p className="mt-1 text-xs text-red-500">{errors.slug}</p>
-        )}
       </div>
 
       {/*input*/}
@@ -125,9 +125,6 @@ return (
             maxLength={255}
           />
         </label>
-        {errors.name && (
-          <p className="mt-1 text-xs text-red-500">{errors.name}</p>
-        )}
       </div>
 
       <div className="w-full">

@@ -13,6 +13,7 @@ import {
   NotificationSuccess
 } from '../../../components/notifications'
 import {NotificationManager} from 'react-notifications'
+import { status } from "nprogress";
 
 
 
@@ -61,8 +62,12 @@ const updateID = () => {
   
         })
         .catch((err) => {
-          console.error("get /users error", err);
-          setStatus({ type: "error", err });
+          setStatus({ type: "error",message: err.response.data.message });
+          setTimeout(() => {
+            setStatus(undefined)
+            router.push("/user");
+          }, 1000);
+        });
         });
       }
     };
@@ -82,7 +87,7 @@ return (
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.error('Failed updating user details', 'Error')}
+        { NotificationManager.error(status.message, 'Error')}
 
         </div>
       </div>
@@ -112,9 +117,6 @@ return (
             maxLength={40}
           />
         </label>
-        {errors.name && (
-          <p className="mt-1 text-xs text-red-500">{errors.name}</p>
-        )}
       </div>
 
       {/*input*/}
@@ -131,9 +133,6 @@ return (
             required
           />
         </label>
-        {errors.email && (
-          <p className="mt-1 text-xs text-red-500">{errors.email}</p>
-        )}
       </div>
 
 

@@ -9,8 +9,8 @@ import {NotificationManager} from 'react-notifications'
 
 const addChannel = () => {
   const router = useRouter();
-  const [res, setRes] = useState({});
   const [status, setStatus] = useState(undefined);
+
 
   const { register, handleSubmit, watch, errors } = useForm();
 
@@ -21,13 +21,15 @@ const addChannel = () => {
       'Authorization': `Bearer ${token}`
      }})
       .then((res) => {
-        setRes(res.data);
         setStatus({ type: "success" });
         router.push("/channel");
       })
       .catch((err) => {
-        setStatus({ type: "error", err });
-        console.error("get /channels error", err);
+        setStatus({ type: "error",message: err.response.data.message });
+        setTimeout(() => {
+          setStatus(undefined)
+          router.push("/channel");
+        }, 1000);
       });
 
     }
@@ -46,9 +48,7 @@ const addChannel = () => {
     )}
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
-        <div className="p-2">
-        {   NotificationManager.error(errors,"Error")}
-        </div>
+        {   NotificationManager.error(status.message,"Error")}
       </div>
       )}
 
@@ -71,9 +71,6 @@ const addChannel = () => {
             pattern="[a-z0-9\-]+"
           />
         </label>
-        {errors.slug && (
-          <p className="mt-1 text-xs text-red-500">{errors.slug}</p>
-        )}
       </div>
 
          {/*input*/}
@@ -90,9 +87,6 @@ const addChannel = () => {
              maxLength={255}
            />
          </label>
-         {errors.name && (
-           <p className="mt-1 text-xs text-red-500">{errors.name}</p>
-         )}
          </div>
 
       <div className="w-full">

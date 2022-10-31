@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { withRedux } from "../../lib/redux";
 import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
+import { status } from "nprogress";
 
 const addPermission = () => {
   const router = useRouter();
@@ -26,8 +27,12 @@ const addPermission = () => {
         router.push("/permission");
       })
       .catch((err) => {
-        setStatus({ type: "error", err });
-        console.error("get /Permissions error", err);
+        setStatus({ type: "error",message: err.response.data.message });
+        setTimeout(() => {
+          setStatus(undefined)
+          router.push("/permission");
+        }, 1000);
+      });
       });
 
     }
@@ -47,7 +52,7 @@ const addPermission = () => {
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        {   NotificationManager.error(errors,"Error")}
+        {   NotificationManager.error(status.message,"Error")}
         </div>
       </div>
       )}
@@ -69,9 +74,7 @@ const addPermission = () => {
             required
           />
         </label>
-        {errors.route && (
-          <p className="mt-1 text-xs text-red-500">{errors.route}</p>
-        )}
+      
       </div>
 
          {/*input*/}
@@ -87,9 +90,7 @@ const addPermission = () => {
              required
            />
          </label>
-         {errors.name && (
-           <p className="mt-1 text-xs text-red-500">{errors.name}</p>
-         )}
+       
          </div>
 
           {/*input*/}
@@ -104,9 +105,7 @@ const addPermission = () => {
               placeholder="Enter Permission Description"
             />
           </label>
-          {errors.description && (
-            <p className="mt-1 text-xs text-red-500">{errors.description}</p>
-          )}
+        
           </div>
 
       <div className="w-full">
