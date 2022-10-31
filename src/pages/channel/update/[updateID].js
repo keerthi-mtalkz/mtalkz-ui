@@ -6,14 +6,7 @@ import { useForm } from "react-hook-form";
 import { withRedux } from "../../../lib/redux";
 import { useRouter } from "next/router";
 import {ax} from "../../../utils/apiCalls";
-import {
-  NotificationInfo,
-  NotificationWarning,
-  NotificationError,
-  NotificationSuccess
-} from '../../../components/notifications'
 import {NotificationManager} from 'react-notifications'
-import { status } from "nprogress";
 
 
 
@@ -23,26 +16,28 @@ const updateID = () => {
     const [res, setRes] = useState({});
     const [status, setStatus] = useState(undefined);
   
-    const getUserDetails = async () => {
+    const fetch = async () => {
       if (typeof window !== "undefined") {
       const token = localStorage.getItem('token');
       await ax
-        .get(`/users/${updateid}`, {headers: {
+        .get(`/channels/${updateid}`, {headers: {
         
           'Authorization': `Bearer ${token}`
          }})
         .then((res) => {
-          setRes(res.data.user);
-          console.log(res.data.user);
+          setRes(res.data.channel);
+
         })
         .catch((err) => {
-          console.error("get /user error", err);
+        setStatus({ type: "error", err });
+
+          console.error("get /channel error", err);
         });
       }
     };
 
     useEffect(() => {
-      getUserDetails();
+      fetch();
     }, []);
 
   
@@ -50,24 +45,20 @@ const updateID = () => {
     const onSubmit = (data) => {
       if (typeof window !== "undefined") {
       const token = localStorage.getItem('token');
-      ax.put(`/users/${updateid}`, data, {headers: {
+      ax.put(`/channels/${updateid}`, data, {headers: {
         'Authorization': `Bearer ${token}`
       }})
         .then((res) => {
           setRes(res.data);
-          setStatus({ type: "success" });
-    
-          router.push("/user");
-        
-  
+        setStatus({ type: "success" });
+          router.push("/channel");
         })
         .catch((err) => {
           setStatus({ type: "error",message: err.response.data.message });
           setTimeout(() => {
             setStatus(undefined)
-            router.push("/user");
+            router.push("/channel");
           }, 1000);
-        });
         });
       }
     };
@@ -76,11 +67,11 @@ const updateID = () => {
  
 return (
     <Layout>
-     <SectionTitle title="UPDATE USER" subtitle="" />
-      {status?.type === "success" && (
+     <SectionTitle title="UPDATE CHANNEL" subtitle="" />
+     {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.success('Updated user details successfully', 'Success')}
+        { NotificationManager.success('Updated channel successfully', 'Success')}
         </div>
       </div>
       )}
@@ -88,7 +79,6 @@ return (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
         { NotificationManager.error(status.message, 'Error')}
-
         </div>
       </div>
       )}
@@ -104,17 +94,18 @@ return (
       {/*input*/}
       <div className="w-full mb-4">
         <label className="block">
-          <span className="text-default">Name</span>
+          <span className="text-default">Slug</span>
           <input
-            name="name"
+            name="slug"
             type="text"
             ref={register({ required: true })}
             className="form-input mt-1 text-xs block w-full bg-white"
-            placeholder="Enter your name"
-            defaultValue={res.name}
+            placeholder="Enter Channel Slug"
+            defaultValue={res.slug}
             required
-            minLength={3}
-            maxLength={40}
+            maxLength={255}
+            pattern="[a-z0-9\-]+"
+            
           />
         </label>
       </div>
@@ -122,22 +113,19 @@ return (
       {/*input*/}
       <div className="w-full mb-4">
         <label className="block">
-          <span className="text-default">Email address</span>
+          <span className="text-default">Name</span>
           <input
-            name="email"
-            type="email"
+            name="name"
+            type="text"
             ref={register({ required: true })}
             className="form-input mt-1 text-xs block w-full bg-white"
-            placeholder="Enter your email"
-            defaultValue={res.email}
+            placeholder="Enter Channel name"
+            defaultValue={res.name}
             required
+            maxLength={255}
           />
         </label>
       </div>
-
-
-
-      {/*input*/}
 
       <div className="w-full">
         <input
