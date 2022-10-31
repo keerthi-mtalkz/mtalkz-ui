@@ -22,7 +22,6 @@ const [permissions,setPermissions]=useState([])
 
   const onSubmit = (data) => {
     if (typeof window !== "undefined") {
-      console.log(selectedPermission,"selctedpermision")
       data.is_system_role=checked;
       data.permission_ids=selectedPermission
     const token = localStorage.getItem('token');
@@ -32,20 +31,19 @@ const [permissions,setPermissions]=useState([])
       .then((res) => {
         setRes(res.data);
         setStatus({ type: "success" });
-        router.push("/roles");
-    
-
+        router.push("/role");
       })
       .catch((err) => {
-        console.error("get /Role error", err);
-        // setStatus({ type: "error", err });
-        NotificationManager.error(err.response.data.message, '')
+        setStatus({ type: "error",message: err.response.data.message });
+        setTimeout(() => {
+          setStatus(undefined)
+          router.push("/role");
+        }, 1000);
       });
     }
   };
 
   const getPermissions = async () => {
-    console.log(permissions.length,"permossionsd")
     if(permissions.length == 0){
       const token = localStorage.getItem('token');
       await ax
@@ -60,9 +58,12 @@ const [permissions,setPermissions]=useState([])
           setPermissions([...permissions]);
         })
         .catch((err) => {
-          setStatus({ type: "error", err });
-          console.error("get /permissions error", err);
-        });
+          setStatus({ type: "error",message: err.response.data.message });
+        setTimeout(() => {
+          setStatus(undefined)
+          router.push("/role");
+        }, 1000);
+      });
     }
    
   };
@@ -96,7 +97,7 @@ const [permissions,setPermissions]=useState([])
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        {   NotificationManager.error('Error message', 'Click me!')}
+        {   NotificationManager.error(status.message, 'Error')}
         </div>
       </div>
       )}
@@ -118,9 +119,6 @@ const [permissions,setPermissions]=useState([])
             required
           />
         </label>
-        {errors.name && (
-          <p className="mt-1 text-xs text-red-500">{errors.name}</p>
-        )}
       </div>
 
        {/*input*/}
@@ -136,9 +134,6 @@ const [permissions,setPermissions]=useState([])
            required
          />
        </label>
-       {errors.description && (
-         <p className="mt-1 text-xs text-red-500">{errors.description}</p>
-       )}
      </div>
 
        {/*input*/}
@@ -169,7 +164,6 @@ const [permissions,setPermissions]=useState([])
        placeholder="Select organization ..."
        onChange={handleSwitch}
        isMulti={true}
-       
      />
    </div>
 

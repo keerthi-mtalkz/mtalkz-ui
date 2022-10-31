@@ -48,7 +48,11 @@ const [permissions,setPermissions]=useState([])
           setSelectedPermission([...permissions])
         })
         .catch((err) => {
-          console.error("get /role error", err);
+          setStatus({ type: "error",message: err.response.data.message });
+        setTimeout(() => {
+          setStatus(undefined)
+          router.push("/role");
+        }, 1000);
         });
       }
     };
@@ -70,8 +74,11 @@ const [permissions,setPermissions]=useState([])
          fetch();
         })
         .catch((err) => {
-          setStatus({ type: "error", err });
-          console.error("get /permissions error", err);
+          setStatus({ type: "error",message: err.response.data.message });
+          setTimeout(() => {
+            setStatus(undefined)
+            router.push("/role");
+          }, 1000);
         });
     }
    
@@ -100,6 +107,11 @@ const [permissions,setPermissions]=useState([])
   
         })
         .catch((err) => {
+          setStatus({ type: "error",message: err.response.data.message });
+        setTimeout(() => {
+          setStatus(undefined)
+          router.push("/role");
+        }, 1000);
           console.error("get /roles error", err);
           setStatus({ type: "error", err });
         });
@@ -107,6 +119,7 @@ const [permissions,setPermissions]=useState([])
     };
 
     let handleSwitch = (value) => {
+      console.log(value,"(((((((((((((((((")
       setSelectedPermission([]);
       let permissions=[]
       value.map((selectedPermission)=>{
@@ -130,7 +143,8 @@ return (
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-          <NotificationError />
+        { NotificationManager.error(status.message, 'Error')}
+
         </div>
       </div>
       )}
@@ -157,10 +171,6 @@ return (
             required
           />
         </label>
-        {errors.name && (
-          <p className="mt-1 text-xs text-red-500">
-          {errors.name}</p>
-        )}
       </div>
 
       {/*input*/}
@@ -176,9 +186,6 @@ return (
             defaultValue={res.description}
           />
         </label>
-        {errors.description && (
-          <p className="mt-1 text-xs text-red-500">{errors.description}</p>
-        )}
       </div>
 
 
@@ -199,9 +206,6 @@ return (
         className="react-switch"
       />
         </label>
-        {errors.is_system_role && (
-          <p className="mt-1 text-xs text-red-500">{errors.is_system_role}</p>
-        )}
       </div>
  
       <div style={{ width: "300px" }}>
