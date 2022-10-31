@@ -68,7 +68,6 @@ const updateID = () => {
             router.push("/user");
           }, 1000);
         });
-        });
       }
     };
   

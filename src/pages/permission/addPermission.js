@@ -33,7 +33,6 @@ const addPermission = () => {
           router.push("/permission");
         }, 1000);
       });
-      });
 
     }
   };
