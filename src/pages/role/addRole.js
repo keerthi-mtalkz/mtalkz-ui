@@ -7,6 +7,8 @@ import { useRouter } from "next/router";
 import { withRedux } from "../../lib/redux";
 import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
+import Select from "react-select";
+import Switch from 'react-switch'
 
 const addRole = () => {
   const router = useRouter();
@@ -14,11 +16,15 @@ const addRole = () => {
   const [status, setStatus] = useState(undefined);
 
   const { register, handleSubmit, watch, errors } = useForm();
-
-
+  const [checked, handleChange] = useState(false)
+const [permissions,setPermissions]=useState([])
+ const [selectedPermission,setSelectedPermission]=useState("")
 
   const onSubmit = (data) => {
     if (typeof window !== "undefined") {
+      console.log(selectedPermission,"selctedpermision")
+      data.is_system_role=checked;
+      data.permission_ids=selectedPermission
     const token = localStorage.getItem('token');
     ax.post("/roles", data, { headers: {
         'Authorization': `Bearer ${token}`
@@ -38,6 +44,45 @@ const addRole = () => {
     }
   };
 
+  const getPermissions = async () => {
+    console.log(permissions.length,"permossionsd")
+    if(permissions.length == 0){
+      const token = localStorage.getItem('token');
+      await ax
+        .get("/permissions", {headers: {
+          'Authorization': `Bearer ${token}`
+         }})
+        .then((res) => {
+          let permissions=[]
+          res.data.map((permission)=>{
+            permissions.push( { label: permission.name, value: permission.id })
+          })
+          setPermissions([...permissions]);
+        })
+        .catch((err) => {
+          setStatus({ type: "error", err });
+          console.error("get /permissions error", err);
+        });
+    }
+   
+  };
+
+  useEffect(()=>{
+    getPermissions();
+  })
+
+  let handleSwitch = (value) => {
+    setSelectedPermission([]);
+    let permissions=[]
+    value.map((selectedPermission)=>{
+      permissions.push(selectedPermission.value.toString())
+    })
+        setSelectedPermission([...permissions])
+    console.log(selectedPermission,"$$$$$$$$$$$$$$$$$$$$$$$$")
+
+  }
+     
+
   return (
     <Layout>
     <SectionTitle title="Create Role" subtitle="" />
@@ -51,9 +96,7 @@ const addRole = () => {
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        {   NotificationManager.error('Error message', 'Click me!', 5000, () => {
-        
-        })}
+        {   NotificationManager.error('Error message', 'Click me!')}
         </div>
       </div>
       )}
@@ -101,22 +144,34 @@ const addRole = () => {
        {/*input*/}
        <div className="w-full mb-4">
        <label className="block">
-         <input
-           name="is_system_role"
-           type="checkbox"
-           ref={register({ required: true })}
-        //    className="form-input mt-1 text-xs block w-full bg-white"
-           placeholder="Enter is system role"
-           value={true}
-           required
-         />
-         <span className="text-default">Is system user</span>
-
+       <span className="text-default">Is system user</span>
+       <Switch
+       onChange={() => handleChange(!checked)}
+       checked={checked}
+       handleDiameter={24}
+       uncheckedIcon={false}
+       checkedIcon={false}
+       boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
+       //activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+       height={20}
+       width={48}
+       className="react-switch"
+     />
        </label>
        {errors.is_system_role && (
          <p className="mt-1 text-xs text-red-500">{errors.is_system_role}</p>
        )}
      </div>
+
+     <div style={{ width: "300px" }}>
+     <Select
+       options={permissions}
+       placeholder="Select organization ..."
+       onChange={handleSwitch}
+       isMulti={true}
+       
+     />
+   </div>
 
       <div className="w-full">
         <input

@@ -54,8 +54,11 @@ const updateID = () => {
           router.push("/permission");
         })
         .catch((err) => {
-          console.error("get /permission error", err);
-          setStatus({ type: "error", err });
+          setStatus({ type: "error",message: err.response.data.message });
+          setTimeout(() => {
+            setStatus(undefined)
+            router.push("/permission");
+          }, 1000);
         });
       }
     };
@@ -75,7 +78,7 @@ return (
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.error(errors, 'Error')}
+        { NotificationManager.error(status.message, 'Error')}
         </div>
       </div>
       )}
