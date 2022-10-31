@@ -78,11 +78,9 @@ const User=()=>{
           Cell: (data) => {
             console.log('row', data.row);
             return (<div className="flex justify-evenly"> <Link href={`/user/view/${data.row.original.id}`}>
-              <a>
                 <p>
                   <i className="icon-eye text-1xl font-bold mb-2"></i>
                 </p>
-              </a>
             </Link> <p
               style={{
     
@@ -91,19 +89,15 @@ const User=()=>{
               }}
               onClick={() => deleteUserApi(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
               </p>
-              <Link href={`/users/update/${data.row.original.id}`}>
-                <a>
+              <Link href={`/user/update/${data.row.original.id}`}>
                   <p>
                     <i className="icon-note text-1xl font-bold mb-2"></i>
                   </p>
-                </a>
               </Link>
-              <Link href={`/users/setRole/${data.row.original.id}`}>
-                <a>
+              <Link href={`/user/setRole/${data.row.original.id}`}>
                   <p>
                     <i className="icon-refresh text-1xl font-bold mb-2"></i>
                   </p>
-                </a>
               </Link>
     
             </div>

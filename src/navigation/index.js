@@ -31,6 +31,18 @@ const navigation = [
         title: 'Role Management',
         items: []
       },
+      {
+        url: '/permission',
+        icon: <Icon.Anchor size={20} />,
+        title: 'Permission Management',
+        items: []
+      },
+      {
+        url: '/resource',
+        icon: <Icon.Anchor size={20} />,
+        title: 'Resource Management',
+        items: []
+      },
 
     ]
   },
