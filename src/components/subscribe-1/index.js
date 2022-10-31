@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import Link from 'next/link'
 import {useForm} from 'react-hook-form'
-import {LOGIN} from "../../utils/apiCalls"
+
 let socialMediaColors = {
   facebook: '#365397',
   linkedin: '#006db3',
@@ -11,8 +11,7 @@ let socialMediaColors = {
 
 const Subscribe = () => {
   const {register, handleSubmit, watch, errors} = useForm()
-  const onSubmit =async (data) => {
-     await LOGIN()
+  const onSubmit = data => {
     console.log(data)
   }
   const [checked, setChecked] = useState(true)
