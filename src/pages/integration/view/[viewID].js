@@ -13,6 +13,7 @@ import {
 } from '../../../components/notifications'
 import {NotificationManager} from 'react-notifications'
 import {ax} from "../../../utils/apiCalls";
+import { resolve } from "styled-jsx/css";
 
 
 
@@ -72,12 +73,12 @@ return (
                   
                     <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                        Route
+                        Name
                         </p>
                       
                     </div>
                     <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.route}</p>
+                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
                     </div>
                 </div>
             </li>
@@ -94,12 +95,12 @@ return (
              
                <div className="flex-1 min-w-0">
                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                   Name
+                   Slug
                    </p>
                  
                </div>
                <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-               <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
+               <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.slug}</p>
                </div>
            </div>
        </li>
@@ -116,27 +117,91 @@ return (
           
             <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                Description
+                Channel Slug
                 </p>
               
+            </div>
+            <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.channel_slug}</p>
+            </div>
+        </div>
+    </li>
+</ul>
+</div>
+
+<div className="flow-root">
+<ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
+    <li className="py-3 sm:py-4">
+        <div className="flex items-center space-x-4">
+          
+            <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                Icon Url
+                </p>
+              
+            </div>
+            <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.icon_url}</p>
+            </div>
+        </div>
+    </li>
+</ul>
+</div>
+
+<div className="flow-root">
+<ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
+    <li className="py-3 sm:py-4">
+        <div className="flex items-center space-x-4">
+          
+            <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                Description
+                </p>
             </div>
             <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
             <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.description}</p>
             </div>
         </div>
     </li>
-  
+</ul>
+</div>
 
- 
+<div className="flow-root">
+<ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
+    <li className="py-3 sm:py-4">
+        <div className="flex items-center space-x-4">
+          
+            <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                Api Url
+                </p>
+            </div>
+            <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.api_url}</p>
+            </div>
+        </div>
+    </li>
+</ul>
+</div>
 
+<div className="flow-root">
+<ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
+    <li className="py-3 sm:py-4">
+        <div className="flex items-center space-x-4">
+          
+            <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+               Http Method
+                </p>
+            </div>
+            <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.http_method}</p>
+            </div>
+        </div>
+    </li>
 </ul>
 </div>
 </div>
-
-   
-
-
-   
     </Layout>
   );
 };
