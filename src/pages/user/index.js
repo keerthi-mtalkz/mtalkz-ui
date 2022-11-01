@@ -108,6 +108,28 @@ const User=()=>{
       ]
       return (
         <Layout>
+        <div className="flex flex-row pb-4">
+        <div className=" w-5/6">
+          <input
+            type="text"
+            name="search"
+            className="w-full p-2 ..."
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search..."
+          />
+        </div>
+        <div className="w-1/6 ">
+          {" "}
+          <Link href={`/user/addUser`}>
+              <button
+                className="ml-3  btn btn-default btn-indigo create-btn w-full"
+                type="button"
+              >
+                Add User
+              </button>
+          </Link>
+        </div>
+      </div>
         <Datatable columns={columns} data={userData} customclassName="usertableList" />
         </Layout>
         )
