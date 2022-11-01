@@ -75,7 +75,18 @@ const Integration=()=>{
         Header: 'Channel Slug',
         accessor: 'channel_slug'
       },
-      
+      {
+        Header: 'Icon Url',
+        accessor: 'icon_url'
+      },
+      {
+        Header: 'Description',
+        accessor: 'description'
+      },
+      {
+        Header: 'Api Url',
+        accessor: 'api_url'
+      },
       {
         Header: 'Param Names',
         accessor: 'param_names'
@@ -86,7 +97,7 @@ const Integration=()=>{
         cell: () => <Button variant="danger" data-tag="allowRowEvents" data-action="delete"><FontAwesomeIcon icon={faTrash} /></Button>,
         Cell: (data) => {
        
-        return (<div className="flex justify-evenly"> <Link href={`/integration/view/${data.row.original.id}`}>
+        return (<div className="flex justify-evenly "> <Link href={`/integration/view/${data.row.original.id}`}>
           <p>
             <i className="icon-eye text-1xl font-bold mb-2"></i>
           </p>
@@ -109,7 +120,7 @@ const Integration=()=>{
       }
     ]
   return (
-    <Layout className="overflow-x-auto">
+    <Layout className="overflow-x-scroll">
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
       <div className="p-2">
@@ -147,7 +158,8 @@ const Integration=()=>{
         </Link>
       </div>
     </div>
-    <Datatable columns={columns} data={integrations} />
+    
+    <Datatable columns={columns} data={integrations}  className="overflow-x-scroll"/>
     </Layout>
     )
 }

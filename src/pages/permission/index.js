@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Datatable from "../../components/datatable";
 import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
+import React from "react";
 
 const Permission=()=>{
  const [permissions,setPermissions]=useState([])

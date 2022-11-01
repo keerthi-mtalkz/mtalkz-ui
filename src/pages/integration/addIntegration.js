@@ -17,8 +17,8 @@ const addIntegration = () => {
   const [status, setStatus] = useState(undefined);
   const [approval, handleApproval] = useState(false)
   const [access, handleAccess] = useState(false)
-  const [permissions,setPermissions]=useState([])
-  const [selectedPermissions,setSelectedPermissions]=useState([])
+  const [organizations,setOrganizations]=useState([])
+  const [selectedOrganizations,setSelectedOrganizations]=useState([])
   const { register, handleSubmit, watch, errors } = useForm();
   const [tags, setTags] = React.useState([
   ]);
@@ -65,34 +65,35 @@ const addIntegration = () => {
   };
 
   let handleSwitch = (value) => {
-    let permissions=[];
+    let organizations=[];
     value.map((val)=>{
-   permissions.push(val.value)
+   organizations.push(val.value)
     })
-    setSelectedPermissions([...permissions])
+    setSelectedOrganizations([...organizations])
   }
 
-  const getPermissions = async () => {
+  const getOrganizations = async () => {
     const token= localStorage.getItem("token");
     await ax
-      .get("/permissions", {
+      .get("/organizations", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-
-        setPermissions(res?.data)
+        setOrganizations(res?.data)
       })
       .catch((err) => {
-        console.error("get /permissions error", err);
+        console.error("get /organizations error", err);
       });
   };
 
-  const options = permissions?.map((value) => {
+  const options = organizations?.map((value) => {
     return { label: value.name, value: value.id };
   });
 
+
+  console.log(options,"Gdwfwhdf")
   const onSubmit = (data) => {
     if (typeof window !== "undefined") {
       data.requires_access=access;
@@ -107,7 +108,7 @@ const addIntegration = () => {
       })
       data.tags=_tags;
     data.param_names=_params
-    data.access_granted_to=selectedPermissions
+    data.access_granted_to=selectedOrganizations
     const token = localStorage.getItem('token');
     ax.post("/integrations", data, {headers: {
       'Authorization': `Bearer ${token}`
@@ -118,15 +119,18 @@ const addIntegration = () => {
         router.push("/integration");
       })
       .catch((err) => {
-        setStatus({ type: "error", err });
-        console.error("get /Integrations error", err);
+        setStatus({ type: "error",message: err.response.data.message });
+        setTimeout(() => {
+          setStatus(undefined)
+          router.push("/integration");
+        }, 1000);;
       });
     }
   };
 
   useEffect(()=>{
-    if(permissions.length===0){
-      getPermissions();
+    if(organizations.length===0){
+      getOrganizations();
     }
   },[])
 
@@ -337,7 +341,7 @@ const addIntegration = () => {
         <div style={{ width: "300px" }}>
           <Select
             options={options}
-            placeholder="Select permissions ..."
+            placeholder="Select organizations ..."
             isMulti={true}
             onChange={handleSwitch}
             

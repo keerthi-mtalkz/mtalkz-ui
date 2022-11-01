@@ -24,8 +24,8 @@ const updateID = () => {
     ]);
     const [params, setParams] = React.useState([
     ]);
-  const [permissions,setPermissions]=useState([])
-  const [selectedPermissions,setSelectedPermissions]=useState([])
+  const [organizations,setOrganizations]=useState([])
+  const [selectedOrganizations,setSelectedOrganizations]=useState([])
 
 
     const KeyCodes = {
@@ -69,30 +69,26 @@ const updateID = () => {
     };
   
     let handleSwitch = (value) => {
-      let permissions=[];
-      value.map((val)=>{
-     permissions.push(val.value)
-      })
-      setSelectedPermissions([...permissions])
+      setSelectedOrganizations([...value])
     }
   
-    const getPermissions = async () => {
+    const getOrganizations = async () => {
       const token= localStorage.getItem("token");
       await ax
-        .get("/permissions", {
+        .get("/organizations", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {
-          setPermissions(res?.data)
+          setOrganizations(res?.data)
         })
         .catch((err) => {
-          console.error("get /permissions error", err);
+          console.error("get /organizations error", err);
         });
     };
   
-    const options = permissions?.map((value) => {
+    const options = organizations?.map((value) => {
       return { label: value.name, value: value.id };
     });
 
@@ -119,7 +115,13 @@ const updateID = () => {
             _params.push({id: tag, text: tag})
            })
            setParams(_params)
-         getPermissions();
+           let organizations=[]
+           res.data.organizations.map((access)=>{
+
+             organizations.push({label:access.name, value:access.id})
+           })
+           setSelectedOrganizations([...organizations])
+         getOrganizations();
         })
         .catch((err) => {
         setStatus({ type: "error", err });
@@ -141,15 +143,19 @@ const updateID = () => {
         data.requires_approval=approval;
         let _tags=[];
         let _params = [];
+        let _selectedOrgs=[];
         tags.map((tag)=>{
           _tags.push(tag.id)
         })
         params.map((param)=>{
           _params.push(param.id)
         })
+        selectedOrganizations.map((org)=>{
+          _selectedOrgs.push(org.value)
+        })
         data.tags=_tags;
       data.param_names=_params
-      data.access_granted_to=selectedPermissions
+      data.access_granted_to=_selectedOrgs
       const token = localStorage.getItem('token');
       ax.put(`/integrations/${updateid}`, data, {headers: {
         'Authorization': `Bearer ${token}`
@@ -160,8 +166,11 @@ const updateID = () => {
           router.push("/integration");
         })
         .catch((err) => {
-          console.error("get /integration error", err);
-          setStatus({ type: "error", err });
+          setStatus({ type: "error",message: err.response.data.message });
+          setTimeout(() => {
+            setStatus(undefined)
+            router.push("/integration");
+          }, 1000);
         });
       }
     };
@@ -388,10 +397,10 @@ return (
           <div style={{ width: "300px" }}>
             <Select
               options={options}
-              placeholder="Select permissions ..."
+              placeholder="Select organizations ..."
               isMulti={true}
               onChange={handleSwitch}
-              
+              value={selectedOrganizations}
             />
           </div>
         }
