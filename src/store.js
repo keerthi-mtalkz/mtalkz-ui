@@ -2,11 +2,11 @@ import {createStore} from 'redux'
 import users from './json/users.json'
 
 const initialState = {
-  name: 'Concavo',
-  description: 'Concavo React Tailwind CSS admin template',
+  name: 'Mtalkz',
+  description: 'Mtalkz',
   user: users[0],
-  url: 'https://concavo.mobifica.com',
-  layout: 'layout-1',
+  url: '#',
+  layout: 'layout-3',
   direction: 'ltr',
   collapsed: false,
   toggleRightSidebar: false,
@@ -40,6 +40,9 @@ const initialState = {
     showTags: true,
     card: 1
   },
+  test:'',
+  codd:[],
+  kword:[]
 }
 
 const reducer = (state = initialState, action) => {
