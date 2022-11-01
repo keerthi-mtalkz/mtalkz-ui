@@ -18,7 +18,6 @@ const updateID = () => {
   const updateid = router.query.updateID;
   const [res, setRes] = useState({});
   const [status, setStatus] = useState(undefined);
-  const [err,setError]=useState("")
 
   const getOrganizationDetails = async () => {
     if (typeof window !== "undefined") {
@@ -61,9 +60,12 @@ const updateID = () => {
           router.push("/organization");
         })
         .catch((err) => {
-          setError(err.response.data.message)
-          console.error("get /Organization error", err.response.data.message);
-          setStatus({ type: "error", err });
+          setStatus({ type: "error",message: err.response.data.message });
+          setTimeout(() => {
+            setStatus(undefined)
+            router.push("/organization");
+          }, 1000);
+
         });
     }
   };
@@ -81,7 +83,7 @@ const updateID = () => {
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
           <div className="p-2">
-           {NotificationManager.error(err,'Error')}
+           {NotificationManager.error(status.message,'Error')}
           </div>
         </div>
       )}
@@ -110,9 +112,6 @@ const updateID = () => {
                   maxLength={40}
                 />
               </label>
-              {errors.name && (
-                <p className="mt-1 text-xs text-red-500">{errors.name}</p>
-              )}
             </div>
 
             {/*input*/}
@@ -130,9 +129,6 @@ const updateID = () => {
                   
                 />
               </label>
-              {errors.email && (
-                <p className="mt-1 text-xs text-red-500">{errors.email}</p>
-              )}
             </div>
 
             {/*input*/}
@@ -149,9 +145,6 @@ const updateID = () => {
                   required
                 />
               </label>
-              {errors.phone && (
-                <p className="mt-1 text-xs text-red-500">{errors.phone}</p>
-              )}
             </div>
 
             {/*input*/}
@@ -170,9 +163,6 @@ const updateID = () => {
                   required
                 />
               </label>
-              {errors.address && (
-                <p className="mt-1 text-xs text-red-500">{errors.address}</p>
-              )}
             </div>
 
 

@@ -20,18 +20,18 @@ const updateID = () => {
       if (typeof window !== "undefined") {
       const token = localStorage.getItem('token');
       await ax
-        .get(`/permissions/${updateid}`, {headers: {
+        .get(`/channels/${updateid}`, {headers: {
         
           'Authorization': `Bearer ${token}`
          }})
         .then((res) => {
-          setRes(res.data.permission);
+          setRes(res.data.channel);
 
         })
         .catch((err) => {
         setStatus({ type: "error", err });
 
-          console.error("get /permission error", err);
+          console.error("get /channel error", err);
         });
       }
     };
@@ -45,19 +45,19 @@ const updateID = () => {
     const onSubmit = (data) => {
       if (typeof window !== "undefined") {
       const token = localStorage.getItem('token');
-      ax.put(`/permissions/${updateid}`, data, {headers: {
+      ax.put(`/channels/${updateid}`, data, {headers: {
         'Authorization': `Bearer ${token}`
       }})
         .then((res) => {
           setRes(res.data);
         setStatus({ type: "success" });
-          router.push("/permission");
+          router.push("/channel");
         })
         .catch((err) => {
           setStatus({ type: "error",message: err.response.data.message });
           setTimeout(() => {
             setStatus(undefined)
-            router.push("/permission");
+            router.push("/channel");
           }, 1000);
         });
       }
@@ -67,11 +67,11 @@ const updateID = () => {
  
 return (
     <Layout>
-     <SectionTitle title="UPDATE PERMISSION" subtitle="" />
+     <SectionTitle title="UPDATE CHANNEL" subtitle="" />
      {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.success('Updated permission successfully', 'Success')}
+        { NotificationManager.success('Updated channel successfully', 'Success')}
         </div>
       </div>
       )}
@@ -94,18 +94,20 @@ return (
       {/*input*/}
       <div className="w-full mb-4">
         <label className="block">
-          <span className="text-default">Route</span>
+          <span className="text-default">Slug</span>
           <input
-            name="route"
+            name="slug"
             type="text"
             ref={register({ required: true })}
             className="form-input mt-1 text-xs block w-full bg-white"
-            placeholder="Route in dot notation"
-            defaultValue={res.route}
+            placeholder="Enter Channel Slug"
+            defaultValue={res.slug}
             required
+            maxLength={255}
+            pattern="[a-z0-9\-]+"
+            
           />
         </label>
-     
       </div>
 
       {/*input*/}
@@ -117,32 +119,13 @@ return (
             type="text"
             ref={register({ required: true })}
             className="form-input mt-1 text-xs block w-full bg-white"
-            placeholder="Enter Permission name"
+            placeholder="Enter Channel name"
             defaultValue={res.name}
             required
+            maxLength={255}
           />
         </label>
-      
       </div>
-
-         {/*input*/}
-         <div className="w-full mb-4">
-         <label className="block">
-           <span className="text-default">Description</span>
-           <input
-             name="description"
-             type="text"
-             ref={register({ required: true })}
-             className="form-input mt-1 text-xs block w-full bg-white"
-             placeholder="Enter Permission description"
-             defaultValue={res.description}
-           />
-         </label>
-       
-       </div>
-
-
-      {/*input*/}
 
       <div className="w-full">
         <input

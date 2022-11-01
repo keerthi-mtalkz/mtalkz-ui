@@ -26,9 +26,21 @@ const navigation = [
         items: []
       },
       {
+        url: '/role',
+        icon: <Icon.Anchor size={20} />,
+        title: 'Role Management',
+        items: []
+      },
+      {
         url: '/permission',
         icon: <Icon.Anchor size={20} />,
         title: 'Permission Management',
+        items: []
+      },
+      {
+        url: '/channel',
+        icon: <Icon.Anchor size={20} />,
+        title: 'Channel Management',
         items: []
       },
       {

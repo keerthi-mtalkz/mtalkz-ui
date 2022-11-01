@@ -17,35 +17,32 @@ import {NotificationManager} from 'react-notifications'
 import {ax} from "../../../utils/apiCalls";
 
 
-
-
 const viewID = () => {
     const router = useRouter();
     const viewid = router.query.viewID;
-  
+    const [permissions,setPermissions]=useState([])
     const [res, setRes] = useState({});
     const [status, setStatus] = useState(undefined);
   
-    const fetchOrgs = async () => {
+    const fetchRoles = async () => {
         if (typeof window !== "undefined") {
-      const token1 = localStorage.getItem('token');
+      const token = localStorage.getItem('token');
       await ax
-        .get(`/organizations/${viewid}`, {headers: {
-        
-          'Authorization': `Bearer ${token1}`
+        .get(`/roles/${viewid}`, {headers: {
+          'Authorization': `Bearer ${token}`
          }})
         .then((res) => {
-          setRes(res.data.organization);
-          // console.log(res.data.organization);
+          setRes(res.data.role);
+          setPermissions(res.data.permissions)
         })
         .catch((err) => {
-          console.error("get /organizations error", err);
+          console.error("get /roles error", err);
         });
     }
     };
 
     useEffect(() => {
-      fetchOrgs();
+      fetchRoles();
     }, []);
 
  
@@ -54,7 +51,7 @@ const viewID = () => {
 
 return (
     <Layout>
-     <SectionTitle title="View Organization" subtitle="" />
+     <SectionTitle title="View Roles" subtitle="" />
       {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
@@ -94,45 +91,37 @@ return (
                    
                     <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                       Email
+                        Description
                         </p>
                        
                     </div>
                     <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.email}</p>
-                    </div>
-                </div>
-            </li>
-
-            <li className="py-3 sm:py-4">
-                <div className="flex items-center space-x-4">
-                   
-                    <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                       Phone No
-                        </p>
-                       
-                    </div>
-                    <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.phone}</p>
+                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.description}</p>
                     </div>
                 </div>
             </li>
             <li className="py-3 sm:py-4">
-                <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4">
+               
+                <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                    Permissions
+                    </p>
                    
-                    <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                       Address
-                        </p>
-                       
-                    </div>
-                    <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.address}</p>
-                    </div>
                 </div>
-            </li>
-       
+                <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                 {permissions.map((permission)=>{
+                  return(
+                    <>
+                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{permission.name}</p>
+                    <br></br>
+                    </>
+                
+                  )
+                 })}
+                </div>
+            </div>
+        </li>
         </ul>
    </div>
 </div>
