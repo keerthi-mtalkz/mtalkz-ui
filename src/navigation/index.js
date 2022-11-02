@@ -5,7 +5,7 @@ const navigation = [
 
   
   {
-    title: 'Docs',
+    title: '',
     items: [
       {
         url: '/chatbots',
