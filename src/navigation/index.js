@@ -21,31 +21,31 @@ const navigation = [
       },
       {
         url: '/organization',
-        icon: <Icon.Anchor size={20} />,
+        icon: <Icon.Home size={20} />,
         title: 'Organization Management',
         items: []
       },
       {
         url: '/role',
-        icon: <Icon.Anchor size={20} />,
+        icon: <Icon.Flag size={20} />,
         title: 'Role Management',
         items: []
       },
       {
         url: '/permission',
-        icon: <Icon.Anchor size={20} />,
+        icon: <Icon.Key size={20} />,
         title: 'Permission Management',
         items: []
       },
       {
         url: '/channel',
-        icon: <Icon.Anchor size={20} />,
+        icon: <Icon.Speaker size={20} />,
         title: 'Channel Management',
         items: []
       },
       {
         url: '/resource',
-        icon: <Icon.Anchor size={20} />,
+        icon: <Icon.Grid size={20} />,
         title: 'Resource Management',
         items: []
       },
