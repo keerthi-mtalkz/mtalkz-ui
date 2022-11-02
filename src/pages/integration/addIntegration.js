@@ -93,18 +93,15 @@ const addIntegration = () => {
   });
 
 
-  console.log(options,"Gdwfwhdf")
   const onSubmit = (data) => {
     if (typeof window !== "undefined") {
       data.requires_access=access;
       data.requires_approval=approval;
-      let _tags=[];
-      let _params = [];
-      tags.map((tag)=>{
-        _tags.push(tag.id)
+      let _tags=  tags.map((tag)=>{
+       return tag.id
       })
-      params.map((param)=>{
-        _params.push(param.id)
+      let _params=   params.map((param)=>{
+        return param.id
       })
       data.tags=_tags;
     data.param_names=_params
@@ -157,20 +154,7 @@ const addIntegration = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col text-sm mb-4 lg:w-1/3"
     >
-      {/*input*/}
-      <div className="w-full mb-4">
-        <label className="block">
-          <span className="text-default">Route</span>
-          <input
-            name="route"
-            type="text"
-            ref={register({ required: true })}
-            className="form-input mt-1 text-xs block w-full bg-white"
-            placeholder="Route in dot notation"
-            required
-          />
-        </label>
-      </div>
+     
 
          {/*input*/}
          <div className="w-full mb-4">
@@ -198,6 +182,8 @@ const addIntegration = () => {
               className="form-input mt-1 text-xs block w-full bg-white"
               placeholder="Enter  Integration Slug"
               required
+              maxLength={255}
+              pattern="[a-z0-9\-]+"
             />
           </label>
           </div>
@@ -213,6 +199,8 @@ const addIntegration = () => {
               className="form-input mt-1 text-xs block w-full bg-white"
               placeholder="Enter Integration Channel Slug "
               required
+              maxLength={255}
+              pattern="[a-z0-9\-]+"
             />
           </label>
           </div>
@@ -226,7 +214,7 @@ const addIntegration = () => {
                 type="url"
                 ref={register({ required: true })}
                 className="form-input mt-1 text-xs block w-full bg-white"
-                placeholder="Enter Integration URL "
+                placeholder="Enter Integration Icon URL "
                 required
               />
             </label>
@@ -238,10 +226,10 @@ const addIntegration = () => {
                <span className="text-default">Description</span>
                <input
                  name="description"
-                 type="url"
+                 type="text"
                  ref={register({ required: true })}
                  className="form-input mt-1 text-xs block w-full bg-white"
-                 placeholder="Enter Integration URL "
+                 placeholder="Enter Integration Description "
                  required
                />
              </label>
@@ -308,7 +296,7 @@ const addIntegration = () => {
   </div>
 
   <div>
-  <span className="text-default">Approval</span>
+  <span className="text-default">Requires Approval</span>
 
         <Switch
           onChange={() => handleApproval(!approval)}
@@ -323,7 +311,7 @@ const addIntegration = () => {
         />
       </div>
       <div>
-  <span className="text-default">Access</span>
+  <span className="text-default">Requires Access</span>
         <Switch
           onChange={() => handleAccess(!access)}
           checked={access}
