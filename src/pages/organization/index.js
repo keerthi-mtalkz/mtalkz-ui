@@ -87,6 +87,8 @@ const Organization=()=>{
   //const data = React.useMemo(() => countries, [])
   return (
     <Layout>
+    <SectionTitle title="Organization Management" subtitle="" />
+
     <div className="flex flex-row pb-4">
     <div className=" w-5/6">
       <input

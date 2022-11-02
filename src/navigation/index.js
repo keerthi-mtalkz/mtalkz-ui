@@ -16,43 +16,43 @@ const navigation = [
       {
         url: '/user',
         icon: <Icon.User size={20} />,
-        title: 'User Management',
+        title: 'Users',
         items: []
       },
       {
         url: '/organization',
         icon: <Icon.Home size={20} />,
-        title: 'Organization Management',
+        title: 'Organizations',
         items: []
       },
       {
         url: '/role',
         icon: <Icon.Flag size={20} />,
-        title: 'Role Management',
+        title: 'Roles',
         items: []
       },
       {
         url: '/permission',
-        icon: <Icon.Key size={20} />,
-        title: 'Permission Management',
+        icon: <Icon.Lock size={20} />,
+        title: 'Permissions',
         items: []
       },
       {
         url: '/channel',
         icon: <Icon.Speaker size={20} />,
-        title: 'Channel Management',
+        title: 'Channels',
         items: []
       },
       {
         url: '/resource',
         icon: <Icon.Grid size={20} />,
-        title: 'Resource Management',
+        title: 'Resources',
         items: []
       },
       {
         url: '/integration',
-        icon: <Icon.Anchor size={20} />,
-        title: 'Integration Management',
+        icon: <Icon.Paperclip size={20} />,
+        title: 'Integrations',
         items: []
       },
 

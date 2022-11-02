@@ -1,10 +1,10 @@
 import {createStore} from 'redux'
-import users from './json/users.json'
+import users from './json/users.json';
 
 const initialState = {
   name: 'Mtalkz',
   description: 'Mtalkz',
-  user: users[0],
+  user:  users[0],
   url: '#',
   layout: 'layout-3',
   direction: 'ltr',
@@ -68,6 +68,13 @@ const reducer = (state = initialState, action) => {
           [`${action.key}`]: action.value
         }
       }
+      case 'UPDATE_USER':
+        console.log(action.value,"YGUyrduetfdeuwyfrtery")
+        return {
+          ...state,
+          user: action.value,
+        }
+        
     case 'SET_LEFT_SIDEBAR_CONFIG':
       return {
         ...state,
@@ -93,6 +100,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         [`${key}`]: value
       }
+     
     case 'SET_CONFIG':
       let {key, value} = {...action.config}
       return {

@@ -7,6 +7,8 @@ import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
 import { useForm } from "react-hook-form";
 import React from "react";
+import SectionTitle from "../../components/section-title";
+
 
 const Channel=()=>{
  const [channels,setChannels]=useState([])
@@ -118,6 +120,8 @@ const Channel=()=>{
         </div>
       </div>
       )}
+     <SectionTitle title="Channel Management" subtitle="" />
+
       <div className="flex flex-row pb-4">
       <div className=" w-5/6">
         <input

@@ -3,20 +3,30 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import {useForm} from 'react-hook-form'
 import {ax} from "../../utils/apiCalls"
+import {useDispatch} from 'react-redux'
 
 
 
 
 const Login1 = () => {
+  const dispatch = useDispatch()
   const {register, handleSubmit, watch, errors} = useForm()
   const router = useRouter()
   const onSubmit = async(data) => {
     await ax
     .post("/auth/login", data)
     .then((res) => {
+      res.data.user.img="m1.png"
       localStorage.setItem("token",res.data.token)
       localStorage.setItem("user", res.data.user)
+      dispatch({
+        type: 'UPDATE_USER',
+        value: res.data.user
+      })
+      setTimeout(() => {
       router.push("/chatbots");
+        
+      }, 1000);
     })
     .catch((err) => {
       console.error("get login error", err);
