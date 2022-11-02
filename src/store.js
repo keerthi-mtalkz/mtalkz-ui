@@ -1,12 +1,12 @@
 import {createStore} from 'redux'
-import users from './json/users.json'
+import users from './json/users.json';
 
 const initialState = {
-  name: 'Concavo',
-  description: 'Concavo React Tailwind CSS admin template',
-  user: users[0],
-  url: 'https://concavo.mobifica.com',
-  layout: 'layout-1',
+  name: 'Mtalkz',
+  description: 'Mtalkz',
+  user:  users[0],
+  url: '#',
+  layout: 'layout-3',
   direction: 'ltr',
   collapsed: false,
   toggleRightSidebar: false,
@@ -40,6 +40,9 @@ const initialState = {
     showTags: true,
     card: 1
   },
+  test:'',
+  codd:[],
+  kword:[]
 }
 
 const reducer = (state = initialState, action) => {
@@ -65,6 +68,13 @@ const reducer = (state = initialState, action) => {
           [`${action.key}`]: action.value
         }
       }
+      case 'UPDATE_USER':
+        console.log(action.value,"YGUyrduetfdeuwyfrtery")
+        return {
+          ...state,
+          user: action.value,
+        }
+        
     case 'SET_LEFT_SIDEBAR_CONFIG':
       return {
         ...state,
@@ -90,6 +100,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         [`${key}`]: value
       }
+     
     case 'SET_CONFIG':
       let {key, value} = {...action.config}
       return {

@@ -83,11 +83,11 @@ const DropdownWidget5 = () => {
               src={`/assets/faces/${user.img}`}
               alt={user.name}
             />
-            <span
+  {/*<span
               className="absolute badge badge-sm badge-circle badge-red"
               style={{top: 10, right: -4}}>
               2
-            </span>
+            </span>*/} 
           </span>
         </button>
         <div

@@ -6,6 +6,7 @@ import Datatable from "../../components/datatable";
 import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
 import React from "react";
+import SectionTitle from '../../components/section-title'
 
 const Integration=()=>{
  const [integrations,setIntegrations]=useState([])
@@ -75,18 +76,7 @@ const Integration=()=>{
         Header: 'Channel Slug',
         accessor: 'channel_slug'
       },
-      {
-        Header: 'Icon Url',
-        accessor: 'icon_url'
-      },
-      {
-        Header: 'Description',
-        accessor: 'description'
-      },
-      {
-        Header: 'Api Url',
-        accessor: 'api_url'
-      },
+     
       {
         Header: 'Param Names',
         accessor: 'param_names'
@@ -121,6 +111,8 @@ const Integration=()=>{
     ]
   return (
     <Layout className="overflow-x-scroll">
+    <SectionTitle title="Integration Management" subtitle="" />
+
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
       <div className="p-2">

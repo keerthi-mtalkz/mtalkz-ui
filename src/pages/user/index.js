@@ -109,6 +109,8 @@ const User=()=>{
       ]
       return (
         <Layout>
+     <SectionTitle title="User Management" subtitle="" />
+
         <div className="flex flex-row pb-4">
         <div className=" w-5/6">
           <input

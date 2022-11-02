@@ -5,6 +5,8 @@ import { useState } from 'react';
 import Datatable from "../../components/datatable";
 import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
+import React from "react";
+import SectionTitle from '../../components/section-title'
 
 const Resource=()=>{
  const [resources,setResources]=useState([])
@@ -104,6 +106,8 @@ const Resource=()=>{
     ]
   return (
     <Layout>
+    <SectionTitle title="Resource Management" subtitle="" />
+
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
       <div className="p-2">
@@ -141,7 +145,7 @@ const Resource=()=>{
         </Link>
       </div>
     </div>
-    <Datatable columns={columns} data={resources} />
+    <Datatable  columns={columns} data={resources} />
     </Layout>
     )
 }
