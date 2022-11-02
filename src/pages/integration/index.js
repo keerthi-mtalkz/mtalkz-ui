@@ -7,48 +7,48 @@ import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
 import React from "react";
 
-const Permission=()=>{
- const [permissions,setPermissions]=useState([])
+const Integration=()=>{
+ const [integrations,setIntegrations]=useState([])
  const [status, setStatus] = useState(undefined);
  const [searchQuery, setSearchQuery] = useState("");
 
 
-  const getPermissions = async () => {
+  const getIntegrations = async () => {
     const token = localStorage.getItem('token');
     await ax
-      .get("/permissions", {headers: {
+      .get("/integrations", {headers: {
         'Authorization': `Bearer ${token}`
        }})
       .then((res) => {
-        setPermissions(res.data);
+        setIntegrations(res.data);
       })
       .catch((err) => {
         setStatus({ type: "error", err });
-        console.error("get /permissions error", err);
+        console.error("get /Integrations error", err);
       });
   };
 
 
   React.useEffect(() => {
-    getPermissions();
+    getIntegrations();
   }, []);
 
-     const deletePermission = (id) => {
+     const deleteIntegration = (id) => {
   if (typeof window !== "undefined") {
   const token = localStorage.getItem('token');
   const answer = window.confirm("are you sure?");
   if (answer) {
-    ax.delete(`/permissions/${id}`, {headers: {
+    ax.delete(`/integrations/${id}`, {headers: {
       'Authorization': `Bearer ${token}`
      }})
       .then((res) => {
         setStatus({ type: "success" });
         setTimeout(() => {
-            getPermissions();
+            getIntegrations();
         }, 1000);
       })
       .catch((err) => {
-        console.error("get /permissions error", err.message);
+        console.error("get /Integrations error", err.message);
         setStatus({ type: "error", err });
       });
   } else {
@@ -64,16 +64,32 @@ const Permission=()=>{
       accessor: 'id'
     },
       {
-        Header: 'Route',
-        accessor: 'route'
-      },
-      {
         Header: 'Name',
         accessor: 'name'
       },
       {
+        Header: 'Slug',
+        accessor: 'slug'
+      },
+      {
+        Header: 'Channel Slug',
+        accessor: 'channel_slug'
+      },
+      {
+        Header: 'Icon Url',
+        accessor: 'icon_url'
+      },
+      {
         Header: 'Description',
         accessor: 'description'
+      },
+      {
+        Header: 'Api Url',
+        accessor: 'api_url'
+      },
+      {
+        Header: 'Param Names',
+        accessor: 'param_names'
       },
       {
         Header: 'Actions',
@@ -81,7 +97,7 @@ const Permission=()=>{
         cell: () => <Button variant="danger" data-tag="allowRowEvents" data-action="delete"><FontAwesomeIcon icon={faTrash} /></Button>,
         Cell: (data) => {
        
-        return (<div className="flex justify-evenly"> <Link href={`/permission/view/${data.row.original.id}`}>
+        return (<div className="flex justify-evenly "> <Link href={`/integration/view/${data.row.original.id}`}>
           <p>
             <i className="icon-eye text-1xl font-bold mb-2"></i>
           </p>
@@ -91,9 +107,9 @@ const Permission=()=>{
           cursor: "pointer",
           lineHeight: "normal",
         }}
-        onClick={() => deletePermission(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+        onClick={() => deleteIntegration(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
 </p>
-<Link href={`/permission/update/${data.row.original.id}`}>
+<Link href={`/integration/update/${data.row.original.id}`}>
                       <p>
                         <i className="icon-note text-1xl font-bold mb-2"></i>
                       </p>
@@ -104,18 +120,18 @@ const Permission=()=>{
       }
     ]
   return (
-    <Layout>
+    <Layout className="overflow-x-scroll">
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
       <div className="p-2">
-      { NotificationManager.success('Deleted permission successfully', 'Success')}
+      { NotificationManager.success('Deleted integration successfully', 'Success')}
       </div>
     </div>
     )}
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.error(errors, 'Error')}
+        { NotificationManager.error(error, 'Error')}
          
         </div>
       </div>
@@ -132,19 +148,20 @@ const Permission=()=>{
       </div>
       <div className="w-1/6 ">
         {" "}
-        <Link href={`/permission/addPermission`}>
+        <Link href={`/integration/addIntegration`}>
             <button
               className="ml-3  btn btn-default btn-indigo create-btn w-full"
               type="button"
             >
-              Add Permission
+              Add Integration
             </button>
         </Link>
       </div>
     </div>
-    <Datatable columns={columns} data={permissions} />
+    
+    <Datatable columns={columns} data={integrations}  className="overflow-x-scroll"/>
     </Layout>
     )
 }
 
-export default withRedux(Permission)
+export default withRedux(Integration)
