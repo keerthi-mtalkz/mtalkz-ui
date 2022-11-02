@@ -1,13 +1,14 @@
 [
     {
-        "name": "Lucas smith",
+        "name": "Lucas smith ejhfvefv",
         "email": "lucas@smith.com",
         "location": "Cupertino, CA",
         "company": "Apple, Inc.",
         "description": "Vital Database Dude",
         "img": "m1.png",
         "color": "green",
-        "country": "Australia"
+        "country": "Australia",
+        "organization_id": 2
     },
     {
         "name": "Janet Abshire",

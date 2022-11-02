@@ -12,10 +12,12 @@ import {ax} from "../../utils/apiCalls"
 
 const Navbar = () => {
   const [organizations,setOrganizations]=useState([])
-  const {toggleRightSidebar, collapsed} = useSelector(
+  const [selectedOrganization,setSelectedOrganization]=useState([])
+  const {toggleRightSidebar, collapsed,user} = useSelector(
     state => ({
       toggleRightSidebar: state.toggleRightSidebar,
-      collapsed: state.collapsed
+      collapsed: state.collapsed,
+      user:state.user
     }),
     shallowEqual
   )
@@ -51,15 +53,20 @@ const Navbar = () => {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then((res) => {
-        setOrganizations(res?.data?.organizations)
-     
-        console.log("data Check");
+      .then(async(res) => {
+        setOrganizations(res?.data?.organizations);
+      const org=  res?.data?.organizations.filter((o)=>o.id===user.organization_id)
+      setSelectedOrganization([{ label: org[0].name, value: org[0].id }])
+      console.log(selectedOrganization,"))))))))))))))))")
       })
       .catch((err) => {
         console.error("get /organizations error", err);
       });
   };
+
+  useEffect(()=>{
+    console.log(selectedOrganization,"dewd")
+  },[selectedOrganization])
 
   useEffect(()=>{
     getOraganizations()
@@ -114,7 +121,7 @@ const Navbar = () => {
           <Menu size={20} />
         </button>
         <span className="ltr:ml-auto rtl:mr-auto"></span>
-        <div style={{ width: "300px" }}>
+        <div style={{ width: "300px", marginRight:"20px" }}>
           <Select
             options={options}
             // isMulti={true}
@@ -133,9 +140,11 @@ const Navbar = () => {
                 dangerLight: toRGB(getColor("bg-red-500"), 0.25),
               },
             })}
+            value={selectedOrganization}
           />
+          {/*  <DropdownWidget5 />*/}
         </div>
-         <DropdownWidget5 />
+       
         <Link href="/pages/login-1">
           <a className="btn btn-default flex lg:hidden">Logout</a>
         </Link>

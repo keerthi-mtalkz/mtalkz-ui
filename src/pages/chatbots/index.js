@@ -6,6 +6,7 @@ import SectionTitle from '../../components/section-title'
 const Chatbots=()=>{
     return (
         <Layout>
+     <SectionTitle title="Chatbot" subtitle="" />
        
       </Layout>
     )

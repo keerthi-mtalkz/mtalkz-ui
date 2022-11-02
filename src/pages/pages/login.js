@@ -19,7 +19,7 @@ const Logo = () => {
       <Link href="/">
         <a className="flex flex-row items-center justify-start">
           <ToggleLeft size={28} />
-          <span className="ltr:ml-1 rtl:mr-2 font-sans">{name}</span>
+          <span className="ltr:ml-1 rtl:mr-2 font-sans">MTalkz Suite</span>
         </a>
       </Link>
     </div>
@@ -36,44 +36,40 @@ const Login = () => {
   return (
     <Layout>
       <div className="w-full flex flex-row h-screen overflow-hidden">
-        <div className="hidden lg:flex lg:flex-col w-1/2 bg-purple-700 text-white p-8 items-start justify-between relative">
-          
-           <Logo />
-       
-          <div className="flex flex-row items-center justify-between w-full text-xs z-10">
-            <div className="text-white">&copy; {name} 2020</div>
-            <div className="flex flex-row ml-auto">
-              <div className="px-1">
-                <Link href="/pages/privacy-policy">
-                  <a>Privacy policy</a>
-                </Link>
-              </div>
-              <div className="px-1">
-                <Link href="/pages/terms-of-service">
-                  <a>Terms of service</a>
-                </Link>
-              </div>
-              <div className="px-1">
-                <Link href="/pages/contact-us">
-                  <a>Contact us</a>
-                </Link>
-              </div>
-            </div>
+      <div className="hidden lg:flex lg:flex-col w-1/2 bg-purple-700 text-white p-8 items-start justify-between relative">
+      <div></div>
+     
+      <div className="flex flex-row items-center justify-between w-full text-xs z-10">
+        <div className="text-white">&copy; Mtalkz 2020</div>
+        <div className="flex flex-row ml-auto">
+          <div className="px-1">
+            <Link href="/pages/privacy-policy">
+              <a>Privacy policy</a>
+            </Link>
+          </div>
+          <div className="px-1">
+            <Link href="/pages/terms-of-service">
+              <a>Terms of service</a>
+            </Link>
+          </div>
+          <div className="px-1">
+            <Link href="/pages/contact-us">
+              <a>Contact us</a>
+            </Link>
           </div>
         </div>
+      </div>
+    </div>
         <div className="w-full lg:w-1/2 bg-white text-default p-8 lg:p-24 flex flex-col items-center justify-center">
           <p className="text-3xl font-bold font-poppins mb-4">
-            Login to {name}
+          <img
+          src="./logo.png"
+          alt="Picture of the author"
+          // width="350px"
+          // height="300px"
+        />
           </p>
-          <div className="w-full mb-4">
-            <Alert type="info" rounded>
-              <span className="font-thin">Use email </span>{' '}
-              <span className="font-bold">your@email.com</span>{' '}
-              <span className="font-thin">and password</span>{' '}
-              <span className="font-bold">demo</span>{' '}
-              <span className="font-thin">to continue</span>
-            </Alert>
-          </div>
+          
           <Form />
         </div>
       </div>
