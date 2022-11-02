@@ -12,5 +12,32 @@ export const ax = axios.create({
     },
   });
 
+  export const HTTP_METHODS=[
+    {
+    value:"get",
+    label:"GET" 
+  },
+  {
+    value:"post",
+    label:"POST" 
+  },
+  {
+    value:"put",
+    label:"PUT" 
+  },
+  {
+    value:"delete",
+    label:"DELETE" 
+  },
+  {
+    value:"head",
+    label:"HEAD" 
+  },
+  {
+    value:"patch",
+    label:"PATCH" 
+  }
+]
+
 
   
