@@ -38,7 +38,7 @@
     "react-tag-input": "^6.8.1",
     "redux": "^4.0.5",
     "sass": "^1.26.5",
-    "tailwindcss": "^3.2.1",
+    "tailwindcss": "^1.0",
     "use-debounce": "^3.4.2"
   },
   "devDependencies": {
