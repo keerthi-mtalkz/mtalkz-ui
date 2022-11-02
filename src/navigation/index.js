@@ -49,7 +49,12 @@ const navigation = [
         title: 'Resource Management',
         items: []
       },
-
+      {
+        url: '/apiKey',
+        icon: <Icon.Anchor size={20} />,
+        title: 'ApiKey Management',
+        items: []
+      },
     ]
   },
 
