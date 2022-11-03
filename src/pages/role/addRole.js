@@ -15,15 +15,27 @@ const addRole = () => {
   const [res, setRes] = useState({});
   const [status, setStatus] = useState(undefined);
 
-  const { register, handleSubmit, watch, errors } = useForm();
+  const { register, handleSubmit, watch } = useForm();
   const [checked, handleChange] = useState(false)
 const [permissions,setPermissions]=useState([])
  const [selectedPermission,setSelectedPermission]=useState("")
+const [errors,setErrors] = useState(undefined)
+
+const validateFields=()=>{
+  if(selectedPermission.length ===0)
+  {
+  setErrors({permission_ids:['Permissions are required']})
+  return false
+  }
+  else return true
+}
 
   const onSubmit = (data) => {
-    if (typeof window !== "undefined") {
+    const isValid=validateFields()
+    if (typeof window !== "undefined" && isValid) {
       data.is_system_role=checked;
-      data.permission_ids=selectedPermission
+      let _selectedPermissions=selectedPermission.map((permission)=> permission.value )
+        data.permission_ids=_selectedPermissions
     const token = localStorage.getItem('token');
     ax.post("/roles", data, { headers: {
         'Authorization': `Bearer ${token}`
@@ -31,14 +43,16 @@ const [permissions,setPermissions]=useState([])
       .then((res) => {
         setRes(res.data);
         setStatus({ type: "success" });
+        setTimeout(() => {
         router.push("/role");
+        }, 1000);
       })
       .catch((err) => {
-        setStatus({ type: "error",message: err.response.data.message });
-        setTimeout(() => {
-          setStatus(undefined)
-          router.push("/role");
-        }, 1000);
+        if(err.response.data.errors){
+          setErrors(err.response.data.errors)
+        }else{
+          setStatus({ type: "error",message: err.response.data.message });
+        }
       });
     }
   };
@@ -59,10 +73,6 @@ const [permissions,setPermissions]=useState([])
         })
         .catch((err) => {
           setStatus({ type: "error",message: err.response.data.message });
-        setTimeout(() => {
-          setStatus(undefined)
-          router.push("/role");
-        }, 1000);
       });
     }
    
@@ -75,8 +85,8 @@ const [permissions,setPermissions]=useState([])
   let handleSwitch = (value) => {
     setSelectedPermission([]);
     let permissions=[]
-    value.map((selectedPermission)=>{
-      permissions.push(selectedPermission.value.toString())
+    value &&  value.map((selectedPermission)=>{
+      permissions.push({label:selectedPermission.label, value:selectedPermission.value})
     })
         setSelectedPermission([...permissions])
   }
@@ -88,7 +98,7 @@ const [permissions,setPermissions]=useState([])
          {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.success('Data Submitted Successfully', '')}
+        { NotificationManager.success('Role Added Successfully', '')}
         </div>
       </div>
       )}
@@ -117,6 +127,12 @@ const [permissions,setPermissions]=useState([])
             required
           />
         </label>
+        {errors && errors.name && (
+          errors.name.map((err)=>{
+           return <p className="mt-1 text-xs text-red-500">{err}</p>
+          })
+         
+        )}
       </div>
 
        {/*input*/}
@@ -132,6 +148,12 @@ const [permissions,setPermissions]=useState([])
            required
          />
        </label>
+       {errors && errors.description && (
+        errors.description.map((err)=>{
+         return <p className="mt-1 text-xs text-red-500">{err}</p>
+        })
+       
+      )}
      </div>
 
        {/*input*/}
@@ -150,6 +172,12 @@ const [permissions,setPermissions]=useState([])
        className="react-switch"
      />
        </label>
+       {errors && errors.is_system_role && (
+        errors.is_system_role.map((err)=>{
+         return <p className="mt-1 text-xs text-red-500">{err}</p>
+        })
+       
+      )}
      </div>
 
      <div style={{ width: "300px" }}>
@@ -159,6 +187,12 @@ const [permissions,setPermissions]=useState([])
        onChange={handleSwitch}
        isMulti={true}
      />
+     {errors && errors.permission_ids && (
+      errors.permission_ids.map((err)=>{
+       return <p className="mt-1 text-xs text-red-500">{err}</p>
+      })
+     
+    )}
    </div>
 
       <div className="w-full">

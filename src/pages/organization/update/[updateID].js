@@ -11,6 +11,7 @@ import {
     NotificationError
   } from '../../../components/notifications'
 import { error } from "autoprefixer/lib/utils";
+import Switch from 'react-switch'
 
 
 const updateID = () => {
@@ -18,6 +19,8 @@ const updateID = () => {
   const updateid = router.query.updateID;
   const [res, setRes] = useState({});
   const [status, setStatus] = useState(undefined);
+  const [errors,setErrors]=useState(undefined)
+  const [checked, handleChange] = useState(false)
 
   const getOrganizationDetails = async () => {
     if (typeof window !== "undefined") {
@@ -30,6 +33,7 @@ const updateID = () => {
         })
         .then((res) => {
           setRes(res.data.organization);
+          handleChange(res.data.organization.is_reseller===1?true:false);
           console.log(res.data.organization);
         })
         .catch((err) => {
@@ -44,8 +48,9 @@ const updateID = () => {
   }, []);
 
 
-  const { register, handleSubmit, watch, errors } = useForm();
+  const { register, handleSubmit, watch } = useForm();
   const onSubmit = (data) => {
+    data.is_reseller=checked;
     if (typeof window !== "undefined") {
       const token = localStorage.getItem('token');
       ax.put(`/organizations/${updateid}`, data, {
@@ -57,15 +62,16 @@ const updateID = () => {
         .then((res) => {
           setRes(res.data);
           setStatus({ type: "success" });
-          router.push("/organization");
-        })
-        .catch((err) => {
-          setStatus({ type: "error",message: err.response.data.message });
           setTimeout(() => {
-            setStatus(undefined)
             router.push("/organization");
           }, 1000);
-
+        })
+        .catch((err) => {
+          if(err.response.data.errors){
+            setErrors(err.response.data.errors)
+          }else{
+            setStatus({ type: "error",message: err.response.data.message });
+          }
         });
     }
   };
@@ -112,6 +118,12 @@ const updateID = () => {
                   maxLength={40}
                 />
               </label>
+              {errors && errors.name && (
+                errors.name.map((err)=>{
+                 return <p className="mt-1 text-xs text-red-500">{err}</p>
+                })
+               
+              )}
             </div>
 
             {/*input*/}
@@ -129,6 +141,12 @@ const updateID = () => {
                   
                 />
               </label>
+              {errors && errors.email && (
+                errors.email.map((err)=>{
+                 return <p className="mt-1 text-xs text-red-500">{err}</p>
+                })
+               
+              )}
             </div>
 
             {/*input*/}
@@ -147,6 +165,12 @@ const updateID = () => {
                   title="10 digit number"
                 />
               </label>
+              {errors && errors.phone && (
+                errors.phone.map((err)=>{
+                 return <p className="mt-1 text-xs text-red-500">{err}</p>
+                })
+               
+              )}
             </div>
 
             {/*input*/}
@@ -165,8 +189,50 @@ const updateID = () => {
                   required
                 />
               </label>
+              {errors && errors.address && (
+                errors.address.map((err)=>{
+                 return <p className="mt-1 text-xs text-red-500">{err}</p>
+                })
+               
+              )}
             </div>
 
+            {/*input*/}
+     <div className="w-full mb-4">
+     <label className="block">
+       <span className="text-default">Prefix</span>
+       <input
+         name="table_prefix"
+         type="text"
+         ref={register({ required: true })}
+         className="form-input mt-1 text-xs block w-full bg-white"
+         placeholder="Enter Organization Prefix"
+         defaultValue={res.table_prefix}
+         required
+       />
+     </label>
+     {errors && errors.table_prefix && (
+      errors.table_prefix.map((err)=>{
+       return <p className="mt-1 text-xs text-red-500">{err}</p>
+      })
+     
+    )}
+   </div>
+
+   <div>
+   <span className="text-default">Reseller</span>
+   <Switch
+     onChange={() => handleChange(!checked)}
+     checked={checked}
+     handleDiameter={24}
+     uncheckedIcon={false}
+     checkedIcon={false}
+     boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
+     height={20}
+     width={48}
+     className="react-switch"
+   />
+ </div>
 
 
             <div className="w-full">
