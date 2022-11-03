@@ -24,7 +24,7 @@ const Permission=()=>{
         setPermissions(res.data);
       })
       .catch((err) => {
-        setStatus({ type: "error", err });
+        setStatus({ type: "error",message: err.response.data.message });
         console.error("get /permissions error", err);
       });
   };
@@ -49,8 +49,7 @@ const Permission=()=>{
         }, 1000);
       })
       .catch((err) => {
-        console.error("get /permissions error", err.message);
-        setStatus({ type: "error", err });
+        setStatus({ type: "error",message: err.response.data.message });
       });
   } else {
     console.log("Thing was not saved to the database.");
@@ -118,7 +117,7 @@ const Permission=()=>{
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.error(errors, 'Error')}
+        { NotificationManager.error(status.message, 'Error')}
          
         </div>
       </div>

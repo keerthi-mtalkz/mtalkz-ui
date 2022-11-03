@@ -24,8 +24,7 @@ const Resource=()=>{
         setResources(res.data);
       })
       .catch((err) => {
-        setStatus({ type: "error", err });
-        console.error("get /Resources error", err);
+        setStatus({ type: "error",message: err.response.data.message });
       });
   };
 
@@ -49,8 +48,7 @@ const Resource=()=>{
         }, 1000);
       })
       .catch((err) => {
-        console.error("get /resources error", err.message);
-        setStatus({ type: "error", err });
+        setStatus({ type: "error",message: err.response.data.message });
       });
   } else {
     console.log("Thing was not saved to the database.");
@@ -118,7 +116,7 @@ const Resource=()=>{
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.error(error, 'Error')}
+        { NotificationManager.error(status.message, 'Error')}
          
         </div>
       </div>

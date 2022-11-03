@@ -12,8 +12,9 @@ const addPermission = () => {
   const router = useRouter();
   const [res, setRes] = useState({});
   const [status, setStatus] = useState(undefined);
+  const [errors,setErrors]=useState(undefined)
 
-  const { register, handleSubmit, watch, errors } = useForm();
+  const { register, handleSubmit, watch } = useForm();
 
   const onSubmit = (data) => {
     if (typeof window !== "undefined") {
@@ -24,14 +25,16 @@ const addPermission = () => {
       .then((res) => {
         setRes(res.data);
         setStatus({ type: "success" });
+        setTimeout(() => {
         router.push("/permission");
+        }, 1000);
       })
       .catch((err) => {
-        setStatus({ type: "error",message: err.response.data.message });
-        setTimeout(() => {
-          setStatus(undefined)
-          router.push("/permission");
-        }, 1000);
+        if(err.response.data.errors){
+          setErrors(err.response.data.errors)
+        }else{
+          setStatus({ type: "error",message: err.response.data.message });
+        }
       });
 
     }
@@ -73,6 +76,12 @@ const addPermission = () => {
             required
           />
         </label>
+        {errors && errors.route && (
+          errors.route.map((err)=>{
+           return <p className="mt-1 text-xs text-red-500">{err}</p>
+          })
+         
+        )}
       
       </div>
 
@@ -89,7 +98,12 @@ const addPermission = () => {
              required
            />
          </label>
-       
+         {errors && errors.name && (
+          errors.name.map((err)=>{
+           return <p className="mt-1 text-xs text-red-500">{err}</p>
+          })
+         
+        )}
          </div>
 
           {/*input*/}
@@ -99,12 +113,17 @@ const addPermission = () => {
             <input
               name="description"
               type="text"
-              ref={register({ required: true })}
+              ref={register()}
               className="form-input mt-1 text-xs block w-full bg-white"
               placeholder="Enter Permission Description"
             />
           </label>
-        
+          {errors && errors.description && (
+            errors.description.map((err)=>{
+             return <p className="mt-1 text-xs text-red-500">{err}</p>
+            })
+           
+          )}
           </div>
 
       <div className="w-full">

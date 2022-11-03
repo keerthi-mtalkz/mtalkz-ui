@@ -26,6 +26,7 @@ const updateID = () => {
     ]);
   const [organizations,setOrganizations]=useState([])
   const [selectedOrganizations,setSelectedOrganizations]=useState([])
+  const [errors,setErrors]=useState(undefined)
 
 
     const KeyCodes = {
@@ -84,7 +85,7 @@ const updateID = () => {
           setOrganizations(res?.data)
         })
         .catch((err) => {
-          console.error("get /organizations error", err);
+          setStatus({ type: "error",message: err.response.data.message });
         });
     };
   
@@ -124,7 +125,7 @@ const updateID = () => {
          getOrganizations();
         })
         .catch((err) => {
-        setStatus({ type: "error", err });
+          setStatus({ type: "error",message: err.response.data.message });
           console.error("get /integration error", err);
         });
       }
@@ -135,10 +136,31 @@ const updateID = () => {
     }, []);
 
   
-    const { register, handleSubmit, watch, errors } = useForm();
-
+    const { register, handleSubmit, watch } = useForm();
+    const validateField=()=>{
+      let _errors= { }
+       if(tags.length==0 ){
+        _errors={tags:['tags are required']}
+       }
+       if(params.length==0){
+        _errors={..._errors,param_names:['parameters are required']}
+      }
+      if(access && selectedOrganizations.length==0){
+        _errors={..._errors,access_granted_to:['Organization are required']}
+      }
+      if(_errors && Object.keys(_errors).length>0)
+      {
+      setErrors(_errors)
+        return false
+      }
+      else{
+        return true
+      }
+    
+    }
     const onSubmit = (data) => {
-      if (typeof window !== "undefined") {
+      const isValid= validateField()
+      if (typeof window !== "undefined" && isValid ) {
         data.requires_access=access;
         data.requires_approval=approval;
         let _tags = tags.map((tag)=>{
@@ -159,15 +181,17 @@ const updateID = () => {
       }})
         .then((res) => {
           setRes(res.data);
-        setStatus({ type: "success" });
+          setStatus({ type: "success" });
+          setTimeout(() => {
           router.push("/integration");
+          }, 1000);
         })
         .catch((err) => {
-          setStatus({ type: "error",message: err.response.data.message });
-          setTimeout(() => {
-            setStatus(undefined)
-            router.push("/integration");
-          }, 1000);
+          if(err.response.data.errors){
+            setErrors(err.response.data.errors)
+          }else{
+            setStatus({ type: "error",message: err.response.data.message });
+          }
         });
       }
     };
@@ -187,7 +211,7 @@ return (
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.error(errors, 'Error')}
+        { NotificationManager.error(status.message, 'Error')}
         </div>
       </div>
       )}
@@ -209,13 +233,19 @@ return (
              <input
                name="name"
                type="text"
-               ref={register({ required: true })}
+               ref={register()}
                className="form-input mt-1 text-xs block w-full bg-white"
                placeholder="Enter Integartion name"
                required
                value={res.name}
              />
            </label>
+           {errors && errors.name && (
+            errors.name.map((err)=>{
+             return <p className="mt-1 text-xs text-red-500">{err}</p>
+            })
+           
+          )}
            </div>
   
             {/*input*/}
@@ -225,15 +255,21 @@ return (
               <input
                 name="slug"
                 type="text"
-                ref={register({ required: true })}
+                ref={register()}
                 className="form-input mt-1 text-xs block w-full bg-white"
                 placeholder="Enter  Integration Slug"
                 required
             maxLength={255}
             pattern="[a-z0-9\-]+"
-                value={res.slug}
+                defaultValue={res.slug}
               />
             </label>
+            {errors && errors.slug && (
+              errors.slug.map((err)=>{
+               return <p className="mt-1 text-xs text-red-500">{err}</p>
+              })
+             
+            )}
             </div>
   
             {/*input*/}
@@ -243,16 +279,22 @@ return (
               <input
                 name="channel_slug"
                 type="text"
-                ref={register({ required: true })}
+                ref={register()}
                 className="form-input mt-1 text-xs block w-full bg-white"
                 placeholder="Enter Integration Channel Slug "
                 required
                 maxLength={255}
                 pattern="[a-z0-9\-]+"
-                value={res.channel_slug}
+                defaultValue={res.channel_slug}
 
               />
             </label>
+            {errors && errors.channel_slug && (
+              errors.channel_slug.map((err)=>{
+               return <p className="mt-1 text-xs text-red-500">{err}</p>
+              })
+             
+            )}
             </div>
   
               {/*input*/}
@@ -262,13 +304,18 @@ return (
                 <input
                   name="icon_url"
                   type="url"
-                  ref={register({ required: true })}
+                  ref={register()}
                   className="form-input mt-1 text-xs block w-full bg-white"
                   placeholder="Enter Integration Icon URL "
-                  required
-                  value={res.icon_url}
+                  defaultValue={res.icon_url}
                 />
               </label>
+              {errors && errors?.icon_url && (
+                errors.icon_url.map((err)=>{
+                 return <p className="mt-1 text-xs text-red-500">{err}</p>
+                })
+               
+              )}
               </div>
   
                {/*input*/}
@@ -278,14 +325,20 @@ return (
                  <input
                    name="description"
                    type="text"
-                   ref={register({ required: true })}
+                   ref={register()}
                    className="form-input mt-1 text-xs block w-full bg-white"
                    placeholder="Enter Integration Description "
                    required
-                  value={res.description}
+                  defaultValue={res.description}
 
                  />
                </label>
+               {errors && errors.description && (
+                errors.description.map((err)=>{
+                 return <p className="mt-1 text-xs text-red-500">{err}</p>
+                })
+               
+              )}
                </div>
   
                <div style={{marginBottom:"10px"}}>
@@ -300,6 +353,12 @@ return (
                inputFieldPosition="bottom"
                autocomplete
              />
+             {errors && errors.tags && (
+              errors.tags.map((err)=>{
+               return <p className="mt-1 text-xs text-red-500">{err}</p>
+              })
+             
+            )}
                </div>
   
     {/*input*/}
@@ -309,14 +368,20 @@ return (
       <input
         name="api_url"
         type="url"
-        ref={register({ required: true })}
+        ref={register()}
         className="form-input mt-1 text-xs block w-full bg-white"
         placeholder="Enter Integration Api URL "
         required
-        value={res.api_url}
+        defaultValue={res.api_url}
 
       />
     </label>
+    {errors && errors.api_url && (
+      errors.api_url.map((err)=>{
+       return <p className="mt-1 text-xs text-red-500">{err}</p>
+      })
+     
+    )}
     </div>
   
     {/*input*/}
@@ -334,6 +399,12 @@ return (
       })}
     </select>
     </label>
+    {errors && errors.http_method && (
+      errors.http_method.map((err)=>{
+       return <p className="mt-1 text-xs text-red-500">{err}</p>
+      })
+     
+    )}
     </div>
     
     <div style={{marginBottom:"10px"}}>
@@ -348,6 +419,13 @@ return (
     inputFieldPosition="bottom"
     autocomplete
   />
+  {errors && errors.param_names   && (
+    errors.param_names  .map((err)=>{
+     return <p className="mt-1 text-xs text-red-500">{err}</p>
+    })
+   
+  )}
+  
     </div>
   
     <div>
@@ -365,6 +443,12 @@ return (
             className="react-switch"
           />
         </div>
+        {errors && errors.requires_approval     && (
+          errors.requires_approval    .map((err)=>{
+           return <p className="mt-1 text-xs text-red-500">{err}</p>
+          })
+         
+        )}
         <div>
     <span className="text-default">Requires Access</span>
           <Switch
@@ -378,6 +462,12 @@ return (
             width={48}
             className="react-switch"
           />
+          {errors && errors.requires_access && (
+            errors.requires_access    .map((err)=>{
+             return <p className="mt-1 text-xs text-red-500">{err}</p>
+            })
+           
+          )}
         </div>
   
         {access &&
@@ -389,6 +479,12 @@ return (
               onChange={handleSwitch}
               value={selectedOrganizations}
             />
+            {errors && errors.access_granted_to       && (
+              errors.access_granted_to.map((err)=>{
+               return <p className="mt-1 text-xs text-red-500">{err}</p>
+              })
+             
+            )}
           </div>
         }
   
