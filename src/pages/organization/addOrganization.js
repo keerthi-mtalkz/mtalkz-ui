@@ -103,11 +103,13 @@ const addOrganization = () => {
         <span className="text-default">Phone</span>
         <input
           name="phone"
-          type="text"
+          type="tel"
           ref={register({ required: true })}
           className="form-input mt-1 text-xs block w-full bg-white"
           placeholder="Enter organization phone number"
           required
+          pattern="^\d{10}$"
+          title="10 digit number"
         />
       </label>
     </div>
