@@ -63,8 +63,6 @@ const addUser = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col text-sm mb-4 lg:w-1/3"
     >
-
-
      {/*input*/}
      <div className="w-full mb-4">
      <label className="block">
