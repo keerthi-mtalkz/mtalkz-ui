@@ -34,9 +34,11 @@ const addUser = () => {
       })
       .catch((err) => {
         console.log(err.response.data.errors,"err.response.data.errors")
-        setErrors(err.response.data.errors)
-        if(err.response.data.errors===[])
-        setStatus({ type: "error",message: err.response.data.message });
+        if(err.response.data.errors){
+          setErrors(err.response.data.errors)
+        }else{
+          setStatus({ type: "error",message: err.response.data.message });
+        }
       });
 
     }

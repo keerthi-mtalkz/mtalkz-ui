@@ -60,10 +60,11 @@ const updateID = () => {
           router.push("/user");
         })
         .catch((err) => {
-          console.log(err.response.data.errors,"err.response.data.errors")
+          if(err.response.data.errors===[]){
           setErrors(err.response.data.errors)
-          if(err.response.data.errors===[])
-          setStatus({ type: "error",message: err.response.data.message });
+          }else{
+            setStatus({ type: "error",message: err.response.data.message });
+          }
         });
       }
     };
