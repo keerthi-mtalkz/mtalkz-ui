@@ -28,7 +28,10 @@ const addOrganization = () => {
       .then((res) => {
         setRes(res.data);
         setStatus({ type: "success" });
+        setTimeout(() => {
         router.push("/organization");
+          
+        }, 1000);
       })
       .catch((err) => {
         setStatus({ type: "error",message: err.response.data.message });
