@@ -39,7 +39,9 @@
     "redux": "^4.0.5",
     "sass": "^1.26.5",
     "tailwindcss": "^1.0",
-    "use-debounce": "^3.4.2"
+    "use-debounce": "^3.4.2",
+    "react-dnd": "^14.0.2",
+    "react-dnd-html5-backend": "^14.0.0"
   },
   "devDependencies": {
     "@tailwindcss/custom-forms": "^0.2.1"
