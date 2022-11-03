@@ -8,11 +8,13 @@ import { getUsers } from '../../utils/apiCalls';
 import Link from "next/link";
 import {ax} from "../../utils/apiCalls"
 import React from "react";
+import {NotificationManager} from 'react-notifications'
 
 
 
 const User=()=>{
     const [userData,setUserData]=React.useState([]);
+  const [status, setStatus] = React.useState(undefined);
     
      const getUsersApi=async()=>{
     const token= localStorage.getItem("token");
@@ -39,11 +41,14 @@ const User=()=>{
           'Authorization': `Bearer ${token}`
          }})
           .then((res) => {
+        setStatus({ type: "success" });
+
             setTimeout(() => {
               getUsersApi();
             }, 1000);
           })
           .catch((err) => {
+            setStatus({ type: "error",message: err.response.data.message });
             console.error("get /usres error", err.message);
           });
       } else {
@@ -110,7 +115,21 @@ const User=()=>{
       return (
         <Layout>
      <SectionTitle title="User Management" subtitle="" />
-
+     {status?.type === "success" && (
+      <div className="flex flex-wrap w-full">
+      <div className="p-2">
+      { NotificationManager.success('Deleted integration successfully', 'Success')}
+      </div>
+    </div>
+    )}
+      {status?.type === "error" && (
+        <div className="flex flex-wrap w-full">
+        <div className="p-2">
+        { NotificationManager.error(status.message, 'Error')}
+         
+        </div>
+      </div>
+      )}
         <div className="flex flex-row pb-4">
         <div className=" w-5/6">
           <input
