@@ -3,6 +3,7 @@ import Link from 'next/link'
 import {useForm} from 'react-hook-form'
 import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
+import { useRouter } from "next/router";
 
 let socialMediaColors = {
   facebook: '#365397',
@@ -12,7 +13,7 @@ let socialMediaColors = {
 }
 
 const ForgotPassword2 = (data) => {
-    console.log(data,"wljdgehfdewdhewdyf")
+  const router = useRouter();
   const {register, handleSubmit, watch} = useForm()
   const [status, setStatus] = useState(undefined);
   const [errors,setErrors] = useState(undefined)
