@@ -43,7 +43,7 @@ const CreateAccount = () => {
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
       <div className="p-2">
-      { NotificationManager.success('Sign up successfull', 'Success')}
+      { NotificationManager.success('Sign up successful', 'Success')}
       </div>
     </div>
     )}

@@ -5,13 +5,6 @@ import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
 import { useRouter } from "next/router";
 
-let socialMediaColors = {
-  facebook: '#365397',
-  linkedin: '#006db3',
-  google: '#e0452c',
-  github: '#2f2f2f',
-}
-
 const ForgotPassword = () => {
   const {register, handleSubmit, watch} = useForm()
   const [status, setStatus] = useState(undefined);
@@ -27,9 +20,6 @@ const ForgotPassword = () => {
         router.push("/pages/forget-password2");
       }, 1000);
     }).catch((err)=>{
-      setTimeout(() => {
-        router.push("/pages/forget-password2");
-      }, 1000);
       if(err.response.data.errors){
         setErrors(err.response.data.errors)
       }else{
@@ -45,7 +35,7 @@ const ForgotPassword = () => {
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
       <div className="p-2">
-      { NotificationManager.success('Forget successfull', 'Success')}
+      { NotificationManager.success('An OTP has been sent to your email.', 'Success')}
       </div>
     </div>
     )}

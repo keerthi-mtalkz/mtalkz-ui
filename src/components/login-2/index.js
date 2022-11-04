@@ -40,11 +40,6 @@ const Login1 = () => {
 
   return (
     <>
-    {status?.type === "success" && (
-      <div className="bg-green-700 text-white rounded w-full flex flex-wrap items-center justify-start p-3 text-sm mb-4">
-        Login Successfully
-      </div>
-    )}
     {status?.type === "error" && (
       <div className="bg-red-500 text-white rounded w-full flex flex-wrap items-center justify-start p-3 text-sm mb-4">
         Invalid login. Please try again

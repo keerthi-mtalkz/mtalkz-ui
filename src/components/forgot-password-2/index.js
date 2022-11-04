@@ -5,13 +5,6 @@ import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
 import { useRouter } from "next/router";
 
-let socialMediaColors = {
-  facebook: '#365397',
-  linkedin: '#006db3',
-  google: '#e0452c',
-  github: '#2f2f2f',
-}
-
 const ForgotPassword2 = (data) => {
   const router = useRouter();
   const {register, handleSubmit, watch} = useForm()
@@ -42,7 +35,7 @@ const ForgotPassword2 = (data) => {
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
       <div className="p-2">
-      { NotificationManager.success('Forget successfull', 'Success')}
+      { NotificationManager.success("Password has been reset successfully", 'Success')}
       </div>
     </div>
     )}
@@ -83,7 +76,7 @@ const ForgotPassword2 = (data) => {
             type="number"
             ref={register({required: true})}
             className="form-input mt-1 text-xs block w-full bg-white"
-            placeholder="Enter your token"
+            placeholder="Enter your OTP"
             required
           />
         </label>
