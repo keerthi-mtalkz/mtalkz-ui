@@ -99,7 +99,7 @@ return (
       <div className="mb-4">
         <label>
         <span className="text-default">Role</span>
-          <select defaultValue={3 } className="form-select block w-full mt-1 text-sm" name="roleID" required ref={register} >
+          <select className="form-select block w-full mt-1 text-sm" name="roleID" required ref={register} >
           {res.data?.map((value) => {
             return (
               <option value={value.id}>{value.name}</option>
