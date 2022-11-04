@@ -357,8 +357,8 @@ return (
             onChange={() => handleApproval(!approval)}
             checked={approval}
             handleDiameter={24}
-            uncheckedIcon={false}
-            checkedIcon={false}
+            uncheckedIcon={true}
+            checkedIcon={true}
             boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
             height={20}
             width={48}
@@ -371,8 +371,8 @@ return (
             onChange={() => handleAccess(!access)}
             checked={access}
             handleDiameter={24}
-            uncheckedIcon={false}
-            checkedIcon={false}
+            uncheckedIcon={true}
+            checkedIcon={true}
             boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
             height={20}
             width={48}

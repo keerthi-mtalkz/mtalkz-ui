@@ -213,8 +213,8 @@ return (
         onChange={() => handleChange(!checked)}
         checked={checked}
         handleDiameter={24}
-        uncheckedIcon={false}
-        checkedIcon={false}
+        uncheckedIcon={true}
+        checkedIcon={true}
         boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
         height={20}
         width={48}

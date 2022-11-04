@@ -133,12 +133,10 @@ const updateID = () => {
                 <input
                   name="email"
                   type="email"
-                  ref={register({ required: true })}
+                  ref={register()}
                   className="form-input mt-1 text-xs block w-full bg-white"
                   placeholder="Enter your email"
                   defaultValue={res.email}
-                  required
-                  
                 />
               </label>
               {errors && errors.email && (
@@ -156,13 +154,10 @@ const updateID = () => {
                 <input
                   name="phone"
                   type="tel"
-                  ref={register({ required: true })}
+                  ref={register()}
                   className="form-input mt-1 text-xs block w-full bg-white"
                   placeholder="Enter your phone no"
                   defaultValue={res.phone}
-                  required
-                  pattern="^\d{10}$"
-                  title="10 digit number"
                 />
               </label>
               {errors && errors.phone && (
@@ -182,11 +177,10 @@ const updateID = () => {
                 <input
                   name="address"
                   type="text"
-                  ref={register({ required: true })}
+                  ref={register()}
                   className="form-input mt-1 text-xs block w-full bg-white"
                   placeholder="Enter your Address"
                   defaultValue={res.address}
-                  required
                 />
               </label>
               {errors && errors.address && (
@@ -209,6 +203,10 @@ const updateID = () => {
          placeholder="Enter Organization Prefix"
          defaultValue={res.table_prefix}
          required
+         maxLength={15}
+        pattern="^[a-zA-Z0-9]*$"
+        title="Allowed only alphanumeric and upto 15 max length"
+
        />
      </label>
      {errors && errors.table_prefix && (
@@ -225,8 +223,8 @@ const updateID = () => {
      onChange={() => handleChange(!checked)}
      checked={checked}
      handleDiameter={24}
-     uncheckedIcon={false}
-     checkedIcon={false}
+     uncheckedIcon={true}
+     checkedIcon={true}
      boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
      height={20}
      width={48}

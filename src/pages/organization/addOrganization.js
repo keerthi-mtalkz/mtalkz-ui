@@ -97,11 +97,9 @@ const addOrganization = () => {
         <input
           name="email"
           type="email"
-          ref={register({ required: true })}
+          ref={register()}
           className="form-input mt-1 text-xs block w-full bg-white"
           placeholder="Enter organization email"
-          required
-          
         />
       </label>
       {errors && errors.email && (
@@ -119,12 +117,9 @@ const addOrganization = () => {
         <input
           name="phone"
           type="tel"
-          ref={register({ required: true })}
+          ref={register()}
           className="form-input mt-1 text-xs block w-full bg-white"
           placeholder="Enter organization phone number"
-          required
-          pattern="^\d{10}$"
-          title="10 digit number"
         />
       </label>
       {errors && errors.phone && (
@@ -144,10 +139,9 @@ const addOrganization = () => {
         <input
           name="address"
           type="text"
-          ref={register({ required: true })}
+          ref={register()}
           className="form-input mt-1 text-xs block w-full bg-white"
           placeholder="Enter Organization Address"
-          required
         />
       </label>
       {errors && errors.address && (
@@ -169,6 +163,9 @@ const addOrganization = () => {
          className="form-input mt-1 text-xs block w-full bg-white"
          placeholder="Enter Organization Prefix"
          required
+        maxLength={15}
+        pattern="^[a-zA-Z0-9]*$"
+        title="Allowed only alphanumeric and upto 15 max length"
        />
      </label>
      {errors && errors.table_prefix && (
@@ -184,8 +181,8 @@ const addOrganization = () => {
       onChange={() => handleChange(!checked)}
       checked={checked}
       handleDiameter={24}
-      uncheckedIcon={false}
-      checkedIcon={false}
+      uncheckedIcon={true}
+      checkedIcon={true}
       boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
       height={20}
       width={48}
