@@ -6,12 +6,14 @@ import { useState } from 'react';
 import Datatable from "../../components/datatable";
 import {ax} from "../../utils/apiCalls";
 import React from "react";
+import {NotificationManager} from 'react-notifications'
 
 
 
 
 const Organization=()=>{
  const [organizations,setOrganizations]=useState([])
+ const [status, setStatus] = React.useState(undefined);
 
   const getOrganizations = async () => {
     const token = localStorage.getItem('token');
@@ -31,6 +33,30 @@ const Organization=()=>{
   React.useEffect(() => {
     getOrganizations();
   }, []);
+
+  const deleteOrganization = (id) => {
+    if (typeof window !== "undefined") {
+    const token = localStorage.getItem('token');
+    const answer = window.confirm("are you sure?");
+    if (answer) {
+      ax.delete(`/organizations/${id}`, {headers: {
+        'Authorization': `Bearer ${token}`
+       }})
+        .then((res) => {
+          setStatus({ type: "success" });
+          setTimeout(() => {
+            getOrganizations();
+          }, 1000);
+        })
+        .catch((err) => {
+          console.error("get /Integrations error", err.message);
+          setStatus({ type: "error",message: err.response.data.message });
+        });
+    } else {
+      console.log("Thing was not saved to the database.");
+    }
+  }
+  };
 
 
   const columns =  [
@@ -71,7 +97,7 @@ const Organization=()=>{
           cursor: "pointer",
           lineHeight: "normal",
         }}
-        onClick={() => handleDelete(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+        onClick={() => deleteOrganization(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
 </p>
 <Link href={`/organization/update/${data.row.original.id}`}>
                       <p>
@@ -88,7 +114,21 @@ const Organization=()=>{
   return (
     <Layout>
     <SectionTitle title="Organization Management" subtitle="" />
-
+    {status?.type === "success" && (
+      <div className="flex flex-wrap w-full">
+      <div className="p-2">
+      { NotificationManager.success('Deleted Organization successfully', 'Success')}
+      </div>
+    </div>
+    )}
+      {status?.type === "error" && (
+        <div className="flex flex-wrap w-full">
+        <div className="p-2">
+        { NotificationManager.error(status.message, 'Error')}
+         
+        </div>
+      </div>
+      )}
     <div className="flex flex-row pb-4">
     <div className=" w-5/6">
       <input
