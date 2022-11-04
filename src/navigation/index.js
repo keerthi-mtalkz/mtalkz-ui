@@ -50,13 +50,17 @@ const navigation = [
         items: []
       },
       {
+        url: '/apiKey',
+        icon: <Icon.Anchor size={20} />,
+        title: 'ApiKey Management',
+        items: []
+      },
+      {
         url: '/integration',
         icon: <Icon.Paperclip size={20} />,
         title: 'Integrations',
         items: []
       },
-
-
     ]
   },
 

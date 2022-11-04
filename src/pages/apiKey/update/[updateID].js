@@ -7,6 +7,7 @@ import { withRedux } from "../../../lib/redux";
 import { useRouter } from "next/router";
 import {ax} from "../../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
+import Switch from 'react-switch';
 
 
 
@@ -15,25 +16,23 @@ const updateID = () => {
     const updateid = router.query.updateID;
     const [res, setRes] = useState({});
     const [status, setStatus] = useState(undefined);
+    const { register, handleSubmit, watch } = useForm();
+    const [checked, handleChange] = useState(false);
     const [errors,setErrors]=useState(undefined)
   
     const fetch = async () => {
       if (typeof window !== "undefined") {
       const token = localStorage.getItem('token');
       await ax
-        .get(`/resources/${updateid}`, {headers: {
-        
+        .get(`/api-keys/${updateid}`, {headers: {
           'Authorization': `Bearer ${token}`
          }})
         .then((res) => {
-          setRes(res.data.resource);
-
+          setRes(res.data.api_key);
+          handleChange(res.data.api_key.is_active===1?true:false)
         })
         .catch((err) => {
-          setStatus({ type: "error",message: err.response.data.message });
-
-
-          console.error("get /resource error", err);
+            setStatus({ type: "error",message: err.response.data.message });
         });
       }
     };
@@ -41,21 +40,19 @@ const updateID = () => {
     useEffect(() => {
       fetch();
     }, []);
-
   
-    const { register, handleSubmit, watch } = useForm();
-    const onSubmit = (data) => {
+    
+    const onSubmit = () => {
+        const data={"is_active":checked}
       if (typeof window !== "undefined") {
       const token = localStorage.getItem('token');
-      ax.put(`/resources/${updateid}`, data, {headers: {
+      ax.put(`/api-keys/${updateid}`, data, {headers: {
         'Authorization': `Bearer ${token}`
       }})
         .then((res) => {
           setRes(res.data);
         setStatus({ type: "success" });
-        setTimeout(() => {
-          router.push("/resource");
-        }, 1000);
+          router.push("/apiKey");
         })
         .catch((err) => {
           if(err.response.data.errors){
@@ -63,7 +60,6 @@ const updateID = () => {
           }else{
             setStatus({ type: "error",message: err.response.data.message });
           }
-
         });
       }
     };
@@ -72,11 +68,11 @@ const updateID = () => {
  
 return (
     <Layout>
-     <SectionTitle title="UPDATE RESOURCE" subtitle="" />
+     <SectionTitle title="UPDATE ApiKey" subtitle="" />
      {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.success('Updated resource successfully', 'Success')}
+        { NotificationManager.success('Updated Apikey successfully', 'Success')}
         </div>
       </div>
       )}
@@ -99,75 +95,25 @@ return (
       {/*input*/}
       <div className="w-full mb-4">
         <label className="block">
-          <span className="text-default">Slug</span>
-          <input
-            name="slug"
-            type="text"
-            ref={register({ required: true })}
-            className="form-input mt-1 text-xs block w-full bg-white"
-            placeholder="Enter Resource Slug"
-            defaultValue={res.slug}
-            required
-            maxLength={255}
-          />
+          <span className="text-default">Active</span>
+          <Switch
+        onChange={() => handleChange(!checked)}
+        checked={checked}
+        handleDiameter={24}
+        uncheckedIcon={true}
+        checkedIcon={true}
+        height={20}
+        width={48}
+        className="react-switch"
+      />
         </label>
-        {errors && errors.slug && (
-          errors.slug.map((err)=>{
+        {errors && errors.is_active && (
+          errors.is_active.map((err)=>{
            return <p className="mt-1 text-xs text-red-500">{err}</p>
           })
          
         )}
       </div>
-
-      {/*input*/}
-      <div className="w-full mb-4">
-        <label className="block">
-          <span className="text-default">Name</span>
-          <input
-            name="name"
-            type="text"
-            ref={register({ required: true })}
-            className="form-input mt-1 text-xs block w-full bg-white"
-            placeholder="Enter Resource name"
-            defaultValue={res.name}
-            required
-            maxLength={255}
-          />
-        </label>
-        {errors && errors.name && (
-          errors.name.map((err)=>{
-           return <p className="mt-1 text-xs text-red-500">{err}</p>
-          })
-         
-        )}
-      </div>
-
-         {/*input*/}
-         <div className="w-full mb-4">
-         <label className="block">
-           <span className="text-default">Description</span>
-           <input
-             name="description"
-             type="text"
-             ref={register({ required: true })}
-             className="form-input mt-1 text-xs block w-full bg-white"
-             placeholder="Enter Resource description"
-             defaultValue={res.description}
-             required
-             maxLength={255}
-           />
-         </label>
-         {errors && errors.description && (
-          errors.description.map((err)=>{
-           return <p className="mt-1 text-xs text-red-500">{err}</p>
-          })
-         
-        )}
-       </div>
-
-
-      {/*input*/}
-
       <div className="w-full">
         <input
           type="submit"
