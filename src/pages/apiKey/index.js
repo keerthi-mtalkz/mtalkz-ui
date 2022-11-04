@@ -75,15 +75,7 @@ const ApiKey=()=>{
         Header: 'Resource Id',
         accessor: 'resource_id'
       },
-      {
-        Header: 'Credits',
-        accessor: 'credits',
-       
-      },
-      {
-        Header: 'Floating Credits',
-        accessor: 'floating_credits',
-      },
+     
       {
         Header: 'Status',
         accessor: 'is_active',
@@ -91,6 +83,11 @@ const ApiKey=()=>{
       {
         Header: 'Total Credits',
         accessor: 'total_credits',
+      },
+      {
+        Header: 'Active Credits',
+        accessor: 'credits',
+       
       },
       {
         Header: 'Actions',

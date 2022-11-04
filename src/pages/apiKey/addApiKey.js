@@ -16,7 +16,8 @@ const addApiKey = () => {
   const [checked, handleChange] = useState(false);
   const [resources,setResources]=useState([]);
 const [selectedResource,setSelectedResource]=useState([]);
-  const { register, handleSubmit, watch, errors } = useForm();
+  const { register, handleSubmit, watch } = useForm();
+  const [errors,setErrors]=useState(undefined)
 
 
   const getResources = async () => {
@@ -27,11 +28,10 @@ const [selectedResource,setSelectedResource]=useState([]);
        }})
       .then((res) => {
         setResources(res.data);
-        setSelectedResource({ label: res.data[0].name, value: res.data[0].id })
+        // setSelectedResource({ label: res.data[0].name, value: res.data[0].id })
       })
       .catch((err) => {
         setStatus({ type: "error",message: err.response.data.message });
-        console.error("get /Resources error", err);
       });
   };
 
@@ -44,23 +44,34 @@ const [selectedResource,setSelectedResource]=useState([]);
     getResources()
   },[]);
 
+  const validateFields=()=>{
+   if(selectedResource.length==0)
+   {
+    setErrors({resource_id:["Resource is Required"]});
+    return false
+   }else return true
+  }
+
   const onSubmit = () => {
+    const isValid=validateFields()
     const data={"resource_id":selectedResource.value,"is_active":checked}
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && isValid) {
     const token = localStorage.getItem('token');
     ax.post("/api-keys", data, {headers: {
       'Authorization': `Bearer ${token}`
      }})
       .then((res) => {
         setStatus({ type: "success" });
+        setTimeout(() => {
         router.push("/apiKey");
+        }, 1000);
       })
       .catch((err) => {
-        setStatus({ type: "error",message: err.response.data.message });
-        setTimeout(() => {
-          setStatus(undefined)
-          router.push("/apiKey");
-        }, 1000);
+        if(err.response.data.errors){
+          setErrors(err.response.data.errors)
+        }else{
+          setStatus({ type: "error",message: err.response.data.message });
+        }
       });
     }
   };
@@ -99,24 +110,35 @@ const [selectedResource,setSelectedResource]=useState([]);
             options={options}
             placeholder="Select Resource"
             onChange={handleSwitch}
-            value={selectedResource}
           />
         </div>
         </label>
+        {errors && errors.resource_id && (
+          errors.resource_id.map((err)=>{
+           return <p className="mt-1 text-xs text-red-500">{err}</p>
+          })
+         
+        )}
       </div>
       <div>
-      <span className="text-default">Status Of Api Key</span>
+      <span className="text-default">Active</span>
 
       <Switch
         onChange={() => handleChange(!checked)}
         checked={checked}
         handleDiameter={24}
-        uncheckedIcon={false}
-        checkedIcon={false}
+        uncheckedIcon={true}
+        checkedIcon={true}
         height={20}
         width={48}
         className="react-switch"
       />
+      {errors && errors.is_active && (
+        errors.is_active.map((err)=>{
+         return <p className="mt-1 text-xs text-red-500">{err}</p>
+        })
+       
+      )}
     </div>
         
       <div className="w-full">

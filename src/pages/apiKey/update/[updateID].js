@@ -16,8 +16,9 @@ const updateID = () => {
     const updateid = router.query.updateID;
     const [res, setRes] = useState({});
     const [status, setStatus] = useState(undefined);
-    const { register, handleSubmit, watch, errors } = useForm();
+    const { register, handleSubmit, watch } = useForm();
     const [checked, handleChange] = useState(false);
+    const [errors,setErrors]=useState(undefined)
   
     const fetch = async () => {
       if (typeof window !== "undefined") {
@@ -54,11 +55,11 @@ const updateID = () => {
           router.push("/apiKey");
         })
         .catch((err) => {
-          setStatus({ type: "error",message: err.response.data.message });
-          setTimeout(() => {
-            setStatus(undefined)
-            router.push("/apiKey");
-          }, 1000);
+          if(err.response.data.errors){
+            setErrors(err.response.data.errors)
+          }else{
+            setStatus({ type: "error",message: err.response.data.message });
+          }
         });
       }
     };
@@ -94,18 +95,24 @@ return (
       {/*input*/}
       <div className="w-full mb-4">
         <label className="block">
-          <span className="text-default">Status Of ApiKey</span>
+          <span className="text-default">Active</span>
           <Switch
         onChange={() => handleChange(!checked)}
         checked={checked}
         handleDiameter={24}
-        uncheckedIcon={false}
-        checkedIcon={false}
+        uncheckedIcon={true}
+        checkedIcon={true}
         height={20}
         width={48}
         className="react-switch"
       />
         </label>
+        {errors && errors.is_active && (
+          errors.is_active.map((err)=>{
+           return <p className="mt-1 text-xs text-red-500">{err}</p>
+          })
+         
+        )}
       </div>
       <div className="w-full">
         <input
