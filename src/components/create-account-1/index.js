@@ -1,6 +1,9 @@
 import React, {useState} from 'react'
 import Link from 'next/link'
 import {useForm} from 'react-hook-form'
+import {ax} from "../../utils/apiCalls";
+import { useRouter } from "next/router";
+import {NotificationManager} from 'react-notifications'
 
 let socialMediaColors = {
   facebook: '#365397',
@@ -10,14 +13,48 @@ let socialMediaColors = {
 }
 
 const CreateAccount = () => {
-  const {register, handleSubmit, watch, errors} = useForm()
-  const onSubmit = data => {
-    console.log(data)
+  const {register, handleSubmit, watch} = useForm()
+  const [status, setStatus] = useState(undefined);
+  const [errors,setErrors] = useState(undefined)
+  const router = useRouter();
+
+  const onSubmit =async (data) => {
+    await ax
+    .post(`/auth/register`,data )
+    .then((res) => {
+      setStatus({ type: "success" });
+      setTimeout(() => {
+        router.push("/pages/login");
+      }, 100000);
+    }).catch((err)=>{
+      if(err.response.data.errors){
+        setErrors(err.response.data.errors)
+      }else{
+        setErrors(undefined)
+        setStatus({ type: "error",message: err.response.data.message });
+      }
+
+    })
+    console.log(data,"wehfgehfgewfgeyjhfgejhrgfyg")
   }
   const [checked, setChecked] = useState(true)
 
   return (
     <>
+    {status?.type === "success" && (
+      <div className="flex flex-wrap w-full">
+      <div className="p-2">
+      { NotificationManager.success('Sign up successfull', 'Success')}
+      </div>
+    </div>
+    )}
+    {status?.type === "error" && (
+      <div className="flex flex-wrap w-full">
+      <div className="p-2">
+      { NotificationManager.error(status.message, 'Error')}
+      </div>
+    </div>
+    )}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col text-sm mb-4">
@@ -31,13 +68,16 @@ const CreateAccount = () => {
               ref={register({required: true})}
               className="form-input mt-1 text-xs block w-full bg-white"
               placeholder="Enter your name"
+              required
             />
           </label>
-          {errors.name && (
-            <p className="mt-1 text-xs text-red-500">Name is required</p>
+          {errors && errors.name && (
+            errors.name.map((err)=>{
+             return <p className="mt-1 text-xs text-red-500">{err}</p>
+            })
+           
           )}
-        </div>
-
+</div>
         {/*input*/}
         <div className="w-full mb-4">
           <label className="block">
@@ -48,10 +88,15 @@ const CreateAccount = () => {
               ref={register({required: true})}
               className="form-input mt-1 text-xs block w-full bg-white"
               placeholder="Enter your email"
+              required
+
             />
           </label>
-          {errors.email && (
-            <p className="mt-1 text-xs text-red-500">Email is required</p>
+          {errors && errors.email && (
+            errors.email.map((err)=>{
+             return <p className="mt-1 text-xs text-red-500">{err}</p>
+            })
+           
           )}
         </div>
 
@@ -65,10 +110,14 @@ const CreateAccount = () => {
               ref={register({required: true})}
               className="form-input mt-1 text-xs block w-full bg-white"
               placeholder="Enter your password"
+              required
             />
           </label>
-          {errors.password && (
-            <p className="mt-1 text-xs text-red-500">Password is required</p>
+          {errors && errors.password && (
+            errors.password.map((err)=>{
+             return <p className="mt-1 text-xs text-red-500">{err}</p>
+            })
+           
           )}
         </div>
 

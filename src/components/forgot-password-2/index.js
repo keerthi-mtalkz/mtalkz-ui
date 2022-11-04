@@ -3,7 +3,6 @@ import Link from 'next/link'
 import {useForm} from 'react-hook-form'
 import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
-import { useRouter } from "next/router";
 
 let socialMediaColors = {
   facebook: '#365397',
@@ -12,24 +11,20 @@ let socialMediaColors = {
   github: '#2f2f2f',
 }
 
-const ForgotPassword = () => {
+const ForgotPassword2 = (data) => {
+    console.log(data,"wljdgehfdewdhewdyf")
   const {register, handleSubmit, watch} = useForm()
   const [status, setStatus] = useState(undefined);
-  const router = useRouter();
   const [errors,setErrors] = useState(undefined)
   const onSubmit = async(data) => {
-    localStorage.setItem("userEmail",data.email)
     await ax
     .post(`/auth/reset-password`,data )
     .then((res) => {
       setStatus({ type: "success" });
       setTimeout(() => {
-        router.push("/pages/forget-password2");
+        router.push("/pages/login");
       }, 1000);
     }).catch((err)=>{
-      setTimeout(() => {
-        router.push("/pages/forget-password2");
-      }, 1000);
       if(err.response.data.errors){
         setErrors(err.response.data.errors)
       }else{
@@ -67,6 +62,8 @@ const ForgotPassword = () => {
               className="form-input mt-1 text-xs block w-full bg-white"
               placeholder="Enter your email"
               required
+              value={data.email}
+              readOnly
             />
           </label>
           {errors && errors.name && (
@@ -76,6 +73,44 @@ const ForgotPassword = () => {
            
           )}
         </div>
+        <div className="w-full mb-4">
+        <label className="block">
+          <span className="text-default">Token</span>
+          <input
+            name="token"
+            type="text"
+            ref={register({required: true})}
+            className="form-input mt-1 text-xs block w-full bg-white"
+            placeholder="Enter your token"
+            required
+          />
+        </label>
+        {errors && errors.token && (
+          errors.token.map((err)=>{
+           return <p className="mt-1 text-xs text-red-500">{err}</p>
+          })
+         
+        )}
+      </div>
+      <div className="w-full mb-4">
+      <label className="block">
+        <span className="text-default">Password</span>
+        <input
+          name="password"
+          type="text"
+          ref={register({required: true})}
+          className="form-input mt-1 text-xs block w-full bg-white"
+          placeholder="Enter your password"
+          required
+        />
+      </label>
+      {errors && errors.password && (
+        errors.password.map((err)=>{
+         return <p className="mt-1 text-xs text-red-500">{err}</p>
+        })
+       
+      )}
+    </div>
 
         <div className="w-full">
           <input
@@ -99,4 +134,4 @@ const ForgotPassword = () => {
   )
 }
 
-export default ForgotPassword
+export default ForgotPassword2
