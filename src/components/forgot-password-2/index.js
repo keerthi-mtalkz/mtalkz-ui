@@ -17,6 +17,7 @@ const ForgotPassword2 = (data) => {
   const [status, setStatus] = useState(undefined);
   const [errors,setErrors] = useState(undefined)
   const onSubmit = async(data) => {
+    data.token=parseInt(data.token)
     await ax
     .post(`/auth/reset-password`,data )
     .then((res) => {
@@ -78,7 +79,7 @@ const ForgotPassword2 = (data) => {
           <span className="text-default">Token</span>
           <input
             name="token"
-            type="text"
+            type="number"
             ref={register({required: true})}
             className="form-input mt-1 text-xs block w-full bg-white"
             placeholder="Enter your token"

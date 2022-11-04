@@ -25,7 +25,7 @@ const CreateAccount = () => {
       setStatus({ type: "success" });
       setTimeout(() => {
         router.push("/pages/login");
-      }, 100000);
+      }, 1000);
     }).catch((err)=>{
       if(err.response.data.errors){
         setErrors(err.response.data.errors)
@@ -35,7 +35,6 @@ const CreateAccount = () => {
       }
 
     })
-    console.log(data,"wehfgehfgewfgeyjhfgejhrgfyg")
   }
   const [checked, setChecked] = useState(true)
 
