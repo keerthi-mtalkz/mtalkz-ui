@@ -10,9 +10,10 @@ import {NotificationManager} from 'react-notifications'
 const addChannel = () => {
   const router = useRouter();
   const [status, setStatus] = useState(undefined);
+  const [errors,setErrors]=useState(undefined)
 
 
-  const { register, handleSubmit, watch, errors } = useForm();
+  const { register, handleSubmit, watch } = useForm();
 
   const onSubmit = (data) => {
     if (typeof window !== "undefined") {
@@ -22,14 +23,16 @@ const addChannel = () => {
      }})
       .then((res) => {
         setStatus({ type: "success" });
+        setTimeout(() => {
         router.push("/channel");
+        }, 1000);
       })
       .catch((err) => {
-        setStatus({ type: "error",message: err.response.data.message });
-        setTimeout(() => {
-          setStatus(undefined)
-          router.push("/channel");
-        }, 1000);
+        if(err.response.data.errors){
+          setErrors(err.response.data.errors)
+        }else{
+          setStatus({ type: "error",message: err.response.data.message });
+        }
       });
 
     }
@@ -71,6 +74,12 @@ const addChannel = () => {
             pattern="[a-z0-9\-]+"
           />
         </label>
+        {errors && errors.slug && (
+          errors.slug.map((err)=>{
+           return <p className="mt-1 text-xs text-red-500">{err}</p>
+          })
+         
+        )}
       </div>
 
          {/*input*/}
@@ -87,6 +96,12 @@ const addChannel = () => {
              maxLength={255}
            />
          </label>
+         {errors && errors.name && (
+          errors.name.map((err)=>{
+           return <p className="mt-1 text-xs text-red-500">{err}</p>
+          })
+         
+        )}
          </div>
 
       <div className="w-full">

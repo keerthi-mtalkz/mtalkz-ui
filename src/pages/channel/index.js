@@ -6,6 +6,9 @@ import Datatable from "../../components/datatable";
 import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
 import { useForm } from "react-hook-form";
+import React from "react";
+import SectionTitle from "../../components/section-title";
+
 
 const Channel=()=>{
  const [channels,setChannels]=useState([])
@@ -24,8 +27,7 @@ const Channel=()=>{
         setChannels(res.data);
       })
       .catch((err) => {
-        setStatus({ type: "error", err });
-        console.error("get /channels error", err);
+        setStatus({ type: "error",message: err.response.data.message });
       });
   };
 
@@ -49,8 +51,7 @@ const Channel=()=>{
         }, 1000);
       })
       .catch((err) => {
-        console.error("get /channels error", err.message);
-        setStatus({ type: "error", err });
+          setStatus({ type: "error",message: err.response.data.message });
       });
   } else {
     console.log("Thing was not saved to the database.");
@@ -112,11 +113,13 @@ const Channel=()=>{
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.error(errors, 'Error')}
+        { NotificationManager.error(status.message, 'Error')}
          
         </div>
       </div>
       )}
+     <SectionTitle title="Channel Management" subtitle="" />
+
       <div className="flex flex-row pb-4">
       <div className=" w-5/6">
         <input

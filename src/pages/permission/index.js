@@ -5,6 +5,8 @@ import { useState } from 'react';
 import Datatable from "../../components/datatable";
 import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
+import React from "react";
+import SectionTitle from '../../components/section-title'
 
 const Permission=()=>{
  const [permissions,setPermissions]=useState([])
@@ -22,7 +24,7 @@ const Permission=()=>{
         setPermissions(res.data);
       })
       .catch((err) => {
-        setStatus({ type: "error", err });
+        setStatus({ type: "error",message: err.response.data.message });
         console.error("get /permissions error", err);
       });
   };
@@ -47,8 +49,7 @@ const Permission=()=>{
         }, 1000);
       })
       .catch((err) => {
-        console.error("get /permissions error", err.message);
-        setStatus({ type: "error", err });
+        setStatus({ type: "error",message: err.response.data.message });
       });
   } else {
     console.log("Thing was not saved to the database.");
@@ -104,6 +105,8 @@ const Permission=()=>{
     ]
   return (
     <Layout>
+    <SectionTitle title="Permission Management" subtitle="" />
+
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
       <div className="p-2">
@@ -114,7 +117,7 @@ const Permission=()=>{
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.error(errors, 'Error')}
+        { NotificationManager.error(status.message, 'Error')}
          
         </div>
       </div>

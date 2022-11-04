@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from 'react';
 import Datatable from "../../components/datatable";
 import {ax} from "../../utils/apiCalls";
+import React from "react";
 
 
 
@@ -86,6 +87,8 @@ const Organization=()=>{
   //const data = React.useMemo(() => countries, [])
   return (
     <Layout>
+    <SectionTitle title="Organization Management" subtitle="" />
+
     <div className="flex flex-row pb-4">
     <div className=" w-5/6">
       <input

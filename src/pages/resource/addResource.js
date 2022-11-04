@@ -11,8 +11,9 @@ const addResource = () => {
   const router = useRouter();
   const [res, setRes] = useState({});
   const [status, setStatus] = useState(undefined);
+  const [errors,setErrors]=useState(undefined)
 
-  const { register, handleSubmit, watch, errors } = useForm();
+  const { register, handleSubmit, watch } = useForm();
 
   const onSubmit = (data) => {
     if (typeof window !== "undefined") {
@@ -23,11 +24,17 @@ const addResource = () => {
       .then((res) => {
         setRes(res.data);
         setStatus({ type: "success" });
+        setTimeout(() => {
         router.push("/resource");
+          
+        }, 1000);
       })
       .catch((err) => {
-        setStatus({ type: "error", err });
-        console.error("get /resources error", err);
+        if(err.response.data.errors){
+          setErrors(err.response.data.errors)
+        }else{
+          setStatus({ type: "error",message: err.response.data.message });
+        }
       });
 
     }
@@ -47,7 +54,7 @@ const addResource = () => {
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        {   NotificationManager.error(errors,"Error")}
+        {   NotificationManager.error(status.message,"Error")}
         </div>
       </div>
       )}
@@ -70,8 +77,11 @@ const addResource = () => {
             maxLength={255}
           />
         </label>
-        {errors.slug && (
-          <p className="mt-1 text-xs text-red-500">{errors.slug}</p>
+        {errors && errors.slug && (
+          errors.slug.map((err)=>{
+           return <p className="mt-1 text-xs text-red-500">{err}</p>
+          })
+         
         )}
       </div>
 
@@ -89,9 +99,12 @@ const addResource = () => {
              maxLength={255}
            />
          </label>
-         {errors.name && (
-           <p className="mt-1 text-xs text-red-500">{errors.name}</p>
-         )}
+         {errors && errors.name && (
+          errors.name.map((err)=>{
+           return <p className="mt-1 text-xs text-red-500">{err}</p>
+          })
+         
+        )}
          </div>
 
           {/*input*/}
@@ -108,8 +121,11 @@ const addResource = () => {
               maxLength={255}
             />
           </label>
-          {errors.description && (
-            <p className="mt-1 text-xs text-red-500">{errors.description}</p>
+          {errors && errors.description && (
+            errors.description.map((err)=>{
+             return <p className="mt-1 text-xs text-red-500">{err}</p>
+            })
+           
           )}
           </div>
 

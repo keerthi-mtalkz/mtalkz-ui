@@ -14,9 +14,9 @@ const addUser = () => {
   const [res, setRes] = useState({});
   const [status, setStatus] = useState(undefined);
   const [checked, handleChange] = useState(false)
+  const [errors,setErrors]=useState(undefined)
 
-
-  const { register, handleSubmit, watch, errors } = useForm();
+  const { register, handleSubmit, watch } = useForm();
 
   const onSubmit = (data) => {
     if (typeof window !== "undefined") {
@@ -28,14 +28,17 @@ const addUser = () => {
       .then((res) => {
         setRes(res.data);
         setStatus({ type: "success" });
+        setTimeout(() => {
         router.push("/user");
+        }, 1000);
       })
       .catch((err) => {
-        setStatus({ type: "error",message: err.response.data.message });
-        setTimeout(() => {
-          setStatus(undefined)
-          router.push("/user");
-        }, 1000);
+        console.log(err.response.data.errors,"err.response.data.errors")
+        if(err.response.data.errors){
+          setErrors(err.response.data.errors)
+        }else{
+          setStatus({ type: "error",message: err.response.data.message });
+        }
       });
 
     }
@@ -64,8 +67,6 @@ const addUser = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col text-sm mb-4 lg:w-1/3"
     >
-
-
      {/*input*/}
      <div className="w-full mb-4">
      <label className="block">
@@ -81,6 +82,12 @@ const addUser = () => {
          maxLength={40}
        />
      </label>
+     {errors && errors.name && (
+      errors.name.map((err)=>{
+       return <p className="mt-1 text-xs text-red-500">{err}</p>
+      })
+     
+    )}
    </div>
 
    {/*input*/}
@@ -96,6 +103,12 @@ const addUser = () => {
          required
        />
      </label>
+     {errors && errors.email && (
+      errors.email.map((err)=>{
+       return <p className="mt-1 text-xs text-red-500">{err}</p>
+      })
+     
+    )}
    </div>
 
       {/*input*/}
@@ -109,9 +122,14 @@ const addUser = () => {
           className="form-input mt-1 text-xs block w-full bg-white"
           placeholder="Enter user password"
           required
-          pattern={"(?=.*\d)(?=.*[-+*/)(}{><%])(?=.*[a-z])(?=.*[A-Z]).{8,}"}
         />
       </label>
+      {errors &&  errors.password && (
+        errors.password.map((err)=>{
+          return  <p className="mt-1 text-xs text-red-500">{err}</p>
+        })
+       
+      )}
     </div>
     <div>
     <span className="text-default">System User</span>

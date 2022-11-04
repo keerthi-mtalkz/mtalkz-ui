@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { getUsers } from '../../utils/apiCalls';
 import Link from "next/link";
 import {ax} from "../../utils/apiCalls"
+import React from "react";
 
 
 
@@ -123,6 +124,7 @@ const Role=()=>{
       ]
       return (
         <Layout>
+     <SectionTitle title="Role Management" subtitle="" />
         <div className="flex flex-row pb-4">
         <div className=" w-5/6">
           <input

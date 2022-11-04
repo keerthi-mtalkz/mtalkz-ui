@@ -5,7 +5,7 @@ const navigation = [
 
   
   {
-    title: 'Docs',
+    title: '',
     items: [
       {
         url: '/chatbots',
@@ -16,43 +16,49 @@ const navigation = [
       {
         url: '/user',
         icon: <Icon.User size={20} />,
-        title: 'User Management',
+        title: 'Users',
         items: []
       },
       {
         url: '/organization',
-        icon: <Icon.Anchor size={20} />,
-        title: 'Organization Management',
+        icon: <Icon.Home size={20} />,
+        title: 'Organizations',
         items: []
       },
       {
         url: '/role',
-        icon: <Icon.Anchor size={20} />,
-        title: 'Role Management',
+        icon: <Icon.Flag size={20} />,
+        title: 'Roles',
         items: []
       },
       {
         url: '/permission',
-        icon: <Icon.Anchor size={20} />,
-        title: 'Permission Management',
+        icon: <Icon.Lock size={20} />,
+        title: 'Permissions',
         items: []
       },
       {
         url: '/channel',
-        icon: <Icon.Anchor size={20} />,
-        title: 'Channel Management',
+        icon: <Icon.Speaker size={20} />,
+        title: 'Channels',
         items: []
       },
       {
         url: '/resource',
-        icon: <Icon.Anchor size={20} />,
-        title: 'Resource Management',
+        icon: <Icon.Grid size={20} />,
+        title: 'Resources',
         items: []
       },
       {
         url: '/apiKey',
         icon: <Icon.Anchor size={20} />,
         title: 'ApiKey Management',
+        items: []
+      },
+      {
+        url: '/integration',
+        icon: <Icon.Paperclip size={20} />,
+        title: 'Integrations',
         items: []
       },
     ]
