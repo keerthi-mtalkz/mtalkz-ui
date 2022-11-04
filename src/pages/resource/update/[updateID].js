@@ -58,7 +58,11 @@ const updateID = () => {
         }, 1000);
         })
         .catch((err) => {
-          setStatus({ type: "error",message: err.response.data.message });
+          if(err.response.data.errors){
+            setErrors(err.response.data.errors)
+          }else{
+            setStatus({ type: "error",message: err.response.data.message });
+          }
 
         });
       }
