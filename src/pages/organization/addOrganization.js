@@ -14,8 +14,9 @@ const addOrganization = () => {
   const [res, setRes] = useState({});
   const [status, setStatus] = useState(undefined);
   const [checked, handleChange] = useState(false)
-
-  const { register, handleSubmit, watch, errors } = useForm();
+  const [errors,setErrors]=useState(undefined)
+   
+  const { register, handleSubmit, watch } = useForm();
 
   const onSubmit = (data) => {
     if (typeof window !== "undefined") {
@@ -28,14 +29,16 @@ const addOrganization = () => {
       .then((res) => {
         setRes(res.data);
         setStatus({ type: "success" });
+        setTimeout(() => {
         router.push("/organization");
+        }, 1000);
       })
       .catch((err) => {
-        setStatus({ type: "error",message: err.response.data.message });
-        setTimeout(() => {
-          setStatus(undefined)
-          router.push("/organization");
-        }, 1000);
+        if(err.response.data.errors){
+          setErrors(err.response.data.errors)
+        }else{
+          setStatus({ type: "error",message: err.response.data.message });
+        }
       });
 
     }
@@ -79,6 +82,12 @@ const addOrganization = () => {
           maxLength={40}
         />
       </label>
+      {errors && errors.name && (
+        errors.name.map((err)=>{
+         return <p className="mt-1 text-xs text-red-500">{err}</p>
+        })
+       
+      )}
     </div>
 
     {/*input*/}
@@ -88,13 +97,17 @@ const addOrganization = () => {
         <input
           name="email"
           type="email"
-          ref={register({ required: true })}
+          ref={register()}
           className="form-input mt-1 text-xs block w-full bg-white"
           placeholder="Enter organization email"
-          required
-          
         />
       </label>
+      {errors && errors.email && (
+        errors.email.map((err)=>{
+         return <p className="mt-1 text-xs text-red-500">{err}</p>
+        })
+       
+      )}
     </div>
 
     {/*input*/}
@@ -103,13 +116,18 @@ const addOrganization = () => {
         <span className="text-default">Phone</span>
         <input
           name="phone"
-          type="text"
-          ref={register({ required: true })}
+          type="tel"
+          ref={register()}
           className="form-input mt-1 text-xs block w-full bg-white"
           placeholder="Enter organization phone number"
-          required
         />
       </label>
+      {errors && errors.phone && (
+        errors.phone.map((err)=>{
+         return <p className="mt-1 text-xs text-red-500">{err}</p>
+        })
+       
+      )}
     </div>
 
     {/*input*/}
@@ -121,12 +139,17 @@ const addOrganization = () => {
         <input
           name="address"
           type="text"
-          ref={register({ required: true })}
+          ref={register()}
           className="form-input mt-1 text-xs block w-full bg-white"
           placeholder="Enter Organization Address"
-          required
         />
       </label>
+      {errors && errors.address && (
+        errors.address.map((err)=>{
+         return <p className="mt-1 text-xs text-red-500">{err}</p>
+        })
+       
+      )}
     </div>
 
      {/*input*/}
@@ -140,8 +163,17 @@ const addOrganization = () => {
          className="form-input mt-1 text-xs block w-full bg-white"
          placeholder="Enter Organization Prefix"
          required
+        maxLength={15}
+        pattern="^[a-zA-Z0-9]*$"
+        title="Allowed only alphanumeric and upto 15 max length"
        />
      </label>
+     {errors && errors.table_prefix && (
+      errors.table_prefix.map((err)=>{
+       return <p className="mt-1 text-xs text-red-500">{err}</p>
+      })
+     
+    )}
    </div>
     <div>
     <span className="text-default">Reseller</span>
@@ -149,8 +181,8 @@ const addOrganization = () => {
       onChange={() => handleChange(!checked)}
       checked={checked}
       handleDiameter={24}
-      uncheckedIcon={false}
-      checkedIcon={false}
+      uncheckedIcon={true}
+      checkedIcon={true}
       boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
       height={20}
       width={48}

@@ -8,12 +8,14 @@ import { getUsers } from '../../utils/apiCalls';
 import Link from "next/link";
 import {ax} from "../../utils/apiCalls"
 import React from "react";
+import {NotificationManager} from 'react-notifications'
 
 
 
 const Role=()=>{
     const [roleData,setRoleData]=React.useState([]);
-    const [apiRes,setApiRes]=React.useState("")
+    const [status, setStatus] = React.useState(undefined);
+
      const getRolesApi=async()=>{
     const token= localStorage.getItem("token");
       await ax
@@ -23,11 +25,9 @@ const Role=()=>{
           }
         })
         .then((res) => {
-          setApiRes("success")
           setRoleData(res.data)
         })
         .catch((err) => {
-          setApiRes("failure")
           console.error("get /getRoleDetails error", err);
         });
    }
@@ -41,18 +41,17 @@ const Role=()=>{
           'Authorization': `Bearer ${token}`
          }})
           .then((res) => {
+          setStatus({ type: "success" });
             setTimeout(() => {
               getRolesApi();
-          setApiRes("success")
-
             }, 1000);
           })
           .catch((err) => {
-          setApiRes("failure")
-
+          setStatus({ type: "error",message: err.response.data.message });
             console.error("get /roles error", err.message);
           });
       } else {
+
         console.log("Thing was not saved to the database.");
       }
     }
@@ -125,6 +124,21 @@ const Role=()=>{
       return (
         <Layout>
      <SectionTitle title="Role Management" subtitle="" />
+     {status?.type === "success" && (
+      <div className="flex flex-wrap w-full">
+      <div className="p-2">
+      { NotificationManager.success('Deleted Role successfully', 'Success')}
+      </div>
+    </div>
+    )}
+      {status?.type === "error" && (
+        <div className="flex flex-wrap w-full">
+        <div className="p-2">
+        { NotificationManager.error(status.message, 'Error')}
+         
+        </div>
+      </div>
+      )}
         <div className="flex flex-row pb-4">
         <div className=" w-5/6">
           <input

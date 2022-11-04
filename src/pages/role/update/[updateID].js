@@ -22,6 +22,7 @@ const updateID = () => {
     const updateid = router.query.updateID;
     const [res, setRes] = useState({});
     const [status, setStatus] = useState(undefined);
+const [errors,setErrors] = useState(undefined)
   
 
     const [checked, handleChange] = useState(false)
@@ -88,11 +89,23 @@ const [permissions,setPermissions]=useState([])
     }, []);
 
   
-    const { register, handleSubmit, watch, errors } = useForm();
+    const { register, handleSubmit, watch } = useForm();
+
+    const validateFields=()=>{
+      if(selectedPermission.length ===0)
+      {
+      setErrors({permission_ids:['Permissions are required']})
+      return false
+      }
+      else return true
+    }
+
     const onSubmit = (data) => {
-      if (typeof window !== "undefined") {
+      const isValid=validateFields()
+      if (typeof window !== "undefined"&& isValid) {
         data.is_system_role=checked;
-        data.permission_ids=selectedPermission
+        let _selectedPermissions=selectedPermission.map((permission)=> permission.value )
+        data.permission_ids=_selectedPermissions
       const token1 = localStorage.getItem('token');
       ax.put(`/roles/${updateid}`, data, {headers: {
         'Authorization': `Bearer ${token1}`
@@ -100,17 +113,12 @@ const [permissions,setPermissions]=useState([])
         .then((res) => {
           setRes(res.data);
           setStatus({ type: "success" });
-    
-          router.push("/role");
-        
-  
+      setTimeout(() => {
+        router.push("/role");
+      }, 1000);
         })
         .catch((err) => {
           setStatus({ type: "error",message: err.response.data.message });
-        setTimeout(() => {
-          setStatus(undefined)
-          router.push("/role");
-        }, 1000);
         });
       }
     };
@@ -118,8 +126,8 @@ const [permissions,setPermissions]=useState([])
     let handleSwitch = (value) => {
       setSelectedPermission([]);
       let permissions=[]
-      value.map((selectedPermission)=>{
-        permissions.push(selectedPermission.value.toString())
+      value &&  value.map((selectedPermission)=>{
+        permissions.push({label:selectedPermission.label, value:selectedPermission.value})
       })
           setSelectedPermission([...permissions])
     }
@@ -163,10 +171,16 @@ return (
             ref={register({ required: true })}
             className="form-input mt-1 text-xs block w-full bg-white"
             placeholder="Enter Role Name"
-            value={res.name}
+            defaultValue={res.name}
             required
           />
         </label>
+        {errors && errors.name && (
+          errors.name.map((err)=>{
+           return <p className="mt-1 text-xs text-red-500">{err}</p>
+          })
+         
+        )}
       </div>
 
       {/*input*/}
@@ -179,9 +193,15 @@ return (
             ref={register({ required: true })}
             className="form-input mt-1 text-xs block w-full bg-white"
             placeholder="Enter Role Description"
-            value={res.description}
+            defaultValue={res.description}
           />
         </label>
+        {errors && errors.description && (
+          errors.description.map((err)=>{
+           return <p className="mt-1 text-xs text-red-500">{err}</p>
+          })
+         
+        )}
       </div>
 
 
@@ -193,14 +213,20 @@ return (
         onChange={() => handleChange(!checked)}
         checked={checked}
         handleDiameter={24}
-        uncheckedIcon={false}
-        checkedIcon={false}
+        uncheckedIcon={true}
+        checkedIcon={true}
         boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
         height={20}
         width={48}
         className="react-switch"
       />
         </label>
+        {errors && errors.is_system_role && (
+          errors.is_system_role.map((err)=>{
+           return <p className="mt-1 text-xs text-red-500">{err}</p>
+          })
+         
+        )}
       </div>
  
       <div style={{ width: "300px" }}>
@@ -212,6 +238,12 @@ return (
         value={selectedPermission}
         
       />
+      {errors && errors.permission_ids && (
+        errors.permission_ids.map((err)=>{
+         return <p className="mt-1 text-xs text-red-500">{err}</p>
+        })
+       
+      )}
     </div>
 
 
