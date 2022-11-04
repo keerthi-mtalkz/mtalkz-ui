@@ -9,7 +9,9 @@ import {
 } from '../../../components/notifications'
 import {NotificationManager} from 'react-notifications';
 import {ax} from "../../../utils/apiCalls";
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
 
 
 const viewID = () => {
@@ -17,7 +19,8 @@ const viewID = () => {
     const viewid = router.query.viewID;
     const [res, setRes] = useState({});
     const [status, setStatus] = useState(undefined);
-  
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
     const fetch = async () => {
       if (typeof window !== "undefined") {
       const token = localStorage.getItem('token');
@@ -37,10 +40,25 @@ const viewID = () => {
     };
 
     useEffect(() => {
+      getUserActivities();
       fetch();
     }, []);
 
-  
+  const getUserActivities=async()=>{
+    const sd=moment(startDate).format("YYYY-MM-DD");
+    const ed=moment(endDate).format("YYYY-MM-DD");
+    const token = localStorage.getItem('token');
+    await ax
+    .get(`/users/${viewid}/activities/${sd}/${ed}`, {headers: {
+      'Authorization': `Bearer ${token}`
+     }})
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.error("get /users error", err);
+    });
+  }
    
 
 return (
@@ -61,8 +79,8 @@ return (
       </div>
       )}
     
-    
-      <div className="p-4 w-full max-w-md bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+    <div className="flex ">
+    <div className="p-4 w-full max-w-md bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
     
     <div className="flow-root">
          <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -127,6 +145,32 @@ return (
          </ul>
     </div>
  </div>  
+ <div className="flex ml-10">
+ <div>
+ <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+ Start Date
+ </p>
+ <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+ </div>
+ <div>
+ <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+ End Date
+ </p>
+ <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
+ 
+ </div>
+ <div>
+ <button
+                className="  btn btn-default btn-blue create-btn "
+                type="button"
+                onClick={()=>{getUserActivities()}}
+              >
+                Get Activities
+              </button>
+ </div>
+ </div>
+    </div>
+    
 
 
 

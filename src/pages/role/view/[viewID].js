@@ -5,8 +5,6 @@ import SectionTitle from "../../../components/section-title";
 import { useForm } from "react-hook-form";
 import { withRedux } from "../../../lib/redux";
 import { useRouter } from "next/router";
-
-
 import {
   NotificationInfo,
   NotificationWarning,

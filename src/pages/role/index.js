@@ -14,6 +14,8 @@ import {NotificationManager} from 'react-notifications'
 
 const Role=()=>{
     const [roleData,setRoleData]=React.useState([]);
+    const [permissions,setPermissions]=React.useState(false);
+
     const [status, setStatus] = React.useState(undefined);
 
      const getRolesApi=async()=>{
@@ -57,10 +59,27 @@ const Role=()=>{
     }
    }
 
-  
+   const getPermissions=async()=>{
+    const token= localStorage.getItem("token");
+      await ax
+        .get("/permissions", {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then((res) => {
+        let permission=  res.data.filter((permission) => permission.route=="users.role.set");
+        setPermissions(permission.length>0?true:false)
+        })
+        .catch((err) => {
+          setStatus({ type: "error",message: err.response.data.message });
+          console.error("get /getRoleDetails error", err);
+        });
+   }
 
 
     useEffect(()=>{
+      getPermissions();
       getRolesApi()
     },[])
 
@@ -107,13 +126,13 @@ const Role=()=>{
                   </p>
                 </a>
               </Link>
-              <Link href={`/role/setRole/${data.row.original.id}`}>
-                <a>
-                  <p>
-                    <i className="icon-refresh text-1xl font-bold mb-2"></i>
-                  </p>
-                </a>
-              </Link>
+             {permissions && <Link href={`/role/setRole/${data.row.original.id}`}>
+             <a>
+               <p>
+                 <i className="icon-refresh text-1xl font-bold mb-2"></i>
+               </p>
+             </a>
+           </Link>} 
     
             </div>
             )
@@ -157,7 +176,7 @@ const Role=()=>{
                 className="ml-3  btn btn-default btn-blue create-btn w-full"
                 type="button"
               >
-                Create Role
+                Add Role
               </button>
             </a>
           </Link>
