@@ -27,6 +27,9 @@
     "react": "^17.0.2",
     "react-chartjs-2": "^2.9.0",
     "react-circle": "^1.1.1",
+    "react-datepicker": "^4.8.0",
+    "react-dnd": "^14.0.2",
+    "react-dnd-html5-backend": "^14.0.0",
     "react-dom": "^17.0.2",
     "react-feather": "^2.0.8",
     "react-hook-form": "^5.6.1",
@@ -39,9 +42,7 @@
     "redux": "^4.0.5",
     "sass": "^1.26.5",
     "tailwindcss": "^1.0",
-    "use-debounce": "^3.4.2",
-    "react-dnd": "^14.0.2",
-    "react-dnd-html5-backend": "^14.0.0"
+    "use-debounce": "^3.4.2"
   },
   "devDependencies": {
     "@tailwindcss/custom-forms": "^0.2.1"
