@@ -27,8 +27,7 @@ const Channel=()=>{
         setChannels(res.data);
       })
       .catch((err) => {
-        setStatus({ type: "error", err });
-        console.error("get /channels error", err);
+        setStatus({ type: "error",message: err.response.data.message });
       });
   };
 
@@ -52,8 +51,7 @@ const Channel=()=>{
         }, 1000);
       })
       .catch((err) => {
-        console.error("get /channels error", err.message);
-        setStatus({ type: "error", err });
+          setStatus({ type: "error",message: err.response.data.message });
       });
   } else {
     console.log("Thing was not saved to the database.");
@@ -115,7 +113,7 @@ const Channel=()=>{
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.error(errors, 'Error')}
+        { NotificationManager.error(status.message, 'Error')}
          
         </div>
       </div>

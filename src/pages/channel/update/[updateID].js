@@ -15,6 +15,7 @@ const updateID = () => {
     const updateid = router.query.updateID;
     const [res, setRes] = useState({});
     const [status, setStatus] = useState(undefined);
+    const [errors,setErrors]=useState(undefined)
   
     const fetch = async () => {
       if (typeof window !== "undefined") {
@@ -26,12 +27,9 @@ const updateID = () => {
          }})
         .then((res) => {
           setRes(res.data.channel);
-
         })
         .catch((err) => {
-        setStatus({ type: "error", err });
-
-          console.error("get /channel error", err);
+          setStatus({ type: "error",message: err.response.data.message });
         });
       }
     };
@@ -41,7 +39,7 @@ const updateID = () => {
     }, []);
 
   
-    const { register, handleSubmit, watch, errors } = useForm();
+    const { register, handleSubmit, watch } = useForm();
     const onSubmit = (data) => {
       if (typeof window !== "undefined") {
       const token = localStorage.getItem('token');
@@ -51,14 +49,16 @@ const updateID = () => {
         .then((res) => {
           setRes(res.data);
         setStatus({ type: "success" });
+        setTimeout(() => {
           router.push("/channel");
+        }, 1000);
         })
         .catch((err) => {
-          setStatus({ type: "error",message: err.response.data.message });
-          setTimeout(() => {
-            setStatus(undefined)
-            router.push("/channel");
-          }, 1000);
+          if(err.response.data.errors){
+            setErrors(err.response.data.errors)
+          }else{
+            setStatus({ type: "error",message: err.response.data.message });
+          }
         });
       }
     };
@@ -108,6 +108,12 @@ return (
             
           />
         </label>
+        {errors && errors.slug && (
+          errors.slug.map((err)=>{
+           return <p className="mt-1 text-xs text-red-500">{err}</p>
+          })
+         
+        )}
       </div>
 
       {/*input*/}
@@ -125,6 +131,12 @@ return (
             maxLength={255}
           />
         </label>
+        {errors && errors.name && (
+          errors.name.map((err)=>{
+           return <p className="mt-1 text-xs text-red-500">{err}</p>
+          })
+         
+        )}
       </div>
 
       <div className="w-full">

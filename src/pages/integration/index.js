@@ -24,7 +24,7 @@ const Integration=()=>{
         setIntegrations(res.data);
       })
       .catch((err) => {
-        setStatus({ type: "error", err });
+        setStatus({ type: "error",message: err.response.data.message });
         console.error("get /Integrations error", err);
       });
   };
@@ -49,8 +49,7 @@ const Integration=()=>{
         }, 1000);
       })
       .catch((err) => {
-        console.error("get /Integrations error", err.message);
-        setStatus({ type: "error", err });
+        setStatus({ type: "error",message: err.response.data.message });
       });
   } else {
     console.log("Thing was not saved to the database.");
@@ -123,7 +122,7 @@ const Integration=()=>{
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.error(error, 'Error')}
+        { NotificationManager.error(status.message, 'Error')}
          
         </div>
       </div>

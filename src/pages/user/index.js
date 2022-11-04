@@ -28,7 +28,7 @@ const User=()=>{
           setUserData(res.data)
         })
         .catch((err) => {
-          console.error("get /fetchUsers error", err);
+        setStatus({ type: "error",message: err.response.data.message });
         });
    }
 
@@ -42,7 +42,6 @@ const User=()=>{
          }})
           .then((res) => {
         setStatus({ type: "success" });
-
             setTimeout(() => {
               getUsersApi();
             }, 1000);
