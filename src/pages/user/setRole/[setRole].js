@@ -52,7 +52,6 @@ const setRole = () => {
         'Authorization': `Bearer ${token}`
       }})
         .then((res) => {
-          setRes(res.data);
           setStatus({ type: "success" });
           setTimeout(() => {
           router.push("/user");
