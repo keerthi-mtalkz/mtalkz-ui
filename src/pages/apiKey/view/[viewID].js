@@ -39,7 +39,7 @@ const viewID = () => {
 
  
   
-  
+  console.log(res.resource,"heeg")
 
 return (
     <Layout>
@@ -89,7 +89,7 @@ return (
               
             </div>
             <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.resource_id}</p>
+            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.resource?.name}</p>
             </div>
         </div>
     </li>

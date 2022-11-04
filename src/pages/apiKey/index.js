@@ -68,15 +68,6 @@ const ApiKey=()=>{
         accessor: 'key'
       },
       {
-        Header: 'Organization Id',
-        accessor: 'organization_id'
-      },
-      {
-        Header: 'Resource Id',
-        accessor: 'resource_id'
-      },
-     
-      {
         Header: 'Status',
         accessor: 'is_active',
       },
