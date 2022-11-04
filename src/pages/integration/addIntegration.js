@@ -280,7 +280,6 @@ console.log(errors,"errors")
                  type="text"
                  className="form-input mt-1 text-xs block w-full bg-white"
                  placeholder="Enter Integration Description "
-                 required
               ref={register()}
 
                />
@@ -385,8 +384,8 @@ console.log(errors,"errors")
           onChange={() => handleApproval(!approval)}
           checked={approval}
           handleDiameter={24}
-          uncheckedIcon={false}
-          checkedIcon={false}
+          uncheckedIcon={true}
+          checkedIcon={true}
           boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
           height={20}
           width={48}
@@ -405,8 +404,8 @@ console.log(errors,"errors")
           onChange={() => handleAccess(!access)}
           checked={access}
           handleDiameter={24}
-          uncheckedIcon={false}
-          checkedIcon={false}
+          uncheckedIcon={true}
+          checkedIcon={true}
           boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
           height={20}
           width={48}
