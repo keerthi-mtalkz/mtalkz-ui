@@ -12,10 +12,13 @@ const Login1 = () => {
   const dispatch = useDispatch()
   const {register, handleSubmit, watch, errors} = useForm()
   const router = useRouter()
+  const [status, setStatus] = useState(undefined);
+
   const onSubmit = async(data) => {
     await ax
     .post("/auth/login", data)
     .then((res) => {
+      setStatus({ type: "success" });
       res.data.user.img="m1.png"
       localStorage.setItem("token",res.data.token)
       localStorage.setItem("user", res.data.user)
@@ -29,6 +32,7 @@ const Login1 = () => {
       }, 1000);
     })
     .catch((err) => {
+      setStatus({ type: "error",message: err.response.data.message });
       console.error("get login error", err);
     });
     
@@ -36,6 +40,11 @@ const Login1 = () => {
 
   return (
     <>
+    {status?.type === "error" && (
+      <div className="bg-red-500 text-white rounded w-full flex flex-wrap items-center justify-start p-3 text-sm mb-4">
+        Invalid login. Please try again
+      </div>
+    )}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col text-sm mb-4 w-full">

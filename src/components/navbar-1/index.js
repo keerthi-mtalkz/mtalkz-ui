@@ -149,7 +149,7 @@ const Navbar = () => {
           <a className="btn btn-default flex lg:hidden">Logout</a>
         </Link>
      
-        <div onClick={()=>{logOut()}}>LOGOUT</div>
+        <div className='mr-5 cursor-pointer' onClick={()=>{logOut()}}>LOGOUT</div>
       
       </div>
     </div>
