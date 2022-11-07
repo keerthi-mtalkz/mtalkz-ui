@@ -104,9 +104,7 @@ const viewID = () => {
       });
   };
 
-  useEffect(()=>{
-console.log(permissions,"ekufggu ehefeuf")
-  },[permissions])
+ 
 
   const updateCredits=async(data)=>{
     const token = localStorage.getItem('token');
@@ -142,7 +140,6 @@ console.log(permissions,"ekufggu ehefeuf")
     const handleSwitch=(value)=>{
       setSelectedResource({label: value.label, value: value.value})
     }
-  console.log(creditsRes,"efgefrehfg")
 
 return (
     <Layout>
