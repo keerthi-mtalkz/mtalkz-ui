@@ -48,7 +48,6 @@ const viewID = () => {
     }, []);
 
   const getUserActivities=async()=>{
-    console.log("hgftyrt grr45y6 yrtur")
     const sd=moment(startDate).format("YYYY-MM-DD");
     const ed=moment(endDate).format("YYYY-MM-DD");
     const token = localStorage.getItem('token');
@@ -58,7 +57,6 @@ const viewID = () => {
      }})
     .then((res) => {
       setActivities(res.data.activities)
-      console.log(res.data.activities,"hgytr");
     })
     .catch((err) => {
       console.error("get /users error", err);
