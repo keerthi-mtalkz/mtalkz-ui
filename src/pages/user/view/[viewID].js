@@ -12,6 +12,8 @@ import {ax} from "../../../utils/apiCalls";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
+import Datatable from "../../../components/datatable";
+
 
 
 const viewID = () => {
@@ -21,6 +23,7 @@ const viewID = () => {
     const [status, setStatus] = useState(undefined);
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
+    const [activities,setActivities]=useState([]);
     const fetch = async () => {
       if (typeof window !== "undefined") {
       const token = localStorage.getItem('token');
@@ -45,6 +48,7 @@ const viewID = () => {
     }, []);
 
   const getUserActivities=async()=>{
+    console.log("hgftyrt grr45y6 yrtur")
     const sd=moment(startDate).format("YYYY-MM-DD");
     const ed=moment(endDate).format("YYYY-MM-DD");
     const token = localStorage.getItem('token');
@@ -53,12 +57,34 @@ const viewID = () => {
       'Authorization': `Bearer ${token}`
      }})
     .then((res) => {
-      console.log(res.data);
+      setActivities(res.data.activities)
+      console.log(res.data.activities,"hgytr");
     })
     .catch((err) => {
       console.error("get /users error", err);
     });
   }
+
+  const columns =  [
+    {
+      Header: 'Activity',
+      accessor: 'activity'
+    },
+      {
+        Header: 'Type',
+        accessor: 'type'
+      },
+      {
+        Header: 'Affected Table',
+        accessor: 'affected_table'
+      },
+      {
+        Header: 'Created Date',
+        accessor: 'created_at'
+      },
+
+    ]
+
    
 
 return (
@@ -145,6 +171,7 @@ return (
          </ul>
     </div>
  </div>  
+ <div>
  <div className="flex ml-10">
  <div>
  <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
@@ -169,6 +196,10 @@ return (
               </button>
  </div>
  </div>
+ <Datatable  columns={columns} data={activities} />
+
+ </div>
+ 
     </div>
     
 
