@@ -80,7 +80,7 @@ const validateFields=()=>{
 
   useEffect(()=>{
     getPermissions();
-  })
+  },[])
 
   let handleSwitch = (value) => {
     setSelectedPermission([]);
