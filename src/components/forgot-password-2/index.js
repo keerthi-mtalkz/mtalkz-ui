@@ -5,6 +5,7 @@ import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
 import { useRouter } from "next/router";
 
+
 const ForgotPassword2 = (data) => {
   const router = useRouter();
   const {register, handleSubmit, watch} = useForm()
