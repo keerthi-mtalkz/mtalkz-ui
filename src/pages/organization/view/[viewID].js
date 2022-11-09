@@ -48,6 +48,7 @@ const viewID = () => {
       fetchOrgs();
     }, []);
 
+   
  
   
   
@@ -70,8 +71,8 @@ return (
       </div>
       )}
     
-
-<div className="p-4 w-full max-w-md bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+<div className="flex">
+<div className="p-4 w-full  break-words max-w-md bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
     
    <div className="flow-root">
         <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -90,10 +91,10 @@ return (
                 </div>
             </li>
             <li className="py-3 sm:py-4">
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-4 break-words">
                    
-                    <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                    <div className="flex-1 min-w-0 break-words">
+                        <p className="text-sm font-medium text-gray-900 truncate dark:text-white break-words">
                        Email
                         </p>
                        
@@ -136,6 +137,11 @@ return (
         </ul>
    </div>
 </div>
+<div>
+
+</div>
+</div>
+
 
    
 

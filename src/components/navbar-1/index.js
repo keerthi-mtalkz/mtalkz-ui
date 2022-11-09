@@ -56,8 +56,8 @@ const Navbar = () => {
       .then(async(res) => {
         setOrganizations(res?.data?.organizations);
       const org=  res?.data?.organizations.filter((o)=>o.id===user.organization_id)
+      localStorage.setItem("orgId",org[0].id)
       setSelectedOrganization([{ label: org[0].name, value: org[0].id }])
-      console.log(selectedOrganization,"))))))))))))))))")
       })
       .catch((err) => {
         console.error("get /organizations error", err);
@@ -78,6 +78,7 @@ const Navbar = () => {
 
   let handleSwitch = (value) => {
     const token= localStorage.getItem("token");
+    localStorage.setItem("orgId",value.value)
 
 
     const answer = window.confirm("are you sure?");
