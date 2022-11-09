@@ -194,7 +194,9 @@ return (
               </button>
  </div>
  </div>
- <Datatable  columns={columns} data={activities} />
+ {activities.length>0 ?<Datatable  columns={columns} data={activities} /> : <p className="text-sm ml-10 mt-10 font-medium text-gray-900 truncate dark:text-white">
+No Activites Found
+ </p>}
 
  </div>
  

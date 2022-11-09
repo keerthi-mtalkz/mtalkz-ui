@@ -72,6 +72,7 @@ const addChannel = () => {
             required
             maxLength={255}
             pattern="[a-z0-9\-]+"
+            title="only alphanumeric characters and dash allowed"
           />
         </label>
         {errors && errors.slug && (
