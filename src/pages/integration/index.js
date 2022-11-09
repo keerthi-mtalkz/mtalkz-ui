@@ -59,6 +59,7 @@ const activateIntegration = (data) => {
     'Authorization': `Bearer ${token}`
    }})
     .then((res) => {
+      setStatus({ type: "success" });
      
     })
     .catch((err) => {
@@ -75,6 +76,7 @@ const deactivateIntegration = (data) => {
     'Authorization': `Bearer ${token}`
    }})
     .then((res) => {
+      setStatus({ type: "success" });
      
     })
     .catch((err) => {
