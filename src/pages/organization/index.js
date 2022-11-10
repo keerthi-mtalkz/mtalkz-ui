@@ -64,6 +64,11 @@ const Organization=()=>{
       Header: 'ID',
       accessor: 'id'
     },
+    {
+      Header: 'Address',
+      accessor: 'address',
+     
+    },
       {
         Header: 'Name',
         accessor: 'name'
@@ -76,11 +81,7 @@ const Organization=()=>{
         Header: 'Phone No',
         accessor: 'phone'
       },
-      {
-        Header: 'Address',
-        accessor: 'address',
-       
-      },
+      
       {
         Header: 'Actions',
         sortable: false,

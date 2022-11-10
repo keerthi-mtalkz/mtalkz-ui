@@ -5,6 +5,7 @@ import SectionTitle from "../../../components/section-title";
 import { useForm } from "react-hook-form";
 import { withRedux } from "../../../lib/redux";
 import { useRouter } from "next/router";
+import {Popover, Tooltip} from '../../../components/popovers'
 import {
   NotificationInfo,
   NotificationWarning,
@@ -73,45 +74,56 @@ return (
             <li className="py-3 sm:py-4">
                 <div className="flex items-center space-x-4">
                   
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-1">
                         <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                         Name
                         </p>
                       
                     </div>
-                    <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
+                    <div className="inline-flex items-center truncate text-base font-semibold text-gray-900 dark:text-white">
+                    <Tooltip
+              placement={"Top"}
+              content={res.name}>
+              <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
+            </Tooltip>
+                   
                     </div>
                 </div>
             </li>
             <li className="py-3 sm:py-4">
                 <div className="flex items-center space-x-4">
                    
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-1">
                         <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                         Description
                         </p>
                        
                     </div>
-                    <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.description}</p>
+                    <div className="inline-flex items-center truncate text-base font-semibold text-gray-900 dark:text-white">
+                    <Tooltip
+              placement={"Top"}
+              content={res.description}>
+              <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.description}</p>
+            </Tooltip>
+                   
+                  
                     </div>
                 </div>
             </li>
             <li className="py-3 sm:py-4">
             <div className="flex items-center space-x-4">
                
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-1">
                     <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                     Permissions
                     </p>
                    
                 </div>
-                <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                <div className=" items-center truncate text-base font-semibold text-gray-900 dark:text-white">
                  {permissions.map((permission)=>{
                   return(
                     <>
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{permission.name}</p>
+                    <div className="text-sm font-medium text-gray-900 truncate dark:text-white">{permission.name}</div>
                     <br></br>
                     </>
                 
