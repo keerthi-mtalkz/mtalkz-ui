@@ -11,6 +11,7 @@ import { WithContext as ReactTags } from 'react-tag-input';
 import Switch from 'react-switch'
 import Select from "react-select";
 import { object } from "prop-types";
+import channel from "../channel";
 
 const addIntegration = () => {
   const router = useRouter();
@@ -21,6 +22,8 @@ const addIntegration = () => {
   const [organizations,setOrganizations]=useState([])
   const [selectedOrganizations,setSelectedOrganizations]=useState([])
   const [errors,setErrors]=useState(undefined)
+  const [selectedChannel,setSelectedChannel]=useState(undefined);
+ const [channels,setChannels]=useState([])
 
   const { register, handleSubmit, watch } = useForm();
   const [tags, setTags] = React.useState([
@@ -95,6 +98,26 @@ const addIntegration = () => {
     return { label: value.name, value: value.id };
   });
 
+  const getChannels = async () => {
+    const token = localStorage.getItem('token');
+    await ax
+      .get("/channels", {headers: {
+        'Authorization': `Bearer ${token}`
+       }})
+      .then((res) => {
+        if(res.data.length>0){
+          let _channels=[];
+          _channels= res.data.map((channel)=>{
+            return { label: channel.name, value: channel.id };
+          })
+          setChannels(_channels);
+        }
+      })
+      .catch((err) => {
+        setStatus({ type: "error",message: err.response.data.message });
+      });
+  };
+
   const validateField=()=>{
     let _errors= { }
      if(tags.length==0 ){
@@ -105,6 +128,9 @@ const addIntegration = () => {
     }
     if(access && selectedOrganizations.length==0){
       _errors={..._errors,access_granted_to:['permissions are required']}
+    }
+    if(selectedChannel && selectedChannel.length==0){
+      _errors={..._errors,channel_slug:['channel slug are required']}
     }
     if(_errors && Object.keys(_errors).length>0)
     {
@@ -117,11 +143,20 @@ const addIntegration = () => {
   
   }
 
+  let handleSwitchChannel = (value) => {
+    setSelectedChannel([]);
+    console.log(value,"&&&&&&&&&&&&&&&&&&&&&&")
+    let channels=[]
+      channels.push({label:value.label, value:value.value})
+    setSelectedChannel([...channels])
+  }
+
   const onSubmit = (data) => {
     const isValid= validateField()
     if (typeof window !== "undefined" && isValid) {
       data.requires_access=access;
       data.requires_approval=approval;
+      data.channel_slug=selectedChannel[0].label
       let _tags=  tags.map((tag)=>{
        return tag.id
       })
@@ -153,10 +188,14 @@ const addIntegration = () => {
   };
 
   useEffect(()=>{
+    getChannels();
     if(organizations.length===0){
       getOrganizations();
     }
   },[])
+
+  
+ 
 
 console.log(errors,"errors")
   return (
@@ -228,28 +267,28 @@ console.log(errors,"errors")
            
           )}
           </div>
+          
 
           {/*input*/}
           <div className="w-full mb-4">
-          <label className="block">
-            <span className="text-default">Channel Slug</span>
-            <input
-              name="channel_slug"
-              type="text"
-              className="form-input mt-1 text-xs block w-full bg-white"
-              placeholder="Enter Integration Channel Slug "
-              required
-              ref={register()}
-              maxLength={255}
-              pattern="[a-z0-9\-]+"
-            />
-          </label>
+          
+      <div style={{ width: "300px" }}>
+      <label className="block">
+      <span className="text-default">Channel Slug</span>
+      <Select
+        options={channels}
+        placeholder="Select Channel Slug"
+        onChange={handleSwitchChannel}
+        value={selectedChannel}
+      />
+      </label>
           {errors && errors.channel_slug && (
             errors.channel_slug.map((err)=>{
              return <p className="mt-1 text-xs text-red-500">{err}</p>
             })
            
           )}
+          </div>
           </div>
 
             {/*input*/}

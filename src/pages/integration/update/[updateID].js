@@ -138,6 +138,7 @@ const updateID = () => {
   
     const { register, handleSubmit, watch } = useForm();
     const validateField=()=>{
+      console.log("paams",params,tags)
       let _errors= { }
        if(tags.length==0 ){
         _errors={tags:['tags are required']}
