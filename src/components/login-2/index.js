@@ -18,7 +18,6 @@ const Login1 = () => {
     await ax
     .post("/auth/login", data)
     .then((res) => {
-      console.log(res.data.user,"login")
       setStatus({ type: "success" });
       res.data.user.img="m1.png"
       localStorage.setItem("token",res.data.token)
