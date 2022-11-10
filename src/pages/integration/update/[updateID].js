@@ -27,8 +27,36 @@ const updateID = () => {
   const [organizations,setOrganizations]=useState([])
   const [selectedOrganizations,setSelectedOrganizations]=useState([])
   const [errors,setErrors]=useState(undefined)
+  const [selectedChannel,setSelectedChannel]=useState(undefined);
+  const [channels,setChannels]=useState([])
 
+  
+  const getChannels = async () => {
+    const token = localStorage.getItem('token');
+    await ax
+      .get("/channels", {headers: {
+        'Authorization': `Bearer ${token}`
+       }})
+      .then((res) => {
+        if(res.data.length>0){
+          let _channels=[];
+          _channels= res.data.map((channel)=>{
+            return { label: channel.slug.toLowerCase(), value: channel.id };
+          })
+          setChannels(_channels);
+        }
 
+      })
+      .catch((err) => {
+        setStatus({ type: "error",message: err.response.data.message });
+      });
+  };
+
+  useEffect(()=>{
+    if(channels.length>0){
+      fetch();
+    }
+  },[channels])
     const KeyCodes = {
       comma: 188,
       enter: 13
@@ -115,6 +143,11 @@ const updateID = () => {
           res.data.integration.param_names.map((tag)=>{
             _params.push({id: tag, text: tag})
            })
+           channels.map((data)=>{
+            if( data.label.toLowerCase()==res.data.integration.channel_slug.toLowerCase()){
+              setSelectedChannel({label:data.label, value:data.value})
+            }
+           })
            setParams(_params)
            let organizations=[]
            res.data.organizations.map((access)=>{
@@ -132,8 +165,15 @@ const updateID = () => {
     };
 
     useEffect(() => {
-      fetch();
+      getChannels()
     }, []);
+
+    let handleSwitchChannel = (value) => {
+      setSelectedChannel([]);
+      let channels=[]
+        channels.push({label:value.label, value:value.value})
+      setSelectedChannel([...channels])
+    }
 
   
     const { register, handleSubmit, watch } = useForm();
@@ -148,6 +188,9 @@ const updateID = () => {
       }
       if(access && selectedOrganizations.length==0){
         _errors={..._errors,access_granted_to:['Organization are required']}
+      }
+      if(selectedChannel && selectedChannel.length==0){
+        _errors={..._errors,channel_slug:['channel slug are required']}
       }
       if(_errors && Object.keys(_errors).length>0)
       {
@@ -164,6 +207,7 @@ const updateID = () => {
       if (typeof window !== "undefined" && isValid ) {
         data.requires_access=access;
         data.requires_approval=approval;
+      data.channel_slug=selectedChannel[0].label
         let _tags = tags.map((tag)=>{
           return tag.id
         })
@@ -274,29 +318,27 @@ return (
             </div>
   
             {/*input*/}
-            <div className="w-full mb-4">
-            <label className="block">
-              <span className="text-default">Channel Slug</span>
-              <input
-                name="channel_slug"
-                type="text"
-                ref={register()}
-                className="form-input mt-1 text-xs block w-full bg-white"
-                placeholder="Enter Integration Channel Slug "
-                required
-                maxLength={255}
-                pattern="[a-z0-9\-]+"
-                defaultValue={res.channel_slug}
-
-              />
-            </label>
-            {errors && errors.channel_slug && (
-              errors.channel_slug.map((err)=>{
-               return <p className="mt-1 text-xs text-red-500">{err}</p>
-              })
-             
-            )}
-            </div>
+             {/*input*/}
+             <div className="w-full mb-4">
+          
+             <div style={{ width: "300px" }}>
+             <label className="block">
+             <span className="text-default">Channel Slug</span>
+             <Select
+               options={channels}
+               placeholder="Select Channel Slug"
+               onChange={handleSwitchChannel}
+               value={selectedChannel}
+             />
+             </label>
+                 {errors && errors.channel_slug && (
+                   errors.channel_slug.map((err)=>{
+                    return <p className="mt-1 text-xs text-red-500">{err}</p>
+                   })
+                  
+                 )}
+                 </div>
+                 </div>
   
               {/*input*/}
               <div className="w-full mb-4">
