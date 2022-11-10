@@ -14,6 +14,7 @@ import {
 import {NotificationManager} from 'react-notifications'
 import {ax} from "../../../utils/apiCalls";
 import { resolve } from "styled-jsx/css";
+import {Popover, Tooltip} from '../../../components/popovers'
 
 
 

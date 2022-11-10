@@ -108,7 +108,7 @@ const addIntegration = () => {
         if(res.data.length>0){
           let _channels=[];
           _channels= res.data.map((channel)=>{
-            return { label: channel.name, value: channel.id };
+            return { label: channel.slug.toLowerCase(), value: channel.id };
           })
           setChannels(_channels);
         }
