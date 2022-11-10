@@ -126,13 +126,7 @@ const Role=()=>{
                   </p>
                 </a>
               </Link>
-             {permissions && <Link href={`/role/setRole/${data.row.original.id}`}>
-             <a>
-               <p>
-                 <i className="icon-refresh text-1xl font-bold mb-2"></i>
-               </p>
-             </a>
-           </Link>} 
+          
     
             </div>
             )

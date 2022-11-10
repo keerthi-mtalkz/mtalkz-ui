@@ -218,6 +218,7 @@ console.log(errors,"errors")
               ref={register()}
               maxLength={255}
               pattern="[a-z0-9\-]+"
+              title="Only Alphanumeric characters are allowed"
             />
           </label>
           {errors && errors.slug && (

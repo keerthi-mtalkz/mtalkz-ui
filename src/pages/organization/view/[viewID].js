@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { withRedux } from "../../../lib/redux";
 import { useRouter } from "next/router";
 import Select from "react-select";
+import {Popover, Tooltip} from '../../../components/popovers'
 
 
 import {
@@ -167,28 +168,40 @@ return (
             <li className="py-3 sm:py-4">
                 <div className="flex items-center space-x-4">
                   
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-1">
                         <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                         Name
                         </p>
                       
                     </div>
-                    <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
+                    <div className="inline-flex items-center truncate text-base font-semibold text-gray-900 dark:text-white">
+                    <Tooltip
+              placement={"Top"}
+              content={res.name}>
+              <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
+            </Tooltip>
+                   
                     </div>
                 </div>
             </li>
             <li className="py-3 sm:py-4">
                 <div className="flex items-center space-x-4">
                    
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-1">
                         <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                        Email
                         </p>
                        
                     </div>
-                    <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.email}</p>
+                    <div className="inline-flex items-center text-base truncate font-semibold text-gray-900 dark:text-white">
+                    <Tooltip
+              placement={"Top"}
+              content={res.email}>
+              <p className="text-sm font-medium text-gray-900 truncate truncate dark:text-white">{res.email}</p>
+
+            </Tooltip>
+                    
+                    
                     </div>
                 </div>
             </li>
@@ -196,28 +209,37 @@ return (
             <li className="py-3 sm:py-4">
                 <div className="flex items-center space-x-4">
                    
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-1">
                         <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                        Phone No
                         </p>
                        
                     </div>
-                    <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.phone}</p>
+                    <div className="inline-flex items-center truncate text-base font-semibold text-gray-900 dark:text-white">
+                    <Tooltip
+              placement={"Top"}
+              content={res.phone}>
+              <p className="text-sm font-medium text-gray-900 truncate truncate dark:text-white">{res.phone}</p>
+
+            </Tooltip>
                     </div>
                 </div>
             </li>
             <li className="py-3 sm:py-4">
                 <div className="flex items-center space-x-4">
                    
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-1">
                         <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                        Address
                         </p>
                        
                     </div>
-                    <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.address}</p>
+                    <div className="inline-flex items-center truncate text-base font-semibold text-gray-900 dark:text-white">
+                    <Tooltip
+                    placement={"Top"}
+                    content={res.address}>
+                    <p className="text-sm font-medium text-gray-900 truncate truncate dark:text-white">{res.address}</p>
+                  </Tooltip>
                     </div>
                 </div>
             </li>
