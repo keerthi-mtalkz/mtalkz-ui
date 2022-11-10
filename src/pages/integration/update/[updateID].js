@@ -237,7 +237,7 @@ return (
                className="form-input mt-1 text-xs block w-full bg-white"
                placeholder="Enter Integartion name"
                required
-               value={res.name}
+               defaultValue={res.name}
              />
            </label>
            {errors && errors.name && (
