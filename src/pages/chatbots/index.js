@@ -128,7 +128,7 @@ const Chatbots = () => {
                   <i className="icon-trash text-1xl font-bold mb-2 "></i>
                 </p>
                 
-                <Link href={`/chatbots/update/${value._id}`}>
+                <Link href={`/chatbots/${value._id}`}>
                   <a className="w-full">
                     <div className="card bg-white shadow-lg py-4 p-4">
                       <div className="card-body">
