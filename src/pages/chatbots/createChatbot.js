@@ -29,7 +29,6 @@ const createChatbot = () => {
             }, 1000);
     })
       .catch((err) => {
-        console.log(err,"eyfgejhrfgje")
             setStatus({ type: "error",message: err.response.data.error });
       });
   };
