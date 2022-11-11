@@ -136,10 +136,9 @@ return (
       />
     </div>
     </label>
-    {errors && errors.resource_id && (
-      errors.resource_id.map((err)=>{
-       return <p className="mt-1 text-xs text-red-500">{err}</p>
-      })
+    {errors  && (
+      
+        <p className="mt-1 text-xs text-red-500">{errors.message}</p>
      
     )}
   </div>
