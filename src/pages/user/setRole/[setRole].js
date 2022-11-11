@@ -16,8 +16,12 @@ const setRole = () => {
     const [res, setRes] = useState({});
     const [status, setStatus] = useState(undefined);
     const [errors,setErrors]=useState(undefined)
+    const [checked, handleChange] = useState(false)
 
   
+
+  
+
 
     const fetchRole = async () => {
       if (typeof window !== "undefined") {
@@ -95,26 +99,25 @@ return (
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col text-sm mb-4 lg:w-1/3"
     >
-      <div className="mb-4">
-        <label>
-        <span className="text-default">Role</span>
-          <select className="form-select block w-full mt-1 text-sm" name="roleID" required ref={register} >
-          {res.data?.map((value) => {
-            return (
-              <option value={value.id}>{value.name}</option>
-              );
-          })}
-
-</select>
-{errors && errors.role_id   && (
-    errors.role_id  .map((err)=>{
-     return <p className="mt-1 text-xs text-red-500">{err}</p>
-    })
-   
-  )}
-</label>
-      
-        </div>
+    <div className="w-full mb-4">
+    <label className="block">
+      <span className="text-default">Role</span>
+      <div style={{ width: "300px" }}>
+      <Select
+        options={options}
+        placeholder="Select Resource"
+        onChange={handleSwitch}
+        
+      />
+    </div>
+    </label>
+    {errors && errors.resource_id && (
+      errors.resource_id.map((err)=>{
+       return <p className="mt-1 text-xs text-red-500">{err}</p>
+      })
+     
+    )}
+  </div>
 
       {/*input*/}
 
