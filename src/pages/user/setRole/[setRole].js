@@ -7,6 +7,7 @@ import { withRedux } from "../../../lib/redux";
 import { useRouter } from "next/router";
 import {ax} from "../../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
+import Select from "react-select";
 
 
 
@@ -17,11 +18,29 @@ const setRole = () => {
     const [status, setStatus] = useState(undefined);
     const [errors,setErrors]=useState(undefined)
     const [checked, handleChange] = useState(false)
-
+    const [roles,setRoles]=useState([]);
+    const [selectedRole,setSelectedRole]=useState(undefined)
+    const fetch = async () => {
+      if (typeof window !== "undefined") {
+      const token = localStorage.getItem('token');
+      await ax
+        .get(`/users/${updateid}`, {headers: {
+        
+          'Authorization': `Bearer ${token}`
+         }})
+        .then((res) => {
+          setSelectedRole([{label: res.data.user.current_role.name, value: res.data.user.current_role.id}])
+        })
+        .catch((err) => {
+          console.error("get /users error", err);
+        });
+      }
+    };
   
-
-  
-
+    let handleSwitch = (value) => {
+      setSelectedRole([{label: value.label,value:value.value}])
+      console.log(value,"value")
+    }
 
     const fetchRole = async () => {
       if (typeof window !== "undefined") {
@@ -33,26 +52,32 @@ const setRole = () => {
           },
         })
         .then((res) => {
-          setRes(res);
+          let roles=[];
+          roles = res.data.map((role)=>{
+           return  { label: role.name, value: role.id };
+          })
+          setRoles([...roles])
+         
         })
         .catch((err) => {
-            setStatus({ type: "error",message: err.response.data.message });
+            setStatus({ type: "error",message: err.response?.data.message });
         });
       }
     };
   
 
     useEffect(() => {
+      fetch();
       fetchRole();
     }, []);
 
   
     const { register, handleSubmit } = useForm();
 
-    const onSubmit = (data) => {
+    const onSubmit = () => {
       if (typeof window !== "undefined") {
       const token = localStorage.getItem('token');
-      ax.get(`/users/${updateid}/set-role/${data.roleID}`,{headers: {
+      ax.get(`/users/${updateid}/set-role/${selectedRole[0].value}`,{headers: {
         'Authorization': `Bearer ${token}`
       }})
         .then((res) => {
@@ -72,7 +97,7 @@ const setRole = () => {
     };
   
   
- 
+ console.log(selectedRole,"egfefebfgygerf heg hgfyegrf gyte ytere yer")
 return (
     <Layout>
      <SectionTitle title="SET ROLE" subtitle="" />
@@ -99,14 +124,16 @@ return (
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col text-sm mb-4 lg:w-1/3"
     >
+
     <div className="w-full mb-4">
     <label className="block">
       <span className="text-default">Role</span>
       <div style={{ width: "300px" }}>
       <Select
-        options={options}
-        placeholder="Select Resource"
+        options={roles}
+        placeholder="Select Role"
         onChange={handleSwitch}
+        value={selectedRole}
         
       />
     </div>
@@ -118,7 +145,6 @@ return (
      
     )}
   </div>
-
       {/*input*/}
 
       <div className="w-full">
