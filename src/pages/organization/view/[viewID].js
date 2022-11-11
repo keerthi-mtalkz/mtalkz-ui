@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { withRedux } from "../../../lib/redux";
 import { useRouter } from "next/router";
 import Select from "react-select";
+import {Popover, Tooltip} from '../../../components/popovers'
 
 
 import {
@@ -31,6 +32,8 @@ const viewID = () => {
  const [selectedResource,setSelectedResource]=useState([]);
  const [creditsRes,setCreditsRes]=useState("");
  const [permissions,setPermissions]=useState({get:false,update:false,delete:false})
+ const [credits,setCredits]=useState(undefined)
+ const [floatingcredits,setfloatingCredits]=useState(undefined)
 
     const fetchOrgs = async () => {
         if (typeof window !== "undefined") {
@@ -49,10 +52,10 @@ const viewID = () => {
         });
     }
     };
-    const onSubmit = (data) => {
-      data.floating==""?0: data.floating
-      updateCredits(data)
-      console.log(data)
+    const onSubmit = () => {
+      console.log(credits,floatingcredits,"kejgfehgfeyrfguyguyf")
+      updateCredits()
+      // console.log(data)
     }
 
     useEffect(() => {
@@ -71,6 +74,13 @@ const viewID = () => {
       .then((res) => {
         console.log(res.data.credit)
          setCreditsRes(res.data.credit)
+         if(res.data.credit){
+          setCredits(res.data.credit.active);
+          setfloatingCredits(res.data.credit.floating)
+         }else{
+          setCredits(0);
+          setfloatingCredits(0)
+         }
       })
       .catch((err) => {
         setStatus({ type: "error",message: err.response.data.message });
@@ -106,13 +116,16 @@ const viewID = () => {
 
  
 
-  const updateCredits=async(data)=>{
+  const updateCredits=async()=>{
+    const data={
+      credits:credits,
+      floating:floatingcredits
+    }
     const token = localStorage.getItem('token');
     ax.post(`/organizations/${viewid}/credits/${selectedResource.value}`,data, { headers: {
       'Authorization': `Bearer ${token}`
    }})
     .then((res) => {
-      setRes(res.data);
     })
     .catch((err) => {
         setStatus({ type: "error",message: err.response.data.message });
@@ -140,7 +153,8 @@ const viewID = () => {
     const handleSwitch=(value)=>{
       setSelectedResource({label: value.label, value: value.value})
     }
-
+ 
+    console.log(creditsRes,"wgwefyerfjehfy8reftg")
 return (
     <Layout>
      <SectionTitle title="View Organization" subtitle="" />
@@ -167,28 +181,40 @@ return (
             <li className="py-3 sm:py-4">
                 <div className="flex items-center space-x-4">
                   
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-1">
                         <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                         Name
                         </p>
                       
                     </div>
-                    <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
+                    <div className="inline-flex items-center truncate text-base font-semibold text-gray-900 dark:text-white">
+                    <Tooltip
+              placement={"Top"}
+              content={res.name}>
+              <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
+            </Tooltip>
+                   
                     </div>
                 </div>
             </li>
             <li className="py-3 sm:py-4">
                 <div className="flex items-center space-x-4 break-words">
                    
-                    <div className="flex-1 min-w-0 break-words">
-                        <p className="text-sm font-medium text-gray-900 truncate dark:text-white break-words">
+                    <div className="flex-1 min-w-1">
+                        <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                        Email
                         </p>
                        
                     </div>
-                    <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.email}</p>
+                    <div className="inline-flex items-center text-base truncate font-semibold text-gray-900 dark:text-white">
+                    <Tooltip
+              placement={"Top"}
+              content={res.email}>
+              <p className="text-sm font-medium text-gray-900 truncate truncate dark:text-white">{res.email}</p>
+
+            </Tooltip>
+                    
+                    
                     </div>
                 </div>
             </li>
@@ -196,28 +222,37 @@ return (
             <li className="py-3 sm:py-4">
                 <div className="flex items-center space-x-4">
                    
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-1">
                         <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                        Phone No
                         </p>
                        
                     </div>
-                    <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.phone}</p>
+                    <div className="inline-flex items-center truncate text-base font-semibold text-gray-900 dark:text-white">
+                    <Tooltip
+              placement={"Top"}
+              content={res.phone}>
+              <p className="text-sm font-medium text-gray-900 truncate truncate dark:text-white">{res.phone}</p>
+
+            </Tooltip>
                     </div>
                 </div>
             </li>
             <li className="py-3 sm:py-4">
                 <div className="flex items-center space-x-4">
                    
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-1">
                         <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                        Address
                         </p>
                        
                     </div>
-                    <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.address}</p>
+                    <div className="inline-flex items-center truncate text-base font-semibold text-gray-900 dark:text-white">
+                    <Tooltip
+                    placement={"Top"}
+                    content={res.address}>
+                    <p className="text-sm font-medium text-gray-900 truncate truncate dark:text-white">{res.address}</p>
+                  </Tooltip>
                     </div>
                 </div>
             </li>
@@ -246,10 +281,7 @@ return (
   </div>
   {(creditsRes==null) && <label className="ml-10">No active credits</label>}
   {permissions.update && creditsRes!== "" && <div className=" ml-10">
-  <form
-  onSubmit={handleSubmit(onSubmit)}
-  className="flex mt-5"
-  >
+  
   <div >
    {/*input*/}
    <div className="w-full mb-4">
@@ -260,7 +292,10 @@ return (
        type="number"
        className="form-input mt-1 text-xs block w-full bg-white"
        placeholder="Enter Credits Value"
-       defaultValue={creditsRes==null?0:creditsRes?.active}
+       value={credits}
+       onChange={(data)=>{
+        setCredits(parseInt(data.target.value))
+      }}
        required
   ref={register()}
      />
@@ -275,7 +310,10 @@ return (
         type="number"
         className="form-input mt-1 text-xs block w-full bg-white"
         placeholder="Enter Floating Credits"
-       defaultValue={creditsRes===null?0:creditsRes?.floating}
+        onChange={(data)=>{
+          setfloatingCredits(parseInt(data.target.value))
+        }}
+       value={floatingcredits}
        ref={register()}
       />
     </label>
@@ -285,11 +323,11 @@ return (
       type="submit"
       className="btn btn-default btn-block btn-indigo "
       value="Submit"
+      onClick={onSubmit}
     />
   </div>
   </div>
   
-  </form>
   </div> }
   
   

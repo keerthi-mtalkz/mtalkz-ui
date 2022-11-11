@@ -111,7 +111,6 @@ const [permissions,setPermissions]=useState([])
         'Authorization': `Bearer ${token1}`
       }})
         .then((res) => {
-          setRes(res.data);
           setStatus({ type: "success" });
       setTimeout(() => {
         router.push("/role");
@@ -140,7 +139,7 @@ return (
       {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.success('Success message', 'Title here')}
+        { NotificationManager.success('Updated role details successfully', 'Success')}
         </div>
       </div>
       )}

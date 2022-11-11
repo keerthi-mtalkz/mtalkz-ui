@@ -6,7 +6,7 @@ import { withRedux } from "../../../lib/redux";
 import { useRouter } from "next/router";
 import {NotificationManager} from 'react-notifications'
 import {ax} from "../../../utils/apiCalls";
-
+import {Popover, Tooltip} from '../../../components/popovers'
 
 
 
@@ -63,14 +63,19 @@ return (
             <li className="py-3 sm:py-4">
                 <div className="flex items-center space-x-4">
                   
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-1">
                         <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                         Slug
                         </p>
                       
                     </div>
-                    <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.slug}</p>
+                    <div className="inline-flex truncate items-center truncate text-base font-semibold text-gray-900 dark:text-white">
+                    <Tooltip
+              placement={"top"}
+              content={res.slug}>
+              <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.slug}</p>
+            </Tooltip>
+                   
                     </div>
                 </div>
             </li>
@@ -85,14 +90,20 @@ return (
        <li className="py-3 sm:py-4">
            <div className="flex items-center space-x-4">
              
-               <div className="flex-1 min-w-0">
+               <div className="flex-1 min-w-1">
                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                    Name
                    </p>
                  
                </div>
-               <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-               <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
+               <div className="inline-flex truncate items-center truncate text-base font-semibold text-gray-900 dark:text-white">
+                    <Tooltip
+              placement={"top"}
+              content={res.name}>
+              <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
+            </Tooltip>
+                   
+              
                </div>
            </div>
        </li>
@@ -107,29 +118,24 @@ return (
     <li className="py-3 sm:py-4">
         <div className="flex items-center space-x-4">
           
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-1">
                 <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                 Description
                 </p>
               
             </div>
-            <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.description}</p>
-            </div>
+            <div className="inline-flex truncate items-center truncate text-base font-semibold text-gray-900 dark:text-white">
+            <Tooltip
+      placement={"top"}
+      content={res.description}>
+      <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.description}</p>
+    </Tooltip>
+       </div>
         </div>
     </li>
-  
-
- 
-
 </ul>
 </div>
 </div>
-
-   
-
-
-   
     </Layout>
   );
 };

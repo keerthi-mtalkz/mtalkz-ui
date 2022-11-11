@@ -13,6 +13,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import Datatable from "../../../components/datatable";
+import {Popover, Tooltip} from '../../../components/popovers'
 
 
 
@@ -111,28 +112,37 @@ return (
              <li className="py-3 sm:py-4">
                  <div className="flex items-center space-x-4">
                    
-                     <div className="flex-1 min-w-0">
+                     <div className="flex-1 min-w-1">
                          <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                          Name
                          </p>
                        
                      </div>
-                     <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                     <div className="inline-flex truncate items-center text-base font-semibold text-gray-900 dark:text-white">
+                     <Tooltip
+                     placement={"Top"}
+                     content={res.name}>
                      <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
+                   </Tooltip>
+                  
                      </div>
                  </div>
              </li>
              <li className="py-3 sm:py-4">
                  <div className="flex items-center space-x-4">
                     
-                     <div className="flex-1 min-w-0">
+                     <div className="flex-1 min-w-1">
                          <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                          Email address
                          </p>
                         
                      </div>
-                     <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                     <div className="inline-flex truncate items-center text-base font-semibold text-gray-900 dark:text-white">
+                     <Tooltip
+                     placement={"Top"}
+                     content={res.email}>
                      <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.email}</p>
+                   </Tooltip>
                      </div>
                  </div>
              </li>
@@ -140,28 +150,36 @@ return (
              <li className="py-3 sm:py-4">
                  <div className="flex items-center space-x-4">
                     
-                     <div className="flex-1 min-w-0">
+                     <div className="flex-1 min-w-1">
                          <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                          organization Id
                          </p>
                         
                      </div>
-                     <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                     <div className="inline-flex truncate items-center text-base font-semibold text-gray-900 dark:text-white">
+                     <Tooltip
+                     placement={"Top"}
+                     content={res.organization_id}>
                      <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.organization_id}</p>
+                   </Tooltip>
                      </div>
                  </div>
              </li>
              <li className="py-3 sm:py-4">
                  <div className="flex items-center space-x-4">
                     
-                     <div className="flex-1 min-w-0">
+                     <div className="flex-1 min-w-1">
                          <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                          Create At
                          </p>
                         
                      </div>
-                     <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                     <div className="inline-flex truncate items-center text-base font-semibold text-gray-900 dark:text-white">
+                     <Tooltip
+                     placement={"Top"}
+                     content={new Date(res.created_at).toLocaleString()}>
                      <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{new Date(res.created_at).toLocaleString()}</p>
+                   </Tooltip>
                      </div>
                  </div>
              </li>
@@ -194,7 +212,9 @@ return (
               </button>
  </div>
  </div>
- <Datatable  columns={columns} data={activities} />
+ {activities.length>0 ?<Datatable  columns={columns} data={activities} /> : <p className="text-sm ml-10 mt-10 font-medium text-gray-900 truncate dark:text-white">
+No Activites Found
+ </p>}
 
  </div>
  

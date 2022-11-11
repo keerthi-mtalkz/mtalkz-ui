@@ -79,7 +79,7 @@ const addOrganization = () => {
           placeholder="Enter organization name"
           required
           minLength={3}
-          maxLength={40}
+          maxLength={225}
         />
       </label>
       {errors && errors.name && (
