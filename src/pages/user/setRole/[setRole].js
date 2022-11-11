@@ -39,7 +39,6 @@ const setRole = () => {
   
     let handleSwitch = (value) => {
       setSelectedRole([{label: value.label,value:value.value}])
-      console.log(value,"value")
     }
 
     const fetchRole = async () => {
@@ -97,7 +96,6 @@ const setRole = () => {
     };
   
   
- console.log(selectedRole,"egfefebfgygerf heg hgfyegrf gyte ytere yer")
 return (
     <Layout>
      <SectionTitle title="SET ROLE" subtitle="" />
