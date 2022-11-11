@@ -57,7 +57,9 @@ const updateID = () => {
         .then((res) => {
           setRes(res.data);
           setStatus({ type: "success" });
+          setTimeout(() => {
           router.push("/user");
+          }, 1000);
         })
         .catch((err) => {
           if(err.response.data.errors===[]){
