@@ -2,7 +2,6 @@ import Link from 'next/link'
 import {useSelector, useDispatch, shallowEqual} from 'react-redux'
 import { Menu} from 'react-feather'
 import DropdownWidget5 from '../dropdown-widgets/dropdown-widget-5'
-import axios from "axios";
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react';
 import Select from "react-select";
