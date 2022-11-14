@@ -126,6 +126,7 @@ const viewID = () => {
       'Authorization': `Bearer ${token}`
    }})
     .then((res) => {
+      setStatus({ type: "success" });
     })
     .catch((err) => {
         setStatus({ type: "error",message: err.response.data.message });
@@ -151,6 +152,7 @@ const viewID = () => {
     };
   
     const handleSwitch=(value)=>{
+      setStatus(undefined)
       setSelectedResource({label: value.label, value: value.value})
     }
  
@@ -161,7 +163,7 @@ return (
       {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.success('Success message', 'Title here')}
+        { NotificationManager.success('Updated Credits Successfully', 'Success')}
         </div>
       </div>
       )}
