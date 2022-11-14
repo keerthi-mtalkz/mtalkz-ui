@@ -117,7 +117,7 @@ const User=()=>{
      {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
       <div className="p-2">
-      { NotificationManager.success('Deleted integration successfully', 'Success')}
+      { NotificationManager.success('Deleted user successfully', 'Success')}
       </div>
     </div>
     )}

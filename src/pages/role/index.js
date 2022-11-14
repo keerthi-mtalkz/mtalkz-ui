@@ -165,14 +165,12 @@ const Role=()=>{
         <div className="w-1/6 ">
           {" "}
           <Link href={`/role/addRole`}>
-            <a>
-              <button
-                className="ml-3  btn btn-default btn-blue create-btn w-full"
-                type="button"
-              >
-                Add Role
-              </button>
-            </a>
+          <button
+          className="ml-3  btn btn-default btn-indigo create-btn w-full"
+          type="button"
+        >
+          Add Role
+        </button>
           </Link>
         </div>
       </div>

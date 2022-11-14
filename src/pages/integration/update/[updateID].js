@@ -145,7 +145,7 @@ const updateID = () => {
            })
            channels.map((data)=>{
             if( data.label.toLowerCase()==res.data.integration.channel_slug.toLowerCase()){
-              setSelectedChannel({label:data.label, value:data.value})
+              setSelectedChannel([{label:data.label, value:data.value}])
             }
            })
            setParams(_params)
@@ -204,6 +204,7 @@ const updateID = () => {
     }
     const onSubmit = (data) => {
       const isValid= validateField()
+      console.log(selectedChannel,"ekjhfrhfgriyegfuy")
       if (typeof window !== "undefined" && isValid ) {
         data.requires_access=access;
         data.requires_approval=approval;
