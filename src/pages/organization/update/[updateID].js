@@ -34,7 +34,6 @@ const updateID = () => {
         .then((res) => {
           setRes(res.data.organization);
           handleChange(res.data.organization.is_reseller===1?true:false);
-          console.log(res.data.organization);
         })
         .catch((err) => {
           console.error("get /organizations error", err);

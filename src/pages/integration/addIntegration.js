@@ -67,7 +67,6 @@ const addIntegration = () => {
   };
 
   const handleTagClick = index => {
-    console.log('The tag at index ' + index + ' was clicked');
   };
 
   let handleSwitch = (value) => {
@@ -145,7 +144,6 @@ const addIntegration = () => {
 
   let handleSwitchChannel = (value) => {
     setSelectedChannel([]);
-    console.log(value,"&&&&&&&&&&&&&&&&&&&&&&")
     let channels=[]
       channels.push({label:value.label, value:value.value})
     setSelectedChannel([...channels])
@@ -197,7 +195,6 @@ const addIntegration = () => {
   
  
 
-console.log(errors,"errors")
   return (
     <Layout>
     <SectionTitle title="Create Integration" subtitle="" />

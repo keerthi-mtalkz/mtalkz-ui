@@ -56,7 +56,6 @@ const Navbar = () => {
         setOrganizations(res?.data?.organizations);
       const org=  res?.data?.organizations.filter((o)=>o.id===user.organization_id)
       setSelectedOrganization([{ label: org[0].name, value: org[0].id }])
-      console.log(selectedOrganization,"))))))))))))))))")
       })
       .catch((err) => {
         console.error("get /organizations error", err);
@@ -64,7 +63,6 @@ const Navbar = () => {
   };
 
   useEffect(()=>{
-    console.log(selectedOrganization,"dewd")
   },[selectedOrganization])
 
   useEffect(()=>{

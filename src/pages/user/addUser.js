@@ -33,7 +33,6 @@ const addUser = () => {
         }, 1000);
       })
       .catch((err) => {
-        console.log(err.response.data.errors,"err.response.data.errors")
         if(err.response.data.errors){
           setErrors(err.response.data.errors)
         }else{

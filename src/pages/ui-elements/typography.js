@@ -72,7 +72,6 @@ const items = [
 ]
 
 const Index = () => {
-  console.log(JSON.stringify(items, null, 2))
   return (
     <Layout>
       <SectionTitle title="UI Elements" subtitle="Typography" />

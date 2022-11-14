@@ -34,7 +34,6 @@ const updateID = () => {
          }})
         .then((res) => {
           setRes(res.data.user);
-          console.log(res.data.user);
         })
         .catch((err) => {
           console.error("get /user error", err);

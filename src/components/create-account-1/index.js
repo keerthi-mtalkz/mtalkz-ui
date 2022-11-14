@@ -88,7 +88,8 @@ const CreateAccount = () => {
               className="form-input mt-1 text-xs block w-full bg-white"
               placeholder="Enter your email"
               required
-
+              autoComplete="off"
+              
             />
           </label>
           {errors && errors.email && (
@@ -110,6 +111,7 @@ const CreateAccount = () => {
               className="form-input mt-1 text-xs block w-full bg-white"
               placeholder="Enter your password"
               required
+              autoComplete="off"
             />
           </label>
           {errors && errors.password && (

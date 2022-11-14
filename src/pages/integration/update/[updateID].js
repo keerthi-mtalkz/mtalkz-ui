@@ -94,7 +94,6 @@ const updateID = () => {
     };
   
     const handleTagClick = index => {
-      console.log('The tag at index ' + index + ' was clicked');
     };
   
     let handleSwitch = (value) => {
@@ -178,7 +177,6 @@ const updateID = () => {
   
     const { register, handleSubmit, watch } = useForm();
     const validateField=()=>{
-      console.log("paams",params,tags)
       let _errors= { }
        if(tags.length==0 ){
         _errors={tags:['tags are required']}
@@ -204,7 +202,6 @@ const updateID = () => {
     }
     const onSubmit = (data) => {
       const isValid= validateField()
-      console.log(selectedChannel,"ekjhfrhfgriyegfuy")
       if (typeof window !== "undefined" && isValid ) {
         data.requires_access=access;
         data.requires_approval=approval;

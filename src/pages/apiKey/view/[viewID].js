@@ -39,7 +39,6 @@ const viewID = () => {
 
  
   
-  console.log(res.resource,"heeg")
 
 return (
     <Layout>

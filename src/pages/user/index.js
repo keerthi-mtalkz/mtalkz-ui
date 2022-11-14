@@ -76,12 +76,12 @@ const User=()=>{
           Header: 'Organization id',
           accessor: 'organization_id'
         },
+     
         {
           Header: 'Actions',
           sortable: false,
           cell: () => <Button variant="danger" data-tag="allowRowEvents" data-action="delete"><FontAwesomeIcon icon={faTrash} /></Button>,
           Cell: (data) => {
-            console.log('row', data.row);
             return (<div className="flex justify-evenly"> <Link href={`/user/view/${data.row.original.id}`}>
                 <p>
                   <i className="icon-eye text-1xl font-bold mb-2"></i>

@@ -82,7 +82,6 @@ const Index = () => {
       }
     }).then(res => {
       const cb = res?.data;
-      console.log(res.data,"dhsfgysjfewhfvtehfyqegfhtfiyqtfhefiyetyf")
       if (cb) {
         setChatbot(cb.chatbot);
         setFlowCharts(cb.flowCharts);
@@ -114,9 +113,7 @@ const Index = () => {
         }
       )
         .then((res) => {
-          console.log(res,"jfhfrefjrenfiu2222222222222222b  uyhfg 87yury4")
           router.push("/chatbots");
-          console.log(res,"jfhfrefjrenfiub  uyhfg 87yury4")
          
         })
         .catch((err) => {
