@@ -34,7 +34,6 @@ const updateID = () => {
          }})
         .then((res) => {
           setRes(res.data.user);
-          console.log(res.data.user);
         })
         .catch((err) => {
           console.error("get /user error", err);
@@ -57,7 +56,9 @@ const updateID = () => {
         .then((res) => {
           setRes(res.data);
           setStatus({ type: "success" });
+          setTimeout(() => {
           router.push("/user");
+          }, 1000);
         })
         .catch((err) => {
           if(err.response.data.errors===[]){
@@ -148,7 +149,7 @@ return (
       <div className="w-full">
         <input
           type="submit"
-          className="btn btn-default btn-block btn-indigo btn-rounded"
+          className="btn btn-default btn-block btn-indigo btn-rounded mt-5"
           value="Update"
         />
       </div>

@@ -37,6 +37,9 @@ const Navbar = () => {
     .then((res) => {
       localStorage.removeItem("token")
       localStorage.removeItem("user")
+      localStorage.removeItem("orgName")
+      localStorage.removeItem("orgId")
+
       router.push("/pages/login");
     })
     .catch((err) => {
@@ -54,9 +57,15 @@ const Navbar = () => {
       })
       .then(async(res) => {
         setOrganizations(res?.data?.organizations);
-      const org=  res?.data?.organizations.filter((o)=>o.id===user.organization_id)
-      localStorage.setItem("orgId",org[0].id)
-      setSelectedOrganization([{ label: org[0].name, value: org[0].id }])
+      const org=  res?.data?.organizations.filter((o)=>o.id===user.current_organization_id)
+      if(localStorage.getItem('orgName')==null){
+        setSelectedOrganization([{ label: org[0].name, value: org[0].id }])
+        localStorage.setItem('orgName',org[0].name)
+        localStorage.setItem('orgId', org[0].id )
+     
+      }else{
+        setSelectedOrganization([{ label: localStorage.getItem('orgName'), value: localStorage.getItem('orgId')}])
+      }
       })
       .catch((err) => {
         console.error("get /organizations error", err);
@@ -64,11 +73,11 @@ const Navbar = () => {
   };
 
   useEffect(()=>{
-    console.log(selectedOrganization,"dewd")
   },[selectedOrganization])
 
   useEffect(()=>{
     getOraganizations()
+
   },[])
 
   const options = organizations?.map((value) => {
@@ -79,6 +88,9 @@ const Navbar = () => {
     const token= localStorage.getItem("token");
     localStorage.setItem("orgId",value.value)
 
+    setSelectedOrganization([{ label: value.label, value: value.value}])
+ localStorage.setItem('orgName',value.label)
+      localStorage.setItem('orgId', value.value )
 
     const answer = window.confirm("are you sure?");
     if (answer) {
@@ -93,7 +105,8 @@ const Navbar = () => {
         }
       )
         .then((res) => {
-        
+      router.push("/dashboard");
+           
         })
         .catch((err) => {
           console.error("get /organizations error", err.message);
@@ -127,7 +140,7 @@ const Navbar = () => {
             // isMulti={true}
             placeholder="Select organization ..."
             onChange={handleSwitch}
-            // defaultValue={{ label: getdata.label, value: getdata.value }}
+            defaultValue={selectedOrganization}
             theme={(theme) => ({
               ...theme,
               colors: {

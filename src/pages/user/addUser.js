@@ -33,7 +33,6 @@ const addUser = () => {
         }, 1000);
       })
       .catch((err) => {
-        console.log(err.response.data.errors,"err.response.data.errors")
         if(err.response.data.errors){
           setErrors(err.response.data.errors)
         }else{
@@ -148,7 +147,7 @@ const addUser = () => {
       <div className="w-full">
         <input
           type="submit"
-          className="btn btn-default btn-block btn-indigo "
+          className="btn btn-default btn-block btn-indigo mt-5 "
           value="Submit"
         />
       </div>

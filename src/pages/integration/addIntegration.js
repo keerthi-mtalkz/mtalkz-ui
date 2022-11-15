@@ -66,9 +66,7 @@ const addIntegration = () => {
     setParams(newTags);
   };
 
-  const handleTagClick = index => {
-    console.log('The tag at index ' + index + ' was clicked');
-  };
+
 
   let handleSwitch = (value) => {
     let organizations=[];
@@ -145,7 +143,6 @@ const addIntegration = () => {
 
   let handleSwitchChannel = (value) => {
     setSelectedChannel([]);
-    console.log(value,"&&&&&&&&&&&&&&&&&&&&&&")
     let channels=[]
       channels.push({label:value.label, value:value.value})
     setSelectedChannel([...channels])
@@ -197,7 +194,6 @@ const addIntegration = () => {
   
  
 
-console.log(errors,"errors")
   return (
     <Layout>
     <SectionTitle title="Create Integration" subtitle="" />
@@ -340,7 +336,6 @@ console.log(errors,"errors")
              handleDelete={handleDelete}
              handleAddition={handleAddition}
              handleDrag={handleDrag}
-             handleTagClick={handleTagClick}
              inputFieldPosition="bottom"
              autocomplete
            />
@@ -405,7 +400,6 @@ console.log(errors,"errors")
   handleDelete={handleParamDelete}
   handleAddition={handleParamsAddition}
   handleDrag={handleParamDrag}
-  handleTagClick={handleTagClick}
   inputFieldPosition="bottom"
   autocomplete
 />

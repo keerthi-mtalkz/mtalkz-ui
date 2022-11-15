@@ -15,6 +15,7 @@ import {NotificationManager} from 'react-notifications'
 const Role=()=>{
     const [roleData,setRoleData]=React.useState([]);
     const [permissions,setPermissions]=React.useState(false);
+    const [searchQuery, setSearchQuery] = React.useState("");
 
     const [status, setStatus] = React.useState(undefined);
 
@@ -158,25 +159,32 @@ const Role=()=>{
             type="text"
             name="search"
             className="w-full p-2 ..."
-            onChange={(e) =>{}}
+            onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search..."
           />
         </div>
         <div className="w-1/6 ">
           {" "}
           <Link href={`/role/addRole`}>
-            <a>
-              <button
-                className="ml-3  btn btn-default btn-blue create-btn w-full"
-                type="button"
-              >
-                Add Role
-              </button>
-            </a>
+          <button
+          className="ml-3  btn btn-default btn-indigo create-btn w-full"
+          type="button"
+        >
+          Add Role
+        </button>
           </Link>
         </div>
       </div>
-        <Datatable columns={columns} data={roleData} customclassName="usertableList" />
+        <Datatable columns={columns} data={roleData?.filter((val) => {
+          if (searchQuery == "") {
+            return val;
+          } else if (
+           (val.name.toLowerCase().includes(searchQuery.toLocaleLowerCase())) 
+          ) {
+            return val;
+          }
+        })
+        .map((value, idx) => {return value})} customclassName="usertableList" />
         </Layout>
         )
 }

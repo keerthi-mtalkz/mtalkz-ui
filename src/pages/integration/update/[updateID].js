@@ -94,7 +94,6 @@ const updateID = () => {
     };
   
     const handleTagClick = index => {
-      console.log('The tag at index ' + index + ' was clicked');
     };
   
     let handleSwitch = (value) => {
@@ -145,7 +144,7 @@ const updateID = () => {
            })
            channels.map((data)=>{
             if( data.label.toLowerCase()==res.data.integration.channel_slug.toLowerCase()){
-              setSelectedChannel({label:data.label, value:data.value})
+              setSelectedChannel([{label:data.label, value:data.value}])
             }
            })
            setParams(_params)
@@ -178,7 +177,6 @@ const updateID = () => {
   
     const { register, handleSubmit, watch } = useForm();
     const validateField=()=>{
-      console.log("paams",params,tags)
       let _errors= { }
        if(tags.length==0 ){
         _errors={tags:['tags are required']}

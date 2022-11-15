@@ -12,7 +12,6 @@ let socialMediaColors = {
 const Subscribe = () => {
   const {register, handleSubmit, watch, errors} = useForm()
   const onSubmit = data => {
-    console.log(data)
   }
   const [checked, setChecked] = useState(true)
 

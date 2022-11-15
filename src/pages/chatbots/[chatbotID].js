@@ -82,7 +82,6 @@ const Index = () => {
       }
     }).then(res => {
       const cb = res?.data;
-      console.log(res.data,"dhsfgysjfewhfvtehfyqegfhtfiyqtfhefiyetyf")
       if (cb) {
         setChatbot(cb.chatbot);
         setFlowCharts(cb.flowCharts);
@@ -114,9 +113,7 @@ const Index = () => {
         }
       )
         .then((res) => {
-          console.log(res,"jfhfrefjrenfiu2222222222222222b  uyhfg 87yury4")
           router.push("/chatbots");
-          console.log(res,"jfhfrefjrenfiub  uyhfg 87yury4")
          
         })
         .catch((err) => {
@@ -133,10 +130,10 @@ const Index = () => {
 
    const InstallationTab=()=>{
    return( 
-    chatbot._id ?
+    chatbot?._id ?
   <div className="w-full mb-4">
     <div className="inline-block w-5/6">
-      <SectionTitle title={chatbot.name} />
+      <SectionTitle title={chatbot?.name} />
     </div>
     <div className="inline-block w-1/6 text-right">
       <a className="btn btn-default btn-indigo" onClick={() => saveChatbot()}>Save</a>
@@ -181,7 +178,7 @@ const Index = () => {
             <div className="grid grid-cols-3 w-full mb-2">
               <span>Message</span>
               <Switch
-                checked={chatbot.welcome.type === 'flowchart'}
+                checked={chatbot?.welcome?.type === 'flowchart'}
                 onChange={(checked) => updateChatbot('welcome.type', checked ? 'flowchart' : 'message')}
                 offColor="#2c5282"
                 onColor="#553c9a"
@@ -190,20 +187,20 @@ const Index = () => {
               />
               <span>Flowchart</span>
             </div>
-            {chatbot.welcome.type !== 'flowchart' && (
+            {chatbot?.welcome?.type !== 'flowchart' && (
               <textarea
                 className="text-sm form-input mt-1 block w-full border"
                 placeholder="Message"
                 onChange={(e) => updateChatbot('welcome.textOrFlowChartName', e.target.value)}
-                value={chatbot.welcome.textOrFlowChartName || ''}
+                value={chatbot?.welcome?.textOrFlowChartName || ''}
                 required={true}
               />
             )}
-            {chatbot.welcome.type === 'flowchart' && (
+            {chatbot?.welcome?.type === 'flowchart' && (
               <select
                 className="text-sm form-select block w-full"
                 onChange={(e) => updateChatbot('welcome.textOrFlowChartName', e.target.value)}
-                value={chatbot.welcome.textOrFlowChartName || ''}
+                value={chatbot?.welcome?.textOrFlowChartName || ''}
               >
                 <option value="">(None)</option>
                 {flowCharts.map((fc) => (<option key={fc._id} value={fc.name}>{fc.name}</option>))}
@@ -216,7 +213,7 @@ const Index = () => {
               className="text-sm form-input mt-1 block w-full border"
               placeholder="Message"
               onChange={(e) => updateChatbot('unrecognizedInputMessage', e.target.value)}
-              value={chatbot.unrecognizedInputMessage || ''}
+              value={chatbot?.unrecognizedInputMessage || ''}
             />
           </label>
         </div>
@@ -241,7 +238,7 @@ const Index = () => {
               className="text-sm form-input mt-1 block w-full border"
               placeholder="91xxxxxxxxxx"
               onChange={(e) => updateChatbot('phone', e.target.value)}
-              value={chatbot.phone || ''}
+              value={chatbot?.phone || ''}
               required={true}
             />
           </label>
@@ -266,14 +263,14 @@ const Index = () => {
               placeholder="Seconds"
               min={10}
               onChange={(e) => updateChatbot('timeout.seconds', e.target.value)}
-              value={chatbot.timeout.seconds || ''}
+              value={chatbot?.timeout?.seconds || ''}
             />
             <textarea
               className="text-sm form-input mt-1 block w-full border"
               placeholder="Message"
               onChange={(e) => updateChatbot('timeout.message', e.target.value)}
-              value={chatbot.timeout.message || ''}
-              required={chatbot.timeout.seconds >= 10}
+              value={chatbot?.timeout?.message || ''}
+              required={chatbot?.timeout?.seconds >= 10}
             />
           </label>
           <label className="block">
@@ -283,14 +280,14 @@ const Index = () => {
               className="text-sm form-input mt-1 block w-full border"
               placeholder="Keyword"
               onChange={(e) => updateChatbot('exit.keyword', e.target.value)}
-              value={chatbot.exit.keyword || ''}
+              value={chatbot?.exit?.keyword || ''}
             />
             <textarea
               className="text-sm form-input mt-1 block w-full border"
               placeholder="Message"
               onChange={(e) => updateChatbot('exit.message', e.target.value)}
-              value={chatbot.exit.message || ''}
-              required={!!(chatbot.exit.keyword)}
+              value={chatbot?.exit?.message || ''}
+              required={!!(chatbot?.exit?.keyword)}
             />
           </label>
         </div>

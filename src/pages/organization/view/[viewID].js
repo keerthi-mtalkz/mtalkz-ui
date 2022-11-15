@@ -45,7 +45,6 @@ const viewID = () => {
          }})
         .then((res) => {
           setRes(res.data.organization);
-          // console.log(res.data.organization);
         })
         .catch((err) => {
           console.error("get /organizations error", err);
@@ -53,9 +52,7 @@ const viewID = () => {
     }
     };
     const onSubmit = () => {
-      console.log(credits,floatingcredits,"kejgfehgfeyrfguyguyf")
       updateCredits()
-      // console.log(data)
     }
 
     useEffect(() => {
@@ -72,7 +69,6 @@ const viewID = () => {
         'Authorization': `Bearer ${token}`
        }})
       .then((res) => {
-        console.log(res.data.credit)
          setCreditsRes(res.data.credit)
          if(res.data.credit){
           setCredits(res.data.credit.active);
@@ -126,6 +122,7 @@ const viewID = () => {
       'Authorization': `Bearer ${token}`
    }})
     .then((res) => {
+      setStatus({ type: "success" });
     })
     .catch((err) => {
         setStatus({ type: "error",message: err.response.data.message });
@@ -151,17 +148,17 @@ const viewID = () => {
     };
   
     const handleSwitch=(value)=>{
+      setStatus(undefined)
       setSelectedResource({label: value.label, value: value.value})
     }
  
-    console.log(creditsRes,"wgwefyerfjehfy8reftg")
 return (
     <Layout>
      <SectionTitle title="View Organization" subtitle="" />
       {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.success('Success message', 'Title here')}
+        { NotificationManager.success('Updated Credits Successfully', 'Success')}
         </div>
       </div>
       )}

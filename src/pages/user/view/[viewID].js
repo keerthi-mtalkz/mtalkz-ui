@@ -22,9 +22,13 @@ const viewID = () => {
     const viewid = router.query.viewID;
     const [res, setRes] = useState({});
     const [status, setStatus] = useState(undefined);
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
     const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
+    const [endDate, setEndDate] = useState( date );
     const [activities,setActivities]=useState([]);
+   
+    const [dateErrorMsg,setDateErrorMsg]=useState(undefined)
     const fetch = async () => {
       if (typeof window !== "undefined") {
       const token = localStorage.getItem('token');
@@ -35,7 +39,6 @@ const viewID = () => {
          }})
         .then((res) => {
           setRes(res.data.user);
-          console.log(res.data);
         })
         .catch((err) => {
           console.error("get /users error", err);
@@ -44,11 +47,14 @@ const viewID = () => {
     };
 
     useEffect(() => {
-      getUserActivities();
-      fetch();
+        getUserActivities();
+        fetch();
     }, []);
 
   const getUserActivities=async()=>{
+  if(moment(endDate).diff(moment(startDate),"days")>0)
+  {
+    setDateErrorMsg(undefined)
     const sd=moment(startDate).format("YYYY-MM-DD");
     const ed=moment(endDate).format("YYYY-MM-DD");
     const token = localStorage.getItem('token');
@@ -62,6 +68,11 @@ const viewID = () => {
     .catch((err) => {
       console.error("get /users error", err);
     });
+  }else if(endDate != undefined && startDate != undefined) {
+   
+    setDateErrorMsg("end date should be greater than start date")
+  }
+   
   }
 
   const columns =  [
@@ -83,8 +94,6 @@ const viewID = () => {
       },
 
     ]
-
-   
 
 return (
     <Layout>
@@ -119,11 +128,7 @@ return (
                        
                      </div>
                      <div className="inline-flex truncate items-center text-base font-semibold text-gray-900 dark:text-white">
-                     <Tooltip
-                     placement={"Top"}
-                     content={res.name}>
-                     <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
-                   </Tooltip>
+                      <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
                   
                      </div>
                  </div>
@@ -138,11 +143,8 @@ return (
                         
                      </div>
                      <div className="inline-flex truncate items-center text-base font-semibold text-gray-900 dark:text-white">
-                     <Tooltip
-                     placement={"Top"}
-                     content={res.email}>
-                     <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.email}</p>
-                   </Tooltip>
+                   <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.email}</p>
+
                      </div>
                  </div>
              </li>
@@ -212,7 +214,10 @@ return (
               </button>
  </div>
  </div>
- {activities.length>0 ?<Datatable  columns={columns} data={activities} /> : <p className="text-sm ml-10 mt-10 font-medium text-gray-900 truncate dark:text-white">
+ {
+  dateErrorMsg != undefined   &&<p className="mt-1 text-xs text-red-500 ml-10">{dateErrorMsg}</p>
+ }
+ {activities.length>0 && dateErrorMsg=== undefined ?<Datatable  columns={columns} data={activities} /> : <p className="text-sm ml-10 mt-10 font-medium text-gray-900 truncate dark:text-white">
 No Activites Found
  </p>}
 
