@@ -55,7 +55,7 @@ const Navbar = () => {
       .then(async(res) => {
         setOrganizations(res?.data?.organizations);
       const org=  res?.data?.organizations.filter((o)=>o.id===user.organization_id)
-      if(localStorage.getItem('orgName')==''){
+      if(localStorage.getItem('orgName')==null){
         setSelectedOrganization([{ label: org[0].name, value: org[0].id }])
         localStorage.setItem('orgName',org[0].name)
         localStorage.setItem('orgId', org[0].id )
