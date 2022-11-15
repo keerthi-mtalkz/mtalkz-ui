@@ -104,7 +104,7 @@ const Sidebar = () => {
         {!collapsed && <User />}
       </div>
       {navigation.map((menu, i) => (
-        <div className={`flex flex-col ${collapsed ? 'mb-0' : 'mb-4'}`} key={i}>
+        <div className={`flex flex-col ${collapsed ? 'mb-0' : 'mb-4'}  -mt-5`} key={i}>
           <div className={`${collapsed ? 'hidden' : 'visible'}`}>
             <Title>{menu.title}</Title>
           </div>

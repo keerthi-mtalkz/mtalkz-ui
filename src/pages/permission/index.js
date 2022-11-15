@@ -144,7 +144,16 @@ const Permission=()=>{
         </Link>
       </div>
     </div>
-    <Datatable columns={columns} data={permissions} />
+    <Datatable columns={columns} data={permissions?.filter((val) => {
+      if (searchQuery == "") {
+        return val;
+      } else if (
+       (val.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()) || val.route.toLowerCase().includes(searchQuery.toLocaleLowerCase())) 
+      ) {
+        return val;
+      }
+    })
+    .map((value, idx) => {return value})} />
     </Layout>
     )
 }

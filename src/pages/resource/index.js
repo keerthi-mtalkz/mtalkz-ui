@@ -143,7 +143,16 @@ const Resource=()=>{
         </Link>
       </div>
     </div>
-    <Datatable  columns={columns} data={resources} />
+    <Datatable  columns={columns}  data={resources?.filter((val) => {
+      if (searchQuery == "") {
+        return val;
+      } else if (
+       (val.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()) || val.slug.toLowerCase().includes(searchQuery.toLocaleLowerCase())) 
+      ) {
+        return val;
+      }
+    })
+    .map((value, idx) => {return value})} />
     </Layout>
     )
 }

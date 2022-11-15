@@ -14,6 +14,7 @@ import {NotificationManager} from 'react-notifications'
 const ApiKey=()=>{
  const [apiKeys,setApiKeys]=useState([])
  const [status, setStatus] = useState(undefined);
+ const [searchQuery, setSearchQuery] = useState("");
 
   const getApiKeys = async () => {
     const token = localStorage.getItem('token');
@@ -149,7 +150,16 @@ const ApiKey=()=>{
       </div>
     </div>
     )}
-    <Datatable columns={columns} data={apiKeys} />
+    <Datatable columns={columns} data={apiKeys?.filter((val) => {
+      if (searchQuery == "") {
+        return val;
+      } else if (
+       (val.key.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ) 
+      ) {
+        return val;
+      }
+    })
+    .map((value, idx) => {return value})}  />
     </Layout>
     )
 }

@@ -142,7 +142,16 @@ const Channel=()=>{
         </Link>
       </div>
     </div>
-    <Datatable columns={columns} data={channels} />
+    <Datatable columns={columns}  data={channels?.filter((val) => {
+      if (searchQuery == "") {
+        return val;
+      } else if (
+       (val.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()) || val.slug.toLowerCase().includes(searchQuery.toLocaleLowerCase())) 
+      ) {
+        return val;
+      }
+    })
+    .map((value, idx) => {return value})} />
     </Layout>
     )
 }

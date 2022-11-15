@@ -49,7 +49,7 @@ const Sidebar = () => {
     <div ref={leftSidebarRef} className={`left-sidebar left-sidebar-1 text-sm`}>
       <div>
         <div>
-          <div className={`flex flex-col`}>
+          <div className={`flex flex-col mt-10`}>
             <Logo />
             <div className="user-card">
               <User />
