@@ -37,7 +37,12 @@ const Login = () => {
     <Layout>
       <div className="w-full flex flex-row h-screen overflow-hidden">
       <div className="hidden lg:flex lg:flex-col w-1/2 bg-purple-700 text-white p-8 items-start justify-between relative">
-      <div></div>
+     
+      <div className="flex flex-col z-10">
+      <p className="text-3xl font-bold font-poppins mb-4">
+              Welcome to {name}!
+            </p>
+      </div>
      
       <div className="flex flex-row items-center justify-between w-full text-xs z-10">
         <div className="text-white">&copy; Mtalkz 2020</div>
@@ -63,7 +68,7 @@ const Login = () => {
         <div className="w-full lg:w-1/2 bg-white text-default p-8 lg:p-24 flex flex-col items-center justify-center">
           <p className="text-3xl font-bold font-poppins mb-4">
           <img
-          src="./logo.png"
+          src="/logo.png"
           alt="Picture of the author"
           // width="350px"
           // height="300px"

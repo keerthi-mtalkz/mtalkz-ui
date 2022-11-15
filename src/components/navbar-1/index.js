@@ -37,6 +37,9 @@ const Navbar = () => {
     .then((res) => {
       localStorage.removeItem("token")
       localStorage.removeItem("user")
+      localStorage.removeItem("orgName")
+      localStorage.removeItem("orgId")
+
       router.push("/pages/login");
     })
     .catch((err) => {
@@ -54,11 +57,14 @@ const Navbar = () => {
       })
       .then(async(res) => {
         setOrganizations(res?.data?.organizations);
-      const org=  res?.data?.organizations.filter((o)=>o.id===user.organization_id)
-      if(localStorage.getItem('orgName')==''){
+      const org=  res?.data?.organizations.filter((o)=>o.id===user.current_organization_id)
+      console.log(localStorage.getItem('orgName'),"localStorage.getItem('orgName')")
+      if(localStorage.getItem('orgName')==null){
+        
         setSelectedOrganization([{ label: org[0].name, value: org[0].id }])
         localStorage.setItem('orgName',org[0].name)
         localStorage.setItem('orgId', org[0].id )
+     
       }else{
         setSelectedOrganization([{ label: localStorage.getItem('orgName'), value: localStorage.getItem('orgId')}])
       }
@@ -73,6 +79,7 @@ const Navbar = () => {
   },[selectedOrganization])
 
   useEffect(()=>{
+    console.log("****************************************")
     getOraganizations()
 
   },[])
@@ -101,7 +108,8 @@ const Navbar = () => {
         }
       )
         .then((res) => {
-        
+      router.push("/dashboard");
+           
         })
         .catch((err) => {
           console.error("get /organizations error", err.message);

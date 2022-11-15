@@ -148,7 +148,7 @@ const addUser = () => {
       <div className="w-full">
         <input
           type="submit"
-          className="btn btn-default btn-block btn-indigo "
+          className="btn btn-default btn-block btn-indigo mt-5 "
           value="Submit"
         />
       </div>
