@@ -15,6 +15,7 @@ import {NotificationManager} from 'react-notifications'
 const User=()=>{
     const [userData,setUserData]=React.useState([]);
   const [status, setStatus] = React.useState(undefined);
+  const [searchQuery, setSearchQuery] = React.useState("");
     
      const getUsersApi=async()=>{
     const token= localStorage.getItem("token");
@@ -151,7 +152,17 @@ const User=()=>{
           </Link>
         </div>
       </div>
-        <Datatable columns={columns} data={userData} customclassName="usertableList" />
+        <Datatable columns={columns} data={
+          userData?.filter((val) => {
+            if (searchQuery == "") {
+              return val;
+            } else if (
+             (val.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()) || val.email?.toLowerCase().includes(searchQuery.toLocaleLowerCase())) 
+            ) {
+              return val;
+            }
+          })
+          .map((value, idx) => {return value})} customclassName="usertableList" />
         </Layout>
         )
 }

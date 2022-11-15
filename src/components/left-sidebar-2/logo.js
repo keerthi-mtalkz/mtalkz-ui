@@ -14,7 +14,7 @@ const Logo = () => {
   )
   return (
     <div
-      className={`h-16  bg-blue-200 text-center  items-center uppercase font-bold text-lg tracking-wider logo ${
+      className={`h-16 p-10  bg-blue-200 text-center  items-center uppercase font-bold text-lg tracking-wider logo ${
         collapsed ? 'justify-center' : 'justify-between px-4'
       }`}  >
      

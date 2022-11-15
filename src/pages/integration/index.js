@@ -150,7 +150,16 @@ const Integration=()=>{
       </div>
     </div>
     
-    <Datatable columns={columns} data={integrations}  className="overflow-x-scroll"/>
+    <Datatable columns={columns}  data={integrations?.filter((val) => {
+      if (searchQuery == "") {
+        return val;
+      } else if (
+       (val.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()) || val.slug.toLowerCase().includes(searchQuery.toLocaleLowerCase()) || val.channel_slug.toLowerCase().includes(searchQuery.toLocaleLowerCase())) 
+      ) {
+        return val;
+      }
+    })
+    .map((value, idx) => {return value})} className="overflow-x-scroll"/>
     </Layout>
     )
 }
