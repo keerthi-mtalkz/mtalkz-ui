@@ -5,12 +5,7 @@ import {ax} from "../../utils/apiCalls";
 import { useRouter } from "next/router";
 import {NotificationManager} from 'react-notifications'
 
-let socialMediaColors = {
-  facebook: '#365397',
-  linkedin: '#006db3',
-  google: '#e0452c',
-  github: '#2f2f2f'
-}
+
 
 const CreateAccount = () => {
   const {register, handleSubmit, watch} = useForm()
@@ -135,11 +130,11 @@ const CreateAccount = () => {
                 />
                 <span className="ltr:ml-2 rtl:mr-2">
                   I agree to the{' '}
-                  <Link href="/pages/terms-of-service">
+                  <Link href="/#">
                     <a className="link">Terms of service</a>
                   </Link>{' '}
                   and{' '}
-                  <Link href="/pages/privacy-policy">
+                  <Link href="/#">
                     <a className="link">Privacy policy</a>
                   </Link>
                 </span>
@@ -157,23 +152,7 @@ const CreateAccount = () => {
         </div>
       </form>
 
-      <div className="w-full mb-4 text-center">
-        <p className="text-secondary mb-2">Or sign up with</p>
-        <div className="flex w-full flex-row justify-center items-center children-x-2">
-          <i
-            className={`icon-social-facebook text-xl`}
-            style={{color: socialMediaColors['facebook']}}></i>
-          <i
-            className={`icon-social-google text-xl`}
-            style={{color: socialMediaColors['google']}}></i>
-          <i
-            className={`icon-social-linkedin text-xl`}
-            style={{color: socialMediaColors['linkedin']}}></i>
-          <i
-            className={`icon-social-github text-xl`}
-            style={{color: socialMediaColors['github']}}></i>
-        </div>
-      </div>
+     
 
       <div className="w-full children-x-1">
         <span className="text-secondary">Already have an account?</span>

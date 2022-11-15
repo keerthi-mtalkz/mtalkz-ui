@@ -6,12 +6,10 @@ import { useRouter } from "next/router";
 import { withRedux } from "../../lib/redux";
 import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
-import { status } from "nprogress";
 import Switch from 'react-switch'
 
 const addUser = () => {
   const router = useRouter();
-  const [res, setRes] = useState({});
   const [status, setStatus] = useState(undefined);
   const [checked, handleChange] = useState(false)
   const [errors,setErrors]=useState(undefined)
@@ -26,7 +24,6 @@ const addUser = () => {
       'Authorization': `Bearer ${token}`
      }})
       .then((res) => {
-        setRes(res.data);
         setStatus({ type: "success" });
         setTimeout(() => {
         router.push("/user");

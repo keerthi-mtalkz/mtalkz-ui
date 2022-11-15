@@ -26,7 +26,6 @@ const Navbar = () => {
 
 
   const logOut =async ( ) =>{
-
     const token= localStorage.getItem("token");
     await ax
       .get("/auth/logout", {
@@ -39,7 +38,6 @@ const Navbar = () => {
       localStorage.removeItem("user")
       localStorage.removeItem("orgName")
       localStorage.removeItem("orgId")
-
       router.push("/pages/login");
     })
     .catch((err) => {
