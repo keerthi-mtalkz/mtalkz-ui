@@ -72,13 +72,14 @@ const ApiKey=()=>{
         accessor: 'is_active',
       },
       {
-        Header: 'Total Credits',
-        accessor: 'total_credits',
-      },
-      {
         Header: 'Resource',
         accessor: 'resource.name'
       },
+      {
+        Header: 'Total Credits',
+        accessor: 'total_credits',
+      },
+    
       {
         Header: 'Active Credits',
         accessor: 'credits',

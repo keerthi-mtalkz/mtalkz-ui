@@ -66,8 +66,7 @@ const addIntegration = () => {
     setParams(newTags);
   };
 
-  const handleTagClick = index => {
-  };
+
 
   let handleSwitch = (value) => {
     let organizations=[];
@@ -337,7 +336,6 @@ const addIntegration = () => {
              handleDelete={handleDelete}
              handleAddition={handleAddition}
              handleDrag={handleDrag}
-             handleTagClick={handleTagClick}
              inputFieldPosition="bottom"
              autocomplete
            />
@@ -402,7 +400,6 @@ const addIntegration = () => {
   handleDelete={handleParamDelete}
   handleAddition={handleParamsAddition}
   handleDrag={handleParamDrag}
-  handleTagClick={handleTagClick}
   inputFieldPosition="bottom"
   autocomplete
 />
