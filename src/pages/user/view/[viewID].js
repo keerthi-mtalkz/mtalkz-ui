@@ -39,7 +39,6 @@ const viewID = () => {
          }})
         .then((res) => {
           setRes(res.data.user);
-          console.log(res.data);
         })
         .catch((err) => {
           console.error("get /users error", err);
@@ -96,8 +95,6 @@ const viewID = () => {
 
     ]
 
-   console.log(dateErrorMsg,"shfgfgewhrf hgefuiegwf uhefug")
-
 return (
     <Layout>
      <SectionTitle title="VIEW USER" subtitle="" />
@@ -131,11 +128,7 @@ return (
                        
                      </div>
                      <div className="inline-flex truncate items-center text-base font-semibold text-gray-900 dark:text-white">
-                        <Tooltip
-                        placement={"Top"}
-                        content={res.name}>
-                  <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
-                      </Tooltip>
+                      <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
                   
                      </div>
                  </div>
@@ -150,11 +143,8 @@ return (
                         
                      </div>
                      <div className="inline-flex truncate items-center text-base font-semibold text-gray-900 dark:text-white">
-                     <Tooltip
-                     placement={"Top"}
-                     content={res.email}>
-                     <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.email}</p>
-                   </Tooltip>
+                   <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.email}</p>
+
                      </div>
                  </div>
              </li>

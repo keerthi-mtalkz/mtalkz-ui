@@ -11,7 +11,6 @@ let socialMediaColors = {
 const ResetPassword1 = () => {
   const {register, handleSubmit, watch, errors} = useForm()
   const onSubmit = data => {
-    console.log(data,"shdggggggggg")
   }
 
   return (

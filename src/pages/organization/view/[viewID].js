@@ -45,7 +45,6 @@ const viewID = () => {
          }})
         .then((res) => {
           setRes(res.data.organization);
-          // console.log(res.data.organization);
         })
         .catch((err) => {
           console.error("get /organizations error", err);
@@ -53,9 +52,7 @@ const viewID = () => {
     }
     };
     const onSubmit = () => {
-      console.log(credits,floatingcredits,"kejgfehgfeyrfguyguyf")
       updateCredits()
-      // console.log(data)
     }
 
     useEffect(() => {
@@ -72,7 +69,6 @@ const viewID = () => {
         'Authorization': `Bearer ${token}`
        }})
       .then((res) => {
-        console.log(res.data.credit)
          setCreditsRes(res.data.credit)
          if(res.data.credit){
           setCredits(res.data.credit.active);
@@ -156,7 +152,6 @@ const viewID = () => {
       setSelectedResource({label: value.label, value: value.value})
     }
  
-    console.log(creditsRes,"wgwefyerfjehfy8reftg")
 return (
     <Layout>
      <SectionTitle title="View Organization" subtitle="" />

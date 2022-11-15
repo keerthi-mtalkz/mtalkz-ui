@@ -82,7 +82,6 @@ const Index = () => {
       }
     }).then(res => {
       const cb = res?.data;
-      console.log(res.data,"dhsfgysjfewhfvtehfyqegfhtfiyqtfhefiyetyf")
       if (cb) {
         setChatbot(cb.chatbot);
         setFlowCharts(cb.flowCharts);
