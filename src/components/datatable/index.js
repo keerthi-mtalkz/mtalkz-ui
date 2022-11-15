@@ -59,7 +59,7 @@ const Datatable = ({columns, data}) => {
 
   // Render the UI for your table
   return (
-    <>
+   data?.length >0 ?<div>
       <table {...getTableProps()} className="table">
         <thead>
           {headerGroups.map(headerGroup => (
@@ -99,7 +99,6 @@ const Datatable = ({columns, data}) => {
           })}
         </tbody>
       </table>
-
       <div className="flex flex-row items-center justify-between my-4">
         <div className="flex flex-wrap items-center justify-start children-x-2 pagination">
           {pageIndex !== 0 && (
@@ -152,7 +151,7 @@ const Datatable = ({columns, data}) => {
           ))}
         </select>
       </div>
-    </>
+    </div> :<div className="text-center">No Records Found</div>
   )
 }
 
