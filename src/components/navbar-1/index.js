@@ -55,8 +55,13 @@ const Navbar = () => {
       .then(async(res) => {
         setOrganizations(res?.data?.organizations);
       const org=  res?.data?.organizations.filter((o)=>o.id===user.organization_id)
-      setSelectedOrganization([{ label: org[0].name, value: org[0].id }])
-      console.log(selectedOrganization,"))))))))))))))))")
+      if(localStorage.getItem('orgName')==''){
+        setSelectedOrganization([{ label: org[0].name, value: org[0].id }])
+        localStorage.setItem('orgName',org[0].name)
+        localStorage.setItem('orgId', org[0].id )
+      }else{
+        setSelectedOrganization([{ label: localStorage.getItem('orgName'), value: localStorage.getItem('orgId')}])
+      }
       })
       .catch((err) => {
         console.error("get /organizations error", err);
@@ -69,6 +74,7 @@ const Navbar = () => {
 
   useEffect(()=>{
     getOraganizations()
+
   },[])
 
   const options = organizations?.map((value) => {
@@ -78,6 +84,9 @@ const Navbar = () => {
   let handleSwitch = (value) => {
     const token= localStorage.getItem("token");
 
+    setSelectedOrganization([{ label: value.label, value: value.value}])
+ localStorage.setItem('orgName',value.label)
+      localStorage.setItem('orgId', value.value )
 
     const answer = window.confirm("are you sure?");
     if (answer) {
@@ -126,7 +135,7 @@ const Navbar = () => {
             // isMulti={true}
             placeholder="Select organization ..."
             onChange={handleSwitch}
-            // defaultValue={{ label: getdata.label, value: getdata.value }}
+            defaultValue={selectedOrganization}
             theme={(theme) => ({
               ...theme,
               colors: {

@@ -24,8 +24,8 @@ const initialState = {
   ],
   palettes: {
     background: 'white',
-    logo: 'white',
-    leftSidebar: 'white',
+    logo: 'bg-indigo-700',
+    leftSidebar: 'bg-indigo-800',
     rightSidebar: 'white',
     navbar: 'white',
     topNavigation: 'white'
@@ -34,7 +34,7 @@ const initialState = {
     showButtonText: true,
     showSectionTitle: true,
     showLogo: true,
-    showCard: true,
+    showCard: false,
     showAccountLinks: false,
     showProjects: true,
     showTags: true,

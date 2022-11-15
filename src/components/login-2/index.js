@@ -27,8 +27,8 @@ const Login1 = () => {
         value: res.data.user
       })
       setTimeout(() => {
-      router.push("/chatbots");
-        
+    
+      router.push("/dashboards/dashboard-1");
       }, 1000);
     })
     .catch((err) => {
