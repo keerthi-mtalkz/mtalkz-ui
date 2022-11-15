@@ -13,7 +13,7 @@ const Chatbots = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [status, setStatus] = useState(undefined);
   const router = useRouter();
-
+  const user = localStorage.getItem("user");
   const fetchChatbots = async () => {
     const token = localStorage.getItem("token");
     axios
@@ -123,7 +123,10 @@ const Chatbots = () => {
                     cursor: "pointer",
                     lineHeight: "normal",
                   }}
-                  onClick={() => handleDelete(value._id)}
+                  onClick={() =>{ if(user.is_system_user==1){
+                    handleDelete(value._id)
+                  }
+                  } }
                 >
                   <i className="icon-trash text-1xl font-bold mb-2 "></i>
                 </p>

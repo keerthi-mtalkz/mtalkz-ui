@@ -24,7 +24,7 @@ const initialState = {
   ],
   palettes: {
     background: 'white',
-    logo: 'bg-indigo-700',
+    logo: 'white',
     leftSidebar: 'bg-indigo-800',
     rightSidebar: 'white',
     navbar: 'white',

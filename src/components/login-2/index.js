@@ -28,7 +28,7 @@ const Login1 = () => {
       })
       setTimeout(() => {
     
-      router.push("/dashboards/dashboard-1");
+      router.push("/dashboard");
       }, 1000);
     })
     .catch((err) => {
