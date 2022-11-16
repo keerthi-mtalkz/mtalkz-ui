@@ -69,7 +69,7 @@ const Login = () => {
           <p className="text-3xl font-bold font-poppins mb-4">
           <img
           src="/logo.png"
-          alt="Picture of the author"
+          alt="Mtalkz Connect"
           // width="350px"
           // height="300px"
         />

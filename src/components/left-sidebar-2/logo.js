@@ -23,7 +23,7 @@ const Logo = () => {
           <a className="flex flex-row items-center justify-start">
           <img
           src="/logo.png"
-          alt="Picture of the author"
+          alt="Mtalkz Connect"
           width="150px"
           height="100px"
         />
