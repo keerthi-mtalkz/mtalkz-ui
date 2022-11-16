@@ -7,15 +7,17 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import {NotificationManager} from 'react-notifications'
 import Icon from '../../components/icon'
+import ls from 'local-storage'
+
 // fetch chatbots
 const Chatbots = () => {
   const [chatbots, setChatbots] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [status, setStatus] = useState(undefined);
   const router = useRouter();
-  const user = localStorage.getItem("user");
+  const user = ls.get("user");
   const fetchChatbots = async () => {
-    const token = localStorage.getItem("token");
+    const token = ls.get("token");
     axios
       .get("https://cb.mtalkz.cloud/export/", {
         headers: {
@@ -37,7 +39,7 @@ const Chatbots = () => {
 
   const handleDelete = (id) => {
     const answer = window.confirm("are you sure?");
-    const token = localStorage.getItem("token");
+    const token = ls.get("token");
     if (answer) {
       axios
         .get(`https://cb.mtalkz.cloud/delete/${id}`, {

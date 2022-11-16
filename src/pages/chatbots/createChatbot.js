@@ -6,6 +6,7 @@ import { withRedux } from "../../lib/redux";
 import {ax} from "../../utils/apiCalls";
 import { NotificationManager } from 'react-notifications'
 import SectionTitle from "../../components/section-title";
+import ls from 'local-storage'
 
 const createChatbot = () => {
   const router = useRouter();
@@ -16,7 +17,7 @@ const createChatbot = () => {
 // Create Chatbot
 
   const onSubmit = (data) => {
-  const token = localStorage.getItem('token');
+  const token = ls.get('token');
     ax.post("https://cb.mtalkz.cloud/import", { type: "chatbot", data }, {
       headers: {
         'x-api-key': token
