@@ -50,9 +50,10 @@ const updateID = () => {
         'Authorization': `Bearer ${token}`
       }})
         .then((res) => {
-          setRes(res.data);
         setStatus({ type: "success" });
+        setTimeout(() => {
           router.push("/permission");
+        }, 1000);
         })
         .catch((err) => {
           if(err.response.data.errors){
@@ -103,10 +104,9 @@ return (
             className="form-input mt-1 text-xs block w-full bg-white"
             placeholder="Route in dot notation"
             defaultValue={res.route}
-            pattern="^[A-Za-z.-]+$"
-            required
-            title="route should contain only alphabets, dots and dashes"
-
+            pattern="[a-zA-Z]+\.[a-zA-Z]+"
+            title="route should contain only alphabets, dots and it should be in pattern eg:-test.test"
+required
           />
         </label>
         {errors && errors.route && (

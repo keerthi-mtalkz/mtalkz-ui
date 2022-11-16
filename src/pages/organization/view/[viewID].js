@@ -34,6 +34,8 @@ const viewID = () => {
  const [permissions,setPermissions]=useState({get:false,update:false,delete:false})
  const [credits,setCredits]=useState(undefined)
  const [floatingcredits,setfloatingCredits]=useState(undefined)
+ const [creditError,setCreditError]=useState(undefined);
+ const [floatingCreditError,setFloatingError]=useState(undefined);
 
     const fetchOrgs = async () => {
         if (typeof window !== "undefined") {
@@ -52,7 +54,14 @@ const viewID = () => {
     }
     };
     const onSubmit = () => {
-      updateCredits()
+      if([credits].toString().split('').length<20 && [floatingcredits].toString().split('').length<20){
+        updateCredits()
+      }else
+      {
+        credits&& [credits].toString().split('').length>=20  && setCreditError("the entered value should be in between 1 to 20 digit")
+        floatingcredits && [floatingcredits].toString().split('').length>=20  && setFloatingError("the entered value should be in between 1 to 20 digit")
+      }
+
     }
 
     useEffect(() => {
@@ -113,9 +122,11 @@ const viewID = () => {
  
 
   const updateCredits=async()=>{
+    setCreditError(undefined);
+    setFloatingError(undefined)
     const data={
-      credits:credits,
-      floating:floatingcredits
+      credits:credits?credits:0,
+      floating:floatingcredits?floatingcredits : 0
     }
     const token = localStorage.getItem('token');
     ax.post(`/organizations/${viewid}/credits/${selectedResource.value}`,data, { headers: {
@@ -297,6 +308,12 @@ return (
   ref={register()}
      />
    </label>
+   {creditError &&  (
+   
+      <p className="mt-1 text-xs text-red-500">{creditError}</p>
+    
+   
+  )}
    </div>
     {/*input*/}
     <div className="w-full mb-4">
@@ -314,6 +331,12 @@ return (
        ref={register()}
       />
     </label>
+    {floatingCreditError &&  (
+   
+      <p className="mt-1 text-xs text-red-500">{floatingCreditError}</p>
+    
+   
+  )}
     </div>
     <div className="w-full" style={{marginTop:"10px"}}>
     <input
@@ -321,6 +344,7 @@ return (
       className="btn btn-default btn-block btn-indigo "
       value="Submit"
       onClick={onSubmit}
+      
     />
   </div>
   </div>
