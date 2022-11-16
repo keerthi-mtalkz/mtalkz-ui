@@ -74,8 +74,8 @@ const addPermission = () => {
             className="form-input mt-1 text-xs block w-full bg-white"
             placeholder="Route in dot notation"
             required
-            pattern="^[A-Za-z.-]+$"
-            title="route should contain only alphabets, dots and dashes"
+            pattern="\([a-z-]+.)*[a-z-]+"
+            title="route should  contain only alphabets, dots"
           />
         </label>
         {errors && errors.route && (
