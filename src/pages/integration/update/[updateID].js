@@ -131,8 +131,8 @@ const updateID = () => {
          }})
         .then((res) => {
           setRes(res.data.integration);
-          handleAccess(res.data.integration.requires_approval===1?true:false)
-          handleApproval(res.data.integration.requires_access===1 ? true : false)
+          handleAccess(res.data.integration.requires_access==1?true:false)
+          handleApproval(res.data.integration.requires_approval==1 ? true : false)
           let _tags=[]
           let _params=[];
           res.data.integration.tags.map((tag)=>{

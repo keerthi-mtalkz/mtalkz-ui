@@ -29,7 +29,18 @@ const setRole = () => {
           'Authorization': `Bearer ${token}`
          }})
         .then((res) => {
-          setSelectedRole([{label: res.data.user.current_role.name, value: res.data.user.current_role.id}])
+         
+        const  current_role_id = res.data.user.org_roles[res.data.user.current_organization_id]
+        console.log(current_role_id,"current role id")
+        if(current_role_id){
+         let role= roles.filter((role)=>role.value==current_role_id)
+          setSelectedRole([{label:role[0].label, value:role[0].value}])
+        }
+        else{
+          setSelectedRole([])
+
+        }
+          console.log(current_role_id,"******************")
         })
         .catch((err) => {
           console.error("get /users error", err);
@@ -56,6 +67,7 @@ const setRole = () => {
            return  { label: role.name, value: role.id };
           })
           setRoles([...roles])
+      fetch();
          
         })
         .catch((err) => {
@@ -66,7 +78,6 @@ const setRole = () => {
   
 
     useEffect(() => {
-      fetch();
       fetchRole();
     }, []);
 
@@ -74,7 +85,9 @@ const setRole = () => {
     const { register, handleSubmit } = useForm();
 
     const onSubmit = () => {
+      const orgId=localStorage.getItem("orgId");
       if (typeof window !== "undefined") {
+        console.log(orgId,"orgIdorgId")
       const token = localStorage.getItem('token');
       ax.get(`/users/${updateid}/set-role/${selectedRole[0].value}`,{headers: {
         'Authorization': `Bearer ${token}`
