@@ -104,8 +104,8 @@ return (
             className="form-input mt-1 text-xs block w-full bg-white"
             placeholder="Route in dot notation"
             defaultValue={res.route}
-            pattern="[a-zA-Z]+\.[a-zA-Z]+"
-            title="route should contain only alphabets, dots and it should be in pattern eg:-test.test"
+            pattern="([a-z-]+.)*[a-z-]+"
+            title="route should contain only alphabets, dots"
 required
           />
         </label>

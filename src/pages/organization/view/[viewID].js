@@ -54,12 +54,12 @@ const viewID = () => {
     }
     };
     const onSubmit = () => {
-      if([credits].toString().split('').length<20 && [floatingcredits].toString().split('').length<20){
+      if([credits].toString().length<20 && [floatingcredits].toString().length<20){
         updateCredits()
       }else
       {
-        credits&& [credits].toString().split('').length>=20  && setCreditError("the entered value should be in between 1 to 20 digit")
-        floatingcredits && [floatingcredits].toString().split('').length>=20  && setFloatingError("the entered value should be in between 1 to 20 digit")
+        credits&& [credits].toString().length>=20  && setCreditError("the entered value should be in between 1 to 20 digit")
+        floatingcredits && [floatingcredits].toString().length>=20  && setFloatingError("the entered value should be in between 1 to 20 digit")
       }
 
     }

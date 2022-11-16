@@ -32,7 +32,6 @@ const Login1 = () => {
       }, 1000);
     })
     .catch((err) => {
-      setStatus({ type: "error",message: err.response?.data?.message });
       console.error("get login error", err);
     });
     

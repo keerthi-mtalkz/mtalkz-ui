@@ -104,7 +104,7 @@ return (
             defaultValue={res.slug}
             required
             maxLength={255}
-            pattern="[a-zA-Z0-9\-]+"
+            pattern="[a-z0-9\-]+"
             title="only alphanumeric characters and dash allowed"
             
           />
