@@ -6,7 +6,6 @@ import { withRedux } from "../../../lib/redux";
 import { useRouter } from "next/router";
 import {NotificationManager} from 'react-notifications'
 import {ax} from "../../../utils/apiCalls";
-import {Popover, Tooltip} from '../../../components/popovers'
 
 
 
@@ -70,12 +69,7 @@ return (
                       
                     </div>
                     <div className="inline-flex truncate items-center truncate text-base font-semibold text-gray-900 dark:text-white">
-                    <Tooltip
-              placement={"top"}
-              content={res.slug}>
-              <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.slug}</p>
-            </Tooltip>
-                   
+                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.slug}</p>
                     </div>
                 </div>
             </li>
@@ -97,13 +91,7 @@ return (
                  
                </div>
                <div className="inline-flex truncate items-center truncate text-base font-semibold text-gray-900 dark:text-white">
-                    <Tooltip
-              placement={"top"}
-              content={res.name}>
-              <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
-            </Tooltip>
-                   
-              
+               <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
                </div>
            </div>
        </li>
@@ -125,11 +113,7 @@ return (
               
             </div>
             <div className="inline-flex truncate items-center truncate text-base font-semibold text-gray-900 dark:text-white">
-            <Tooltip
-      placement={"top"}
-      content={res.description}>
-      <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.description}</p>
-    </Tooltip>
+            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.description}</p>
        </div>
         </div>
     </li>

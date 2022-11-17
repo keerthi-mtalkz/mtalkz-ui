@@ -68,11 +68,11 @@ const updateID = () => {
  
 return (
     <Layout>
-     <SectionTitle title="UPDATE ApiKey" subtitle="" />
+     <SectionTitle title="UPDATE Api Key" subtitle="" />
      {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.success('Updated Apikey successfully', 'Success')}
+        { NotificationManager.success('Updated Api key successfully', 'Success')}
         </div>
       </div>
       )}

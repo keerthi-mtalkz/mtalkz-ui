@@ -61,10 +61,6 @@ const Channel=()=>{
 
 
   const columns =  [
-    {
-      Header: 'ID',
-      accessor: 'id'
-    },
       {
         Header: 'Slug',
         accessor: 'slug'

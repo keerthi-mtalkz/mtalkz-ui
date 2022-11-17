@@ -5,7 +5,6 @@ import SectionTitle from "../../../components/section-title";
 import { useForm } from "react-hook-form";
 import { withRedux } from "../../../lib/redux";
 import { useRouter } from "next/router";
-import {Popover, Tooltip} from '../../../components/popovers'
 import {
   NotificationInfo,
   NotificationWarning,
@@ -50,7 +49,7 @@ const viewID = () => {
 
 return (
     <Layout>
-     <SectionTitle title="View Roles" subtitle="" />
+     <SectionTitle title="View Role" subtitle="" />
       {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
@@ -81,12 +80,7 @@ return (
                       
                     </div>
                     <div className="inline-flex items-center truncate text-base font-semibold text-gray-900 dark:text-white">
-                    <Tooltip
-              placement={"Top"}
-              content={res.name}>
-              <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
-            </Tooltip>
-                   
+                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
                     </div>
                 </div>
             </li>
@@ -100,13 +94,7 @@ return (
                        
                     </div>
                     <div className="inline-flex items-center truncate text-base font-semibold text-gray-900 dark:text-white">
-                    <Tooltip
-              placement={"Top"}
-              content={res.description}>
-              <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.description}</p>
-            </Tooltip>
-                   
-                  
+                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.description}</p>
                     </div>
                 </div>
             </li>
@@ -117,14 +105,12 @@ return (
                     <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                     Permissions
                     </p>
-                   
                 </div>
                 <div className=" items-center truncate text-base font-semibold text-gray-900 dark:text-white">
                  {permissions.map((permission)=>{
                   return(
                     <>
                     <div className="text-sm font-medium text-gray-900 truncate dark:text-white">{permission.name}</div>
-                    <br></br>
                     </>
                 
                   )
