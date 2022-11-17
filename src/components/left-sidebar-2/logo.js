@@ -18,7 +18,7 @@ const Logo = () => {
         collapsed ? 'justify-center' : 'justify-between px-4'
       }`}  >
      
-      {!collapsed && (
+      {!collapsed ? (
         <Link href="/">
           <a className="flex flex-row items-center justify-start">
           <img
@@ -26,6 +26,18 @@ const Logo = () => {
           alt="Mtalkz Connect"
           width="150px"
           height="100px"
+        />
+          </a>
+        </Link>
+      ):(
+        <Link href="/">
+          <a className="flex flex-row items-center justify-start">
+          <img
+          src="/mtalkz-logo.png"
+          alt="Mtalkz Connect"
+          width="30px"
+          height="50px"
+          style={{marginTop:"-10px", marginLeft:"14px"}}
         />
           </a>
         </Link>

@@ -7,6 +7,7 @@ import Datatable from "../../components/datatable";
 import {ax} from "../../utils/apiCalls";
 import React from 'react'
 import {NotificationManager} from 'react-notifications'
+import {Badge, CircularBadge} from '../../components/badges'
 
 
 
@@ -23,6 +24,9 @@ const ApiKey=()=>{
         'Authorization': `Bearer ${token}`
        }})
       .then((res) => {
+        res.data.map((key)=>{
+          key.is_active=key.is_active==1?"Active":"Inactive"
+        })
         setApiKeys(res.data);
       })
       .catch((err) => {
@@ -60,17 +64,21 @@ const ApiKey=()=>{
 
 
   const columns =  [
-    {
-      Header: 'ID',
-      accessor: 'id'
-    },
       {
         Header: 'Key',
-        accessor: 'key'
+        accessor: 'masked_key'
       },
       {
-        Header: 'Status',
-        accessor: 'is_active',
+        Header:'Status',
+        sortable: false,
+        Cell: (data) => {
+
+          return (<div className="flex  ">
+          <Badge  size={'default'} color={data.row.original.is_active=='Active'?'green':'red'} rounded>
+            {data.row.original.is_active }
+          </Badge>
+           </div>)}
+
       },
       {
         Header: 'Resource',
@@ -118,7 +126,7 @@ const ApiKey=()=>{
   //const data = React.useMemo(() => countries, [])
   return (
     <Layout>
-    <SectionTitle title="ApiKey Management" subtitle="" />
+    <SectionTitle title="APIKey Management" subtitle="" />
 
     <div className="flex flex-row pb-4">
     <div className=" w-5/6">

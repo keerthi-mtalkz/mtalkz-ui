@@ -126,7 +126,7 @@ const viewID = () => {
     setFloatingError(undefined)
     const data={
       credits:credits?credits:0,
-      floating:floatingcredits?floatingcredits : 0
+      floating_credits :floatingcredits?floatingcredits : 0
     }
     const token = localStorage.getItem('token');
     ax.post(`/organizations/${viewid}/credits/${selectedResource.value}`,data, { headers: {
@@ -196,12 +196,7 @@ return (
                       
                     </div>
                     <div className="inline-flex items-center truncate text-base font-semibold text-gray-900 dark:text-white">
-                    <Tooltip
-              placement={"Top"}
-              content={res.name}>
-              <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
-            </Tooltip>
-                   
+                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
                     </div>
                 </div>
             </li>
@@ -215,14 +210,7 @@ return (
                        
                     </div>
                     <div className="inline-flex items-center text-base truncate font-semibold text-gray-900 dark:text-white">
-                    <Tooltip
-              placement={"Top"}
-              content={res.email}>
-              <p className="text-sm font-medium text-gray-900 truncate truncate dark:text-white">{res.email}</p>
-
-            </Tooltip>
-                    
-                    
+                    <p className="text-sm font-medium text-gray-900 truncate truncate dark:text-white">{res.email}</p>
                     </div>
                 </div>
             </li>
@@ -237,12 +225,7 @@ return (
                        
                     </div>
                     <div className="inline-flex items-center truncate text-base font-semibold text-gray-900 dark:text-white">
-                    <Tooltip
-              placement={"Top"}
-              content={res.phone}>
-              <p className="text-sm font-medium text-gray-900 truncate truncate dark:text-white">{res.phone}</p>
-
-            </Tooltip>
+                    <p className="text-sm font-medium text-gray-900 truncate truncate dark:text-white">{res.phone}</p>
                     </div>
                 </div>
             </li>
@@ -256,11 +239,7 @@ return (
                        
                     </div>
                     <div className="inline-flex items-center truncate text-base font-semibold text-gray-900 dark:text-white">
-                    <Tooltip
-                    placement={"Top"}
-                    content={res.address}>
                     <p className="text-sm font-medium text-gray-900 truncate truncate dark:text-white">{res.address}</p>
-                  </Tooltip>
                     </div>
                 </div>
             </li>
