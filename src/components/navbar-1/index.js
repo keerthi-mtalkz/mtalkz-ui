@@ -84,6 +84,7 @@ const Navbar = () => {
 
   let handleSwitch = (value) => {
     const token= localStorage.getItem("token");
+    localStorage.setItem("orgId",value.value)
 
     setSelectedOrganization([{ label: value.label, value: value.value}])
  localStorage.setItem('orgName',value.label)
