@@ -105,7 +105,6 @@ return (
                     <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                     Permissions
                     </p>
-                   
                 </div>
                 <div className=" items-center truncate text-base font-semibold text-gray-900 dark:text-white">
                  {permissions.map((permission)=>{

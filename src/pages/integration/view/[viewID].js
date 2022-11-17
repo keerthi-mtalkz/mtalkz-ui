@@ -39,16 +39,16 @@ const viewID = () => {
 
     const getColorBasedOnMethod=(method)=>{
         switch(method){
-          case "get" :
-           return "green"
-           case "post" :
-            return "pink"
+            case "get" :
+             return "green"
+            case "post" :
+             return "pink"
             case "patch" :
-              return "yellow"
-              case "delete " :
-                return "red"
-                case "head" :
-                  return "blue"
+             return "yellow"
+            case "delete " :
+             return "red"
+            case "head" :
+             return "blue"
         }
       }
   

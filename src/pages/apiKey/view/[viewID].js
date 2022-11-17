@@ -43,7 +43,7 @@ const viewID = () => {
 
 return (
     <Layout>
-     <SectionTitle title="View APIKey" subtitle="" />
+     <SectionTitle title="View API Key" subtitle="" />
     
      {status?.type === "error" && (
         <div className="flex flex-wrap w-full">

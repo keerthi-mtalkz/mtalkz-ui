@@ -145,7 +145,7 @@ const ApiKey=()=>{
             className="ml-3  btn btn-default btn-indigo create-btn w-full"
             type="button"
           >
-            Add ApiKey
+            Add Api Key
           </button>
       </Link>
     </div>

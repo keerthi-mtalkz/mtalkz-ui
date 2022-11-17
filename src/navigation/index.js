@@ -52,7 +52,7 @@ const navigation = [
       {
         url: '/apiKey',
         icon: <Icon.Anchor size={20} />,
-        title: 'APIKeys Management',
+        title: 'API Keys Management',
         items: []
       },
       {
