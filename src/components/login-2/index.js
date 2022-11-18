@@ -23,6 +23,8 @@ const Login1 = () => {
       res.data.user.img="m1.png"
       localStorage.setItem("token",res.data.token)
       localStorage.setItem("user", JSON.stringify(res.data.user))
+      localStorage.setItem("userName", res.data.user.name)
+
       dispatch({
         type: 'UPDATE_USER',
         value: res.data.user
