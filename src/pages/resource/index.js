@@ -60,7 +60,7 @@ const Resource=()=>{
     
 
   React.useEffect(() => {
-    NotificationManager.removeAll()
+    
     getPermissions()
     getResources();
   }, []);

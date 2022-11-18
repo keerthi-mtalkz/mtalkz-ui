@@ -48,7 +48,7 @@ const viewID = () => {
     };
 
     useEffect(() => {
-      NotificationManager.removeAll()
+      
         getUserActivities();
         fetch();
     }, []);

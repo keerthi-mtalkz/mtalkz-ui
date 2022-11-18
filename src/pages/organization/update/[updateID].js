@@ -43,7 +43,7 @@ const updateID = () => {
   
 
   useEffect(() => {
-    NotificationManager.removeAll()
+    
     getOrganizationDetails();
   }, []);
 

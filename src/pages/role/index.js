@@ -92,7 +92,7 @@ const Role=()=>{
 
 
     useEffect(()=>{
-      NotificationManager.removeAll()
+      
       getPermissions();
       getRolesApi()
     },[])

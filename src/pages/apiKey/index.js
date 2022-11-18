@@ -87,7 +87,7 @@ const ApiKey=()=>{
   }
 
   React.useEffect(() => {
-    NotificationManager.removeAll()
+    
     getPermissions()
     getApiKeys();
   }, []);

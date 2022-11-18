@@ -45,7 +45,7 @@ const addOrganization = () => {
   };
 
   useEffect(()=>{
-    NotificationManager.removeAll()
+    
   },[])
 
   return (

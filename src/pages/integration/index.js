@@ -61,7 +61,7 @@ const Integration=()=>{
   };
 
   React.useEffect(() => {
-    NotificationManager.removeAll()
+    
     getPermissions();
     getIntegrations();
   }, []);

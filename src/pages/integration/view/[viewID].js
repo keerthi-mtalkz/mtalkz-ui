@@ -34,7 +34,7 @@ const viewID = () => {
     };
 
     useEffect(() => {
-        NotificationManager.removeAll()
+        
       fetchIntegrations();
     }, []);
 

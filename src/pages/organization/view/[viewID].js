@@ -65,7 +65,7 @@ const viewID = () => {
     }
 
     useEffect(() => {
-      NotificationManager.removeAll()
+      
       getPermissions()
       getResources();
       fetchOrgs();

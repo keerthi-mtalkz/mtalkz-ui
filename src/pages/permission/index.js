@@ -31,7 +31,7 @@ const Permission=()=>{
 
 
   React.useEffect(() => {
-    NotificationManager.removeAll()
+    
     getPermissions();
   }, []);
 

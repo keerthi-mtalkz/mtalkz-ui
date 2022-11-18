@@ -21,7 +21,7 @@ const setRole = () => {
     const [roles,setRoles]=useState([]);
     const [selectedRole,setSelectedRole]=useState(undefined)
     const fetch = async (roles) => {
-      NotificationManager.removeAll()
+      
       if (typeof window !== "undefined") {
       const token = localStorage.getItem('token');
       await ax

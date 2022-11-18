@@ -33,7 +33,7 @@ const Channel=()=>{
 
 
   React.useEffect(() => {
-    NotificationManager.removeAll()
+    
     getChannels();
   }, []);
 

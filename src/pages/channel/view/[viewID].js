@@ -36,7 +36,7 @@ const viewID = () => {
     };
 
     useEffect(() => {
-      NotificationManager.removeAll()
+      
       fetchChannel();
     }, []);
 

@@ -185,7 +185,7 @@ const addIntegration = () => {
   };
 
   useEffect(()=>{
-    NotificationManager.removeAll()
+    
     getChannels();
     if(organizations.length===0){
       getOrganizations();

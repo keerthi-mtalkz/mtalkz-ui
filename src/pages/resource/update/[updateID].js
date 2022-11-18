@@ -39,7 +39,7 @@ const updateID = () => {
     };
 
     useEffect(() => {
-      NotificationManager.removeAll()
+      
       fetch();
     }, []);
 

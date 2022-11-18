@@ -60,7 +60,7 @@ const Organization=()=>{
   };
 
   React.useEffect(() => {
-   NotificationManager.removeAll()
+   
     getPermissions()
     getOrganizations();
   }, []);

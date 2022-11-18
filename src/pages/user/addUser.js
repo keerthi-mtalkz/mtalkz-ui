@@ -41,7 +41,7 @@ const addUser = () => {
   };
 
   useEffect(()=>{
-    NotificationManager.removeAll()
+    
   },[])
 
 

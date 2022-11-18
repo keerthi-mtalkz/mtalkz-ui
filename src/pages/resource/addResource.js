@@ -41,7 +41,7 @@ const addResource = () => {
   };
 
   useEffect(()=>{
-    NotificationManager.removeAll()
+    
   },[])
   
 
