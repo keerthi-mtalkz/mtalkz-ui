@@ -48,6 +48,7 @@ const viewID = () => {
     };
 
     useEffect(() => {
+      NotificationManager.removeAll()
         getUserActivities();
         fetch();
     }, []);
@@ -154,12 +155,12 @@ return (
                     
                      <div className="flex-1 min-w-1">
                          <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                         organization Id
+                         organization Name
                          </p>
                         
                      </div>
                      <div className="inline-flex truncate items-center text-base font-semibold text-gray-900 dark:text-white">
-                     <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.organization_id}</p>
+                     <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.org_name}</p>
 
                      </div>
                  </div>

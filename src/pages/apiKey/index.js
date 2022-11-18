@@ -59,11 +59,16 @@ const ApiKey=()=>{
   }
 
   React.useEffect(() => {
+    NotificationManager.removeAll()
     getApiKeys();
   }, []);
 
-
+  
   const columns =  [
+    {
+      Header: 'Label',
+      accessor: 'label'
+    },
       {
         Header: 'Key',
         accessor: 'masked_key'

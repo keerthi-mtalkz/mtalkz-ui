@@ -20,7 +20,8 @@ const setRole = () => {
     const [checked, handleChange] = useState(false)
     const [roles,setRoles]=useState([]);
     const [selectedRole,setSelectedRole]=useState(undefined)
-    const fetch = async () => {
+    const fetch = async (roles) => {
+      NotificationManager.removeAll()
       if (typeof window !== "undefined") {
       const token = localStorage.getItem('token');
       await ax
@@ -31,8 +32,12 @@ const setRole = () => {
         .then((res) => {
       const orgId=localStorage.getItem("orgId");
         const  current_role_id = res.data.user.org_roles[orgId]
+      console.log(current_role_id,"ejhgfeyrfey")
+
         if(current_role_id){
+          console.log(roles,"((((((((((")
          let role= roles.filter((role)=>role.value==current_role_id)
+         console.log(role)
           setSelectedRole([{label:role[0].label, value:role[0].value}])
         }
         else{
@@ -66,7 +71,7 @@ const setRole = () => {
            return  { label: role.name, value: role.id };
           })
           setRoles([...roles])
-      fetch();
+      fetch(roles);
          
         })
         .catch((err) => {

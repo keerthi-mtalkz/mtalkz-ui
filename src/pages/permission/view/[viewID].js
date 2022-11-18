@@ -41,6 +41,7 @@ const viewID = () => {
     };
 
     useEffect(() => {
+      NotificationManager.removeAll()
       fetchPermissions();
     }, []);
 

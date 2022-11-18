@@ -40,6 +40,7 @@ const viewID = () => {
     };
 
     useEffect(() => {
+      NotificationManager.removeAll()
       fetchRoles();
     }, []);
 

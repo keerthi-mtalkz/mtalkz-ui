@@ -74,8 +74,8 @@ const User=()=>{
           accessor: 'email'
         },
         {
-          Header: 'Organization id',
-          accessor: 'organization_id'
+          Header: 'Organization Name',
+          accessor: 'org_name'
         },
      
         {

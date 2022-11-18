@@ -30,6 +30,7 @@ const Resource=()=>{
 
 
   React.useEffect(() => {
+    NotificationManager.removeAll()
     getResources();
   }, []);
 

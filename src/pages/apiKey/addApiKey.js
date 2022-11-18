@@ -41,6 +41,7 @@ const [selectedResource,setSelectedResource]=useState([]);
   });
 
   React.useEffect(()=>{
+    NotificationManager.removeAll()
     getResources()
   },[]);
 

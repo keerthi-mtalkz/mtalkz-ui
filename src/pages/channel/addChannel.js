@@ -38,6 +38,9 @@ const addChannel = () => {
     }
   };
 
+  useEffect(()=>{
+    NotificationManager.removeAll()
+  },[])
 
   return (
     <Layout>

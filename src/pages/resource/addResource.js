@@ -40,6 +40,10 @@ const addResource = () => {
     }
   };
 
+  useEffect(()=>{
+    NotificationManager.removeAll()
+  },[])
+  
 
   return (
     <Layout>

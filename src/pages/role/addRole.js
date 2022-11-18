@@ -79,6 +79,7 @@ const validateFields=()=>{
   };
 
   useEffect(()=>{
+    NotificationManager.removeAll()
     getPermissions();
   },[])
 

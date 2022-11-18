@@ -33,6 +33,7 @@ const Integration=()=>{
 
 
   React.useEffect(() => {
+    NotificationManager.removeAll()
     getIntegrations();
   }, []);
 

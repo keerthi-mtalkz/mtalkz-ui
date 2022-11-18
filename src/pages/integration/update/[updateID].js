@@ -53,6 +53,7 @@ const updateID = () => {
   };
 
   useEffect(()=>{
+    NotificationManager.removeAll()
     if(channels.length>0){
       fetch();
     }

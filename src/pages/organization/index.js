@@ -32,6 +32,7 @@ const Organization=()=>{
 
 
   React.useEffect(() => {
+   NotificationManager.removeAll()
     getOrganizations();
   }, []);
 

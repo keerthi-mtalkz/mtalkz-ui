@@ -42,6 +42,7 @@ const updateID = () => {
     };
 
     useEffect(() => {
+      NotificationManager.removeAll()
       getUserDetails();
     }, []);
 
