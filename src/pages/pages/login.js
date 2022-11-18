@@ -18,8 +18,7 @@ const Logo = () => {
       className={`bg-transparent text-white flex flex-row items-center uppercase font-bold text-2xl tracking-wider justify-start z-10`}>
       <Link href="/">
         <a className="flex flex-row items-center justify-start">
-          <ToggleLeft size={28} />
-          <span className="ltr:ml-1 rtl:mr-2 font-sans">MTalkz Suite</span>
+          <span className="ltr:ml-1 rtl:mr-2 font-sans"></span>
         </a>
       </Link>
     </div>
@@ -38,10 +37,18 @@ const Login = () => {
       <div className="w-full flex flex-row h-screen overflow-hidden">
       <div className="hidden lg:flex lg:flex-col w-1/2 bg-purple-700 text-white p-8 items-start justify-between relative">
      
+      <Logo />
       <div className="flex flex-col z-10">
-      <p className="text-3xl font-bold font-poppins mb-4">
-              Welcome to {name}!
-            </p>
+        <p className="text-3xl font-bold font-poppins mb-4">
+          Welcome to {name}!
+        </p>
+        <p className="text-sm font-thin">
+          Pellentesque habitant morbi tristique senectus et netus et
+          malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat
+          vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit
+          amet quam egestas semper. Aenean ultricies mi vitae est. Mauris
+          placerat eleifend leo.
+        </p>
       </div>
      
       <div className="flex flex-row items-center justify-between w-full text-xs z-10">
