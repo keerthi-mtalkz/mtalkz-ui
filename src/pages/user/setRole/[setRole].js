@@ -32,19 +32,14 @@ const setRole = () => {
         .then((res) => {
       const orgId=localStorage.getItem("orgId");
         const  current_role_id = res.data.user.org_roles[orgId]
-      console.log(current_role_id,"ejhgfeyrfey")
-
         if(current_role_id){
-          console.log(roles,"((((((((((")
          let role= roles.filter((role)=>role.value==current_role_id)
          console.log(role)
           setSelectedRole([{label:role[0].label, value:role[0].value}])
         }
         else{
           setSelectedRole([])
-
         }
-          console.log(current_role_id,"******************")
         })
         .catch((err) => {
           console.error("get /users error", err);
