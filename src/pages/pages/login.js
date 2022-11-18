@@ -55,17 +55,17 @@ const Login = () => {
         <div className="text-white">&copy; Mtalkz 2020</div>
         <div className="flex flex-row ml-auto">
           <div className="px-1">
-            <Link href="/pages/privacy-policy">
+            <Link href="/#">
               <a>Privacy policy</a>
             </Link>
           </div>
           <div className="px-1">
-            <Link href="/pages/terms-of-service">
+            <Link href="/#">
               <a>Terms of service</a>
             </Link>
           </div>
           <div className="px-1">
-            <Link href="/pages/contact-us">
+            <Link href="/#">
               <a>Contact us</a>
             </Link>
           </div>
