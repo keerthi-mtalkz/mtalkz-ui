@@ -75,6 +75,7 @@ const Navbar = () => {
   },[selectedOrganization])
 
   useEffect(()=>{
+    NotificationManager.removeAll()
     getOraganizations()
 
   },[])

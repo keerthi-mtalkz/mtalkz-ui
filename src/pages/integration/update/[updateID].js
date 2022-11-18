@@ -53,6 +53,7 @@ const updateID = () => {
   };
 
   useEffect(()=>{
+    
     if(channels.length>0){
       fetch();
     }

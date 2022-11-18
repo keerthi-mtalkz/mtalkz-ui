@@ -22,7 +22,7 @@ const Login1 = () => {
       setStatus({ type: "success" });
       res.data.user.img="m1.png"
       localStorage.setItem("token",res.data.token)
-      localStorage.setItem("user", res.data.user)
+      localStorage.setItem("user", JSON.stringify(res.data.user))
       dispatch({
         type: 'UPDATE_USER',
         value: res.data.user

@@ -40,6 +40,9 @@ const addPermission = () => {
     }
   };
 
+  useEffect(()=>{
+    
+  },[])
 
   return (
     <Layout>

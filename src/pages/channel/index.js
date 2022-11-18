@@ -33,6 +33,7 @@ const Channel=()=>{
 
 
   React.useEffect(() => {
+    
     getChannels();
   }, []);
 

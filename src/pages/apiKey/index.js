@@ -87,12 +87,17 @@ const ApiKey=()=>{
   }
 
   React.useEffect(() => {
+    
     getPermissions()
     getApiKeys();
   }, []);
 
-
+  
   const columns =  [
+    {
+      Header: 'Label',
+      accessor: 'label'
+    },
       {
         Header: 'Key',
         accessor: 'masked_key'

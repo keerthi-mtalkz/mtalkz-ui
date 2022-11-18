@@ -40,6 +40,10 @@ const addResource = () => {
     }
   };
 
+  useEffect(()=>{
+    
+  },[])
+  
 
   return (
     <Layout>

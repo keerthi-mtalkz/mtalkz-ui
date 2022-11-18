@@ -113,7 +113,8 @@ const Index = () => {
         }
       )
         .then((res) => {
-          router.push("/chatbots");
+          // router.push("/chatbots");
+        setStatus({ type: "success" });
          
         })
         .catch((err) => {
@@ -227,7 +228,7 @@ const Index = () => {
               required={true}
             >
               <option value="whatsapp">WhatsApp</option>
-              <option value="open-web">Web</option>
+              <option value="open-web" disabled={true}>Web</option>
             </select>
           </label>
           <label className="block">
@@ -455,6 +456,18 @@ const Index = () => {
   ]; 
   return (
     <Layout>
+    {status?.type === "success" && (
+      <div className="flex flex-wrap w-full">
+      <div className="p-2">
+      { NotificationManager.success('Saved successfully', 'Success')}
+      </div>
+    </div>
+    )}
+      {status?.type === "error" && (
+        <div className="flex flex-wrap w-full">
+        {   NotificationManager.error(status.message,"Error")}
+      </div>
+      )}
     <div className="flex flex-wrap">
       <div className="w-full">
           <UnderlinedTabs tabs={tabs} />

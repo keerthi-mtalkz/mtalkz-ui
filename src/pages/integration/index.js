@@ -61,6 +61,7 @@ const Integration=()=>{
   };
 
   React.useEffect(() => {
+    
     getPermissions();
     getIntegrations();
   }, []);

@@ -92,6 +92,7 @@ const Role=()=>{
 
 
     useEffect(()=>{
+      
       getPermissions();
       getRolesApi()
     },[])
@@ -106,8 +107,8 @@ const Role=()=>{
           accessor: 'description'
         },
         {
-          Header: 'Organization id',
-          accessor: 'organization_id'
+          Header: 'Organization Name',
+          accessor: 'org_name'
         },
         {
           Header: 'Actions',

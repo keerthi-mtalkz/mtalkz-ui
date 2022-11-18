@@ -60,6 +60,7 @@ const Organization=()=>{
   };
 
   React.useEffect(() => {
+   
     getPermissions()
     getOrganizations();
   }, []);

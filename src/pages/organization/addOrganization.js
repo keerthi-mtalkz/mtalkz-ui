@@ -44,6 +44,9 @@ const addOrganization = () => {
     }
   };
 
+  useEffect(()=>{
+    
+  },[])
 
   return (
     <Layout>
