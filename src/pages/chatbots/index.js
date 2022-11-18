@@ -116,6 +116,7 @@ const Chatbots = () => {
               <div
                 key={idx}
                 className="flex flex-col w-full mb-4 lg:w-1/3 relative"
+               
               >
                 <p
                   className="p-4 absolute right-0"
@@ -132,9 +133,9 @@ const Chatbots = () => {
                   <i className="icon-trash text-1xl font-bold mb-2 "></i>
                 </p>
                 
-                <Link href={`/chatbots/${value._id}`}>
+                <Link href={ !value.deleted ? `/chatbots/${value._id}` : `/chatbots`}>
                   <a className="w-full">
-                    <div className="card bg-white shadow-lg py-4 p-4">
+                    <div className="card bg-white shadow-lg py-4 p-4"  style={{background: value.deleted?'lightgrey':'white' }}>
                       <div className="card-body">
                         <div className="title text-base font-base font-bold font-poppins">
                           {value.name}
