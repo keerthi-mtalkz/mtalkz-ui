@@ -29,9 +29,8 @@ const setRole = () => {
           'Authorization': `Bearer ${token}`
          }})
         .then((res) => {
-         
-        const  current_role_id = res.data.user.org_roles[res.data.user.current_organization_id]
-        console.log(current_role_id,"current role id")
+      const orgId=localStorage.getItem("orgId");
+        const  current_role_id = res.data.user.org_roles[orgId]
         if(current_role_id){
          let role= roles.filter((role)=>role.value==current_role_id)
           setSelectedRole([{label:role[0].label, value:role[0].value}])

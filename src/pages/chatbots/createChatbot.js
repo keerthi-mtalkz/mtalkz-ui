@@ -30,7 +30,10 @@ const createChatbot = () => {
             }, 1000);
     })
       .catch((err) => {
-            setStatus({ type: "error",message: err.response.data.error });
+        if(err?.response){
+          setStatus({ type: "error",message: err.response.data.error });
+        }
+           
       });
   };
 
@@ -82,8 +85,7 @@ const createChatbot = () => {
             <span className="text-default">Channel</span>
             <select className="form-select block w-full mt-1 text-sm" name="channel" ref={register} >
               <option value="whatsapp">WhatsApp</option>
-              <option value="telegram">Telegram</option>
-              <option value="open-web">Web</option>
+              
             </select>
           </label>
 
@@ -95,17 +97,13 @@ const createChatbot = () => {
             <input
               name="phone"
               type="text"
-
+              ref={register()}
               className="form-input mt-1 text-xs block w-full bg-white"
               placeholder="91xxxxxxxxxx"
-            required
-              ref={register({
-                required: "Phone Number is required",
-                pattern: {
-                  value: /\+?\d[\d -]{8,12}\d/,
-                  message: "Please enter a valid phone number",
-                }
-           })}
+              required
+              pattern="^([0]|\+91)?\d{10}" 
+              title="Please enter a valid phone number"
+            
             />
           </label>
                      

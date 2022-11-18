@@ -92,6 +92,29 @@ return (
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col text-sm mb-4 lg:w-1/3"
     >
+     {/*input*/}
+     <div className="w-full mb-4">
+     <label className="block">
+       <span className="text-default">Label </span>
+       <input
+         name="label"
+         type="text"
+         ref={register()}
+         className="form-input mt-1 text-xs block w-full bg-white"
+         placeholder="Enter apiKey  label"
+         required
+         minLength={3}
+         maxLength={225}
+         defaultValue={res.label}
+       />
+     </label>
+     {errors && errors.name && (
+      errors.name.map((err)=>{
+       return <p className="mt-1 text-xs text-red-500">{err}</p>
+      })
+     
+    )}
+   </div>
       {/*input*/}
       <div className="w-full mb-4">
         <label className="block">

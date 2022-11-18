@@ -52,9 +52,9 @@ const [selectedResource,setSelectedResource]=useState([]);
    }else return true
   }
 
-  const onSubmit = () => {
+  const onSubmit = (details) => {
     const isValid=validateFields()
-    const data={"resource_id":selectedResource.value,"is_active":checked}
+    const data={"resource_id":selectedResource.value,"is_active":checked,"label":details.label}
     if (typeof window !== "undefined" && isValid) {
     const token = localStorage.getItem('token');
     ax.post("/api-keys", data, {headers: {
@@ -101,6 +101,28 @@ const [selectedResource,setSelectedResource]=useState([]);
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col text-sm mb-4 lg:w-1/3"
     >
+     {/*input*/}
+     <div className="w-full mb-4">
+     <label className="block">
+       <span className="text-default">Label </span>
+       <input
+         name="label"
+         type="text"
+         ref={register({ required: true })}
+         className="form-input mt-1 text-xs block w-full bg-white"
+         placeholder="Enter apiKey  label"
+         required
+         minLength={3}
+         maxLength={225}
+       />
+     </label>
+     {errors && errors.name && (
+      errors.name.map((err)=>{
+       return <p className="mt-1 text-xs text-red-500">{err}</p>
+      })
+     
+    )}
+   </div>
       {/*input*/}
       <div className="w-full mb-4">
         <label className="block">

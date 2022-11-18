@@ -25,7 +25,6 @@ const Chatbots = () => {
         },
       })
       .then((res) => setChatbots(res.data)).catch((err)=>{
-        setStatus({ type: "error",message: err.response.data.message });
       });
   };
 
