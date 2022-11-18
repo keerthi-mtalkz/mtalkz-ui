@@ -38,6 +38,7 @@ const updateID = () => {
     };
 
     useEffect(() => {
+      
       fetch();
     }, []);
 

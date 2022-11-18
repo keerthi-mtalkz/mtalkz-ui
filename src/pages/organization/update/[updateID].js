@@ -43,6 +43,7 @@ const updateID = () => {
   
 
   useEffect(() => {
+    
     getOrganizationDetails();
   }, []);
 

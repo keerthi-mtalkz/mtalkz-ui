@@ -65,6 +65,7 @@ const viewID = () => {
     }
 
     useEffect(() => {
+      
       getPermissions()
       getResources();
       fetchOrgs();

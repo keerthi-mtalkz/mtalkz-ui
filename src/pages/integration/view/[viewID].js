@@ -34,6 +34,7 @@ const viewID = () => {
     };
 
     useEffect(() => {
+        
       fetchIntegrations();
     }, []);
 

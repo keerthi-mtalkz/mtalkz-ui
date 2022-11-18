@@ -185,6 +185,7 @@ const addIntegration = () => {
   };
 
   useEffect(()=>{
+    
     getChannels();
     if(organizations.length===0){
       getOrganizations();

@@ -8,7 +8,7 @@ import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications';
 import Select from "react-select";
 import Switch from 'react-switch';
-
+import CustomModal from "../../components/custommodal";
 
 const addApiKey = () => {
   const router = useRouter();
@@ -18,8 +18,8 @@ const addApiKey = () => {
 const [selectedResource,setSelectedResource]=useState([]);
   const { register, handleSubmit, watch } = useForm();
   const [errors,setErrors]=useState(undefined)
-
-
+  const [showModal,setShowModal]=useState(false)
+const [res,setRes]=useState(undefined)
   const getResources = async () => {
     const token = localStorage.getItem('token');
     await ax
@@ -41,6 +41,7 @@ const [selectedResource,setSelectedResource]=useState([]);
   });
 
   React.useEffect(()=>{
+    
     getResources()
   },[]);
 
@@ -52,19 +53,19 @@ const [selectedResource,setSelectedResource]=useState([]);
    }else return true
   }
 
-  const onSubmit = () => {
+  const onSubmit = (details) => {
     const isValid=validateFields()
-    const data={"resource_id":selectedResource.value,"is_active":checked}
+    const data={"resource_id":selectedResource.value,"is_active":checked,"label":details.label}
     if (typeof window !== "undefined" && isValid) {
     const token = localStorage.getItem('token');
     ax.post("/api-keys", data, {headers: {
       'Authorization': `Bearer ${token}`
      }})
       .then((res) => {
+        setRes(res.data.api_key.key)
+        setShowModal(true)
         setStatus({ type: "success" });
-        setTimeout(() => {
-        router.push("/apiKey");
-        }, 1000);
+        
       })
       .catch((err) => {
         if(err.response.data.errors){
@@ -83,6 +84,7 @@ const [selectedResource,setSelectedResource]=useState([]);
 
   return (
     <Layout>
+   
     <SectionTitle title="Create API Key" subtitle="" />
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
@@ -96,11 +98,36 @@ const [selectedResource,setSelectedResource]=useState([]);
         {   NotificationManager.error(status.message,"Error")}
       </div>
       )}
+      {showModal &&  <CustomModal apiKey={res } onClose={()=>{setShowModal(false);setTimeout(() => {
+        router.push("/apiKey");
+        }, 1000);}}></CustomModal>}
 
       <form
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col text-sm mb-4 lg:w-1/3"
     >
+     {/*input*/}
+     <div className="w-full mb-4">
+     <label className="block">
+       <span className="text-default">Label </span>
+       <input
+         name="label"
+         type="text"
+         ref={register({ required: true })}
+         className="form-input mt-1 text-xs block w-full bg-white"
+         placeholder="Some easy to recognize API Key Label"
+         required
+         minLength={3}
+         maxLength={225}
+       />
+     </label>
+     {errors && errors.name && (
+      errors.name.map((err)=>{
+       return <p className="mt-1 text-xs text-red-500">{err}</p>
+      })
+     
+    )}
+   </div>
       {/*input*/}
       <div className="w-full mb-4">
         <label className="block">

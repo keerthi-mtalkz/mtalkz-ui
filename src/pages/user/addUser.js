@@ -40,6 +40,10 @@ const addUser = () => {
     }
   };
 
+  useEffect(()=>{
+    
+  },[])
+
 
   return (
     <Layout>

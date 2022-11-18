@@ -85,6 +85,7 @@ const [permissions,setPermissions]=useState([])
   };
 
     useEffect(() => {
+      
       getPermissions();
     }, []);
 

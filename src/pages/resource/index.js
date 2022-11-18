@@ -60,6 +60,7 @@ const Resource=()=>{
     
 
   React.useEffect(() => {
+    
     getPermissions()
     getResources();
   }, []);

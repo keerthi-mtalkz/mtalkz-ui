@@ -36,6 +36,7 @@ const viewID = () => {
     };
 
     useEffect(() => {
+      
       fetchChannel();
     }, []);
 

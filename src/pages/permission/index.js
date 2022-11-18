@@ -31,6 +31,7 @@ const Permission=()=>{
 
 
   React.useEffect(() => {
+    
     getPermissions();
   }, []);
 
