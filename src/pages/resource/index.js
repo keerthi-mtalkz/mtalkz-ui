@@ -12,6 +12,7 @@ const Resource=()=>{
  const [resources,setResources]=useState([])
  const [status, setStatus] = useState(undefined);
  const [searchQuery, setSearchQuery] = useState("");
+ const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false})
 
 
   const getResources = async () => {
@@ -29,8 +30,38 @@ const Resource=()=>{
   };
 
 
+  const getPermissions = async () => {
+    const token = localStorage.getItem('token');
+    await ax
+      .get("/permissions", {headers: {
+        'Authorization': `Bearer ${token}`
+       }})
+      .then((res) => {
+        let permissions={get:false,update:false,delete:false,view:false,add:false}
+        res.data.map((permission)=>{
+        if(permission.route == "resources.index"){
+          permissions["get"] = true;
+        } else if(permission.route == "resources.update"){
+          permissions["update"] = true;
+        }else if(permission.route == "resources.destroy"){
+          permissions["delete"] = true;
+        }else if(permission.route == "resources.show"){
+          permissions["view"] = true;
+        }else if(permission.route == "resources.store"){
+          permissions["add"] = true;
+        }
+        })
+        setPermissions({...permissions})
+      })
+      .catch((err) => {
+        console.error("get /permissions error", err);
+      });
+  };
+    
+
   React.useEffect(() => {
     NotificationManager.removeAll()
+    getPermissions()
     getResources();
   }, []);
 
@@ -77,23 +108,28 @@ const Resource=()=>{
         cell: () => <Button variant="danger" data-tag="allowRowEvents" data-action="delete"><FontAwesomeIcon icon={faTrash} /></Button>,
         Cell: (data) => {
        
-        return (<div className="flex justify-evenly"> <Link href={`/resource/view/${data.row.original.id}`}>
+        return (<div className="flex justify-evenly">
+        {permissions.view && 
+        <Link href={`/resource/view/${data.row.original.id}`}>
           <p>
             <i className="icon-eye text-1xl font-bold mb-2"></i>
           </p>
-      </Link> <p
+      </Link> }
+      {permissions.delete &&  <p
         style={{
          
           cursor: "pointer",
           lineHeight: "normal",
         }}
         onClick={() => deleteResource(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+</p>}
+{permissions.update && <Link href={`/resource/update/${data.row.original.id}`}>
+<p>
+  <i className="icon-note text-1xl font-bold mb-2"></i>
 </p>
-<Link href={`/resource/update/${data.row.original.id}`}>
-                      <p>
-                        <i className="icon-note text-1xl font-bold mb-2"></i>
-                      </p>
-                  </Link>
+</Link>}
+     
+
 </div>
         )}
        
@@ -130,14 +166,15 @@ const Resource=()=>{
       </div>
       <div className="w-1/6 ">
         {" "}
-        <Link href={`/resource/addResource`}>
-            <button
-              className="ml-3  btn btn-default btn-indigo create-btn w-full"
-              type="button"
-            >
-              Add Resource
-            </button>
-        </Link>
+        {permissions.add &&  <Link href={`/resource/addResource`}>
+        <button
+          className="ml-3  btn btn-default btn-indigo create-btn w-full"
+          type="button"
+        >
+          Add Resource
+        </button>
+    </Link>}
+       
       </div>
     </div>
     <Datatable  columns={columns}  data={resources?.filter((val) => {

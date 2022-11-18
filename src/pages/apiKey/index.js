@@ -16,6 +16,7 @@ const ApiKey=()=>{
  const [apiKeys,setApiKeys]=useState([])
  const [status, setStatus] = useState(undefined);
  const [searchQuery, setSearchQuery] = useState("");
+ const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false})
 
   const getApiKeys = async () => {
     const token = localStorage.getItem('token');
@@ -31,6 +32,33 @@ const ApiKey=()=>{
       })
       .catch((err) => {
         console.error("get /apiKeys error", err);
+      });
+  };
+  const getPermissions = async () => {
+    const token = localStorage.getItem('token');
+    await ax
+      .get("/permissions", {headers: {
+        'Authorization': `Bearer ${token}`
+       }})
+      .then((res) => {
+        let permissions={get:false,update:false,delete:false,view:false,add:false}
+        res.data.map((permission)=>{
+        if(permission.route == "apikeys.index"){
+          permissions["get"] = true;
+        } else if(permission.route == "apikeys.update"){
+          permissions["update"] = true;
+        }else if(permission.route == "apikeys.destroy"){
+          permissions["delete"] = true;
+        }else if(permission.route == "apikeys.show"){
+          permissions["view"] = true;
+        }else if(permission.route == "apikeys.store"){
+          permissions["add"] = true;
+        }
+        })
+        setPermissions({...permissions})
+      })
+      .catch((err) => {
+        console.error("get /permissions error", err);
       });
   };
 
@@ -60,6 +88,7 @@ const ApiKey=()=>{
 
   React.useEffect(() => {
     NotificationManager.removeAll()
+    getPermissions()
     getApiKeys();
   }, []);
 
@@ -105,23 +134,28 @@ const ApiKey=()=>{
         cell: () => <Button variant="danger" data-tag="allowRowEvents" data-action="delete"><FontAwesomeIcon icon={faTrash} /></Button>,
         Cell: (data) => {
        
-        return (<div className="flex justify-evenly"> <Link href={`/apiKey/view/${data.row.original.id}`}>
-          <p>
-            <i className="icon-eye text-1xl font-bold mb-2"></i>
-          </p>
-      </Link> <p
-        style={{
-         
-          cursor: "pointer",
-          lineHeight: "normal",
-        }}
-        onClick={() => handleDelete(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+        return (<div className="flex justify-evenly"> 
+        {permissions.view && <Link href={`/apiKey/view/${data.row.original.id}`}>
+        <p>
+          <i className="icon-eye text-1xl font-bold mb-2"></i>
+        </p>
+    </Link> }
+    {permissions.delete &&  <p
+      style={{
+       
+        cursor: "pointer",
+        lineHeight: "normal",
+      }}
+      onClick={() => handleDelete(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+</p>}
+
+{permissions.update && <Link href={`/apiKey/update/${data.row.original.id}`}>
+<p>
+  <i className="icon-note text-1xl font-bold mb-2"></i>
 </p>
-<Link href={`/apiKey/update/${data.row.original.id}`}>
-                      <p>
-                        <i className="icon-note text-1xl font-bold mb-2"></i>
-                      </p>
-                  </Link>
+</Link>} 
+         
+
 
 </div>
         )}
@@ -145,14 +179,15 @@ const ApiKey=()=>{
     </div>
     <div className="w-1/6 ">
       {" "}
-      <Link href={`/apiKey/addApiKey`}>
-          <button
-            className="ml-3  btn btn-default btn-indigo create-btn w-full"
-            type="button"
-          >
-            Add Api Key
-          </button>
-      </Link>
+      {permissions.add &&   <Link href={`/apiKey/addApiKey`}>
+      <button
+        className="ml-3  btn btn-default btn-indigo create-btn w-full"
+        type="button"
+      >
+        Add Api Key
+      </button>
+  </Link>}
+     
     </div>
   </div>
   {status?.type === "success" && (

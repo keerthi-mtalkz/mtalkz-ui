@@ -15,6 +15,7 @@ const Organization=()=>{
  const [organizations,setOrganizations]=useState([])
  const [status, setStatus] = React.useState(undefined);
  const [searchQuery, setSearchQuery] = React.useState("");
+ const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false,setRole:false})
 
   const getOrganizations = async () => {
     const token = localStorage.getItem('token');
@@ -30,11 +31,40 @@ const Organization=()=>{
       });
   };
 
+  const getPermissions = async () => {
+    const token = localStorage.getItem('token');
+    await ax
+      .get("/permissions", {headers: {
+        'Authorization': `Bearer ${token}`
+       }})
+      .then((res) => {
+        let permissions={get:false,update:false,delete:false,view:false,add:false}
+        res.data.map((permission)=>{
+        if(permission.route == "organizations.index"){
+          permissions["get"] = true;
+        } else if(permission.route == "organizations.update"){
+          permissions["update"] = true;
+        }else if(permission.route == "organizations.destroy"){
+          permissions["delete"] = true;
+        }else if(permission.route == "organizations.show"){
+          permissions["view"] = true;
+        }else if(permission.route == "organizations.storeU"){
+          permissions["add"] = true;
+        }
+        })
+        setPermissions({...permissions})
+      })
+      .catch((err) => {
+        console.error("get /permissions error", err);
+      });
+  };
 
   React.useEffect(() => {
    NotificationManager.removeAll()
+    getPermissions()
     getOrganizations();
   }, []);
+
 
   const deleteOrganization = (id) => {
     if (typeof window !== "undefined") {
@@ -86,23 +116,31 @@ const Organization=()=>{
         cell: () => <Button variant="danger" data-tag="allowRowEvents" data-action="delete"><FontAwesomeIcon icon={faTrash} /></Button>,
         Cell: (data) => {
        
-        return (<div className="flex justify-evenly"> <Link href={`/organization/view/${data.row.original.id}`}>
+        return (
+          <div className="flex justify-evenly"> 
+          {permissions.view && <Link href={`/organization/view/${data.row.original.id}`}>
           <p>
             <i className="icon-eye text-1xl font-bold mb-2"></i>
           </p>
-      </Link> <p
-        style={{
-         
-          cursor: "pointer",
-          lineHeight: "normal",
-        }}
-        onClick={() => deleteOrganization(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
-</p>
-<Link href={`/organization/update/${data.row.original.id}`}>
-                      <p>
-                        <i className="icon-note text-1xl font-bold mb-2"></i>
-                      </p>
-                  </Link>
+      </Link> }
+          {
+            permissions.delete &&   <p
+            style={{
+             
+              cursor: "pointer",
+              lineHeight: "normal",
+            }}
+            onClick={() => deleteOrganization(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+    </p>
+          } 
+     {
+      permissions.update && <Link href={`/organization/update/${data.row.original.id}`}>
+      <p>
+        <i className="icon-note text-1xl font-bold mb-2"></i>
+      </p>
+  </Link>
+     }
+
 
 </div>
         )}
@@ -140,14 +178,15 @@ const Organization=()=>{
     </div>
     <div className="w-1/6 ">
       {" "}
-      <Link href={`/organization/addOrganization`}>
-          <button
-            className="ml-3  btn btn-default btn-indigo create-btn w-full"
-            type="button"
-          >
-            Add Organization
-          </button>
-      </Link>
+      {permissions.add &&  <Link href={`/organization/addOrganization`}>
+      <button
+        className="ml-3  btn btn-default btn-indigo create-btn w-full"
+        type="button"
+      >
+        Add Organization
+      </button>
+  </Link>}
+     
     </div>
   </div>
     <Datatable columns={columns} data={organizations?.filter((val) => {
