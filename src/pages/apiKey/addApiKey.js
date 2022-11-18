@@ -8,7 +8,7 @@ import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications';
 import Select from "react-select";
 import Switch from 'react-switch';
-
+import CustomModal from "../../components/custommodal";
 
 const addApiKey = () => {
   const router = useRouter();
@@ -18,8 +18,8 @@ const addApiKey = () => {
 const [selectedResource,setSelectedResource]=useState([]);
   const { register, handleSubmit, watch } = useForm();
   const [errors,setErrors]=useState(undefined)
-
-
+  const [showModal,setShowModal]=useState(false)
+const [res,setRes]=useState(undefined)
   const getResources = async () => {
     const token = localStorage.getItem('token');
     await ax
@@ -62,10 +62,10 @@ const [selectedResource,setSelectedResource]=useState([]);
       'Authorization': `Bearer ${token}`
      }})
       .then((res) => {
+        setRes(res.data.api_key.key)
+        setShowModal(true)
         setStatus({ type: "success" });
-        setTimeout(() => {
-        router.push("/apiKey");
-        }, 1000);
+        
       })
       .catch((err) => {
         if(err.response.data.errors){
@@ -84,6 +84,7 @@ const [selectedResource,setSelectedResource]=useState([]);
 
   return (
     <Layout>
+   
     <SectionTitle title="Create API Key" subtitle="" />
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
@@ -97,6 +98,9 @@ const [selectedResource,setSelectedResource]=useState([]);
         {   NotificationManager.error(status.message,"Error")}
       </div>
       )}
+      {showModal &&  <CustomModal apiKey={res } onClose={()=>{setShowModal(false);setTimeout(() => {
+        router.push("/apiKey");
+        }, 1000);}}></CustomModal>}
 
       <form
       onSubmit={handleSubmit(onSubmit)}
@@ -111,7 +115,7 @@ const [selectedResource,setSelectedResource]=useState([]);
          type="text"
          ref={register({ required: true })}
          className="form-input mt-1 text-xs block w-full bg-white"
-         placeholder="Enter apiKey  label"
+         placeholder="Some easy to recognize API Key Label"
          required
          minLength={3}
          maxLength={225}

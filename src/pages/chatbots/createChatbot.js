@@ -85,7 +85,8 @@ const createChatbot = () => {
             <span className="text-default">Channel</span>
             <select className="form-select block w-full mt-1 text-sm" name="channel" ref={register} >
               <option value="whatsapp">WhatsApp</option>
-              
+              <option value="telegram" disabled={true}>Telegram</option>
+              <option value="open-web" disabled={true}>Web</option>
             </select>
           </label>
 
@@ -101,7 +102,7 @@ const createChatbot = () => {
               className="form-input mt-1 text-xs block w-full bg-white"
               placeholder="91xxxxxxxxxx"
               required
-              pattern="^([0]|\+91)?\d{10}" 
+              pattern="^(\+91)\d{10}" 
               title="Please enter a valid phone number"
             
             />

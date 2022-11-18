@@ -228,6 +228,7 @@ const Index = () => {
               required={true}
             >
               <option value="whatsapp">WhatsApp</option>
+              <option value="open-web" disabled={true}>Web</option>
             </select>
           </label>
           <label className="block">

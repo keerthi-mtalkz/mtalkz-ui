@@ -102,7 +102,7 @@ return (
          type="text"
          ref={register()}
          className="form-input mt-1 text-xs block w-full bg-white"
-         placeholder="Enter apiKey  label"
+         placeholder="Some easy to recognize API Key Label"
          required
          minLength={3}
          maxLength={225}
