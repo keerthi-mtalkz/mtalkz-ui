@@ -59,10 +59,6 @@ const Permission=()=>{
 
 
   const columns =  [
-    {
-      Header: 'ID',
-      accessor: 'id'
-    },
       {
         Header: 'Route',
         accessor: 'route'

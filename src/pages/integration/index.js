@@ -7,6 +7,8 @@ import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
 import React from "react";
 import SectionTitle from '../../components/section-title'
+import {Badge, CircularBadge} from '../../components/badges'
+import { getColor } from '../../functions/colors';
 
 const Integration=()=>{
  const [integrations,setIntegrations]=useState([])
@@ -57,28 +59,46 @@ const Integration=()=>{
 }
 };
 
+const getColorBasedOnMethod=(method)=>{
+  switch(method){
+    case "get" :
+     return "green"
+    case "post" :
+     return "pink"
+    case "patch" :
+     return "yellow"
+    case "delete " :
+     return "red"
+    case "head" :
+     return "blue"
+  }
+}
+
 
   const columns =  [
-    {
-      Header: 'ID',
-      accessor: 'id'
-    },
       {
         Header: 'Name',
         accessor: 'name'
       },
       {
-        Header: 'Slug',
-        accessor: 'slug'
+        Header: 'Channel Name',
+        accessor: 'channel_name'
       },
       {
-        Header: 'Channel Slug',
-        accessor: 'channel_slug'
+        Header: 'Description',
+        accessor: 'description'
       },
-     
       {
-        Header: 'Param Names',
-        accessor: 'param_names'
+        Header:'HTTP Method',
+        sortable: false,
+        Cell: (data) => {
+
+          return (<div className="flex  ">
+          <Badge  size={'default'} color={getColorBasedOnMethod(data.row.original.http_method )} rounded>
+            {data.row.original.http_method }
+          </Badge>
+           </div>)}
+
       },
       {
         Header: 'Actions',

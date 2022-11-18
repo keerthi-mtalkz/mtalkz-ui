@@ -13,9 +13,6 @@ import {
 } from '../../../components/notifications'
 import {NotificationManager} from 'react-notifications'
 import {ax} from "../../../utils/apiCalls";
-import {Popover, Tooltip} from '../../../components/popovers'
-
-
 
 
 const viewID = () => {
@@ -78,12 +75,7 @@ return (
                       
                     </div>
                     <div className="inline-flex truncate items-center truncate text-base font-semibold text-gray-900 dark:text-white">
-                    <Tooltip
-              placement={"top"}
-              content={res.route}>
-              <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.route}</p>
-            </Tooltip>
-                   
+                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.route}</p>
                     </div>
                    
                 </div>
@@ -106,12 +98,7 @@ return (
                  
                </div>
                <div className="inline-flex truncate items-center truncate text-base font-semibold text-gray-900 dark:text-white">
-               <Tooltip
-         placement={"top"}
-         content={res.name}>
-         <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
-       </Tooltip>
-              
+               <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
                </div>
               
            </div>
@@ -134,12 +121,7 @@ return (
               
             </div>
             <div className="inline-flex truncate items-center truncate text-base font-semibold text-gray-900 dark:text-white">
-            <Tooltip
-      placement={"top"}
-      content={res.description}>
-      <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.description}</p>
-    </Tooltip>
-           
+            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.description}</p>
             </div>
             
         </div>

@@ -14,6 +14,7 @@ const Login1 = () => {
   const router = useRouter()
   const [status, setStatus] = useState(undefined);
 
+
   const onSubmit = async(data) => {
     await ax
     .post("/auth/login", data)
@@ -27,12 +28,10 @@ const Login1 = () => {
         value: res.data.user
       })
       setTimeout(() => {
-    
       router.push("/dashboard");
       }, 1000);
     })
     .catch((err) => {
-      setStatus({ type: "error",message: err.response.data.message });
       console.error("get login error", err);
     });
     

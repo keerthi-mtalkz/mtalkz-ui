@@ -6,6 +6,7 @@ import { withRedux } from "../../../lib/redux";
 import { useRouter } from "next/router";
 import {NotificationManager} from 'react-notifications'
 import {ax} from "../../../utils/apiCalls";
+import {Badge, CircularBadge} from '../../../components/badges'
 
 
 
@@ -42,7 +43,7 @@ const viewID = () => {
 
 return (
     <Layout>
-     <SectionTitle title="View ApiKey" subtitle="" />
+     <SectionTitle title="View API Key" subtitle="" />
     
      {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
@@ -67,7 +68,7 @@ return (
                       
                     </div>
                     <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.key}</p>
+                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.masked_key}</p>
                     </div>
                 </div>
             </li>
@@ -83,7 +84,7 @@ return (
           
             <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                Resource Id
+                Resource 
                 </p>
               
             </div>
@@ -123,12 +124,16 @@ return (
           
             <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                Active
+                Status
                 </p>
               
             </div>
             <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.is_active}</p>
+
+
+            <Badge  size={'default'} color={res.is_active==1?'green':'red'} rounded>
+            {res.is_active?"Active":"Inactive" }
+          </Badge>
             </div>
         </div>
     </li>

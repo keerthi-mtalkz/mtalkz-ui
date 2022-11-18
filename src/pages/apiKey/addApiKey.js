@@ -83,7 +83,7 @@ const [selectedResource,setSelectedResource]=useState([]);
 
   return (
     <Layout>
-    <SectionTitle title="Create ApiKey" subtitle="" />
+    <SectionTitle title="Create API Key" subtitle="" />
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
       <div className="p-2">

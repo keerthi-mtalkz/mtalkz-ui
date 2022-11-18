@@ -38,6 +38,7 @@ const viewID = () => {
           'Authorization': `Bearer ${token}`
          }})
         .then((res) => {
+          
           setRes(res.data.user);
         })
         .catch((err) => {
@@ -63,6 +64,9 @@ const viewID = () => {
       'Authorization': `Bearer ${token}`
      }})
     .then((res) => {
+      res.data.activities.map((activity)=>{
+        activity.created_at=moment(activity.created_at).format('DD-MM-YYYY');
+      })
       setActivities(res.data.activities)
     })
     .catch((err) => {
@@ -85,10 +89,6 @@ const viewID = () => {
         accessor: 'type'
       },
       {
-        Header: 'Affected Table',
-        accessor: 'affected_table'
-      },
-      {
         Header: 'Created Date',
         accessor: 'created_at'
       },
@@ -97,7 +97,7 @@ const viewID = () => {
 
 return (
     <Layout>
-     <SectionTitle title="VIEW USER" subtitle="" />
+     <SectionTitle title="View User" subtitle="" />
       {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
@@ -159,11 +159,8 @@ return (
                         
                      </div>
                      <div className="inline-flex truncate items-center text-base font-semibold text-gray-900 dark:text-white">
-                     <Tooltip
-                     placement={"Top"}
-                     content={res.organization_id}>
                      <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.organization_id}</p>
-                   </Tooltip>
+
                      </div>
                  </div>
              </li>
@@ -177,11 +174,8 @@ return (
                         
                      </div>
                      <div className="inline-flex truncate items-center text-base font-semibold text-gray-900 dark:text-white">
-                     <Tooltip
-                     placement={"Top"}
-                     content={new Date(res.created_at).toLocaleString()}>
                      <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{new Date(res.created_at).toLocaleString()}</p>
-                   </Tooltip>
+
                      </div>
                  </div>
              </li>

@@ -10,7 +10,7 @@ const navigation = [
       {
         url: '/chatbots',
         icon: <Icon.MessageCircle size={20} />,
-        title: 'Chatbot',
+        title: 'Chatbots',
         items: []
       },
       {
@@ -52,7 +52,7 @@ const navigation = [
       {
         url: '/apiKey',
         icon: <Icon.Anchor size={20} />,
-        title: 'ApiKey Management',
+        title: 'API Keys Management',
         items: []
       },
       {

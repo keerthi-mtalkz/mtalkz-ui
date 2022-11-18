@@ -2,22 +2,11 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Layout from "../../../layouts";
 import SectionTitle from "../../../components/section-title";
-import { useForm } from "react-hook-form";
 import { withRedux } from "../../../lib/redux";
 import { useRouter } from "next/router";
-import {
-  NotificationInfo,
-  NotificationWarning,
-  NotificationError,
-  NotificationSuccess
-} from '../../../components/notifications'
 import {NotificationManager} from 'react-notifications'
 import {ax} from "../../../utils/apiCalls";
-import { resolve } from "styled-jsx/css";
-import {Popover, Tooltip} from '../../../components/popovers'
-
-
-
+import {Badge, CircularBadge} from '../../../components/badges'
 
 const viewID = () => {
     const router = useRouter();
@@ -48,7 +37,20 @@ const viewID = () => {
       fetchIntegrations();
     }, []);
 
- 
+    const getColorBasedOnMethod=(method)=>{
+        switch(method){
+            case "get" :
+             return "green"
+            case "post" :
+             return "pink"
+            case "patch" :
+             return "yellow"
+            case "delete " :
+             return "red"
+            case "head" :
+             return "blue"
+        }
+      }
   
   
 
@@ -79,12 +81,7 @@ return (
                       
                     </div>
                     <div className="inline-flex truncate items-center truncate text-base font-semibold text-gray-900 dark:text-white">
-                    <Tooltip
-              placement={"top"}
-              content={res.name}>
-              <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
-            </Tooltip>
-                   
+                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.name}</p>
                     </div>
                 </div>
             </li>
@@ -106,12 +103,7 @@ return (
                  
                </div>
                <div className="inline-flex truncate items-center truncate text-base font-semibold text-gray-900 dark:text-white">
-                    <Tooltip
-              placement={"top"}
-              content={res.slug}>
-              <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.slug}</p>
-            </Tooltip>
-                   
+               <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.slug}</p>
                     </div>
            </div>
        </li>
@@ -133,12 +125,7 @@ return (
               
             </div>
             <div className="inline-flex truncate items-center truncate text-base font-semibold text-gray-900 dark:text-white">
-            <Tooltip
-      placement={"top"}
-      content={res.channel_slug}>
-      <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.channel_slug}</p>
-    </Tooltip>
-           
+            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.channel_slug}</p>
             </div>
            
         </div>
@@ -153,16 +140,12 @@ return (
           
             <div className="flex-1 min-w-1">
                 <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                Icon Url
+                Icon
                 </p>
               
             </div>
             <div className="inline-flex truncate items-center truncate text-base font-semibold text-gray-900 dark:text-white">
-            <Tooltip
-      placement={"top"}
-      content={res.icon_url}>
-      <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.icon_url}</p>
-    </Tooltip>
+             <img src={res.icon_url} alt="invalid url" style={{width:"50px", height:"50px"}}></img>
             </div>
         </div>
     </li>
@@ -180,13 +163,8 @@ return (
                 </p>
             </div>
             <div className="inline-flex truncate items-center truncate text-base font-semibold text-gray-900 dark:text-white">
-            <Tooltip
-      placement={"top"}
-      content={res.description}>
-      <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.description}</p>
-    </Tooltip>
+            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.description}</p>
             </div>
-           
         </div>
     </li>
 </ul>
@@ -199,15 +177,11 @@ return (
           
             <div className="flex-1 min-w-1">
                 <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                Api Url
+                API Url
                 </p>
             </div>
             <div className="inline-flex truncate items-center truncate text-base font-semibold text-gray-900 dark:text-white">
-            <Tooltip
-      placement={"top"}
-      content={res.api_url}>
-      <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.api_url}</p>
-    </Tooltip>
+            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.api_url}</p>
             </div>
           
         </div>
@@ -226,11 +200,9 @@ return (
                 </p>
             </div>
             <div className="inline-flex truncate items-center truncate text-base font-semibold text-gray-900 dark:text-white">
-            <Tooltip
-      placement={"top"}
-      content={res.http_method}>
-      <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.http_method}</p>
-    </Tooltip>
+            <Badge  size={'default'} color={getColorBasedOnMethod(res.http_method )} rounded>
+            {res.http_method }
+          </Badge>
             </div>
            
         </div>
