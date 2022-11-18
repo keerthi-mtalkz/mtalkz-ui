@@ -102,7 +102,7 @@ const createChatbot = () => {
               className="form-input mt-1 text-xs block w-full bg-white"
               placeholder="91xxxxxxxxxx"
               required
-              pattern="^(\91)\d{10}" 
+              pattern="^(91)\d{10}" 
               title="Please enter a valid phone number"
             
             />

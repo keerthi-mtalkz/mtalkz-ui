@@ -126,7 +126,7 @@ const Chatbots = () => {
                     lineHeight: "normal",
                   }}
                   onClick={() =>{ if(user.is_system_user==1){
-                    handleDelete(value._id)
+                    !value.deleted && handleDelete(value._id)
                   }
                   } }
                 >
