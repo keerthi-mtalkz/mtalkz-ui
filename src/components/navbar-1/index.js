@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import Select from "react-select";
 import { getColor, toRGB } from "../../functions/colors";
 import {ax} from "../../utils/apiCalls"
+import {NotificationManager} from 'react-notifications';
 
 
 const Navbar = () => {
