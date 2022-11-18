@@ -14,8 +14,9 @@ import {NotificationManager} from 'react-notifications'
 
 const Role=()=>{
     const [roleData,setRoleData]=React.useState([]);
-    const [permissions,setPermissions]=React.useState(false);
     const [searchQuery, setSearchQuery] = React.useState("");
+    const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false,setRole:false})
+
 
     const [status, setStatus] = React.useState(undefined);
 
@@ -60,23 +61,34 @@ const Role=()=>{
     }
    }
 
-   const getPermissions=async()=>{
-    const token= localStorage.getItem("token");
-      await ax
-        .get("/permissions", {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
+   const getPermissions = async () => {
+    const token = localStorage.getItem('token');
+    await ax
+      .get("/permissions", {headers: {
+        'Authorization': `Bearer ${token}`
+       }})
+      .then((res) => {
+        let permissions={get:false,update:false,delete:false,view:false,add:false}
+        res.data.map((permission)=>{
+        if(permission.route == "roles.index"){
+          permissions["get"] = true;
+        } else if(permission.route == "roles.update"){
+          permissions["update"] = true;
+        }else if(permission.route == "roles.destroy"){
+          permissions["delete"] = true;
+        }else if(permission.route == "roles.show"){
+          permissions["view"] = true;
+        }else if(permission.route == "roles.store"){
+          permissions["add"] = true;
+        }
         })
-        .then((res) => {
-        let permission=  res.data.filter((permission) => permission.route=="users.role.set");
-        setPermissions(permission.length>0?true:false)
-        })
-        .catch((err) => {
-          setStatus({ type: "error",message: err.response.data.message });
-          console.error("get /getRoleDetails error", err);
-        });
-   }
+        setPermissions({...permissions})
+      })
+      .catch((err) => {
+        console.error("get /permissions error", err);
+      });
+  };
+    
 
 
     useEffect(()=>{
@@ -102,28 +114,31 @@ const Role=()=>{
           sortable: false,
           cell: () => <Button variant="danger" data-tag="allowRowEvents" data-action="delete"><FontAwesomeIcon icon={faTrash} /></Button>,
           Cell: (data) => {
-            return (<div className="flex justify-evenly"> <Link href={`/role/view/${data.row.original.id}`}>
-              <a>
-                <p>
-                  <i className="icon-eye text-1xl font-bold mb-2"></i>
-                </p>
-              </a>
-            </Link> <p
-              style={{
-    
-                cursor: "pointer",
-                lineHeight: "normal",
-              }}
-              onClick={() => deleteRoleApi(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
-              </p>
-              <Link href={`/role/update/${data.row.original.id}`}>
-                <a>
-                  <p>
-                    <i className="icon-note text-1xl font-bold mb-2"></i>
-                  </p>
-                </a>
-              </Link>
-          
+            return (<div className="flex justify-evenly">
+          {permissions.view &&  <Link href={`/role/view/${data.row.original.id}`}>
+          <a>
+            <p>
+              <i className="icon-eye text-1xl font-bold mb-2"></i>
+            </p>
+          </a>
+        </Link>  }  
+        {permissions.delete &&    <p
+          style={{
+
+            cursor: "pointer",
+            lineHeight: "normal",
+          }}
+          onClick={() => deleteRoleApi(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+          </p>}
+          {permissions.update &&  <Link href={`/role/update/${data.row.original.id}`}>
+          <a>
+            <p>
+              <i className="icon-note text-1xl font-bold mb-2"></i>
+            </p>
+          </a>
+        </Link>
+     }
+             
     
             </div>
             )
@@ -159,17 +174,17 @@ const Role=()=>{
             placeholder="Search..."
           />
         </div>
-        <div className="w-1/6 ">
-          {" "}
-          <Link href={`/role/addRole`}>
-          <button
-          className="ml-3  btn btn-default btn-indigo create-btn w-full"
-          type="button"
-        >
-          Add Role
-        </button>
-          </Link>
-        </div>
+      { permissions.add &&  <div className="w-1/6 ">
+      {" "}
+      <Link href={`/role/addRole`}>
+      <button
+      className="ml-3  btn btn-default btn-indigo create-btn w-full"
+      type="button"
+    >
+      Add Role
+    </button>
+      </Link>
+    </div>}  
       </div>
         <Datatable columns={columns} data={roleData?.filter((val) => {
           if (searchQuery == "") {

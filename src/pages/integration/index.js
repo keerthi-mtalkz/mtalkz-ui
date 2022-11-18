@@ -14,6 +14,7 @@ const Integration=()=>{
  const [integrations,setIntegrations]=useState([])
  const [status, setStatus] = useState(undefined);
  const [searchQuery, setSearchQuery] = useState("");
+ const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false})
 
 
   const getIntegrations = async () => {
@@ -31,8 +32,36 @@ const Integration=()=>{
       });
   };
 
+  const getPermissions = async () => {
+    const token = localStorage.getItem('token');
+    await ax
+      .get("/permissions", {headers: {
+        'Authorization': `Bearer ${token}`
+       }})
+      .then((res) => {
+        let permissions={get:false,update:false,delete:false,view:false,add:false}
+        res.data.map((permission)=>{
+        if(permission.route == "integrations.index"){
+          permissions["get"] = true;
+        } else if(permission.route == "integrations.update"){
+          permissions["update"] = true;
+        }else if(permission.route == "integrations.destroy"){
+          permissions["delete"] = true;
+        }else if(permission.route == "integrations.show"){
+          permissions["view"] = true;
+        }else if(permission.route == "integrations.store"){
+          permissions["add"] = true;
+        }
+        })
+        setPermissions({...permissions})
+      })
+      .catch((err) => {
+        console.error("get /permissions error", err);
+      });
+  };
 
   React.useEffect(() => {
+    getPermissions();
     getIntegrations();
   }, []);
 
@@ -106,23 +135,28 @@ const getColorBasedOnMethod=(method)=>{
         cell: () => <Button variant="danger" data-tag="allowRowEvents" data-action="delete"><FontAwesomeIcon icon={faTrash} /></Button>,
         Cell: (data) => {
        
-        return (<div className="flex justify-evenly "> <Link href={`/integration/view/${data.row.original.id}`}>
-          <p>
-            <i className="icon-eye text-1xl font-bold mb-2"></i>
-          </p>
-      </Link> <p
-        style={{
-         
-          cursor: "pointer",
-          lineHeight: "normal",
-        }}
-        onClick={() => deleteIntegration(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+        return (<div className="flex justify-evenly ">
+        {permissions.view &&  <Link href={`/integration/view/${data.row.original.id}`}>
+        <p>
+          <i className="icon-eye text-1xl font-bold mb-2"></i>
+        </p>
+    </Link>}
+    {permissions.delete &&   <p
+      style={{
+       
+        cursor: "pointer",
+        lineHeight: "normal",
+      }}
+      onClick={() => deleteIntegration(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+</p> }
+
+{permissions.update &&  <Link href={`/integration/update/${data.row.original.id}`}>
+<p>
+  <i className="icon-note text-1xl font-bold mb-2"></i>
 </p>
-<Link href={`/integration/update/${data.row.original.id}`}>
-                      <p>
-                        <i className="icon-note text-1xl font-bold mb-2"></i>
-                      </p>
-                  </Link>
+</Link>}
+      
+
 </div>
         )}
        
@@ -159,14 +193,15 @@ const getColorBasedOnMethod=(method)=>{
       </div>
       <div className="w-1/6 ">
         {" "}
-        <Link href={`/integration/addIntegration`}>
-            <button
-              className="ml-3  btn btn-default btn-indigo create-btn w-full"
-              type="button"
-            >
-              Add Integration
-            </button>
-        </Link>
+        {permissions.add &&  <Link href={`/integration/addIntegration`}>
+        <button
+          className="ml-3  btn btn-default btn-indigo create-btn w-full"
+          type="button"
+        >
+          Add Integration
+        </button>
+    </Link>}
+       
       </div>
     </div>
     
