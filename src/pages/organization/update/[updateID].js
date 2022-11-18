@@ -191,31 +191,6 @@ const updateID = () => {
               )}
             </div>
 
-            {/*input*/}
-     <div className="w-full mb-4">
-     <label className="block">
-       <span className="text-default">Prefix</span>
-       <input
-         name="table_prefix"
-         type="text"
-         ref={register({ required: true })}
-         className="form-input mt-1 text-xs block w-full bg-white"
-         placeholder="Enter Organization Prefix"
-         defaultValue={res.table_prefix}
-         required
-         maxLength={15}
-        pattern="^[a-zA-Z0-9]*$"
-        title="Allowed only alphanumeric and upto 15 max length"
-
-       />
-     </label>
-     {errors && errors.table_prefix && (
-      errors.table_prefix.map((err)=>{
-       return <p className="mt-1 text-xs text-red-500">{err}</p>
-      })
-     
-    )}
-   </div>
 
    <div>
    <span className="text-default">Reseller</span>
