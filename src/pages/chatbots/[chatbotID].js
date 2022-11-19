@@ -21,7 +21,6 @@ const Index = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const chatid = router.query.chatbotID;
-  const [flowChart, setFlowChart] = useState([]);
   const [keyword, setkeyword] = useState([]);
   const updateChatbot = (path, value) => {
     const cb = {...chatbot};
@@ -407,7 +406,7 @@ const Index = () => {
         </div>
 
         <div className="flex flex-row flex-wrap w-full mt-4">
-          {flowChart
+          {flowCharts &&flowCharts
             ?.filter((val) => {
               if (searchTerm == "") {
                 return val;
@@ -421,7 +420,7 @@ const Index = () => {
               return (
                 <div
                   className="flex flex-col w-full mb-4 lg:w-1/3 "
-                  key={value.id}
+                  key={value._id}
                 >
                   <div className="card bg-white shadow-sm py-4 p-4 relative">
                     <Link href={`flow/${chatid}&fc=${value.name}&ak=${token1}`}>
@@ -431,7 +430,7 @@ const Index = () => {
                             {value.name}
                           </div>
                           <p className="text-secondary pt-4">
-                            Updated By : {ls.get("user")}
+                            Updated By : {ls.get("userName")}
                           </p>
                           <p className="text-secondary pb-3">
                             Updated On :{" "}
