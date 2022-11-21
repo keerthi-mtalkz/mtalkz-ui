@@ -7,10 +7,6 @@ import { withRedux } from "../../../lib/redux";
 import { useRouter } from "next/router";
 import {ax} from "../../../utils/apiCalls"
 import { NotificationManager } from 'react-notifications'
-import {
-    NotificationError
-  } from '../../../components/notifications'
-import { error } from "autoprefixer/lib/utils";
 import Switch from 'react-switch'
 
 

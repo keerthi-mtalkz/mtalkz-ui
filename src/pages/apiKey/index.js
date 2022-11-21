@@ -209,7 +209,11 @@ const ApiKey=()=>{
       if (searchQuery == "") {
         return val;
       } else if (
-       (val.key.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ) 
+       (val.key.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
+       val.label.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
+       val?.resource?.name?.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
+       val.is_active.toLowerCase().includes(searchQuery.toLocaleLowerCase()) 
+       ) 
       ) {
         return val;
       }

@@ -191,7 +191,7 @@ const Role=()=>{
           if (searchQuery == "") {
             return val;
           } else if (
-           (val.name.toLowerCase().includes(searchQuery.toLocaleLowerCase())) 
+           (val?.name?.toLowerCase().includes(searchQuery.toLocaleLowerCase()) || val?.org_name?.toLowerCase().includes(searchQuery.toLocaleLowerCase())) 
           ) {
             return val;
           }

@@ -210,7 +210,12 @@ const getColorBasedOnMethod=(method)=>{
       if (searchQuery == "") {
         return val;
       } else if (
-       (val.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()) || val.slug.toLowerCase().includes(searchQuery.toLocaleLowerCase()) || val.channel_slug.toLowerCase().includes(searchQuery.toLocaleLowerCase())) 
+       (val.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()) || val.slug.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
+        val.channel_slug.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
+        val.http_method.toLowerCase().includes(searchQuery.toLocaleLowerCase())
+        
+        
+        ) 
       ) {
         return val;
       }

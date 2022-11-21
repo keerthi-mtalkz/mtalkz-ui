@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import {ax} from "../../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
 import Switch from 'react-switch';
+import Select from "react-select";
 
 
 
@@ -19,6 +20,8 @@ const updateID = () => {
     const { register, handleSubmit, watch } = useForm();
     const [checked, handleChange] = useState(false);
     const [errors,setErrors]=useState(undefined)
+const [selectedResource,setSelectedResource]=useState([]);
+const [resources,setResources]=useState([]);
   
     const fetch = async () => {
       if (typeof window !== "undefined") {
@@ -28,6 +31,7 @@ const updateID = () => {
           'Authorization': `Bearer ${token}`
          }})
         .then((res) => {
+          setSelectedResource({label:res.data.api_key.resource.name, value:res.data.api_key.resource.id})
           setRes(res.data.api_key);
           handleChange(res.data.api_key.is_active===1?true:false)
         })
@@ -38,13 +42,13 @@ const updateID = () => {
     };
 
     useEffect(() => {
-      
+      getResources()
       fetch();
     }, []);
   
     
-    const onSubmit = () => {
-        const data={"is_active":checked}
+    const onSubmit = (details) => {
+        const data={"is_active":checked,"label":details.label,"resource_id":selectedResource.value}
       if (typeof window !== "undefined") {
       const token = localStorage.getItem('token');
       ax.put(`/api-keys/${updateid}`, data, {headers: {
@@ -64,6 +68,30 @@ const updateID = () => {
         });
       }
     };
+  
+
+    const getResources = async () => {
+      const token = localStorage.getItem('token');
+      await ax
+        .get("/resources", {headers: {
+          'Authorization': `Bearer ${token}`
+         }})
+        .then((res) => {
+          setResources(res.data);
+          // setSelectedResource({ label: res.data[0].name, value: res.data[0].id })
+        })
+        .catch((err) => {
+          setStatus({ type: "error",message: err.response.data.message });
+        });
+    };
+
+    const options = resources?.map((value) => {
+      return { label: value.name, value: value.id };
+    });
+
+    const handleSwitch=(value)=>{
+      setSelectedResource({label: value.label, value: value.value})
+    }
   
   
  
@@ -116,6 +144,27 @@ return (
      
     )}
    </div>
+
+   {/*input*/}
+   <div className="w-full mb-4">
+   <label className="block">
+     <span className="text-default">Resource</span>
+     <div style={{ width: "300px" }}>
+     <Select
+       options={options}
+       placeholder="Select Resource"
+       onChange={handleSwitch}
+       value={selectedResource}
+     />
+   </div>
+   </label>
+   {errors && errors.resource_id && (
+     errors.resource_id.map((err)=>{
+      return <p className="mt-1 text-xs text-red-500">{err}</p>
+     })
+    
+   )}
+ </div>
       {/*input*/}
       <div className="w-full mb-4">
         <label className="block">
