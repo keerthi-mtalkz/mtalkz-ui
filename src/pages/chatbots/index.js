@@ -64,7 +64,7 @@ const Chatbots = () => {
     {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-        { NotificationManager.success('Role Deleted Successfully', '')}
+        { NotificationManager.success('Chatbot Deleted Successfully', '')}
         </div>
       </div>
       )}
