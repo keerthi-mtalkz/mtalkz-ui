@@ -7,12 +7,14 @@ import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
 import React from "react";
 import SectionTitle from '../../components/section-title'
+import ConfirmationModal from "../../components/confirmationmodal"
 
 const Permission=()=>{
  const [permissions,setPermissions]=useState([])
  const [status, setStatus] = useState(undefined);
  const [searchQuery, setSearchQuery] = useState("");
-
+ const [deleteId,setDeleteId]=React.useState(undefined)
+ const [showDeletePopup,setShowDeletePopup]=React.useState(false)
 
   const getPermissions = async () => {
     const token = localStorage.getItem('token');
@@ -29,34 +31,49 @@ const Permission=()=>{
       });
   };
 
+  const ConfirmationPopup=(id)=>{
+    setDeleteId(id)
+    setShowDeletePopup(true)
+   }
+
+   const onCancel=()=>{
+  setStatus(undefined)
+    setShowDeletePopup(false)
+
+   }
+
+   const onSubmit=()=>{
+    deletePermission()
+   }
 
   React.useEffect(() => {
     
     getPermissions();
   }, []);
 
-     const deletePermission = (id) => {
-  if (typeof window !== "undefined") {
+     const deletePermission = () => {
+ 
   const token = localStorage.getItem('token');
-  const answer = window.confirm("are you sure?");
-  if (answer) {
-    ax.delete(`/permissions/${id}`, {headers: {
+
+    ax.delete(`/permissions/${deleteId}`, {headers: {
       'Authorization': `Bearer ${token}`
      }})
       .then((res) => {
+        setShowDeletePopup(false)
+
         setStatus({ type: "success" });
         setTimeout(() => {
+        setStatus(undefined);
+
             getPermissions();
         }, 1000);
       })
       .catch((err) => {
+        setShowDeletePopup(false)
+
         setStatus({ type: "error",message: err.response.data.message });
       });
-  } else {
-    console.log("Thing was not saved to the database.");
-  }
-}
-};
+  } 
 
 
   const columns =  [
@@ -88,7 +105,7 @@ const Permission=()=>{
           cursor: "pointer",
           lineHeight: "normal",
         }}
-        onClick={() => deletePermission(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+        onClick={() => ConfirmationPopup(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
 </p>
 <Link href={`/permission/update/${data.row.original.id}`}>
                       <p>
@@ -102,6 +119,8 @@ const Permission=()=>{
     ]
   return (
     <Layout>
+    {showDeletePopup && <ConfirmationModal onCancel={onCancel} onSubmit={onSubmit} > </ConfirmationModal>}
+
     <SectionTitle title="Permission Management" subtitle="" />
 
     {status?.type === "success" && (

@@ -73,7 +73,7 @@ const updateID = () => {
  
 return (
     <Layout>
-     <SectionTitle title="UPDATE RESOURCE" subtitle="" />
+     <SectionTitle title="Update Resource" subtitle="" />
      {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
@@ -101,6 +101,8 @@ return (
       <div className="w-full mb-4">
         <label className="block">
           <span className="text-default">Slug</span>
+     <span className="text-red-600" >*</span>
+
           <input
             name="slug"
             type="text"
@@ -124,6 +126,8 @@ return (
       <div className="w-full mb-4">
         <label className="block">
           <span className="text-default">Name</span>
+     <span className="text-red-600" >*</span>
+
           <input
             name="name"
             type="text"
@@ -147,6 +151,8 @@ return (
          <div className="w-full mb-4">
          <label className="block">
            <span className="text-default">Description</span>
+     <span className="text-red-600" >*</span>
+
            <input
              name="description"
              type="text"
@@ -169,10 +175,17 @@ return (
 
       {/*input*/}
 
-      <div className="w-full">
+      <div className="w-full flex">
+      <input
+      type="cancel"
+      className="btn cursor-pointer btn-default btn-block btn-red mt-5 text-center mr-5 "
+      value="Cancel"
+      onClick={()=>{        router.push("/resource");
+    }}
+    />
         <input
           type="submit"
-          className="btn btn-default btn-block btn-indigo btn-rounded"
+          className="btn  cursor-pointer btn-default btn-block btn-indigo mt-5"
           value="Update"
         />
       </div>

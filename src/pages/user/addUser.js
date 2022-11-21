@@ -71,6 +71,7 @@ const addUser = () => {
      <div className="w-full mb-4">
      <label className="block">
        <span className="text-default">Name</span>
+     <span className="text-red-600" >*</span>
        <input
          name="name"
          type="text"
@@ -94,6 +95,8 @@ const addUser = () => {
    <div className="w-full mb-4">
      <label className="block">
        <span className="text-default">Email address</span>
+     <span className="text-red-600" >*</span>
+
        <input
          name="email"
          type="email"
@@ -115,6 +118,7 @@ const addUser = () => {
       <div className="w-full mb-4">
       <label className="block">
         <span className="text-default">Password</span>
+     <span className="text-red-600" >*</span>
         <input
           name="password"
           type="text"
@@ -131,24 +135,37 @@ const addUser = () => {
        
       )}
     </div>
-    <div>
+    <div className="flex">
+    <div className="mt-1">
     <span className="text-default">System User</span>
+    </div>
+    <div className="ml-5 ">
     <Switch
-      onChange={() => handleChange(!checked)}
-      checked={checked}
-      handleDiameter={24}
-      uncheckedIcon={false}
-      checkedIcon={false}
-      boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
-      height={20}
-      width={48}
-      className="react-switch"
-    />
+    onChange={() => handleChange(!checked)}
+    checked={checked}
+    handleDiameter={24}
+    uncheckedIcon={false}
+    checkedIcon={false}
+    boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
+    height={20}
+    width={48}
+    className="react-switch"
+    
+  />
+    </div>
+   
   </div>
-      <div className="w-full">
+      <div className="w-full flex">
+      <input
+      type="cancel"
+      className="btn cursor-pointer btn-default btn-block btn-red mt-5 text-center mr-5 "
+      value="Cancel"
+      onClick={()=>{        router.push("/user");
+    }}
+    />
         <input
           type="submit"
-          className="btn btn-default btn-block btn-indigo mt-5 "
+          className="btn cursor-pointer btn-default btn-block btn-indigo mt-5 text-center "
           value="Submit"
         />
       </div>

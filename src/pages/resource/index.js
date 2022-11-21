@@ -7,13 +7,15 @@ import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
 import React from "react";
 import SectionTitle from '../../components/section-title'
+import ConfirmationModal from "../../components/confirmationmodal"
 
 const Resource=()=>{
  const [resources,setResources]=useState([])
  const [status, setStatus] = useState(undefined);
  const [searchQuery, setSearchQuery] = useState("");
  const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false})
-
+ const [deleteId,setDeleteId]=React.useState(undefined)
+ const [showDeletePopup,setShowDeletePopup]=React.useState(false)
 
   const getResources = async () => {
     const token = localStorage.getItem('token');
@@ -64,28 +66,43 @@ const Resource=()=>{
     getPermissions()
     getResources();
   }, []);
+  const ConfirmationPopup=(id)=>{
+    setDeleteId(id)
+    setShowDeletePopup(true)
+   }
 
-     const deleteResource = (id) => {
-  if (typeof window !== "undefined") {
+   const onCancel=()=>{
+  setStatus(undefined)
+    setShowDeletePopup(false)
+
+   }
+
+   const onSubmit=()=>{
+    deleteResource()
+   }
+
+     const deleteResource = () => {
+
   const token = localStorage.getItem('token');
-  const answer = window.confirm("are you sure?");
-  if (answer) {
-    ax.delete(`/resources/${id}`, {headers: {
+
+    ax.delete(`/resources/${deleteId}`, {headers: {
       'Authorization': `Bearer ${token}`
      }})
       .then((res) => {
+        setShowDeletePopup(false)
         setStatus({ type: "success" });
         setTimeout(() => {
+          setStatus(undefined)
+
             getResources();
         }, 1000);
       })
       .catch((err) => {
+        setShowDeletePopup(false)
+
         setStatus({ type: "error",message: err.response.data.message });
       });
-  } else {
-    console.log("Thing was not saved to the database.");
-  }
-}
+  
 };
 
 
@@ -121,7 +138,7 @@ const Resource=()=>{
           cursor: "pointer",
           lineHeight: "normal",
         }}
-        onClick={() => deleteResource(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+        onClick={() => ConfirmationPopup(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
 </p>}
 {permissions.update && <Link href={`/resource/update/${data.row.original.id}`}>
 <p>
@@ -137,6 +154,8 @@ const Resource=()=>{
     ]
   return (
     <Layout>
+    {showDeletePopup && <ConfirmationModal onCancel={onCancel} onSubmit={onSubmit} > </ConfirmationModal>}
+
     <SectionTitle title="Resource Management" subtitle="" />
 
     {status?.type === "success" && (

@@ -136,7 +136,7 @@ const [permissions,setPermissions]=useState([])
  
 return (
     <Layout>
-     <SectionTitle title="UPDATE ROLE" subtitle="" />
+     <SectionTitle title="Update Role" subtitle="" />
       {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
@@ -187,6 +187,8 @@ return (
       <div className="w-full mb-4">
         <label className="block">
           <span className="text-default">Description</span>
+     <span className="text-red-600" >*</span>
+
           <input
             name="description"
             type="text"
@@ -208,7 +210,11 @@ return (
         {/*input*/}
         <div className="w-full mb-4">
         <label className="block">
-        <span className="text-default">System User</span>
+        <div className="flex">
+        <div className="mt-1">
+        <span className="text-default">System Role</span>
+        </div>
+        <div  className="ml-5 ">
         <Switch
         onChange={() => handleChange(!checked)}
         checked={checked}
@@ -220,6 +226,9 @@ return (
         width={48}
         className="react-switch"
       />
+        </div>
+        </div>
+       
         </label>
         {errors && errors.is_system_role && (
           errors.is_system_role.map((err)=>{
@@ -230,6 +239,11 @@ return (
       </div>
  
       <div style={{ width: "300px" }}>
+      <div className="mb-1"> <span className="text-default">Permissions</span>
+      
+     <span className="text-red-600" >*</span>
+      
+      </div>
       <Select
         options={permissions}
         placeholder="Select Permissions"
@@ -249,10 +263,17 @@ return (
 
       {/*input*/}
 
-      <div className="w-full">
+      <div className="w-full flex">
+      <input
+      type="cancel"
+      className="btn cursor-pointer btn-default btn-block btn-red mt-5 text-center mr-5 "
+      value="Cancel"
+      onClick={()=>{        router.push("/role");
+    }}
+    />
         <input
           type="submit"
-          className="btn btn-default btn-block btn-indigo btn-rounded mt-5"
+          className="btn cursor-pointer btn-default btn-block btn-indigo btn-rounded mt-5"
           value="Update"
         />
       </div>

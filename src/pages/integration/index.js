@@ -8,14 +8,15 @@ import {NotificationManager} from 'react-notifications'
 import React from "react";
 import SectionTitle from '../../components/section-title'
 import {Badge, CircularBadge} from '../../components/badges'
-import { getColor } from '../../functions/colors';
+import ConfirmationModal from "../../components/confirmationmodal"
 
 const Integration=()=>{
  const [integrations,setIntegrations]=useState([])
  const [status, setStatus] = useState(undefined);
  const [searchQuery, setSearchQuery] = useState("");
  const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false})
-
+ const [deleteId,setDeleteId]=React.useState(undefined)
+ const [showDeletePopup,setShowDeletePopup]=React.useState(false)
 
   const getIntegrations = async () => {
     const token = localStorage.getItem('token');
@@ -66,27 +67,44 @@ const Integration=()=>{
     getIntegrations();
   }, []);
 
-     const deleteIntegration = (id) => {
-  if (typeof window !== "undefined") {
+  const ConfirmationPopup=(id)=>{
+    setDeleteId(id)
+    setShowDeletePopup(true)
+   }
+
+   const onCancel=()=>{
+  setStatus(undefined)
+    setShowDeletePopup(false)
+
+   }
+
+   const onSubmit=()=>{
+    deleteIntegration()
+   }
+
+     const deleteIntegration = () => {
+
   const token = localStorage.getItem('token');
-  const answer = window.confirm("are you sure?");
-  if (answer) {
-    ax.delete(`/integrations/${id}`, {headers: {
+
+    ax.delete(`/integrations/${deleteId}`, {headers: {
       'Authorization': `Bearer ${token}`
      }})
       .then((res) => {
+        setShowDeletePopup(false)
+
         setStatus({ type: "success" });
         setTimeout(() => {
+        setStatus(undefined);
+
             getIntegrations();
         }, 1000);
       })
       .catch((err) => {
+        setShowDeletePopup(false)
+
         setStatus({ type: "error",message: err.response.data.message });
       });
-  } else {
-    console.log("Thing was not saved to the database.");
-  }
-}
+ 
 };
 
 const getColorBasedOnMethod=(method)=>{
@@ -148,7 +166,7 @@ const getColorBasedOnMethod=(method)=>{
         cursor: "pointer",
         lineHeight: "normal",
       }}
-      onClick={() => deleteIntegration(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+      onClick={() => ConfirmationPopup(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
 </p> }
 
 {permissions.update &&  <Link href={`/integration/update/${data.row.original.id}`}>
@@ -165,6 +183,8 @@ const getColorBasedOnMethod=(method)=>{
     ]
   return (
     <Layout className="overflow-x-scroll">
+    {showDeletePopup && <ConfirmationModal onCancel={onCancel} onSubmit={onSubmit} > </ConfirmationModal>}
+
     <SectionTitle title="Integration Management" subtitle="" />
 
     {status?.type === "success" && (

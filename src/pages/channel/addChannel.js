@@ -66,6 +66,8 @@ const addChannel = () => {
       <div className="w-full mb-4">
         <label className="block">
           <span className="text-default">Slug</span>
+     <span className="text-red-600" >*</span>
+
           <input
             name="slug"
             type="text"
@@ -90,6 +92,8 @@ const addChannel = () => {
          <div className="w-full mb-4">
          <label className="block">
            <span className="text-default">Name</span>
+     <span className="text-red-600" >*</span>
+
            <input
              name="name"
              type="text"
@@ -108,10 +112,17 @@ const addChannel = () => {
         )}
          </div>
 
-      <div className="w-full">
+      <div className="w-full flex">
+      <input
+      type="cancel"
+      className="btn cursor-pointer btn-default btn-block btn-red mt-5 text-center mr-5 "
+      value="Cancel"
+      onClick={()=>{        router.push("/channel");
+    }}
+    />
         <input
           type="submit"
-          className="btn btn-default btn-block btn-indigo "
+          className="btn  cursor-pointer btn-default btn-block btn-indigo mt-5"
           value="Submit"
         />
       </div>

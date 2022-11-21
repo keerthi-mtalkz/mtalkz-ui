@@ -8,6 +8,7 @@ import {NotificationManager} from 'react-notifications'
 import { useForm } from "react-hook-form";
 import React from "react";
 import SectionTitle from "../../components/section-title";
+import ConfirmationModal from "../../components/confirmationmodal"
 
 
 const Channel=()=>{
@@ -15,7 +16,8 @@ const Channel=()=>{
  const [status, setStatus] = useState(undefined);
  const [searchQuery, setSearchQuery] = useState("");
  const { register, handleSubmit, watch, errors } = useForm();
-
+ const [deleteId,setDeleteId]=React.useState(undefined)
+ const [showDeletePopup,setShowDeletePopup]=React.useState(false)
 
   const getChannels = async () => {
     const token = localStorage.getItem('token');
@@ -36,28 +38,40 @@ const Channel=()=>{
     
     getChannels();
   }, []);
+  const ConfirmationPopup=(id)=>{
+    setDeleteId(id)
+    setShowDeletePopup(true)
+   }
 
-     const deleteChannels = (id) => {
-  if (typeof window !== "undefined") {
+   const onCancel=()=>{
+  setStatus(undefined)
+    setShowDeletePopup(false)
+
+   }
+
+   const onSubmit=()=>{
+    deleteChannels()
+   }
+
+     const deleteChannels = () => {
+  
   const token = localStorage.getItem('token');
-  const answer = window.confirm("are you sure?");
-  if (answer) {
-    ax.delete(`/channels/${id}`, {headers: {
+
+    ax.delete(`/channels/${deleteId}`, {headers: {
       'Authorization': `Bearer ${token}`
      }})
       .then((res) => {
+        setShowDeletePopup(false)
         setStatus({ type: "success" });
         setTimeout(() => {
+          setStatus(undefined)
             getChannels();
         }, 1000);
       })
       .catch((err) => {
           setStatus({ type: "error",message: err.response.data.message });
       });
-  } else {
-    console.log("Thing was not saved to the database.");
-  }
-}
+  
 };
 
 
@@ -76,17 +90,15 @@ const Channel=()=>{
         cell: () => <Button variant="danger" data-tag="allowRowEvents" data-action="delete"><FontAwesomeIcon icon={faTrash} /></Button>,
         Cell: (data) => {
        
-        return (<div className="flex justify-evenly"> <Link href={`/channel/view/${data.row.original.id}`}>
-          <p>
-            <i className="icon-eye text-1xl font-bold mb-2"></i>
-          </p>
-      </Link> <p
+        return (<div className="flex justify-evenly"> 
+        
+       <p
         style={{
          
           cursor: "pointer",
           lineHeight: "normal",
         }}
-        onClick={() => deleteChannels(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+        onClick={() => ConfirmationPopup(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
 </p>
 <Link href={`/channel/update/${data.row.original.id}`}>
                       <p>
@@ -100,6 +112,8 @@ const Channel=()=>{
     ]
   return (
     <Layout>
+    {showDeletePopup && <ConfirmationModal onCancel={onCancel} onSubmit={onSubmit} > </ConfirmationModal>}
+
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
       <div className="p-2">

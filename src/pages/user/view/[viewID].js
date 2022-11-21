@@ -155,7 +155,7 @@ return (
                     
                      <div className="flex-1 min-w-1">
                          <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                         organization Name
+                         Organization name
                          </p>
                         
                      </div>
@@ -212,7 +212,8 @@ return (
  {
   dateErrorMsg != undefined   &&<p className="mt-1 text-xs text-red-500 ml-10">{dateErrorMsg}</p>
  }
- {activities.length>0 && dateErrorMsg=== undefined ?<Datatable  columns={columns} data={activities} /> : <p className="text-sm ml-10 mt-10 font-medium text-gray-900 truncate dark:text-white">
+ {activities.length>0 && dateErrorMsg=== undefined ?<div className="ml-10 mt-10">
+  <Datatable  columns={columns} data={activities}  /></div> : <p className="text-sm ml-10 mt-10 font-medium text-gray-900 truncate dark:text-white">
 No Activites Found
  </p>}
 

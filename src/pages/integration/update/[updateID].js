@@ -273,6 +273,7 @@ return (
            <div className="w-full mb-4">
            <label className="block">
              <span className="text-default">Name</span>
+             <span className="text-red-600" >*</span>
              <input
                name="name"
                type="text"
@@ -295,6 +296,8 @@ return (
             <div className="w-full mb-4">
             <label className="block">
               <span className="text-default">Slug</span>
+     <span className="text-red-600" >*</span>
+
               <input
                 name="slug"
                 type="text"
@@ -322,6 +325,8 @@ return (
              <div style={{ width: "300px" }}>
              <label className="block">
              <span className="text-default">Channel Slug</span>
+     <span className="text-red-600" >*</span>
+
              <Select
                options={channels}
                placeholder="Select Channel Slug"
@@ -383,6 +388,8 @@ return (
   
                <div style={{marginBottom:"10px"}}>
                <span className="text-default">Tags</span>
+     <span className="text-red-600" >*</span>
+
                <ReactTags
                tags={tags}
                delimiters={delimiters}
@@ -405,6 +412,8 @@ return (
     <div className="w-full mb-4">
     <label className="block">
       <span className="text-default">Api Url</span>
+     <span className="text-red-600" >*</span>
+
       <input
         name="api_url"
         type="url"
@@ -428,6 +437,8 @@ return (
     <div className="w-full mb-4">
     <label className="block">
       <span className="text-default">Http Method</span>
+    <span className="text-red-600" >*</span>
+
       <select
       name="http_method"
       ref={register()}
@@ -468,20 +479,24 @@ return (
   
     </div>
   
-    <div>
+    <div className="flex">
+    <div  className="mt-1">
     <span className="text-default">Requires Approval</span>
-  
-          <Switch
-            onChange={() => handleApproval(!approval)}
-            checked={approval}
-            handleDiameter={24}
-            uncheckedIcon={true}
-            checkedIcon={true}
-            boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
-            height={20}
-            width={48}
-            className="react-switch"
-          />
+    </div>
+  <div className="ml-5 ">
+  <Switch
+  onChange={() => handleApproval(!approval)}
+  checked={approval}
+  handleDiameter={24}
+  uncheckedIcon={true}
+  checkedIcon={true}
+  boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
+  height={20}
+  width={48}
+  className="react-switch"
+/>
+  </div>
+         
         </div>
         {errors && errors.requires_approval     && (
           errors.requires_approval    .map((err)=>{
@@ -489,19 +504,26 @@ return (
           })
          
         )}
-        <div>
+        <div className="flex">
+        <div className="mt-1">
     <span className="text-default">Requires Access</span>
-          <Switch
-            onChange={() => handleAccess(!access)}
-            checked={access}
-            handleDiameter={24}
-            uncheckedIcon={true}
-            checkedIcon={true}
-            boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
-            height={20}
-            width={48}
-            className="react-switch"
-          />
+  <span className="text-red-600" >*</span>
+
+        </div>
+        <div className="ml-8 ">
+        <Switch
+        onChange={() => handleAccess(!access)}
+        checked={access}
+        handleDiameter={24}
+        uncheckedIcon={true}
+        checkedIcon={true}
+        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
+        height={20}
+        width={48}
+        className="react-switch"
+      />
+        </div>
+         
           {errors && errors.requires_access && (
             errors.requires_access    .map((err)=>{
              return <p className="mt-1 text-xs text-red-500">{err}</p>
@@ -512,6 +534,8 @@ return (
   
         {access &&
           <div style={{ width: "300px" }}>
+    <span className="text-default">Access Granted To</span>
+    <span className="text-red-600" >*</span>
             <Select
               options={options}
               placeholder="Select organizations ..."
@@ -528,10 +552,17 @@ return (
           </div>
         }
   
-        <div className="w-full" style={{marginTop:"10px"}}>
+        <div className="w-full flex" style={{marginTop:"10px"}}>
+        <input
+        type="cancel"
+        className="btn cursor-pointer btn-default btn-block btn-red mt-5 text-center mr-5 "
+        value="Cancel"
+        onClick={()=>{        router.push("/integration");
+      }}
+      />
           <input
             type="submit"
-            className="btn btn-default btn-block btn-indigo "
+            className="btn  cursor-pointer btn-default btn-block btn-indigo mt-5 "
             value="Submit"
           />
         </div>

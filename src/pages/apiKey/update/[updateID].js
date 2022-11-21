@@ -97,7 +97,7 @@ const [resources,setResources]=useState([]);
  
 return (
     <Layout>
-     <SectionTitle title="UPDATE Api Key" subtitle="" />
+     <SectionTitle title="Update API Key" subtitle="" />
      {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
@@ -125,6 +125,8 @@ return (
      <div className="w-full mb-4">
      <label className="block">
        <span className="text-default">Label </span>
+     <span className="text-red-600" >*</span>
+
        <input
          name="label"
          type="text"
@@ -168,8 +170,13 @@ return (
       {/*input*/}
       <div className="w-full mb-4">
         <label className="block">
-          <span className="text-default">Active</span>
-          <Switch
+        <div className="flex"> 
+          <div  className="mt-1"> <span className="text-default">Active</span>
+     <span className="text-red-600" >*</span>
+          
+          </div>
+        <div className="ml-5 ">
+        <Switch
         onChange={() => handleChange(!checked)}
         checked={checked}
         handleDiameter={24}
@@ -179,6 +186,11 @@ return (
         width={48}
         className="react-switch"
       />
+        </div>
+        </div>
+
+         
+      
         </label>
         {errors && errors.is_active && (
           errors.is_active.map((err)=>{
@@ -187,10 +199,17 @@ return (
          
         )}
       </div>
-      <div className="w-full">
+      <div className="w-full flex">
+      <input
+      type="cancel"
+      className="btn cursor-pointer btn-default btn-block btn-red mt-5 text-center mr-5 "
+      value="Cancel"
+      onClick={()=>{        router.push("/apiKey");
+    }}
+    />
         <input
           type="submit"
-          className="btn btn-default btn-block btn-indigo btn-rounded mt-5"
+          className="btn  cursor-pointer btn-default btn-block btn-indigo mt-5"
           value="Update"
         />
       </div>
