@@ -193,7 +193,11 @@ const Organization=()=>{
       if (searchQuery == "") {
         return val;
       } else if (
-       (val.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()) || val.email?.toLowerCase().includes(searchQuery.toLocaleLowerCase())) 
+       (val.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
+        val.email?.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
+         val.phone?.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
+         val.address?.toLowerCase().includes(searchQuery.toLocaleLowerCase())
+        ) 
       ) {
         return val;
       }
