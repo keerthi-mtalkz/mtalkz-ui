@@ -12,6 +12,7 @@ import axios from "axios";
 import { UnderlinedTabs } from "../../components/tabs";
 import Link from "next/link";
 import ls from 'local-storage'
+import {NotificationManager} from 'react-notifications'
 
 const Index = () => {
   /** Chatbot data Management */
@@ -27,7 +28,7 @@ const Index = () => {
     _.set(cb, path, value);
     setChatbot(cb);
   }
-
+  const user = ls.get("user");
   /** Keywords List Management */
   const [keywords, setKeywords] = useState([]);
   const [currentKeyword, setCurrentKeyword] = useState(null);
@@ -114,10 +115,13 @@ const Index = () => {
         .then((res) => {
           // router.push("/chatbots");
         setStatus({ type: "success" });
+        setStatus(undefined)
          
         })
         .catch((err) => {
           setStatus({ type: "error" });
+        setStatus(undefined)
+
         });
     }
   }
@@ -126,7 +130,25 @@ const Index = () => {
     fetchChatbot();
   }, [])
 
- 
+ const  handleFlowDelete=(flowchartName)=>{
+  const token = localStorage.getItem("token");
+  axios
+        .get(`https://cb.mtalkz.cloud/delete/${chatid}/${flowchartName}`, {
+          headers: {
+            "x-api-key": `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          fetchChatbot()
+        setStatus({ type: "success" });
+        setStatus(undefined)
+
+        }).catch((err)=>{
+        setStatus({ type: "error",message: err.response.data.message });
+        setStatus(undefined)
+
+        });
+ }
 
    const InstallationTab=()=>{
    return( 
@@ -420,12 +442,26 @@ const Index = () => {
               return (
                 <div
                   className="flex flex-col w-full mb-4 lg:w-1/3 "
+                  
                   key={value._id}
                 >
-                  <div className="card bg-white shadow-sm py-4 p-4 relative">
+                  <div className="card bg-white shadow-sm py-4 p-4 relative"  style={{background: value.deleted?'lightgrey':'white' }}>
+                  <p
+                  className="p-4 absolute right-0"
+                  style={{
+                    textAlign: "right",
+                    cursor: "pointer",
+                    lineHeight: "normal",
+                  }}
+                  onClick={() =>{ 
+                 !value.deleted &&  handleFlowDelete(value.name)
+                  } }
+                >
+                  <i className="icon-trash text-1xl font-bold mb-2 "></i>
+                </p>
                     <Link href={`flow/${chatid}&fc=${value.name}&ak=${token1}`}>
                       <a className="w-full">
-                        <div className="card-body ">
+                        <div className="card-body " >
                           <div className="title text-base font-base font-poppins flex">
                             {value.name}
                           </div>
@@ -458,7 +494,7 @@ const Index = () => {
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
       <div className="p-2">
-      { NotificationManager.success('Saved successfully', 'Success')}
+      { NotificationManager.success('Deleted  Successfully', 'Success')}
       </div>
     </div>
     )}
