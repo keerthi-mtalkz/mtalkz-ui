@@ -70,6 +70,8 @@ const addPermission = () => {
       <div className="w-full mb-4">
         <label className="block">
           <span className="text-default">Route</span>
+     <span className="text-red-600" >*</span>
+
           <input
             name="route"
             type="text"
@@ -94,6 +96,8 @@ const addPermission = () => {
          <div className="w-full mb-4">
          <label className="block">
            <span className="text-default">Name</span>
+     <span className="text-red-600" >*</span>
+
            <input
              name="name"
              type="text"
@@ -131,10 +135,17 @@ const addPermission = () => {
           )}
           </div>
 
-      <div className="w-full">
+      <div className="w-full flex">
+      <input
+      type="cancel"
+      className="btn cursor-pointer btn-default btn-block btn-red mt-5 text-center mr-5 "
+      value="Cancel"
+      onClick={()=>{        router.push("/permission");
+    }}
+    />
         <input
           type="submit"
-          className="btn btn-default btn-block btn-indigo "
+          className="btn  cursor-pointer btn-default btn-block btn-indigo mt-5"
           value="Submit"
         />
       </div>

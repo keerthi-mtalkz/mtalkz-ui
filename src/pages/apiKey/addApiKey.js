@@ -110,6 +110,8 @@ const [res,setRes]=useState(undefined)
      <div className="w-full mb-4">
      <label className="block">
        <span className="text-default">Label </span>
+     <span className="text-red-600" >*</span>
+
        <input
          name="label"
          type="text"
@@ -132,6 +134,8 @@ const [res,setRes]=useState(undefined)
       <div className="w-full mb-4">
         <label className="block">
           <span className="text-default">Resource</span>
+     <span className="text-red-600" >*</span>
+
           <div style={{ width: "300px" }}>
           <Select
             options={options}
@@ -147,19 +151,25 @@ const [res,setRes]=useState(undefined)
          
         )}
       </div>
-      <div>
+      <div className="flex">
+      <div className="mt-1">
       <span className="text-default">Active</span>
+     <span className="text-red-600" >*</span>
 
-      <Switch
-        onChange={() => handleChange(!checked)}
-        checked={checked}
-        handleDiameter={24}
-        uncheckedIcon={true}
-        checkedIcon={true}
-        height={20}
-        width={48}
-        className="react-switch"
-      />
+      </div>
+  <div className="ml-5 ">
+  <Switch
+  onChange={() => handleChange(!checked)}
+  checked={checked}
+  handleDiameter={24}
+  uncheckedIcon={true}
+  checkedIcon={true}
+  height={20}
+  width={48}
+  className="react-switch"
+/>
+  </div>
+     
       {errors && errors.is_active && (
         errors.is_active.map((err)=>{
          return <p className="mt-1 text-xs text-red-500">{err}</p>
@@ -168,10 +178,17 @@ const [res,setRes]=useState(undefined)
       )}
     </div>
         
-      <div className="w-full">
+      <div className="w-full flex">
+      <input
+      type="cancel"
+      className="btn cursor-pointer btn-default btn-block btn-red mt-5 text-center mr-5 "
+      value="Cancel"
+      onClick={()=>{        router.push("/apiKey");
+    }}
+    />
         <input
           type="submit"
-          className="btn btn-default btn-block btn-indigo mt-5"
+          className="btn cursor-pointer btn-default btn-block btn-indigo mt-5"
           value="Submit"
         />
       </div>

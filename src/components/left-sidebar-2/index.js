@@ -117,7 +117,6 @@ const Sidebar = () => {
       ))}
       <div className={`${collapsed ? 'hidden' : 'visible'}`}>
         <Projects />
-        <Tags />
       </div>
     </div>
   )

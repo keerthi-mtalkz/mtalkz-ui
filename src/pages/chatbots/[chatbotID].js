@@ -12,7 +12,7 @@ import axios from "axios";
 import { UnderlinedTabs } from "../../components/tabs";
 import Link from "next/link";
 import ls from 'local-storage'
-import {NotificationManager} from 'react-notifications'
+import { NotificationManager } from 'react-notifications'
 
 const Index = () => {
   /** Chatbot data Management */
@@ -115,7 +115,8 @@ const Index = () => {
         .then((res) => {
           // router.push("/chatbots");
         setStatus({ type: "success" });
-        setStatus(undefined)
+        setStatus(undefined);
+
          
         })
         .catch((err) => {
