@@ -131,19 +131,25 @@ const addUser = () => {
        
       )}
     </div>
-    <div>
+    <div className="flex">
+    <div className="mt-1">
     <span className="text-default">System User</span>
+    </div>
+    <div className="ml-5 ">
     <Switch
-      onChange={() => handleChange(!checked)}
-      checked={checked}
-      handleDiameter={24}
-      uncheckedIcon={false}
-      checkedIcon={false}
-      boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
-      height={20}
-      width={48}
-      className="react-switch"
-    />
+    onChange={() => handleChange(!checked)}
+    checked={checked}
+    handleDiameter={24}
+    uncheckedIcon={false}
+    checkedIcon={false}
+    boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
+    height={20}
+    width={48}
+    className="react-switch"
+    
+  />
+    </div>
+   
   </div>
       <div className="w-full">
         <input
