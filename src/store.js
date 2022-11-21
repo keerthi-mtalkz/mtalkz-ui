@@ -84,22 +84,22 @@ const reducer = (state = initialState, action) => {
         }
       }
     case 'SET_LAYOUT':
-      if (action.layout === 'layout-3' || action.layout === 'layout-4') {
+//       if (action.layout === 'layout-3' || action.layout === 'layout-4') {
         return {
           ...state,
           layout: action.layout,
-          collapsed: true
+          collapsed: true ? (action.layout === 'layout-3' || action.layout === 'layout-4') : false
         }
       }
-      return {
-        ...state,
-        layout: action.layout,
-        collapsed: false
-      }
-      return {
-        ...state,
-        [`${key}`]: value
-      }
+//       return {
+//         ...state,
+//         layout: action.layout,
+//         collapsed: false
+//       }
+//       return {
+//         ...state,
+//         [`${key}`]: value
+//       }
      
     case 'SET_CONFIG':
       let {key, value} = {...action.config}
