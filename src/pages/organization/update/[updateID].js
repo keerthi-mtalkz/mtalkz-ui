@@ -106,6 +106,8 @@ const updateID = () => {
             <div className="w-full mb-4">
               <label className="block">
                 <span className="text-default">Name</span>
+     <span className="text-red-600" >*</span>
+
                 <input
                   name="name"
                   type="text"
@@ -192,26 +194,38 @@ const updateID = () => {
             </div>
 
 
-   <div>
+   <div className="flex">
+   <div className="mt-1">
    <span className="text-default">Reseller</span>
+   </div>
+   <div className="ml-5 ">
    <Switch
-     onChange={() => handleChange(!checked)}
-     checked={checked}
-     handleDiameter={24}
-     uncheckedIcon={true}
-     checkedIcon={true}
-     boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
-     height={20}
-     width={48}
-     className="react-switch"
-   />
+   onChange={() => handleChange(!checked)}
+   checked={checked}
+   handleDiameter={24}
+   uncheckedIcon={true}
+   checkedIcon={true}
+   boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
+   height={20}
+   width={48}
+   className="react-switch"
+ />
+   </div>
+ 
  </div>
 
 
-            <div className="w-full">
+            <div className="w-full flex">
+            <input
+            type="cancel"
+            className="btn cursor-pointer btn-default btn-block btn-red mt-5 text-center mr-5 "
+            value="Cancel"
+            onClick={()=>{        router.push("/organization");
+          }}
+          />
               <input
                 type="submit"
-                className="btn btn-default btn-block btn-indigo btn-rounded mt-5"
+                className="btn cursor-pointer btn-default btn-block btn-indigo btn-rounded mt-5"
                 value="Update"
               />
             </div>

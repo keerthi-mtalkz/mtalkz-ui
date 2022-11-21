@@ -9,6 +9,7 @@ import Link from "next/link";
 import {ax} from "../../utils/apiCalls"
 import React from "react";
 import {NotificationManager} from 'react-notifications'
+import ConfirmationModal from "../../components/confirmationmodal"
 
 
 
@@ -16,10 +17,27 @@ const Role=()=>{
     const [roleData,setRoleData]=React.useState([]);
     const [searchQuery, setSearchQuery] = React.useState("");
     const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false,setRole:false})
+    const [deleteId,setDeleteId]=React.useState(undefined)
+    const [showDeletePopup,setShowDeletePopup]=React.useState(false)
 
 
     const [status, setStatus] = React.useState(undefined);
 
+
+    const ConfirmationPopup=(id)=>{
+      setDeleteId(id)
+      setShowDeletePopup(true)
+     }
+  
+     const onCancel=()=>{
+    setStatus(undefined)
+      setShowDeletePopup(false)
+  
+     }
+  
+     const onSubmit=()=>{
+      deleteRoleApi()
+     }
      const getRolesApi=async()=>{
     const token= localStorage.getItem("token");
       await ax
@@ -37,28 +55,26 @@ const Role=()=>{
    }
 
    const deleteRoleApi=(id)=>{
-    if (typeof window !== "undefined") {
       const token = localStorage.getItem('token');
-      const answer = window.confirm("are you sure?");
-      if (answer) {
-        ax.delete(`/roles/${id}`, {headers: {
+
+        ax.delete(`/roles/${deleteId}`, {headers: {
           'Authorization': `Bearer ${token}`
          }})
           .then((res) => {
+            setShowDeletePopup(false)
           setStatus({ type: "success" });
             setTimeout(() => {
+          setStatus(undefined);
               getRolesApi();
             }, 1000);
           })
           .catch((err) => {
+            setShowDeletePopup(false)
+
           setStatus({ type: "error",message: err.response.data.message });
             console.error("get /roles error", err.message);
           });
-      } else {
-
-        console.log("Thing was not saved to the database.");
-      }
-    }
+    
    }
 
    const getPermissions = async () => {
@@ -129,7 +145,7 @@ const Role=()=>{
             cursor: "pointer",
             lineHeight: "normal",
           }}
-          onClick={() => deleteRoleApi(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+          onClick={() => ConfirmationPopup(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
           </p>}
           {permissions.update &&  <Link href={`/role/update/${data.row.original.id}`}>
           <a>
@@ -149,6 +165,8 @@ const Role=()=>{
       ]
       return (
         <Layout>
+        {showDeletePopup && <ConfirmationModal onCancel={onCancel} onSubmit={onSubmit} > </ConfirmationModal>}
+
      <SectionTitle title="Role Management" subtitle="" />
      {status?.type === "success" && (
       <div className="flex flex-wrap w-full">

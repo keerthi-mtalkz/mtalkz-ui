@@ -21,7 +21,6 @@ const viewID = () => {
     const [permissions,setPermissions]=useState([])
     const [res, setRes] = useState({});
     const [status, setStatus] = useState(undefined);
-  
     const fetchRoles = async () => {
         if (typeof window !== "undefined") {
       const token = localStorage.getItem('token');
@@ -32,6 +31,7 @@ const viewID = () => {
         .then((res) => {
           setRes(res.data.role);
           setPermissions(res.data.permissions)
+          
         })
         .catch((err) => {
           console.error("get /roles error", err);

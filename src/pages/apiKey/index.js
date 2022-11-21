@@ -8,6 +8,7 @@ import {ax} from "../../utils/apiCalls";
 import React from 'react'
 import {NotificationManager} from 'react-notifications'
 import {Badge, CircularBadge} from '../../components/badges'
+import ConfirmationModal from "../../components/confirmationmodal"
 
 
 
@@ -17,7 +18,8 @@ const ApiKey=()=>{
  const [status, setStatus] = useState(undefined);
  const [searchQuery, setSearchQuery] = useState("");
  const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false})
-
+ const [deleteId,setDeleteId]=React.useState(undefined)
+ const [showDeletePopup,setShowDeletePopup]=React.useState(false)
   const getApiKeys = async () => {
     const token = localStorage.getItem('token');
     await ax
@@ -62,28 +64,38 @@ const ApiKey=()=>{
       });
   };
 
-  const handleDelete=(id)=>{
-    if (typeof window !== "undefined") {
+  const ConfirmationPopup=(id)=>{
+    setDeleteId(id)
+    setShowDeletePopup(true)
+   }
+
+   const onCancel=()=>{
+  setStatus(undefined)
+    setShowDeletePopup(false)
+
+   }
+
+   const onSubmit=()=>{
+    handleDelete()
+   }
+  const handleDelete=()=>{
+
         const token = localStorage.getItem('token');
-        const answer = window.confirm("are you sure?");
-        if (answer) {
-            ax.delete(`/api-keys/${id}`, {headers: {
+
+            ax.delete(`/api-keys/${deleteId}`, {headers: {
                 'Authorization': `Bearer ${token}`
                }})
                 .then((res) => {
+        setShowDeletePopup(false)
+
                   setStatus({ type: "success" });
                   setTimeout(() => {
+                    setStatus(undefined)
+
                     getApiKeys();
                   }, 1000);
                 })
-                .catch((err) => {
-                  setStatus({ type: "error",message: err.response.data.message });
-                  setTimeout(() => {
-                    setStatus(undefined)
-                  }, 1000);
-                });
-        }
-    }
+              
   }
 
   React.useEffect(() => {
@@ -135,18 +147,14 @@ const ApiKey=()=>{
         Cell: (data) => {
        
         return (<div className="flex justify-evenly"> 
-        {permissions.view && <Link href={`/apiKey/view/${data.row.original.id}`}>
-        <p>
-          <i className="icon-eye text-1xl font-bold mb-2"></i>
-        </p>
-    </Link> }
+       
     {permissions.delete &&  <p
       style={{
        
         cursor: "pointer",
         lineHeight: "normal",
       }}
-      onClick={() => handleDelete(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+      onClick={() => ConfirmationPopup(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
 </p>}
 
 {permissions.update && <Link href={`/apiKey/update/${data.row.original.id}`}>
@@ -165,7 +173,9 @@ const ApiKey=()=>{
   //const data = React.useMemo(() => countries, [])
   return (
     <Layout>
-    <SectionTitle title="APIKey Management" subtitle="" />
+    {showDeletePopup && <ConfirmationModal onCancel={onCancel} onSubmit={onSubmit} > </ConfirmationModal>}
+
+    <SectionTitle title="API Keys" subtitle="" />
 
     <div className="flex flex-row pb-4">
     <div className=" w-5/6">

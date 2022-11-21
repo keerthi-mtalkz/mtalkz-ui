@@ -110,7 +110,7 @@ const setRole = () => {
   
 return (
     <Layout>
-     <SectionTitle title="SET ROLE" subtitle="" />
+     <SectionTitle title="Set Role" subtitle="" />
       {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">

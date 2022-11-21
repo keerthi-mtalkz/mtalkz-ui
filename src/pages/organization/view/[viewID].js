@@ -249,6 +249,7 @@ return (
    </div>
 </div>
 {permissions.get && <div >
+  <div className="ml-10 mb-3 font-semibold"> Update Credits</div>
   <div className="flex ml-10">
   <div style={{ width: "300px" }}>
   <Select
@@ -270,7 +271,7 @@ return (
   {(creditsRes==null) && <label className="ml-10">No active credits</label>}
   {permissions.update && creditsRes!== "" && <div className=" ml-10">
   
-  <div >
+  <div className="mt-5" >
    {/*input*/}
    <div className="w-full mb-4">
    <label className="block">

@@ -7,6 +7,7 @@ import Datatable from "../../components/datatable";
 import {ax} from "../../utils/apiCalls";
 import React from "react";
 import {NotificationManager} from 'react-notifications'
+import ConfirmationModal from "../../components/confirmationmodal"
 
 
 
@@ -16,6 +17,8 @@ const Organization=()=>{
  const [status, setStatus] = React.useState(undefined);
  const [searchQuery, setSearchQuery] = React.useState("");
  const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false,setRole:false})
+ const [deleteId,setDeleteId]=React.useState(undefined)
+ const [showDeletePopup,setShowDeletePopup]=React.useState(false)
 
   const getOrganizations = async () => {
     const token = localStorage.getItem('token');
@@ -64,30 +67,45 @@ const Organization=()=>{
     getPermissions()
     getOrganizations();
   }, []);
+  const ConfirmationPopup=(id)=>{
+    setDeleteId(id)
+    setShowDeletePopup(true)
+   }
 
+   const onCancel=()=>{
+  setStatus(undefined)
+    setShowDeletePopup(false)
 
-  const deleteOrganization = (id) => {
-    if (typeof window !== "undefined") {
+   }
+
+   const onSubmit=()=>{
+    deleteOrganization()
+   }
+
+  const deleteOrganization = () => {
+   
     const token = localStorage.getItem('token');
-    const answer = window.confirm("are you sure?");
-    if (answer) {
-      ax.delete(`/organizations/${id}`, {headers: {
+
+      ax.delete(`/organizations/${deleteId}`, {headers: {
         'Authorization': `Bearer ${token}`
        }})
         .then((res) => {
+        setShowDeletePopup(false)
+
           setStatus({ type: "success" });
           setTimeout(() => {
+        setStatus(undefined);
+
             getOrganizations();
           }, 1000);
         })
         .catch((err) => {
+        setShowDeletePopup(false)
+
           console.error("get /Integrations error", err.message);
           setStatus({ type: "error",message: err.response.data.message });
         });
-    } else {
-      console.log("Thing was not saved to the database.");
-    }
-  }
+    
   };
 
 
@@ -130,7 +148,7 @@ const Organization=()=>{
               cursor: "pointer",
               lineHeight: "normal",
             }}
-            onClick={() => deleteOrganization(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+            onClick={() => ConfirmationPopup(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
     </p>
           } 
      {
@@ -150,6 +168,8 @@ const Organization=()=>{
   //const data = React.useMemo(() => countries, [])
   return (
     <Layout>
+    {showDeletePopup && <ConfirmationModal onCancel={onCancel} onSubmit={onSubmit} > </ConfirmationModal>}
+
     <SectionTitle title="Organization Management" subtitle="" />
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">

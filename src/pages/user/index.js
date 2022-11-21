@@ -3,13 +3,13 @@ import Layout from '../../layouts'
 import SectionTitle from '../../components/section-title'
 import Datatable from "../../components/datatable";
 import {USER_COLUMN_HEADERS} from "../../utils/columns"
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getUsers } from '../../utils/apiCalls';
 import Link from "next/link";
 import {ax} from "../../utils/apiCalls"
 import React from "react";
 import {NotificationManager} from 'react-notifications'
-
+import ConfirmationModal from "../../components/confirmationmodal"
 
 
 const User=()=>{
@@ -17,6 +17,8 @@ const User=()=>{
   const [status, setStatus] = React.useState(undefined);
   const [searchQuery, setSearchQuery] = React.useState("");
   const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false,update:false,setRole:false})
+ const [showDeletePopup,setShowDeletePopup]=React.useState(false)
+ const [deleteId,setDeleteId]=useState(undefined)
 
   const getPermissions = async () => {
     const token = localStorage.getItem('token');
@@ -64,28 +66,44 @@ const User=()=>{
         });
    }
 
-   const deleteUserApi=(id)=>{
-    if (typeof window !== "undefined") {
+   const ConfirmationPopup=(id)=>{
+    setDeleteId(id)
+    setShowDeletePopup(true)
+   }
+
+   const onCancel=()=>{
+  setStatus(undefined)
+    setShowDeletePopup(false)
+
+   }
+
+   const onSubmit=()=>{
+    deleteUserApi()
+   }
+
+   const deleteUserApi=()=>{
+ 
       const token = localStorage.getItem('token');
-      const answer = window.confirm("are you sure?");
-      if (answer) {
-        ax.delete(`/users/${id}`, {headers: {
+
+        ax.delete(`/users/${deleteId}`, {headers: {
           'Authorization': `Bearer ${token}`
          }})
           .then((res) => {
+            setShowDeletePopup(false)
         setStatus({ type: "success" });
             setTimeout(() => {
+        setStatus(undefined);
+
               getUsersApi();
             }, 1000);
           })
           .catch((err) => {
+            setShowDeletePopup(false)
+
             setStatus({ type: "error",message: err.response.data.message });
             console.error("get /usres error", err.message);
           });
-      } else {
-        console.log("Thing was not saved to the database.");
-      }
-    }
+    
    }
 
   
@@ -128,7 +146,7 @@ const User=()=>{
               cursor: "pointer",
               lineHeight: "normal",
             }}
-            onClick={() => deleteUserApi(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+            onClick={() => ConfirmationPopup(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
             </p>}   
             {
               permissions.update &&  <Link href={`/user/update/${data.row.original.id}`}>
@@ -154,6 +172,7 @@ const User=()=>{
       ]
       return (
         <Layout>
+        {showDeletePopup && <ConfirmationModal onCancel={onCancel} onSubmit={onSubmit} > </ConfirmationModal>}
      <SectionTitle title="User Management" subtitle="" />
      {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
