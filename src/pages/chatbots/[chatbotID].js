@@ -35,8 +35,6 @@ const Index = () => {
     }),
     shallowEqual
   )
-  console.log(appusers,"appusers")
-  const user = ls.get("user");
   /** Keywords List Management */
   const [keywords, setKeywords] = useState([]);
   const [currentKeyword, setCurrentKeyword] = useState(null);
@@ -409,9 +407,6 @@ const Index = () => {
 
    }
 
-   const getUserName=(value)=>{
-   console.log(appusers.filter((user)=>user.id==value.updatedBy)[0]?.name,"appusers.filter((user)=>user.id==value.updatedBy)") 
-   }
 
    const CodeStructureTab = () => (
     <div className="flex">
