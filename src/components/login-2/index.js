@@ -24,6 +24,7 @@ const Login1 = () => {
       localStorage.setItem("token",res.data.token)
       localStorage.setItem("user", JSON.stringify(res.data.user))
       localStorage.setItem("userName", res.data.user.name)
+      users();
 
       dispatch({
         type: 'UPDATE_USER',
@@ -38,6 +39,25 @@ const Login1 = () => {
     });
     
   };
+
+  const users=async()=>{
+    const token= localStorage.getItem("token");
+    await ax
+      .get("/users", {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then((res) => {
+        dispatch({
+          type: 'SET_USERS',
+          value: res.data
+        })
+      })
+      .catch((err) => {
+      setStatus({ type: "error",message: err.response.data.message });
+      });
+  }
 
   return (
     <>

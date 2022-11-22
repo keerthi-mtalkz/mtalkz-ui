@@ -13,6 +13,7 @@ import { UnderlinedTabs } from "../../components/tabs";
 import Link from "next/link";
 import ls from 'local-storage'
 import { NotificationManager } from 'react-notifications'
+import {useSelector, shallowEqual} from 'react-redux'
 
 const Index = () => {
   /** Chatbot data Management */
@@ -28,7 +29,12 @@ const Index = () => {
     _.set(cb, path, value);
     setChatbot(cb);
   }
-  const user = ls.get("user");
+  const {appusers} = useSelector(
+    state => ({
+      appusers: state.appusers
+    }),
+    shallowEqual
+  )
   /** Keywords List Management */
   const [keywords, setKeywords] = useState([]);
   const [currentKeyword, setCurrentKeyword] = useState(null);
@@ -401,6 +407,7 @@ const Index = () => {
 
    }
 
+
    const CodeStructureTab = () => (
     <div className="flex">
       <div className="w-full">
@@ -467,7 +474,7 @@ const Index = () => {
                             {value.name}
                           </div>
                           <p className="text-secondary pt-4">
-                            Updated By : {ls.get("userName")}
+                            Updated By : {appusers.filter((user)=>user.id==value.updatedBy)[0]?.name}
                           </p>
                           <p className="text-secondary pb-3">
                             Updated On :{" "}
