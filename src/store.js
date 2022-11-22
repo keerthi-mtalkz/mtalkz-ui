@@ -42,7 +42,8 @@ const initialState = {
   },
   test:'',
   codd:[],
-  kword:[]
+  kword:[],
+  appusers:[]
 }
 
 const reducer = (state = initialState, action) => {
@@ -74,7 +75,11 @@ const reducer = (state = initialState, action) => {
           ...state,
           user: action.value,
         }
-        
+        case 'SET_USERS':
+          return {
+            ...state,
+            appusers: action.value,
+          }
     case 'SET_LEFT_SIDEBAR_CONFIG':
       return {
         ...state,
