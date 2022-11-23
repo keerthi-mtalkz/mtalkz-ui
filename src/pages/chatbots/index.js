@@ -8,12 +8,15 @@ import { useRouter } from "next/router";
 import {NotificationManager} from 'react-notifications'
 import Icon from '../../components/icon'
 import ls from 'local-storage'
+import ConfirmationModal from "../../components/confirmationmodal"
 
 // fetch chatbots
 const Chatbots = () => {
   const [chatbots, setChatbots] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [status, setStatus] = useState(undefined);
+  const [showDeletePopup,setShowDeletePopup]=React.useState(false)
+  const [deleteId,setDeleteId]=useState(undefined)
   const router = useRouter();
   const user = ls.get("user");
   const fetchChatbots = async () => {
@@ -34,33 +37,50 @@ const Chatbots = () => {
     fetchChatbots();
   }, []);
 
+  const ConfirmationPopup=(id)=>{
+    setDeleteId(id)
+    setShowDeletePopup(true)
+   }
+
+   const onCancel=()=>{
+  setStatus(undefined)
+    setShowDeletePopup(false)
+
+   }
+
+   const onSubmit=()=>{
+    handleDelete()
+   }
+
   // Delete Chatbot
 
-  const handleDelete = (id) => {
-    const answer = window.confirm("are you sure?");
+  const handleDelete = () => {
+
     const token = ls.get("token");
-    if (answer) {
+
       axios
-        .get(`https://cb.mtalkz.cloud/delete/${id}`, {
+        .get(`https://cb.mtalkz.cloud/delete/${deleteId}`, {
           headers: {
             "x-api-key": `Bearer ${token}`,
           },
         })
         .then((res) => {
+          setShowDeletePopup(false)
         setStatus({ type: "success" });
+        setStatus(undefined);
           fetchChatbots();
         }).catch((err)=>{
+          setShowDeletePopup(false)
         setStatus({ type: "error",message: err.response.data.message });
-
+        setStatus(undefined);
         });
-    } else {
-      // Do nothing!
-      console.log("Thing was not saved to the database.");
-    }
+    
   };
 
   return (
     <Layout>
+    {showDeletePopup && <ConfirmationModal onCancel={onCancel} onSubmit={onSubmit} > </ConfirmationModal>}
+
     {status?.type === "success" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
@@ -126,7 +146,7 @@ const Chatbots = () => {
                     lineHeight: "normal",
                   }}
                   onClick={() =>{ if(user.is_system_user==1){
-                    !value.deleted && handleDelete(value._id)
+                    !value.deleted && ConfirmationPopup(value._id)
                   }
                   } }
                 >
