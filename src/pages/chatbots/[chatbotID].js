@@ -114,7 +114,7 @@ const Index = () => {
       )
         .then((res) => {
           // router.push("/chatbots");
-        setStatus({ type: "success",message:"saved chatbot successfully" });
+        setStatus({ type: "success",message:"Saved chatbot successfully" });
         setStatus(undefined);
 
          
