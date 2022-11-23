@@ -84,7 +84,7 @@ const Index = () => {
       const cb = res?.data;
       if (cb) {
         setChatbot(cb.chatbot);
-        setFlowCharts(cb.flowCharts);
+        setFlowCharts(cb.flowCharts.filter(x => !x.deleted));
         setKeywords(cb.chatbot.keywords);
       }
     }).catch((err)=>{
@@ -387,7 +387,7 @@ const Index = () => {
                 required={true}
               >
                 <option value="">(None)</option>
-                {flowCharts.filter(x => !x.deleted).map((fc) => (<option key={fc._id} value={fc.name}>{fc.name}</option>))}
+                {flowCharts.map((fc) => (<option key={fc._id} value={fc.name}>{fc.name}</option>))}
               </select>
             )}
           </label>
