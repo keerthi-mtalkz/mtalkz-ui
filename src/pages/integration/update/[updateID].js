@@ -563,7 +563,7 @@ return (
           <input
             type="submit"
             className="btn  cursor-pointer btn-default btn-block btn-indigo mt-5 "
-            value="Submit"
+            value="Update"
           />
         </div>
       </form>

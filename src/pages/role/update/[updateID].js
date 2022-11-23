@@ -165,10 +165,12 @@ return (
       <div className="w-full mb-4">
         <label className="block">
           <span className="text-default">Name</span>
+     <span className="text-red-600" >*</span>
+
           <input
             name="name"
             type="text"
-            ref={register({ required: true })}
+            ref={register()}
             className="form-input mt-1 text-xs block w-full bg-white"
             placeholder="Enter Role Name"
             defaultValue={res.name}
@@ -273,7 +275,7 @@ return (
     />
         <input
           type="submit"
-          className="btn cursor-pointer btn-default btn-block btn-indigo btn-rounded mt-5"
+          className="btn cursor-pointer btn-default btn-block btn-indigo mt-5"
           value="Update"
         />
       </div>

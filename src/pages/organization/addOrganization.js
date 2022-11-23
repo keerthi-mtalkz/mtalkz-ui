@@ -213,7 +213,7 @@ const addOrganization = () => {
   />
       <input
         type="submit"
-        className="btn cursor-pointer btn-default btn-block btn-indigo btn-rounded mt-5"
+        className="btn cursor-pointer btn-default btn-block btn-indigo  mt-5"
         value="Add"
       />
     </div>
