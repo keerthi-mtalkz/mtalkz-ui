@@ -55,9 +55,11 @@ const [resources,setResources]=useState([]);
         'Authorization': `Bearer ${token}`
       }})
         .then((res) => {
-          setRes(res.data);
         setStatus({ type: "success" });
+        setTimeout(() => {
           router.push("/apiKey");
+          
+        }, 1000);
         })
         .catch((err) => {
           if(err.response.data.errors){

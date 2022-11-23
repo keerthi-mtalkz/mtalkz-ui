@@ -119,12 +119,16 @@ const validateFields=()=>{
       <div className="w-full mb-4">
         <label className="block">
           <span className="text-default">Name</span>
+     <span className="text-red-600" >*</span>
+
           <input
             name="name"
             type="text"
-            ref={register({ required: true })}
+            ref={register()}
             className="form-input mt-1 text-xs block w-full bg-white"
             placeholder="Enter Role Name"
+            required
+
           />
         </label>
         {errors && errors.name && (
@@ -220,8 +224,8 @@ const validateFields=()=>{
     />
         <input
           type="submit"
-          className="btn btn-default cursor-pointer btn-block btn-indigo btn-rounded mt-5"
-          value="Submit"
+          className="btn btn-default cursor-pointer btn-block btn-indigo mt-5"
+          value="Add"
         />
       </div>
     </form>

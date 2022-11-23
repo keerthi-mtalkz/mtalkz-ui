@@ -84,7 +84,7 @@ const Index = () => {
       const cb = res?.data;
       if (cb) {
         setChatbot(cb.chatbot);
-        setFlowCharts(cb.flowCharts);
+        setFlowCharts(cb.flowCharts.filter(x => !x.deleted));
         setKeywords(cb.chatbot.keywords);
       }
     }).catch((err)=>{
@@ -114,7 +114,7 @@ const Index = () => {
       )
         .then((res) => {
           // router.push("/chatbots");
-        setStatus({ type: "success" });
+        setStatus({ type: "success",message:"Saved chatbot successfully" });
         setStatus(undefined);
 
          
@@ -141,7 +141,7 @@ const Index = () => {
         })
         .then((res) => {
           fetchChatbot()
-        setStatus({ type: "success" });
+        setStatus({ type: "success" , message:"Deleted chatbot successfully"});
         setStatus(undefined)
 
         }).catch((err)=>{
@@ -159,7 +159,7 @@ const Index = () => {
       <SectionTitle title={chatbot?.name} />
     </div>
     <div className="inline-block w-1/6 text-right">
-      <a className="btn btn-default btn-indigo" onClick={() => saveChatbot()}>Save</a>
+      <a className="btn btn-default cursor-pointer btn-indigo" onClick={() => saveChatbot()}>Save</a>
     </div>
 
     {/** Chatbot Form */}
@@ -495,7 +495,7 @@ const Index = () => {
     {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
       <div className="p-2">
-      { NotificationManager.success('Deleted  Successfully', 'Success')}
+      { NotificationManager.success(status.message, 'Success')}
       </div>
     </div>
     )}
