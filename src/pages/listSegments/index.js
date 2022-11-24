@@ -11,7 +11,7 @@ import DropdownWidget5 from '../../components/dropdown-widgets/dropdown-widget-5
 import { useRouter } from "next/router";
 import ConfirmationModal from "../../components/confirmationmodal"
 import {NotificationManager} from 'react-notifications'
-import {Badge, CircularBadge} from '../../components/badges'
+import {Badge} from '../../components/badges'
 
 
 const ListAndSegments=()=>{
@@ -20,9 +20,8 @@ const ListAndSegments=()=>{
     const [status, setStatus] = React.useState(undefined);
     const [searchList,setSerchList] = React.useState("")
     const [searchTag,setSerchTag] = React.useState("")
-
     const [showDeletePopup,setShowDeletePopup]=React.useState(false)
- const [deleteId,setDeleteId]=React.useState(undefined)
+    const [deleteId,setDeleteId]=React.useState(undefined)
     const [listSegments,setListSegments]=React.useState([
         {
           "name": "Gaurav's mails",
@@ -187,7 +186,7 @@ const ListAndSegments=()=>{
                     res.data.map((d)=>{
                         d.membersCount=d.customer_ids.length
                     })
-                    setListSegments(res.data)
+                    // setListSegments(res.data)
                     setSerchList("");
                     setSerchTag("")
                 })

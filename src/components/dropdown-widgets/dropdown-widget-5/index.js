@@ -1,12 +1,8 @@
 import React, {useState, useEffect} from 'react'
-import {Settings} from 'react-feather'
 import {useSelector, shallowEqual} from 'react-redux'
-import Link from 'next/link'
 import * as Icon from 'react-feather'
-import {CircularBadge} from '../../badges'
 
 const DropdownWidget5 = ({name,onItemClick}) => {
-  console.log(name,"************************")
   const {direction} = useSelector(
     state => ({
       direction: state.direction,
