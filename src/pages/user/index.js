@@ -106,9 +106,6 @@ const User=()=>{
     
    }
 
-  
-
-
     useEffect(()=>{
       getPermissions()
       getUsersApi()
