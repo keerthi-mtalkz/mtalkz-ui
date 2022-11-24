@@ -16,44 +16,12 @@ import {Badge} from '../../components/badges'
 
 const ListAndSegments=()=>{
     const router = useRouter();
-    const [showMenu,setShowMenu]=React.useState(false)
     const [status, setStatus] = React.useState(undefined);
     const [searchList,setSerchList] = React.useState("")
     const [searchTag,setSerchTag] = React.useState("")
     const [showDeletePopup,setShowDeletePopup]=React.useState(false)
     const [deleteId,setDeleteId]=React.useState(undefined)
     const [listSegments,setListSegments]=React.useState([
-        {
-          "name": "Gaurav's mails",
-          "description": "dolor ipsum ex ad eiusmod",
-          "tags": [
-            "email",
-            "gaurav"
-          ],
-          "membersCount": 2,
-          "created_at": 1669210400450
-        },
-        {
-            "name": "Gaurav's mails",
-            "description": "dolor ipsum ex ad eiusmod",
-            "tags": [
-              "email",
-              "gaurav"
-            ],
-            "membersCount": 2,
-            "created_at": 1669210400450
-          },
-          {
-            "name": "Gaurav's mails",
-            "description": "dolor ipsum ex ad eiusmod",
-            "tags": [
-              "email",
-              "gaurav"
-            ],
-            "membersCount": 2,
-            "created_at": 1669210400450
-          },
-
       ]);
 
       const onItemClick=(name,operation)=>{
@@ -164,7 +132,6 @@ const ListAndSegments=()=>{
     {/*get list api integration*/}
     const getListsApi=async(search=false)=>{
       const token= localStorage.getItem("token");
-      console.log(search,searchList,"***************^^^^^^^^^^^")
      let url=   "http://20.193.136.151:5000/lists/?like=false&skip=0&limit=10"
       if(search && searchTag != "" && searchList != "" )
       {
@@ -186,7 +153,7 @@ const ListAndSegments=()=>{
                     res.data.map((d)=>{
                         d.membersCount=d.customer_ids.length
                     })
-                    // setListSegments(res.data)
+                    setListSegments(res.data)
                     setSerchList("");
                     setSerchTag("")
                 })
@@ -256,15 +223,8 @@ const ListAndSegments=()=>{
 <input type={"button"}  style={{width:"100px",height:"40px",marginRight:"20px",background:"#434190",color:"white"}} onClick={()=>{getListsApi(true)}} value="Search"></input>
 
   </div>
-  <div  style={{width:"150px",marginRight:"20px"}}>
-
-<Select
-placeholder="Select Option"
-onChange={handleSwitch}
-/>
-</div>
 <div>
-<input type={"button"}  style={{width:"100px",height:"40px",marginRight:"20px",background:"#434190",color:"white"}} onClick={()=>{router.push('/listSegments/createList')}} value="Create List"></input>
+<input type={"button"}  style={{width:"100px",height:"40px",marginRight:"20px",background:"#434190",color:"white"}} onClick={()=>{router.push('/listSegments/createListSegment')}} value="Create List"></input>
 </div>
 </div>
 <Datatable columns={columns}  data={listSegments}></Datatable>
