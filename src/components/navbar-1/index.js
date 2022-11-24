@@ -154,7 +154,6 @@ const Navbar = () => {
             })}
             value={selectedOrganization}
           />
-          {/*  <DropdownWidget5 />*/}
         </div>
        
         <Link href="/pages/login-1">
