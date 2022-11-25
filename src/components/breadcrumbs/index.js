@@ -7,7 +7,7 @@ const Breadcrumb = ({items}) => (
       {items.map((item, i) => (
         <li className="children-x-2" key={i}>
           <Link href={item.url}>
-            <a className={`${item.last ? 'text-secondary' : 'text-default'}`}>
+            <a className={`${item.last ? 'text-secondary' : 'text-default',"text-base"}`}>
               {item.title}
             </a>
           </Link>
