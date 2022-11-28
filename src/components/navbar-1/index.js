@@ -74,10 +74,33 @@ const Navbar = () => {
   useEffect(()=>{
   },[selectedOrganization])
 
+  const getPermissions=async ()=>{
+    const token = localStorage.getItem('token');
+    await ax
+      .get("/auth/permissions", {headers: {
+        'Authorization': `Bearer ${token}`
+       }})
+      .then((res) => {
+        dispatch({
+          type: 'UPDATE_PERMISSIONS',
+          value: res.data.permissions
+        })
+        console.log(res.data.permissions,"%%%%%%%%%%%%%%%%%%")
+        // let permissions=[]
+        // res.data.map((permission)=>{
+        //   permissions.push( { label: permission.name, value: permission.id })
+        // })
+        // setPermissions([...permissions]);
+      })
+      .catch((err) => {
+        setStatus({ type: "error",message: err.response.data.message });
+    });
+  }
+
   useEffect(()=>{
     NotificationManager.removeAll()
     getOraganizations()
-
+   getPermissions()
   },[])
 
   const options = organizations?.map((value) => {
