@@ -12,11 +12,13 @@ const CreateList=()=>{
       ]
   return (
     <Layout className="overflow-x-scroll">
-    <div className="w-full">
-    <div className='flex'> 
+    <div className='flex text-center mb-6'>
+    <div > 
     <Breadcrumb items={items2}  />
     </div>
+    <div style={{marginTop:"-5px"}} className='font-bold mb-1 p-1 text-lg'>List</div>
     </div>
+    <p >Give your list a name and then we'll add people to it</p>
    </Layout>
     )
 }
