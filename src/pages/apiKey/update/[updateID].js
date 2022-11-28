@@ -31,7 +31,7 @@ const [resources,setResources]=useState([]);
           'Authorization': `Bearer ${token}`
          }})
         .then((res) => {
-          setSelectedResource({label:res.data.api_key.resource.name, value:res.data.api_key.resource.id})
+          setSelectedResource({label:res.data.api_key.resource?.name, value:res.data.api_key.resource?.id})
           setRes(res.data.api_key);
           handleChange(res.data.api_key.is_active===1?true:false)
         })

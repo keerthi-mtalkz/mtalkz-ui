@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 
 const ModalHeader = ({onClick}) => (
   <div className="modal-header">
-    <h3 className="text-xl font-semibold">Confirmation Popup</h3>
+    <h3 className="text-xl font-semibold">Delete Confirmation</h3>
     <button
       className="modal-close btn btn-transparent"
       onClick={onClick}>

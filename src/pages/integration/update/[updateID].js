@@ -26,8 +26,10 @@ const updateID = () => {
     ]);
   const [organizations,setOrganizations]=useState([])
   const [selectedOrganizations,setSelectedOrganizations]=useState([])
+  const [selectedHttpMethod,setSelectedHttpMethod]=useState(undefined)
+
   const [errors,setErrors]=useState(undefined)
-  const [selectedChannel,setSelectedChannel]=useState(undefined);
+  const [selectedChannel,setSelectedChannel]=useState([]);
   const [channels,setChannels]=useState([])
 
   
@@ -100,6 +102,13 @@ const updateID = () => {
     let handleSwitch = (value) => {
       setSelectedOrganizations([...value])
     }
+
+    let handleHttpMethodSwitch = (value) => {
+      console.log(value,"************************")
+      setSelectedHttpMethod(value)
+    }
+
+
   
     const getOrganizations = async () => {
       const token= localStorage.getItem("token");
@@ -121,6 +130,11 @@ const updateID = () => {
       return { label: value.name, value: value.id };
     });
 
+    const apiKeyOptions=HTTP_METHODS?.map((value)=>{
+      return { label: value.name, value: value.id };
+
+    })
+
 
     const fetch = async () => {
       if (typeof window !== "undefined") {
@@ -134,6 +148,7 @@ const updateID = () => {
           setRes(res.data.integration);
           handleAccess(res.data.integration.requires_access===1?true:false)
           handleApproval(res.data.integration.requires_approval ===1 ? true : false)
+          setSelectedHttpMethod({label:res.data.integration.http_method.toUpperCase(),value:res.data.integration.http_method})
           let _tags=[]
           let _params=[];
           res.data.integration.tags.map((tag)=>{
@@ -217,6 +232,8 @@ const updateID = () => {
          return org.value
         })
         data.tags=_tags;
+        data.http_method=selectedHttpMethod.value
+
       data.param_names=_params
       data.access_granted_to=_selectedOrgs
       const token = localStorage.getItem('token');
@@ -432,31 +449,23 @@ return (
      
     )}
     </div>
-  
-    {/*input*/}
-    <div className="w-full mb-4">
-    <label className="block">
-      <span className="text-default">Http Method</span>
+    <div style={{ width: "300px" }} className="mb-5">
+    <span className="text-default">Http Method</span>
     <span className="text-red-600" >*</span>
-
-      <select
-      name="http_method"
-      ref={register()}
-      className="form-select block w-full mt-1 text-xs">
-      {HTTP_METHODS.map((method)=>{
-        return (
-          <option value={method.value}>{method.label}</option>
-        )
-      })}
-    </select>
-    </label>
-    {errors && errors.http_method && (
-      errors.http_method.map((err)=>{
-       return <p className="mt-1 text-xs text-red-500">{err}</p>
-      })
-     
-    )}
-    </div>
+            <Select
+              options={HTTP_METHODS}
+              placeholder="Select Http Method"
+              onChange={handleHttpMethodSwitch}
+              value={selectedHttpMethod}
+            />
+            {errors && errors.http_method       && (
+              errors.http_method.map((err)=>{
+               return <p className="mt-1 text-xs text-red-500">{err}</p>
+              })
+             
+            )}
+          </div>
+  
     
     <div style={{marginBottom:"10px"}}>
     <span className="text-default">Parameters</span>

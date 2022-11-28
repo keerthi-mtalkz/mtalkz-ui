@@ -6,12 +6,6 @@ import { useForm } from "react-hook-form";
 import { withRedux } from "../../../lib/redux";
 import { useRouter } from "next/router";
 import {ax} from "../../../utils/apiCalls";
-import {
-  NotificationInfo,
-  NotificationWarning,
-  NotificationError,
-  NotificationSuccess
-} from '../../../components/notifications'
 import {NotificationManager} from 'react-notifications'
 import Select from "react-select";
 import Switch from 'react-switch'
@@ -25,7 +19,6 @@ const updateID = () => {
 const [errors,setErrors] = useState(undefined)
   
 
-    const [checked, handleChange] = useState(false)
 const [permissions,setPermissions]=useState([])
  const [selectedPermission,setSelectedPermission]=useState("")
 
@@ -40,8 +33,6 @@ const [permissions,setPermissions]=useState([])
          }})
         .then((res) => {
           setRes(res.data.role);
-          let syatemRole=res.data.role.is_system_role===1?true:false;
-          handleChange(syatemRole)
           let permissions=[]
           res.data.permissions.map((permission)=>{
             permissions.push({label:permission.name, value:permission.id})
@@ -104,7 +95,6 @@ const [permissions,setPermissions]=useState([])
     const onSubmit = (data) => {
       const isValid=validateFields()
       if (typeof window !== "undefined"&& isValid) {
-        data.is_system_role=checked;
         let _selectedPermissions=selectedPermission.map((permission)=> permission.value )
         data.permission_ids=_selectedPermissions
       const token1 = localStorage.getItem('token');
@@ -209,36 +199,7 @@ return (
       </div>
 
 
-        {/*input*/}
-        <div className="w-full mb-4">
-        <label className="block">
-        <div className="flex">
-        <div className="mt-1">
-        <span className="text-default">System Role</span>
-        </div>
-        <div  className="ml-5 ">
-        <Switch
-        onChange={() => handleChange(!checked)}
-        checked={checked}
-        handleDiameter={24}
-        uncheckedIcon={true}
-        checkedIcon={true}
-        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
-        height={20}
-        width={48}
-        className="react-switch"
-      />
-        </div>
-        </div>
        
-        </label>
-        {errors && errors.is_system_role && (
-          errors.is_system_role.map((err)=>{
-           return <p className="mt-1 text-xs text-red-500">{err}</p>
-          })
-         
-        )}
-      </div>
  
       <div style={{ width: "300px" }}>
       <div className="mb-1"> <span className="text-default">Permissions</span>

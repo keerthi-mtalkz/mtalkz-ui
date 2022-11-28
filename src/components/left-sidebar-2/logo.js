@@ -19,7 +19,7 @@ const Logo = () => {
       }`}  >
      
       {!collapsed ? (
-        <Link href="/">
+        <Link href="/dashboard">
           <a className="flex flex-row items-center justify-start">
           <img
           src="/logo.png"
@@ -30,7 +30,7 @@ const Logo = () => {
           </a>
         </Link>
       ):(
-        <Link href="/">
+        <Link href="/dashboard">
           <a className="flex flex-row items-center justify-start">
           <img
           src="/mtalkz-logo.png"
