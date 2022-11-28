@@ -104,7 +104,6 @@ const updateID = () => {
     }
 
     let handleHttpMethodSwitch = (value) => {
-      console.log(value,"************************")
       setSelectedHttpMethod(value)
     }
 
