@@ -170,7 +170,7 @@ return (
                     
                      <div className="flex-1 min-w-1">
                          <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                         Create At
+                         Created At
                          </p>
                         
                      </div>

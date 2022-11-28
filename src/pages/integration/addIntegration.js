@@ -22,7 +22,7 @@ const addIntegration = () => {
   const [organizations,setOrganizations]=useState([])
   const [selectedOrganizations,setSelectedOrganizations]=useState([])
   const [errors,setErrors]=useState(undefined)
-  const [selectedChannel,setSelectedChannel]=useState(undefined);
+  const [selectedChannel,setSelectedChannel]=useState([]);
  const [channels,setChannels]=useState([])
 
   const { register, handleSubmit, watch } = useForm();

@@ -65,6 +65,8 @@ const [res,setRes]=useState(undefined)
         setRes(res.data.api_key.key)
         setShowModal(true)
         setStatus({ type: "success" });
+        setStatus(undefined);
+
         
       })
       .catch((err) => {

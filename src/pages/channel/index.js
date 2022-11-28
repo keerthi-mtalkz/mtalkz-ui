@@ -75,6 +75,9 @@ const Channel=()=>{
 };
 
 
+
+
+
   const columns =  [
       {
         Header: 'Slug',
