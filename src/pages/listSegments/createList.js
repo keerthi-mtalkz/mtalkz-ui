@@ -47,6 +47,8 @@ const CreateList=()=>{
     }
     const onSubmit = (data) => {
       setErrors(undefined)
+      router.push("/listSegments/uploadList");
+  return;
       const isValid=validateFields()
       if (typeof window !== "undefined" && isValid) {
         data.tags=tags.map((tag)=>{
