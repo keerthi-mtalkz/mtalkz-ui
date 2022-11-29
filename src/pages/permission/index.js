@@ -8,6 +8,7 @@ import {NotificationManager} from 'react-notifications'
 import React from "react";
 import SectionTitle from '../../components/section-title'
 import ConfirmationModal from "../../components/confirmationmodal"
+import {useSelector, shallowEqual} from 'react-redux'
 
 const Permission=()=>{
  const [permissions,setPermissions]=useState([])
@@ -15,8 +16,15 @@ const Permission=()=>{
  const [searchQuery, setSearchQuery] = useState("");
  const [deleteId,setDeleteId]=React.useState(undefined)
  const [showDeletePopup,setShowDeletePopup]=React.useState(false)
+ const {userpermissions} = useSelector(
+  state => ({
+    userpermissions: state.userpermissions,
+  }),
+  shallowEqual
+)
+const [_permissions,_setPermissions]=React.useState({get:false,update:false,delete:false,view:false})
 
-  const getPermissions = async () => {
+  const getPermissionsApi = async () => {
     const token = localStorage.getItem('token');
     await ax
       .get("/permissions", {headers: {
@@ -30,6 +38,25 @@ const Permission=()=>{
         console.error("get /permissions error", err);
       });
   };
+
+  const getPermissions=()=>{
+    let permissions={get:false,update:false,delete:false,view:false,add:false}
+    userpermissions.map((permission)=>{
+     if(permission == "permissions.index"){
+       permissions["get"] = true;
+     } else if(permission == "permissions.update"){
+       permissions["update"] = true;
+     }else if(permission == "permissions.destroy"){
+       permissions["delete"] = true;
+     }else if(permission == "permissions.show"){
+       permissions["view"] = true;
+     }else if(permission == "permissions.store"){
+       permissions["add"] = true;
+     }
+     })
+     _setPermissions({...permissions})
+   permissions.get &&  getPermissionsApi()
+  }
 
   const ConfirmationPopup=(id)=>{
     setDeleteId(id)
@@ -95,23 +122,29 @@ const Permission=()=>{
         cell: () => <Button variant="danger" data-tag="allowRowEvents" data-action="delete"><FontAwesomeIcon icon={faTrash} /></Button>,
         Cell: (data) => {
        
-        return (<div className="flex justify-evenly"> <Link href={`/permission/view/${data.row.original.id}`}>
-          <p>
-            <i className="icon-eye text-1xl font-bold mb-2"></i>
-          </p>
-      </Link> <p
-        style={{
-         
-          cursor: "pointer",
-          lineHeight: "normal",
-        }}
-        onClick={() => ConfirmationPopup(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+        return (<div className="flex justify-evenly">
+        {_permissions.view &&   <Link href={`/permission/view/${data.row.original.id}`}>
+        <p>
+          <i className="icon-eye text-1xl font-bold mb-2"></i>
+        </p>
+    </Link> }
+       
+    {_permissions.delete &&    <p
+      style={{
+       
+        cursor: "pointer",
+        lineHeight: "normal",
+      }}
+      onClick={() => ConfirmationPopup(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+</p>}
+
+{_permissions.update && <Link href={`/permission/update/${data.row.original.id}`}>
+<p>
+  <i className="icon-note text-1xl font-bold mb-2"></i>
 </p>
-<Link href={`/permission/update/${data.row.original.id}`}>
-                      <p>
-                        <i className="icon-note text-1xl font-bold mb-2"></i>
-                      </p>
-                  </Link>
+</Link> }
+    
+
 </div>
         )}
        
@@ -148,16 +181,18 @@ const Permission=()=>{
           placeholder="Search..."
         />
       </div>
-      <div className="w-1/6 ">
+   
+     <div className="w-1/6 ">
         {" "}
-        <Link href={`/permission/addPermission`}>
-            <button
-              className="ml-3  btn btn-default btn-indigo create-btn w-full"
-              type="button"
-            >
-              Add Permission
-            </button>
-        </Link>
+        {_permissions.add &&  <Link href={`/permission/addPermission`}>
+        <button
+          className="ml-3  btn btn-default btn-indigo create-btn w-full"
+          type="button"
+        >
+          Add Permission
+        </button>
+    </Link> } 
+       
       </div>
     </div>
     <Datatable columns={columns} data={permissions?.filter((val) => {

@@ -10,9 +10,16 @@ import {ax} from "../../utils/apiCalls"
 import React from "react";
 import {NotificationManager} from 'react-notifications'
 import ConfirmationModal from "../../components/confirmationmodal"
+import {useSelector, shallowEqual} from 'react-redux'
 
 
 const User=()=>{
+  const {userpermissions} = useSelector(
+    state => ({
+      userpermissions: state.userpermissions,
+    }),
+    shallowEqual
+  )
     const [userData,setUserData]=React.useState([]);
   const [status, setStatus] = React.useState(undefined);
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -21,33 +28,24 @@ const User=()=>{
  const [deleteId,setDeleteId]=useState(undefined)
 
   const getPermissions = async () => {
-    const token = localStorage.getItem('token');
-    await ax
-      .get("/permissions", {headers: {
-        'Authorization': `Bearer ${token}`
-       }})
-      .then((res) => {
-        let permissions={get:false,update:false,delete:false,view:false,add:false,setRole:false}
-        res.data.map((permission)=>{
-        if(permission.route == "users.index"){
-          permissions["get"] = true;
-        } else if(permission.route == "users.update"){
-          permissions["update"] = true;
-        }else if(permission.route == "users.destroy"){
-          permissions["delete"] = true;
-        }else if(permission.route == "users.show"){
-          permissions["view"] = true;
-        }else if(permission.route == "users.store"){
-          permissions["add"] = true;
-        }else if(permission.route == "users.role.set"){
-          permissions["setRole"]=true
-        }
-        })
-        setPermissions({...permissions})
-      })
-      .catch((err) => {
-        console.error("get /permissions error", err);
-      });
+    let permissions={get:false,update:false,delete:false,view:false,add:false,setRole:false}
+    userpermissions && userpermissions.map((permission)=>{
+    if(permission == "users.index"){
+      permissions["get"] = true;
+    } else if(permission == "users.update"){
+      permissions["update"] = true;
+    }else if(permission == "users.destroy"){
+      permissions["delete"] = true;
+    }else if(permission == "users.show"){
+      permissions["view"] = true;
+    }else if(permission == "users.store"){
+      permissions["add"] = true;
+    }else if(permission == "users.role.set"){
+      permissions["setRole"]=true
+    }
+    })
+    setPermissions({...permissions})
+      permissions.get &&  getUsersApi()
   };
     
      const getUsersApi=async()=>{
@@ -108,7 +106,6 @@ const User=()=>{
 
     useEffect(()=>{
       getPermissions()
-      getUsersApi()
     },[])
 
     const columns = [
