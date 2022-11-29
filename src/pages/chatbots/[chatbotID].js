@@ -216,8 +216,8 @@ const Index = () => {
               type="text"
               className="text-sm form-input mt-1 block w-full border"
               placeholder="Name"
-              onChange={(e) => updateChatbot('name', e.target.value)}
-              value={chatbot.name}
+              onBlur={(e) => updateChatbot('name', e.target.value)}
+              defaultValue={chatbot.name}
               required={true}
             />
           </label>
@@ -285,8 +285,8 @@ const Index = () => {
               pattern="91[0-9]{10}"
               className="text-sm form-input mt-1 block w-full border"
               placeholder="91xxxxxxxxxx"
-              onChange={(e) => updateChatbot('phone', e.target.value)}
-              value={chatbot?.phone || ''}
+              onBlur={(e) => updateChatbot('phone', e.target.value)}
+              defaultValue={chatbot?.phone || ''}
               required={true}
             />
           </label>
@@ -368,8 +368,8 @@ const Index = () => {
               type="text"
               className="text-sm form-input mt-1 block w-full border"
               placeholder="Key"
-              onChange={(e) => updateKeyword('key', e.target.value)}
-              value={currentKeyword.key}
+              onBlur={(e) => updateKeyword('key', e.target.value)}
+              defaultValue={currentKeyword.key}
               required={true}
             />
           </label>
