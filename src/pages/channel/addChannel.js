@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { withRedux } from "../../lib/redux";
 import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
+import {useSelector, shallowEqual} from 'react-redux'
 
 const addChannel = () => {
   const router = useRouter();

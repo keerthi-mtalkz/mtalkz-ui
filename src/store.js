@@ -10,6 +10,7 @@ const initialState = {
   direction: 'ltr',
   collapsed: false,
   toggleRightSidebar: false,
+  userpermissions:[],
   colors: [
     'gray',
     'red',
@@ -74,6 +75,12 @@ const reducer = (state = initialState, action) => {
           ...state,
           user: action.value,
         }
+
+        case 'UPDATE_PERMISSIONS':
+          return {
+            ...state,
+            userpermissions: action.value,
+          }
         
     case 'SET_LEFT_SIDEBAR_CONFIG':
       return {
@@ -95,10 +102,6 @@ const reducer = (state = initialState, action) => {
         ...state,
         layout: action.layout,
         collapsed: false
-      }
-      return {
-        ...state,
-        [`${key}`]: value
       }
      
     case 'SET_CONFIG':

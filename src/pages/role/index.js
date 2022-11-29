@@ -10,6 +10,7 @@ import {ax} from "../../utils/apiCalls"
 import React from "react";
 import {NotificationManager} from 'react-notifications'
 import ConfirmationModal from "../../components/confirmationmodal"
+import {useSelector, shallowEqual} from 'react-redux'
 
 
 
@@ -19,7 +20,12 @@ const Role=()=>{
     const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false,setRole:false})
     const [deleteId,setDeleteId]=React.useState(undefined)
     const [showDeletePopup,setShowDeletePopup]=React.useState(false)
-
+    const {userpermissions} = useSelector(
+      state => ({
+        userpermissions: state.userpermissions,
+      }),
+      shallowEqual
+    )
 
     const [status, setStatus] = React.useState(undefined);
 
@@ -78,39 +84,19 @@ const Role=()=>{
    }
 
    const getPermissions = async () => {
-    const token = localStorage.getItem('token');
-    await ax
-      .get("/permissions", {headers: {
-        'Authorization': `Bearer ${token}`
-       }})
-      .then((res) => {
-        let permissions={get:false,update:false,delete:false,view:false,add:false}
-        res.data.map((permission)=>{
-        if(permission.route == "roles.index"){
-          permissions["get"] = true;
-        } else if(permission.route == "roles.update"){
-          permissions["update"] = true;
-        }else if(permission.route == "roles.destroy"){
-          permissions["delete"] = true;
-        }else if(permission.route == "roles.show"){
-          permissions["view"] = true;
-        }else if(permission.route == "roles.store"){
-          permissions["add"] = true;
-        }
-        })
+    let permissions={get:false,update:false,delete:false,view:false,add:false}
+        permissions["get"]= userpermissions.includes("roles.index") && getRolesApi()
+        permissions["update"]= userpermissions.includes("roles.update")
+        permissions["delete"]= userpermissions.includes("roles.destroy")
+        permissions["view"]= userpermissions.includes("roles.show")
+        permissions["add"]= userpermissions.includes("roles.store")
         setPermissions({...permissions})
-      })
-      .catch((err) => {
-        console.error("get /permissions error", err);
-      });
   };
     
 
 
     useEffect(()=>{
-      
       getPermissions();
-      getRolesApi()
     },[])
 
     const columns = [

@@ -8,6 +8,7 @@ import {ax} from "../../utils/apiCalls";
 import React from "react";
 import {NotificationManager} from 'react-notifications'
 import ConfirmationModal from "../../components/confirmationmodal"
+import {useSelector, shallowEqual} from 'react-redux'
 
 
 
@@ -19,7 +20,12 @@ const Organization=()=>{
  const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false,setRole:false})
  const [deleteId,setDeleteId]=React.useState(undefined)
  const [showDeletePopup,setShowDeletePopup]=React.useState(false)
-
+ const {userpermissions} = useSelector(
+  state => ({
+    userpermissions: state.userpermissions,
+  }),
+  shallowEqual
+)
   const getOrganizations = async () => {
     const token = localStorage.getItem('token');
     await ax
@@ -35,37 +41,19 @@ const Organization=()=>{
   };
 
   const getPermissions = async () => {
-    const token = localStorage.getItem('token');
-    await ax
-      .get("/permissions", {headers: {
-        'Authorization': `Bearer ${token}`
-       }})
-      .then((res) => {
-        let permissions={get:false,update:false,delete:false,view:false,add:false}
-        res.data.map((permission)=>{
-        if(permission.route == "organizations.index"){
-          permissions["get"] = true;
-        } else if(permission.route == "organizations.update"){
-          permissions["update"] = true;
-        }else if(permission.route == "organizations.destroy"){
-          permissions["delete"] = true;
-        }else if(permission.route == "organizations.show"){
-          permissions["view"] = true;
-        }else if(permission.route == "organizations.storeU"){
-          permissions["add"] = true;
-        }
-        })
+    let permissions={get:false,update:false,delete:false,view:false,add:false}
+        permissions["get"]= userpermissions.includes("organizations.index") && getOrganizations()
+        permissions["update"]= userpermissions.includes("organizations.update")
+        permissions["delete"]= userpermissions.includes("organizations.destroy")
+        permissions["view"]= userpermissions.includes("organizations.show")
+        permissions["add"]= userpermissions.includes("organizations.storeU")
         setPermissions({...permissions})
-      })
-      .catch((err) => {
-        console.error("get /permissions error", err);
-      });
+
   };
 
   React.useEffect(() => {
    
     getPermissions()
-    getOrganizations();
   }, []);
   const ConfirmationPopup=(id)=>{
     setDeleteId(id)

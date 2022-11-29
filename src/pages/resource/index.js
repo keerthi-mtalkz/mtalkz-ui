@@ -8,6 +8,7 @@ import {NotificationManager} from 'react-notifications'
 import React from "react";
 import SectionTitle from '../../components/section-title'
 import ConfirmationModal from "../../components/confirmationmodal"
+import {useSelector, shallowEqual} from 'react-redux'
 
 const Resource=()=>{
  const [resources,setResources]=useState([])
@@ -16,7 +17,12 @@ const Resource=()=>{
  const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false})
  const [deleteId,setDeleteId]=React.useState(undefined)
  const [showDeletePopup,setShowDeletePopup]=React.useState(false)
-
+ const {userpermissions} = useSelector(
+  state => ({
+    userpermissions: state.userpermissions,
+  }),
+  shallowEqual
+)
   const getResources = async () => {
     const token = localStorage.getItem('token');
     await ax
@@ -33,38 +39,19 @@ const Resource=()=>{
 
 
   const getPermissions = async () => {
-    const token = localStorage.getItem('token');
-    await ax
-      .get("/permissions", {headers: {
-        'Authorization': `Bearer ${token}`
-       }})
-      .then((res) => {
         let permissions={get:false,update:false,delete:false,view:false,add:false}
-        res.data.map((permission)=>{
-        if(permission.route == "resources.index"){
-          permissions["get"] = true;
-        } else if(permission.route == "resources.update"){
-          permissions["update"] = true;
-        }else if(permission.route == "resources.destroy"){
-          permissions["delete"] = true;
-        }else if(permission.route == "resources.show"){
-          permissions["view"] = true;
-        }else if(permission.route == "resources.store"){
-          permissions["add"] = true;
-        }
-        })
+        permissions["get"]= userpermissions.includes("resources.index") && getResources()
+        permissions["update"]= userpermissions.includes("resources.update")
+        permissions["delete"]= userpermissions.includes("resources.destroy")
+        permissions["view"]= userpermissions.includes("resources.show")
+        permissions["add"]= userpermissions.includes("resources.store")
         setPermissions({...permissions})
-      })
-      .catch((err) => {
-        console.error("get /permissions error", err);
-      });
   };
     
 
   React.useEffect(() => {
     
     getPermissions()
-    getResources();
   }, []);
   const ConfirmationPopup=(id)=>{
     setDeleteId(id)

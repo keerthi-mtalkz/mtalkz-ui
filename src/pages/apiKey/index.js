@@ -9,6 +9,7 @@ import React from 'react'
 import {NotificationManager} from 'react-notifications'
 import {Badge, CircularBadge} from '../../components/badges'
 import ConfirmationModal from "../../components/confirmationmodal"
+import {useSelector, shallowEqual} from 'react-redux'
 
 
 
@@ -20,6 +21,12 @@ const ApiKey=()=>{
  const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false})
  const [deleteId,setDeleteId]=React.useState(undefined)
  const [showDeletePopup,setShowDeletePopup]=React.useState(false)
+ const {userpermissions} = useSelector(
+  state => ({
+    userpermissions: state.userpermissions,
+  }),
+  shallowEqual
+)
   const getApiKeys = async () => {
     const token = localStorage.getItem('token');
     await ax
@@ -37,31 +44,13 @@ const ApiKey=()=>{
       });
   };
   const getPermissions = async () => {
-    const token = localStorage.getItem('token');
-    await ax
-      .get("/permissions", {headers: {
-        'Authorization': `Bearer ${token}`
-       }})
-      .then((res) => {
         let permissions={get:false,update:false,delete:false,view:false,add:false}
-        res.data.map((permission)=>{
-        if(permission.route == "apikeys.index"){
-          permissions["get"] = true;
-        } else if(permission.route == "apikeys.update"){
-          permissions["update"] = true;
-        }else if(permission.route == "apikeys.destroy"){
-          permissions["delete"] = true;
-        }else if(permission.route == "apikeys.show"){
-          permissions["view"] = true;
-        }else if(permission.route == "apikeys.store"){
-          permissions["add"] = true;
-        }
-        })
+        permissions["get"]= userpermissions.includes("apikeys.index") && getApiKeys()
+        permissions["update"]= userpermissions.includes("apikeys.update")
+        permissions["delete"]= userpermissions.includes("apikeys.destroy")
+        permissions["view"]= userpermissions.includes("apikeys.show")
+        permissions["add"]= userpermissions.includes("apikeys.store")
         setPermissions({...permissions})
-      })
-      .catch((err) => {
-        console.error("get /permissions error", err);
-      });
   };
 
   const ConfirmationPopup=(id)=>{
@@ -101,7 +90,6 @@ const ApiKey=()=>{
   React.useEffect(() => {
     
     getPermissions()
-    getApiKeys();
   }, []);
 
   

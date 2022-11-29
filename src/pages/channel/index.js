@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import React from "react";
 import SectionTitle from "../../components/section-title";
 import ConfirmationModal from "../../components/confirmationmodal"
+import {useSelector, shallowEqual} from 'react-redux'
 
 
 const Channel=()=>{
@@ -18,6 +19,14 @@ const Channel=()=>{
  const { register, handleSubmit, watch, errors } = useForm();
  const [deleteId,setDeleteId]=React.useState(undefined)
  const [showDeletePopup,setShowDeletePopup]=React.useState(false)
+ const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false})
+
+ const {userpermissions} = useSelector(
+  state => ({
+    userpermissions: state.userpermissions,
+  }),
+  shallowEqual
+)
 
   const getChannels = async () => {
     const token = localStorage.getItem('token');
@@ -33,10 +42,19 @@ const Channel=()=>{
       });
   };
 
+  const getPermissions = async () => {
+    let permissions={get:false,update:false,delete:false,view:false,add:false}
+      permissions["get"]= userpermissions.includes("channels.index") && getChannels()
+        permissions["update"]= userpermissions.includes("channels.update")
+        permissions["delete"]= userpermissions.includes("channels.destroy")
+        permissions["view"]= userpermissions.includes("channels.show")
+        permissions["add"]= userpermissions.includes("channels.store")
+        setPermissions({...permissions})
+  };
 
   React.useEffect(() => {
     
-    getChannels();
+    getPermissions();
   }, []);
   const ConfirmationPopup=(id)=>{
     setDeleteId(id)
@@ -93,21 +111,24 @@ const Channel=()=>{
         cell: () => <Button variant="danger" data-tag="allowRowEvents" data-action="delete"><FontAwesomeIcon icon={faTrash} /></Button>,
         Cell: (data) => {
        
-        return (<div className="flex justify-evenly"> 
-        
-       <p
-        style={{
-         
-          cursor: "pointer",
-          lineHeight: "normal",
-        }}
-        onClick={() => ConfirmationPopup(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
-</p>
-<Link href={`/channel/update/${data.row.original.id}`}>
-                      <p>
-                        <i className="icon-note text-1xl font-bold mb-2"></i>
-                      </p>
-                  </Link>
+        return (
+          
+          <div className="flex justify-evenly"> 
+        {permissions.delete &&  <p
+          style={{
+           
+            cursor: "pointer",
+            lineHeight: "normal",
+          }}
+          onClick={() => ConfirmationPopup(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+  </p> }
+  {permissions.update && <Link href={`/channel/update/${data.row.original.id}`}>
+  <p>
+    <i className="icon-note text-1xl font-bold mb-2"></i>
+  </p>
+</Link> }
+      
+
 </div>
         )}
        
@@ -146,14 +167,14 @@ const Channel=()=>{
       </div>
       <div className="w-1/6 ">
         {" "}
-        <Link href={`/channel/addChannel`}>
-            <button
-              className="ml-3  btn btn-default btn-indigo create-btn w-full"
-              type="button"
-            >
-              Add Channel
-            </button>
-        </Link>
+       {permissions.add &&   <Link href={`/channel/addChannel`}>
+       <button
+         className="ml-3  btn btn-default btn-indigo create-btn w-full"
+         type="button"
+       >
+         Add Channel
+       </button>
+   </Link>}
       </div>
     </div>
     <Datatable columns={columns}  data={channels?.filter((val) => {
