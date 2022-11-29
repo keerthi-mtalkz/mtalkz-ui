@@ -138,20 +138,20 @@ const Chatbots = () => {
                 className="flex flex-col w-full mb-4 lg:w-1/3 relative"
                
               >
-                <p
-                  className="p-4 absolute right-0"
-                  style={{
-                    textAlign: "right",
-                    cursor: "pointer",
-                    lineHeight: "normal",
-                  }}
-                  onClick={() =>{ if(user.is_system_user==1){
-                    !value.deleted && ConfirmationPopup(value._id)
-                  }
-                  } }
-                >
-                  <i className="icon-trash text-1xl font-bold mb-2 "></i>
-                </p>
+              {  !value.deleted &&  <p
+                className="p-4 absolute right-0"
+                style={{
+                  textAlign: "right",
+                  cursor: "pointer",
+                  lineHeight: "normal",
+                }}
+                onClick={() =>{ if(user.is_system_user==1){
+                 ConfirmationPopup(value._id)
+                }
+                } }
+              >
+                <i className="icon-trash text-1xl font-bold mb-2 "></i>
+              </p> } 
                 
                 <Link href={ !value.deleted ? `/chatbots/${value._id}` : `/chatbots`}>
                   <a className="w-full">

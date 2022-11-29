@@ -63,6 +63,8 @@ const createChatbot = () => {
         <div className="w-full mb-4">
           <label className="block">
             <span className="text-default">Name</span>
+     <span className="text-red-600" >*</span>
+
             <input
               name="name"
               type="text"
@@ -83,6 +85,8 @@ const createChatbot = () => {
         <div className="mb-4">
           <label>
             <span className="text-default">Channel</span>
+     <span className="text-red-600" >*</span>
+
             <select className="form-select block w-full mt-1 text-sm" name="channel" ref={register} >
               <option value="whatsapp">WhatsApp</option>
               <option value="telegram" disabled={true}>Telegram</option>
@@ -95,6 +99,8 @@ const createChatbot = () => {
         <div className="w-full mb-4">
           <label className="block">
             <span className="text-default">Phone (with Country Code)</span>
+     <span className="text-red-600" >*</span>
+
             <input
               name="phone"
               type="text"
