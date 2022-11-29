@@ -111,28 +111,29 @@ return (
    </ul>
 </div>
 <div className="flow-root">
-<ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
-    <li className="py-3 sm:py-4">
-        <div className="flex items-center space-x-4">
+        <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
+            <li className="py-3 sm:py-4">
+                <div className="flex items-center space-x-4">
+                  
+                    <div className="flex-1 min-w-1">
+                        <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                        Description
+                        </p>
+                      
+                    </div>
+                    <div className="inline-flex truncate items-center truncate text-base font-semibold text-gray-900 dark:text-white">
+                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.description}</p>
+                    </div>
+                   
+                </div>
+            </li>
           
-            <div className="flex-1 min-w-1">
-                <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                Description
-                </p>
-              
-            </div>
-            <div className="inline-flex truncate items-center truncate text-base font-semibold text-gray-900 dark:text-white">
-            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{res.description}</p>
-            </div>
-            
-        </div>
-    </li>
-  
 
- 
+         
+       
+        </ul>
+   </div>
 
-</ul>
-</div>
 </div>
 
    

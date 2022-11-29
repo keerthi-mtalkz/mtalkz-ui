@@ -13,6 +13,7 @@ import { UnderlinedTabs } from "../../components/tabs";
 import Link from "next/link";
 import ls from 'local-storage'
 import { NotificationManager } from 'react-notifications'
+import ConfirmationModal from "../../components/confirmationmodal"
 
 const Index = () => {
   /** Chatbot data Management */
@@ -113,9 +114,11 @@ const Index = () => {
         }
       )
         .then((res) => {
-          // router.push("/chatbots");
         setStatus({ type: "success",message:"Saved chatbot successfully" });
         setStatus(undefined);
+        setTimeout(() => {
+          router.push("/chatbots");
+        }, 1000);
 
          
         })
@@ -131,20 +134,42 @@ const Index = () => {
     fetchChatbot();
   }, [])
 
- const  handleFlowDelete=(flowchartName)=>{
+  const [showDeletePopup,setShowDeletePopup]=React.useState(false)
+  const [deleteId,setDeleteId]=React.useState(undefined)
+
+  const ConfirmationPopup=(id)=>{
+    setDeleteId(id)
+    setShowDeletePopup(true)
+   }
+
+   const onCancel=()=>{
+  setStatus(undefined)
+    setShowDeletePopup(false)
+
+   }
+
+   const onSubmit=()=>{
+    handleFlowDelete()
+   }
+
+ const  handleFlowDelete=()=>{
   const token = localStorage.getItem("token");
   axios
-        .get(`https://cb.mtalkz.cloud/delete/${chatid}/${flowchartName}`, {
+        .get(`https://cb.mtalkz.cloud/delete/${chatid}/${deleteId}`, {
           headers: {
             "x-api-key": `Bearer ${token}`,
           },
         })
         .then((res) => {
           fetchChatbot()
-        setStatus({ type: "success" , message:"Deleted chatbot successfully"});
+          setShowDeletePopup(false)
+
+        setStatus({ type: "success" , message:"Deleted Flowchart successfully"});
         setStatus(undefined)
 
         }).catch((err)=>{
+          setShowDeletePopup(false)
+
         setStatus({ type: "error",message: err.response.data.message });
         setStatus(undefined)
 
@@ -214,8 +239,8 @@ const Index = () => {
               <textarea
                 className="text-sm form-input mt-1 block w-full border"
                 placeholder="Message"
-                onChange={(e) => updateChatbot('welcome.textOrFlowChartName', e.target.value)}
-                value={chatbot?.welcome?.textOrFlowChartName || ''}
+                onBlur={(e) => updateChatbot('welcome.textOrFlowChartName', e.target.value)}
+                defaultValue={chatbot?.welcome?.textOrFlowChartName || ''}
                 required={true}
               />
             )}
@@ -235,8 +260,8 @@ const Index = () => {
             <textarea
               className="text-sm form-input mt-1 block w-full border"
               placeholder="Message"
-              onChange={(e) => updateChatbot('unrecognizedInputMessage', e.target.value)}
-              value={chatbot?.unrecognizedInputMessage || ''}
+              onBlur={(e) => updateChatbot('unrecognizedInputMessage', e.target.value)}
+              defaultValue={chatbot?.unrecognizedInputMessage || ''}
             />
           </label>
         </div>
@@ -271,8 +296,8 @@ const Index = () => {
               type="password"
               className="text-sm form-input mt-1 block w-full border"
               placeholder="API Token"
-              onChange={(e) => updateChatbot('token', e.target.value)}
-              value={chatbot.token || ''}
+              onBlur={(e) => updateChatbot('token', e.target.value)}
+              defaultValue={chatbot.token || ''}
               required={true}
             />
           </label>
@@ -285,14 +310,15 @@ const Index = () => {
               className="text-sm form-input mt-1 block w-full border"
               placeholder="Seconds"
               min={10}
-              onChange={(e) => updateChatbot('timeout.seconds', e.target.value)}
-              value={chatbot?.timeout?.seconds || ''}
+              onBlur={(e) => updateChatbot('timeout.seconds', e.target.value)}
+              defaultValue={chatbot?.timeout?.seconds || ''}
+              required
             />
             <textarea
               className="text-sm form-input mt-1 block w-full border"
               placeholder="Message"
-              onChange={(e) => updateChatbot('timeout.message', e.target.value)}
-              value={chatbot?.timeout?.message || ''}
+              onBlur={(e) => updateChatbot('timeout.message', e.target.value)}
+              defaultValue={chatbot?.timeout?.message || ''}
               required={chatbot?.timeout?.seconds >= 10}
             />
           </label>
@@ -302,14 +328,15 @@ const Index = () => {
               type="text"
               className="text-sm form-input mt-1 block w-full border"
               placeholder="Keyword"
-              onChange={(e) => updateChatbot('exit.keyword', e.target.value)}
-              value={chatbot?.exit?.keyword || ''}
+              onBlur={(e) => updateChatbot('exit.keyword', e.target.value)}
+              defaultValue={chatbot?.exit?.keyword || ''}
+              required
             />
             <textarea
               className="text-sm form-input mt-1 block w-full border"
               placeholder="Message"
-              onChange={(e) => updateChatbot('exit.message', e.target.value)}
-              value={chatbot?.exit?.message || ''}
+              onBlur={(e) => updateChatbot('exit.message', e.target.value)}
+              defaultValue={chatbot?.exit?.message || ''}
               required={!!(chatbot?.exit?.keyword)}
             />
           </label>
@@ -352,8 +379,8 @@ const Index = () => {
               type="text"
               className="text-sm form-input mt-1 block w-full border"
               placeholder="Description"
-              onChange={(e) => updateKeyword('description', e.target.value)}
-              value={currentKeyword.description || ''}
+              onBlur={(e) => updateKeyword('description', e.target.value)}
+              defaultValue={currentKeyword.description || ''}
             />
           </label>
           <label className="block">
@@ -374,8 +401,8 @@ const Index = () => {
               <textarea
                 className="text-sm form-input mt-1 block w-full border"
                 placeholder="Message"
-                onChange={(e) => updateKeyword('keywordMessage', e.target.value)}
-                value={currentKeyword.keywordMessage || ''}
+                onBlur={(e) => updateKeyword('keywordMessage', e.target.value)}
+                defaultValue={currentKeyword.keywordMessage || ''}
                 required={true}
               />
             )}
@@ -403,15 +430,17 @@ const Index = () => {
 
    const CodeStructureTab = () => (
     <div className="flex">
+    {showDeletePopup && <ConfirmationModal onCancel={onCancel} onSubmit={onSubmit} > </ConfirmationModal>}
+
       <div className="w-full">
         <div className="flex flex-row">
           <div className=" w-5/6">
             <input
               type="text"
-              autoFocus="autoFocus"
               onChange={(event) => setSearchTerm(event.target.value)}
               className="w-full p-2 ..."
               defaultValue={searchTerm}
+              placeholder="Search"
             />
           </div>
           <div className="w-1/6 ">
@@ -447,19 +476,21 @@ const Index = () => {
                   key={value._id}
                 >
                   <div className="card bg-white shadow-sm py-4 p-4 relative"  style={{background: value.deleted?'lightgrey':'white' }}>
-                  <p
-                  className="p-4 absolute right-0"
-                  style={{
-                    textAlign: "right",
-                    cursor: "pointer",
-                    lineHeight: "normal",
-                  }}
-                  onClick={() =>{ 
-                 !value.deleted &&  handleFlowDelete(value.name)
-                  } }
-                >
-                  <i className="icon-trash text-1xl font-bold mb-2 "></i>
-                </p>
+               {
+                !value.deleted && <p
+                className="p-4 absolute right-0"
+                style={{
+                  textAlign: "right",
+                  cursor: "pointer",
+                  lineHeight: "normal",
+                }}
+                onClick={() =>{ 
+                  ConfirmationPopup(value.name)
+                } }
+              >
+                <i className="icon-trash text-1xl font-bold mb-2 "></i>
+              </p>
+               }   
                     <Link href={`flow/${chatid}&fc=${value.name}&ak=${token1}`}>
                       <a className="w-full">
                         <div className="card-body " >
