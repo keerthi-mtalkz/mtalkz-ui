@@ -85,12 +85,6 @@ const Navbar = () => {
           type: 'UPDATE_PERMISSIONS',
           value: res.data.permissions
         })
-        console.log(res.data.permissions,"%%%%%%%%%%%%%%%%%%")
-        // let permissions=[]
-        // res.data.map((permission)=>{
-        //   permissions.push( { label: permission.name, value: permission.id })
-        // })
-        // setPermissions([...permissions]);
       })
       .catch((err) => {
         setStatus({ type: "error",message: err.response.data.message });
