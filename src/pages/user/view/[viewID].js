@@ -14,6 +14,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import Datatable from "../../../components/datatable";
 import {Popover, Tooltip} from '../../../components/popovers'
+import {useSelector, shallowEqual} from 'react-redux'
 
 
 
@@ -27,7 +28,13 @@ const viewID = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState( date );
     const [activities,setActivities]=useState([]);
-   
+    const [permissions,setPermissions] = useState(false) 
+    const {userpermissions} = useSelector(
+      state => ({
+        userpermissions: state.userpermissions,
+      }),
+      shallowEqual
+    )
     const [dateErrorMsg,setDateErrorMsg]=useState(undefined)
     const fetch = async () => {
       if (typeof window !== "undefined") {
@@ -49,12 +56,13 @@ const viewID = () => {
 
     useEffect(() => {
       
-        getUserActivities();
+      userpermissions.includes("users.activities") &&  getUserActivities();
         fetch();
     }, []);
 
   const getUserActivities=async()=>{
-  if(moment(endDate).diff(moment(startDate),"days")>0)
+    
+  if( moment(endDate).diff(moment(startDate),"days")>0)
   {
     setDateErrorMsg(undefined)
     const sd=moment(startDate).format("YYYY-MM-DD");
@@ -185,7 +193,7 @@ return (
     </div>
  </div>  
  <div>
- <div className="flex ml-10">
+ { userpermissions.includes("users.activities") && <div className="flex ml-10">
  <div>
  <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
  Start Date
@@ -208,13 +216,13 @@ return (
                 Get Activities
               </button>
  </div>
- </div>
+ </div>}
  {
-  dateErrorMsg != undefined   &&<p className="mt-1 text-xs text-red-500 ml-10">{dateErrorMsg}</p>
+ dateErrorMsg != undefined   &&<p className="mt-1 text-xs text-red-500 ml-10">{dateErrorMsg}</p>
  }
- {activities.length>0 && dateErrorMsg=== undefined ?<div className="ml-10 mt-10">
+ {activities.length>0 && userpermissions.includes("users.activities") && dateErrorMsg=== undefined ?<div className="ml-10 mt-10">
   <Datatable  columns={columns} data={activities}  /></div> : <p className="text-sm ml-10 mt-10 font-medium text-gray-900 truncate dark:text-white">
-No Activites Found
+{userpermissions.includes("users.activities") && "No Activites Found"}
  </p>}
 
  </div>

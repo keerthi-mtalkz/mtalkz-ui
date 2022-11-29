@@ -42,21 +42,12 @@ const Organization=()=>{
 
   const getPermissions = async () => {
     let permissions={get:false,update:false,delete:false,view:false,add:false}
-    userpermissions && userpermissions.map((permission)=>{
-      if(permission == "organizations.index"){
-        permissions["get"] = true;
-      } else if(permission == "organizations.update"){
-        permissions["update"] = true;
-      }else if(permission == "organizations.destroy"){
-        permissions["delete"] = true;
-      }else if(permission == "organizations.show"){
-        permissions["view"] = true;
-      }else if(permission == "organizations.storeU"){
-        permissions["add"] = true;
-      }
-      })
-      setPermissions({...permissions})
-        permissions.get &&  getOrganizations()
+        permissions["get"]= userpermissions.includes("organizations.index") && getOrganizations()
+        permissions["update"]= userpermissions.includes("organizations.update")
+        permissions["delete"]= userpermissions.includes("organizations.destroy")
+        permissions["view"]= userpermissions.includes("organizations.show")
+        permissions["add"]= userpermissions.includes("organizations.storeU")
+        setPermissions({...permissions})
 
   };
 

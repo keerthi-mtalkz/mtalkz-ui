@@ -9,6 +9,7 @@ import React from "react";
 import SectionTitle from '../../components/section-title'
 import {Badge, CircularBadge} from '../../components/badges'
 import ConfirmationModal from "../../components/confirmationmodal"
+import {useSelector, shallowEqual} from 'react-redux'
 
 const Integration=()=>{
  const [integrations,setIntegrations]=useState([])
@@ -17,6 +18,12 @@ const Integration=()=>{
  const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false})
  const [deleteId,setDeleteId]=React.useState(undefined)
  const [showDeletePopup,setShowDeletePopup]=React.useState(false)
+ const {userpermissions} = useSelector(
+  state => ({
+    userpermissions: state.userpermissions,
+  }),
+  shallowEqual
+)
 
   const getIntegrations = async () => {
     const token = localStorage.getItem('token');
@@ -34,37 +41,18 @@ const Integration=()=>{
   };
 
   const getPermissions = async () => {
-    const token = localStorage.getItem('token');
-    await ax
-      .get("/permissions", {headers: {
-        'Authorization': `Bearer ${token}`
-       }})
-      .then((res) => {
         let permissions={get:false,update:false,delete:false,view:false,add:false}
-        res.data.map((permission)=>{
-        if(permission.route == "integrations.index"){
-          permissions["get"] = true;
-        } else if(permission.route == "integrations.update"){
-          permissions["update"] = true;
-        }else if(permission.route == "integrations.destroy"){
-          permissions["delete"] = true;
-        }else if(permission.route == "integrations.show"){
-          permissions["view"] = true;
-        }else if(permission.route == "integrations.store"){
-          permissions["add"] = true;
-        }
-        })
+        permissions["get"]= userpermissions.includes("integrations.index") && getIntegrations()
+        permissions["update"]= userpermissions.includes("integrations.update")
+        permissions["delete"]= userpermissions.includes("integrations.destroy")
+        permissions["view"]= userpermissions.includes("integrations.show")
+        permissions["add"]= userpermissions.includes("integrations.store")
         setPermissions({...permissions})
-      })
-      .catch((err) => {
-        console.error("get /permissions error", err);
-      });
   };
 
   React.useEffect(() => {
     
     getPermissions();
-    getIntegrations();
   }, []);
 
   const ConfirmationPopup=(id)=>{

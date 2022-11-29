@@ -41,21 +41,12 @@ const [_permissions,_setPermissions]=React.useState({get:false,update:false,dele
 
   const getPermissions=()=>{
     let permissions={get:false,update:false,delete:false,view:false,add:false}
-    userpermissions.map((permission)=>{
-     if(permission == "permissions.index"){
-       permissions["get"] = true;
-     } else if(permission == "permissions.update"){
-       permissions["update"] = true;
-     }else if(permission == "permissions.destroy"){
-       permissions["delete"] = true;
-     }else if(permission == "permissions.show"){
-       permissions["view"] = true;
-     }else if(permission == "permissions.store"){
-       permissions["add"] = true;
-     }
-     })
-     _setPermissions({...permissions})
-   permissions.get &&  getPermissionsApi()
+    permissions["get"]= userpermissions.includes("permissions.indexU") && getPermissionsApi()
+        permissions["update"]= userpermissions.includes("permissions.update")
+        permissions["delete"]= userpermissions.includes("permissions.destroy")
+        permissions["view"]= userpermissions.includes("permissions.show")
+        permissions["add"]= userpermissions.includes("permissions.store")
+        _setPermissions({...permissions})
   }
 
   const ConfirmationPopup=(id)=>{

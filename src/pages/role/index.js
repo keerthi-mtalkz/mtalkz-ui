@@ -85,22 +85,12 @@ const Role=()=>{
 
    const getPermissions = async () => {
     let permissions={get:false,update:false,delete:false,view:false,add:false}
-       userpermissions.map((permission)=>{
-        if(permission == "roles.index"){
-          permissions["get"] = true;
-        } else if(permission == "roles.update"){
-          permissions["update"] = true;
-        }else if(permission == "roles.destroy"){
-          permissions["delete"] = true;
-        }else if(permission == "roles.show"){
-          permissions["view"] = true;
-        }else if(permission == "roles.store"){
-          permissions["add"] = true;
-        }
-        })
+        permissions["get"]= userpermissions.includes("roles.index") && getRolesApi()
+        permissions["update"]= userpermissions.includes("roles.update")
+        permissions["delete"]= userpermissions.includes("roles.destroy")
+        permissions["view"]= userpermissions.includes("roles.show")
+        permissions["add"]= userpermissions.includes("roles.store")
         setPermissions({...permissions})
-      permissions.get &&  getRolesApi()
-
   };
     
 

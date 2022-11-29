@@ -29,23 +29,13 @@ const User=()=>{
 
   const getPermissions = async () => {
     let permissions={get:false,update:false,delete:false,view:false,add:false,setRole:false}
-    userpermissions && userpermissions.map((permission)=>{
-    if(permission == "users.index"){
-      permissions["get"] = true;
-    } else if(permission == "users.update"){
-      permissions["update"] = true;
-    }else if(permission == "users.destroy"){
-      permissions["delete"] = true;
-    }else if(permission == "users.show"){
-      permissions["view"] = true;
-    }else if(permission == "users.store"){
-      permissions["add"] = true;
-    }else if(permission == "users.role.set"){
-      permissions["setRole"]=true
-    }
-    })
+    permissions["get"]= userpermissions.includes("users.index") && getUsersApi()
+    permissions["update"]= userpermissions.includes("users.update")
+    permissions["delete"]= userpermissions.includes("users.destroy")
+    permissions["view"]= userpermissions.includes("users.show")
+    permissions["setRole"]= userpermissions.includes("users.role.set")
+    permissions["add"]= userpermissions.includes("users.store")
     setPermissions({...permissions})
-      permissions.get &&  getUsersApi()
   };
     
      const getUsersApi=async()=>{

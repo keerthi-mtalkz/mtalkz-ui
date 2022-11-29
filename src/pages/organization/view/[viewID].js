@@ -89,6 +89,7 @@ const viewID = () => {
          }
       })
       .catch((err) => {
+        console.log(err.response.data.message,"ctredits")
         setStatus({ type: "error",message: err.response.data.message });
       });
   }
@@ -177,7 +178,8 @@ return (
       {status?.type === "error" && (
         <div className="flex flex-wrap w-full">
         <div className="p-2">
-          <NotificationError />
+        { NotificationManager.error(status.message, 'Error')}
+
         </div>
       </div>
       )}
