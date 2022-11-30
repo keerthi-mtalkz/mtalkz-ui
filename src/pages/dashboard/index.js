@@ -10,37 +10,116 @@ import IconWidget from "../../components/dashboard-1/icon-widget";
 import BarChart1 from "../../components/dashboard-1/bar-chart-1";
 import LineChart1 from "../../components/dashboard-1/line-chart-1";
 import TextWidget from "../../components/dashboard-1/text-widget";
-import Table2 from "../../components/dashboard-1/table-2";
-import { NotificationManager } from "react-notifications";
 import Widget from "../../components/widget";
 import Card from "../../components/card";
-
-import {
-  InlineSelect,
-  InlineInvalidSelect,
-  InlineValidSelect,
-} from "../../components/forms/selects";
-import router from "next/router";
 import { useRouter } from "next/router";
+import axios from "axios";
+import { result } from "lodash";
 
 const Dashboard1 = () => {
-  const router = useRouter();
-  const [message, didShow] = useState(false);
-  useEffect(() => {
-    if (!localStorage.getItem("token")) {
-      // let token = localStorage.getItem('token')
-      // router.push("/");
-    }
+  const [results, setresults] = useState([]);
+  const [connectedCount, setConnectedCount] = useState(0);
+  const [averageDuration, setAverageDuration] = useState(0);
+  const [stats, setStats] = useState({});
+  const [chatbotId, setChatbotId] = useState('');
 
-    if (message) return;
-    // NotificationManager.info("You have 5 new messages", null, 1500);
-    didShow(true);
-  }, [message]);
+  const formatDuration = (duration) => {
+    return Math.floor(duration/60) + ':' + (duration%60).toLocaleString('en-US', {minimumIntegerDigits: 2});
+  }
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const url = "https://cb.mtalkz.cloud/stats" + (chatbotId ? `?chatbot_id=${chatbotId}`: "");
+
+    axios.get(url, {headers:{
+      'Accept': 'application/json',
+      'x-api-key': token
+    }}).then(data => {
+      setStats(data.data);
+    }).catch(err => console.error(err.message));
+
+    axios.get("https://mtalkz.cloud/stats/callpatch?apiKey=9i5Qf4dnYmT67uFEAj5", {headers: {"Access-Control-Allow-Origin": ["https://mtalkz.cloud","http://localhost:3333"]}}).then(data => {
+      setresults(data.data.results);
+      let totalDuration = 0, totalConnected = 0;
+      data.data.results.forEach(r => {
+        totalDuration += +(r.duration);
+        totalConnected += +(r.call_connected);
+      })
+      setAverageDuration(data.data.count ? Math.floor(totalDuration/data.data.count) : 0);
+      setConnectedCount(totalConnected);
+    }).catch(err => console.error(err.message));
+  }, [chatbotId]);
   return (
     <Layout>
       <div className="w-full lg:px-2">
+        {/* Chatbots Overview */}
+        <Widget title="Chatbots Overview">
+          <div className="flex flex-row flex-wrap w-full mb-4">
+            <Card title="Total Chatbots" totalMeg={stats.chatbots?.length || 0} />
+            <Card title="Published Chatbots" totalMeg={stats.chatbots?.filter(cb => cb.published).length || 0} />
+            <Card title="Unique Users" totalMeg={stats.phones?.length || 0} />
+            <Card title="User Sessions" totalMeg={stats.sessions || 0} />
+          </div>
+
+          <div className='flex flex-col w-full mb-4 lg:w-1/2'>
+            <div className="flex flex-row mx-1 items-center justify-center">
+              <div className="title text-base font-base font-bold font-poppins  text-center w-1/2">Chatbot</div>
+              <select className="form-select block mt-1 text-sm border border-red-500 w-1/2" onChange={(e) => setChatbotId(e.target.value)} value={chatbotId}>
+                <option value="">(All Chatbots)</option>
+                {stats.chatbots?.map(cb => {
+                  return <option key={cb._id} value={cb._id}>{cb.name}</option>
+                })}
+              </select>
+            </div>
+          </div>
+
+          <div className="flex flex-row flex-wrap w-full mb-4">
+            <Card title="Messages Received" totalMeg={stats.volumes?.new_message || 0} />
+            <Card title="Messages Sent" totalMeg={stats.volumes?.sending_message || 0} />
+            <Card title="Messages Delivered" totalMeg={stats.volumes?.message_response || 0} />
+            <Card title="API Calls" totalMeg={stats.volumes?.api_call || 0} />
+          </div>
+        </Widget>
+
+        {/* Voice Call Campaign */}
+        <Widget title="Voice Call Campaign">
+          <div className="flex flex-row flex-wrap w-full mb-4">
+            {/* <ProgressBarWidget /> */}
+            <Card title="Total Calls Made" totalMeg={results.length} />
+            <Card title="Total Calls Connected" totalMeg={connectedCount} />
+            <Card title="Average Duration" totalMeg={formatDuration(averageDuration)} />
+          </div>
+          <div className="flex flex-wrap py-2">
+            <div className="w-full lg:w-1/2 mb-4">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Circle</th>
+                    <th>Connected?</th>
+                    <th>Call Duration</th>
+                    <th>Disconnect Reason</th>
+                    <th>Date/Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {results.map(r => (
+                    <tr>
+                      <td>{r.circle}</td>
+                      <td>{+(r.call_connected) ? '✅' : '⛔'}</td>
+                      <td>{formatDuration(r.duration)}</td>
+                      <td>{r.hangup_cause}</td>
+                      <td>{r.start}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <iframe className="w-full lg:w-1/2 mb-4" src="https://mtalkz.cloud/stats/callpatch?apiKey=9i5Qf4dnYmT67uFEAj5&pie=1" style={{height: 450}}>
+              </iframe>
+          </div>
+        </Widget>
+
         {/* <SectionTitle title="Dashboard" subtitle="" /> */}
-        <Widget title="Email Overview" description={<span></span>}>
+        <Widget title="SMS Campaign Overview" description={<span></span>}>
           <div className="flex flex-row flex-wrap w-full children-x-4">
             <div className="w-1/4">
               <label className="inline-flex items-center children-x-2">
@@ -105,7 +184,7 @@ const Dashboard1 = () => {
           </div>
           <div className="w-full lg:w-1/2 mb-4">
             <BarChart1
-              title="Total Clicked Email"
+              title="Total Clicked SMS"
               subtitle="All time performance"
             />
           </div>
