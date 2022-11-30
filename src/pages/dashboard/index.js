@@ -96,7 +96,7 @@ const Dashboard1 = () => {
     <Layout>
       <div className="w-full lg:px-2">
         {/* Chatbots Overview */}
-        <Widget title="Chatbots Overview">
+        <Widget title="Chatbots Overview (Lifetime)">
           <div className="flex flex-row flex-wrap w-full mb-4">
             <Card title="Total Chatbots" totalMeg={stats.chatbots?.length || 0} />
             <Card title="Published Chatbots" totalMeg={stats.chatbots?.filter(cb => cb.published).length || 0} />
@@ -125,7 +125,7 @@ const Dashboard1 = () => {
         </Widget>
 
         {/* Voice Call Campaign */}
-        <Widget title="Voice Call Campaign">
+        <Widget title="Voice Messaging (Lifetime)">
           <div className="flex flex-row flex-wrap w-full mb-4">
             {/* <ProgressBarWidget /> */}
             <Card title="Total Calls Made" totalMeg={results.length} />
