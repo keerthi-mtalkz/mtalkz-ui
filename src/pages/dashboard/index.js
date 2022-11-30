@@ -94,8 +94,8 @@ const Dashboard1 = () => {
                 <thead>
                   <tr>
                     <th>Circle</th>
-                    <th>Connected?</th>
-                    <th>Call Duration</th>
+                    <th>Received</th>
+                    <th>Duration</th>
                     <th>Disconnect Reason</th>
                     <th>Date/Time</th>
                   </tr>
@@ -119,7 +119,7 @@ const Dashboard1 = () => {
         </Widget>
 
         {/* <SectionTitle title="Dashboard" subtitle="" /> */}
-        <Widget title="SMS Campaign Overview" description={<span></span>}>
+        {/* <Widget title="SMS Campaign Overview" description={<span></span>}>
           <div className="flex flex-row flex-wrap w-full children-x-4">
             <div className="w-1/4">
               <label className="inline-flex items-center children-x-2">
@@ -155,7 +155,6 @@ const Dashboard1 = () => {
           </div>
         </Widget>
         <div className="flex flex-row flex-wrap w-full mb-4">
-          {/* <ProgressBarWidget /> */}
           <Card title="Total Received SMS" totalMeg="10" />
           <Card title="Total Opened Message" totalMeg="45" />
           <Card title="Total Clicked SMS" totalMeg="50" />
@@ -167,7 +166,6 @@ const Dashboard1 = () => {
             <BarChart1 title="Open Rate" subtitle="All time performance" />
           </div>
           <div className="w-full lg:w-1/2 mb-4">
-            {/* <DoughnutChart1 title="Online store" subtitle="Weekly sales" /> */}
             <LineChart1
               title="Total Opened SMS"
               subtitle="Sales and conversions"
@@ -188,7 +186,7 @@ const Dashboard1 = () => {
               subtitle="All time performance"
             />
           </div>
-        </div>
+        </div> */}
 
         {/* <div className="flex flex-wrap w-full mb-8">
           <TextWidget />
