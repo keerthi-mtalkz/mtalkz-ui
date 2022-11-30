@@ -69,7 +69,7 @@ const Dashboard1 = () => {
       sortable: false,
       Cell: (data) => {
         return (
-         <div>{data.row.original.call_connected ? '✅' : '⛔'}</div>
+         <div>{data.row.original.call_connected==1 ? '✅' : '⛔'}</div>
         )
       }
     },
