@@ -34,6 +34,7 @@ const Login1 = () => {
       }, 1000);
     })
     .catch((err) => {
+      setStatus({ type: "error" });
       console.error("get login error", err);
     });
     
