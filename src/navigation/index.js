@@ -14,12 +14,6 @@ const navigation = [
         items: []
       },
       {
-        url: '/listSegments',
-        icon: <Icon.Users size={20} />,
-        title: 'List & Segments',
-        items: []
-      },
-      {
         url: '/user',
         icon: <Icon.User size={20} />,
         title: 'Users',
