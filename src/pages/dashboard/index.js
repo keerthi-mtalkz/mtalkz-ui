@@ -4,6 +4,7 @@ import Layout from "../../layouts";
 import Widget from "../../components/widget";
 import Card from "../../components/card";
 import axios from "axios";
+import Datatable from "../../components/datatable";
 
 const Dashboard1 = () => {
   const [results, setresults] = useState([]);
@@ -57,6 +58,40 @@ const Dashboard1 = () => {
       setConnectedCount(totalConnected);
     }).catch(err => console.error(err.message));
   }, []);
+
+  const columns = [
+    {
+      Header: 'Circle',
+      accessor: 'circle'
+    },
+    {
+      Header: 'Received',
+      sortable: false,
+      Cell: (data) => {
+        return (
+         <div>{data.row.original.call_connected ? '✅' : '⛔'}</div>
+        )
+      }
+    },
+    {
+      Header: 'Duration',
+      sortable: false,
+      Cell: (data) => {
+        return (
+         <div>{formatDuration(data.row.original.duration)}</div>
+        )
+      }
+    },
+    {
+      Header: 'Status',
+      accessor: 'hangup_cause_reason'
+    },
+    {
+      Header: 'Date/Time',
+      accessor: 'start'
+    },
+  
+  ]
   return (
     <Layout>
       <div className="w-full lg:px-2">
@@ -99,28 +134,7 @@ const Dashboard1 = () => {
           </div>
           <div className="flex flex-wrap py-2">
             <div className="w-full lg:w-1/2 mb-4">
-              <table className="table striped">
-                <thead>
-                  <tr>
-                    <th>Circle</th>
-                    <th>Received</th>
-                    <th>Duration</th>
-                    <th>Status</th>
-                    <th>Date/Time</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {results.map(r => (
-                    <tr>
-                      <td>{r.circle}</td>
-                      <td>{+(r.call_connected) ? '✅' : '⛔'}</td>
-                      <td>{formatDuration(r.duration)}</td>
-                      <td>{r.hangup_cause_reason}</td>
-                      <td>{r.start}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <Datatable columns={columns} data={results} customclassName="usertableList" />
             </div>
             <iframe className="w-full lg:w-1/2 mb-4" src="https://mtalkz.cloud/stats/callpatch?apiKey=9i5Qf4dnYmT67uFEAj5&pie=1" style={{height: 450}}>
               </iframe>
