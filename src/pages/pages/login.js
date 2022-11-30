@@ -43,11 +43,7 @@ const Login = () => {
           Welcome to {name}!
         </p>
         <p className="text-sm font-thin">
-          Pellentesque habitant morbi tristique senectus et netus et
-          malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat
-          vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit
-          amet quam egestas semper. Aenean ultricies mi vitae est. Mauris
-          placerat eleifend leo.
+          Mtalkz Connect Omni-Channel API Suite empowers your business to connect with you customers in a variety of ways including SMS, Social Media, Voice and interactive Chatbots. You can send promotional, transactional and OTP messages via our platform. It also enables you to integrate with third party APIs, and monitor the performance of your customer engagement campaigns.
         </p>
       </div>
      

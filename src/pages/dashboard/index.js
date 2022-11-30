@@ -5,6 +5,10 @@ import Widget from "../../components/widget";
 import Card from "../../components/card";
 import axios from "axios";
 import Datatable from "../../components/datatable";
+import { CSVLink } from "react-csv";
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
+import { Calendar, DateRangePicker } from "react-date-range";
 
 const Dashboard1 = () => {
   const [results, setresults] = useState([]);
@@ -12,7 +16,10 @@ const Dashboard1 = () => {
   const [averageDuration, setAverageDuration] = useState(0);
   const [stats, setStats] = useState({});
   const [chatbotId, setChatbotId] = useState('');
-  const [cbVolumes, setCbVolumes] = useState({})
+  const [cbVolumes, setCbVolumes] = useState({});
+  const [cbDateRange, setcbDateRange] = useState({startDate: new Date(0), endDate: new Date(), key: 'selection'});
+  const [vcDateRange, setvcDateRange] = useState({startDate: new Date(0), endDate: new Date(), key: 'selection'});
+
 
   const formatDuration = (duration) => {
     return Math.floor(duration/60) + ':' + (duration%60).toLocaleString('en-US', {minimumIntegerDigits: 2});
@@ -21,32 +28,32 @@ const Dashboard1 = () => {
   const handleCBSelect = (e) => {
     const cb = e.target.value;
     setChatbotId(cb);
-    if (cb) {
-      const token = localStorage.getItem("token");
-      const url = "https://cb.mtalkz.cloud/stats?chatbot_id=" + cb;
-      axios.get(url, {headers:{
-        'Accept': 'application/json',
-        'x-api-key': token
-      }}).then(data => {
-        setCbVolumes(data.data?.volumes || {});
-      }).catch(err => console.error(err.message));
-    } else {
-      setCbVolumes({});
-    }
+  }
+
+  const handleCBDateChange = (range) => {
+    setcbDateRange({ ...(range.selection), key: 'select' });
+  }
+
+  const handleVCDateChange = (range) => {
+    setvcDateRange({ ...(range.selection), key: 'select' });
   }
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const url = "https://cb.mtalkz.cloud/stats" + (chatbotId ? `?chatbot_id=${chatbotId}`: "");
+    const url = `https://cb.mtalkz.cloud/stats?chatbot_id=${chatbotId}&start=${+(cbDateRange.startDate)}&end=${+(cbDateRange.endDate)}`;
 
     axios.get(url, {headers:{
       'Accept': 'application/json',
       'x-api-key': token
     }}).then(data => {
-      setStats(data.data);
+      if (!chatbotId) {
+        setStats(data.data);
+      }
       setCbVolumes(data.data?.volumes || {});
     }).catch(err => console.error(err.message));
+  }, [chatbotId, cbDateRange]);
 
+  useEffect(() => {
     axios.get("https://mtalkz.cloud/stats/callpatch?apiKey=9i5Qf4dnYmT67uFEAj5", {headers: {"Access-Control-Allow-Origin": ["https://mtalkz.cloud","http://localhost:3333"]}}).then(data => {
       setresults(data.data.results);
       let totalDuration = 0, totalConnected = 0;
@@ -57,7 +64,7 @@ const Dashboard1 = () => {
       setAverageDuration(data.data.count ? Math.floor(totalDuration/data.data.count) : 0);
       setConnectedCount(totalConnected);
     }).catch(err => console.error(err.message));
-  }, []);
+  }, [vcDateRange]);
 
   const columns = [
     {
@@ -96,7 +103,9 @@ const Dashboard1 = () => {
     <Layout>
       <div className="w-full lg:px-2">
         {/* Chatbots Overview */}
-        <Widget title="Chatbots Overview (Lifetime)">
+        <Widget title="Chatbots Overview" right={
+          <DateRangePicker ranges={[cbDateRange]} onChange={handleCBDateChange}/>
+        }>
           <div className="flex flex-row flex-wrap w-full mb-4">
             <Card title="Total Chatbots" totalMeg={stats.chatbots?.length || 0} />
             <Card title="Published Chatbots" totalMeg={stats.chatbots?.filter(cb => cb.published).length || 0} />
@@ -125,7 +134,9 @@ const Dashboard1 = () => {
         </Widget>
 
         {/* Voice Call Campaign */}
-        <Widget title="Voice Messaging (Lifetime)">
+        <Widget title="Voice Messaging" right={
+          <DateRangePicker ranges={[vcDateRange]} onChange={handleVCDateChange}/>
+        }>
           <div className="flex flex-row flex-wrap w-full mb-4">
             {/* <ProgressBarWidget /> */}
             <Card title="Total Calls Made" totalMeg={results.length} />
@@ -135,6 +146,7 @@ const Dashboard1 = () => {
           <div className="flex flex-wrap py-2">
             <div className="w-full lg:w-1/2 mb-4">
             <Datatable columns={columns} data={results} customclassName="usertableList" />
+            <CSVLink data={results} filename={"voice-calls.csv"} className="btn btn-default btn-indigo btn-rounded">Download CSV</CSVLink>
             </div>
             <iframe className="w-full lg:w-1/2 mb-4" src="https://mtalkz.cloud/stats/callpatch?apiKey=9i5Qf4dnYmT67uFEAj5&pie=1" style={{height: 450}}>
               </iframe>
