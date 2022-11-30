@@ -13,35 +13,12 @@ const Logo = () => {
     shallowEqual
   )
   return (
-    <div
-      className={`h-16 pt-5 text-center  items-center uppercase font-bold text-lg tracking-wider logo ${
-        collapsed ? 'justify-center' : 'justify-between px-4'
-      }`}  >
-     
-      {!collapsed ? (
+    <div className="h-16 text-center items-center uppercase font-bold text-lg tracking-wider logo justify-center">
         <Link href="/dashboard">
-          <a className="flex flex-row items-center justify-start">
-          <img
-          src="/logo.png"
-          alt="Mtalkz Connect"
-          width="150px"
-          height="100px"
-        />
+          <a className="flex flex-row items-center justify-center">
+            <img src={collapsed ? "/mtalkz-logo.png" : "/logo.png"} alt="Mtalkz Connect" style={{margin:"1rem",height:"2rem", width: "auto"}}/>
           </a>
         </Link>
-      ):(
-        <Link href="/dashboard">
-          <a className="flex flex-row items-center justify-start">
-          <img
-          src="/mtalkz-logo.png"
-          alt="Mtalkz Connect"
-          width="30px"
-          height="50px"
-          style={{marginTop:"-10px", marginLeft:"14px"}}
-        />
-          </a>
-        </Link>
-      )}
     </div>
   )
 }
