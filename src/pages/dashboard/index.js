@@ -1,20 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { withRedux } from "../../lib/redux";
 import Layout from "../../layouts";
-import SectionTitle from "../../components/section-title";
-import WidgetTitle from "../../components/widget-title";
-import ProgressBarWidget from "../../components/dashboard-1/progress-bar-widget";
-import DoughnutChart1 from "../../components/dashboard-1/doughnut-chart-1";
-import Table1 from "../../components/dashboard-1/table-1";
-import IconWidget from "../../components/dashboard-1/icon-widget";
-import BarChart1 from "../../components/dashboard-1/bar-chart-1";
-import LineChart1 from "../../components/dashboard-1/line-chart-1";
-import TextWidget from "../../components/dashboard-1/text-widget";
 import Widget from "../../components/widget";
 import Card from "../../components/card";
-import { useRouter } from "next/router";
 import axios from "axios";
-import { result } from "lodash";
+import Datatable from "../../components/datatable";
 
 const Dashboard1 = () => {
   const [results, setresults] = useState([]);
@@ -22,10 +12,29 @@ const Dashboard1 = () => {
   const [averageDuration, setAverageDuration] = useState(0);
   const [stats, setStats] = useState({});
   const [chatbotId, setChatbotId] = useState('');
+  const [cbVolumes, setCbVolumes] = useState({})
 
   const formatDuration = (duration) => {
     return Math.floor(duration/60) + ':' + (duration%60).toLocaleString('en-US', {minimumIntegerDigits: 2});
   }
+
+  const handleCBSelect = (e) => {
+    const cb = e.target.value;
+    setChatbotId(cb);
+    if (cb) {
+      const token = localStorage.getItem("token");
+      const url = "https://cb.mtalkz.cloud/stats?chatbot_id=" + cb;
+      axios.get(url, {headers:{
+        'Accept': 'application/json',
+        'x-api-key': token
+      }}).then(data => {
+        setCbVolumes(data.data?.volumes || {});
+      }).catch(err => console.error(err.message));
+    } else {
+      setCbVolumes({});
+    }
+  }
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     const url = "https://cb.mtalkz.cloud/stats" + (chatbotId ? `?chatbot_id=${chatbotId}`: "");
@@ -35,6 +44,7 @@ const Dashboard1 = () => {
       'x-api-key': token
     }}).then(data => {
       setStats(data.data);
+      setCbVolumes(data.data?.volumes || {});
     }).catch(err => console.error(err.message));
 
     axios.get("https://mtalkz.cloud/stats/callpatch?apiKey=9i5Qf4dnYmT67uFEAj5", {headers: {"Access-Control-Allow-Origin": ["https://mtalkz.cloud","http://localhost:3333"]}}).then(data => {
@@ -47,7 +57,41 @@ const Dashboard1 = () => {
       setAverageDuration(data.data.count ? Math.floor(totalDuration/data.data.count) : 0);
       setConnectedCount(totalConnected);
     }).catch(err => console.error(err.message));
-  }, [chatbotId]);
+  }, []);
+
+  const columns = [
+    {
+      Header: 'Circle',
+      accessor: 'circle'
+    },
+    {
+      Header: 'Received',
+      sortable: false,
+      Cell: (data) => {
+        return (
+         <div>{data.row.original.call_connected ? '✅' : '⛔'}</div>
+        )
+      }
+    },
+    {
+      Header: 'Duration',
+      sortable: false,
+      Cell: (data) => {
+        return (
+         <div>{formatDuration(data.row.original.duration)}</div>
+        )
+      }
+    },
+    {
+      Header: 'Status',
+      accessor: 'hangup_cause_reason'
+    },
+    {
+      Header: 'Date/Time',
+      accessor: 'start'
+    },
+  
+  ]
   return (
     <Layout>
       <div className="w-full lg:px-2">
@@ -63,8 +107,8 @@ const Dashboard1 = () => {
           <div className='flex flex-col w-full mb-4 lg:w-1/2'>
             <div className="flex flex-row mx-1 items-center justify-center">
               <div className="title text-base font-base font-bold font-poppins  text-center w-1/2">Chatbot</div>
-              <select className="form-select block mt-1 text-sm border border-red-500 w-1/2" onChange={(e) => setChatbotId(e.target.value)} value={chatbotId}>
-                <option value="">(All Chatbots)</option>
+              <select className="form-select block mt-1 text-sm border border-red-500 w-1/2" onChange={handleCBSelect} value={chatbotId}>
+                <option value="" disabled>(All Chatbots)</option>
                 {stats.chatbots?.map(cb => {
                   return <option key={cb._id} value={cb._id}>{cb.name}</option>
                 })}
@@ -73,10 +117,10 @@ const Dashboard1 = () => {
           </div>
 
           <div className="flex flex-row flex-wrap w-full mb-4">
-            <Card title="Messages Received" totalMeg={stats.volumes?.new_message || 0} />
-            <Card title="Messages Sent" totalMeg={stats.volumes?.sending_message || 0} />
-            <Card title="Messages Delivered" totalMeg={stats.volumes?.message_response || 0} />
-            <Card title="API Calls" totalMeg={stats.volumes?.api_call || 0} />
+            <Card title="Messages Received" totalMeg={cbVolumes.new_message || 0} />
+            <Card title="Messages Sent" totalMeg={cbVolumes.sending_message || 0} />
+            <Card title="Messages Delivered" totalMeg={cbVolumes.message_response || 0} />
+            <Card title="API Calls" totalMeg={cbVolumes.api_call || 0} />
           </div>
         </Widget>
 
@@ -90,28 +134,7 @@ const Dashboard1 = () => {
           </div>
           <div className="flex flex-wrap py-2">
             <div className="w-full lg:w-1/2 mb-4">
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Circle</th>
-                    <th>Received</th>
-                    <th>Duration</th>
-                    <th>Disconnect Reason</th>
-                    <th>Date/Time</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {results.map(r => (
-                    <tr>
-                      <td>{r.circle}</td>
-                      <td>{+(r.call_connected) ? '✅' : '⛔'}</td>
-                      <td>{formatDuration(r.duration)}</td>
-                      <td>{r.hangup_cause}</td>
-                      <td>{r.start}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <Datatable columns={columns} data={results} customclassName="usertableList" />
             </div>
         
           </div>
