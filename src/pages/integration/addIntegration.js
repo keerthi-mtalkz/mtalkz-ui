@@ -10,8 +10,8 @@ import {NotificationManager} from 'react-notifications';
 import { WithContext as ReactTags } from 'react-tag-input';
 import Switch from 'react-switch'
 import Select from "react-select";
-import { object } from "prop-types";
-import channel from "../channel";
+import './../../../src/scss/styles.scss'
+
 
 const addIntegration = () => {
   const router = useRouter();

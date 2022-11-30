@@ -156,3 +156,9 @@ iframe#custom-iframesrc {
   position: absolute;
   z-index: 99999999 !important;
 }
+
+span.tag-wrapper.ReactTags__tag {
+  background: lightgray !important;
+  padding: 1px !important;
+  margin-top: 16px !important;
+}

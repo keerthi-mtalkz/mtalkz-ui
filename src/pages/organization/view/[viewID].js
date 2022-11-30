@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { withRedux } from "../../../lib/redux";
 import { useRouter } from "next/router";
 import Select from "react-select";
-import {Popover, Tooltip} from '../../../components/popovers'
 
 
 import {

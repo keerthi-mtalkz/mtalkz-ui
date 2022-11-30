@@ -113,8 +113,7 @@ const Dashboard1 = () => {
                 </tbody>
               </table>
             </div>
-            <iframe className="w-full lg:w-1/2 mb-4" src="https://mtalkz.cloud/stats/callpatch?apiKey=9i5Qf4dnYmT67uFEAj5&pie=1" style={{height: 450}}>
-              </iframe>
+        
           </div>
         </Widget>
 
