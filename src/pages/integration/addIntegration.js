@@ -10,7 +10,6 @@ import {NotificationManager} from 'react-notifications';
 import { WithContext as ReactTags } from 'react-tag-input';
 import Switch from 'react-switch'
 import Select from "react-select";
-import './../../../src/scss/styles.scss'
 
 
 const addIntegration = () => {
