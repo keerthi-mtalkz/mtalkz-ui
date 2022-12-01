@@ -135,7 +135,7 @@ const addUser = () => {
        
       )}
     </div>
-    <div className="flex">
+    <div className="flex justify-between">
     <div className="mt-1">
     <span className="text-default">System User</span>
     </div>

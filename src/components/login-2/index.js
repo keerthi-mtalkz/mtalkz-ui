@@ -34,8 +34,13 @@ const Login1 = () => {
       }, 1000);
     })
     .catch((err) => {
-      setStatus({ type: "error" });
-      console.error("get login error", err);
+      if(err.response.data. message){
+        setStatus({ type: "error",message: err.response.data.errors.password[0] });
+      }else{
+        setStatus({ type: "error",message: `Invalid credentials. Please try again with the correct credentials.
+        If you do not have an account, please register with us first.` });
+      }
+      console.error("get login error", err.response.data.message);
     });
     
   };
@@ -44,7 +49,7 @@ const Login1 = () => {
     <>
     {status?.type === "error" && (
       <div className="bg-red-500 text-white rounded w-full flex flex-wrap items-center justify-start p-3 text-sm mb-4">
-        Invalid login. Please try again
+       {status.message}
       </div>
     )}
       <form

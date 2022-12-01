@@ -150,10 +150,10 @@ return (
    </div>
 
    {/*input*/}
-   <div className="w-full mb-4">
-   <label className="block">
+   <div className="w-full mb-4 ">
+   <label className="block ">
      <span className="text-default">Resource</span>
-     <div style={{ width: "300px" }}>
+     <div style={{ width: "330px" }}>
      <Select
        options={options}
        placeholder="Select Resource"
@@ -172,7 +172,7 @@ return (
       {/*input*/}
       <div className="w-full mb-4">
         <label className="block">
-        <div className="flex"> 
+        <div className="flex justify-between"> 
           <div  className="mt-1"> <span className="text-default">Active</span>
      <span className="text-red-600" >*</span>
           

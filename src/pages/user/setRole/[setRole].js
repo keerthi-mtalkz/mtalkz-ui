@@ -138,7 +138,7 @@ return (
     <div className="w-full mb-4">
     <label className="block">
       <span className="text-default">Role</span>
-      <div style={{ width: "300px" }}>
+      <div style={{ width: "330px" }}>
       <Select
         options={roles}
         placeholder="Select Role"
