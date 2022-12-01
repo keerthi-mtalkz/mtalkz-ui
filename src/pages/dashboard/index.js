@@ -78,7 +78,7 @@ const Dashboard1 = () => {
       sortable: false,
       Cell: (data) => {
         return (
-         <div>{formatDuration(data.row.original.duration)}</div>
+         <div>{formatDuration(data.row.original.call_connected ? data.row.original.duration : 0)}</div>
         )
       }
     },
