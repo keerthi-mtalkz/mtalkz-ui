@@ -253,7 +253,7 @@ return (
 {permissions.get && <div >
   <div className="ml-10 mb-3 font-semibold"> Update Credits</div>
   <div className="flex ml-10">
-  <div style={{ width: "300px" }}>
+  <div style={{ width: "330px" }}>
   <Select
     options={resources}
     placeholder="Select Resource"

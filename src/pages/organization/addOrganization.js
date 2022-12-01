@@ -182,7 +182,7 @@ const addOrganization = () => {
      
     )}
    </div>
-    <div className="flex">
+    <div className="flex justify-between">
     <div  className="mt-1">
     <span className="text-default">Reseller</span>
     </div>

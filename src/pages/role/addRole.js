@@ -165,7 +165,7 @@ const validateFields=()=>{
        {/*input*/}
        <div className="w-full mb-4">
        <label className="block">
-       <div className="flex">
+       <div className="flex justify-between">
        <div className="mt-1">
        <span className="text-default">System Role</span>
        </div>
@@ -194,7 +194,7 @@ const validateFields=()=>{
       )}
      </div>
 
-     <div style={{ width: "300px" }}>
+     <div style={{ width: "330px" }}>
     
      <div className="mb-1"> <span className="text-default">Permissions </span>
      <span className="text-red-600" >*</span>
