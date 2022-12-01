@@ -48,7 +48,7 @@ const Dashboard1 = () => {
   }, [chatbotId, cbDateRange]);
 
   useEffect(() => {
-    axios.get("https://mtalkz.cloud/stats/callpatch?apiKey=9i5Qf4dnYmT67uFEAj5", {headers: {"Access-Control-Allow-Origin": ["https://mtalkz.cloud","http://localhost:3333"]}}).then(data => {
+    axios.get("https://mtalkz.cloud/stats/callpatch?apiKey=9i5Qf4dnYmT67uFEAj5").then(data => {
       setresults(data.data.results);
       let totalDuration = 0, totalConnected = 0;
       data.data.results.forEach(r => {
