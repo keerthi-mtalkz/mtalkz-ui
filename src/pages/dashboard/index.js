@@ -51,10 +51,10 @@ const Dashboard1 = () => {
       setresults(data.data.results);
       let totalDuration = 0, totalConnected = 0;
       data.data.results.forEach(r => {
-        totalDuration += +(r.duration);
+        totalDuration += r.call_connected==1 ? +(r.duration) : 0;
         totalConnected += +(r.call_connected);
       })
-      setAverageDuration(data.data.count ? Math.floor(totalDuration/data.data.count) : 0);
+      setAverageDuration(totalConnected ? Math.floor(totalDuration/totalConnected) : 0);
       setConnectedCount(totalConnected);
     }).catch(err => console.error(err.message));
   }, [vcDateRange]);
@@ -78,7 +78,7 @@ const Dashboard1 = () => {
       sortable: false,
       Cell: (data) => {
         return (
-         <div>{formatDuration(data.row.original.call_connected ? data.row.original.duration : 0)}</div>
+         <div>{formatDuration(data.row.original.call_connected==1 ? data.row.original.duration : 0)}</div>
         )
       }
     },

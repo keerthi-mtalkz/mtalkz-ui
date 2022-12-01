@@ -38,6 +38,12 @@ const navigation = [
         items: []
       },
       {
+        url: '/voice-campaign',
+        icon: <Icon.Volume2 size={20} />,
+        title: 'Voice Campaign',
+        items: []
+      },
+      {
         url: '/channel',
         icon: <Icon.Speaker size={20} />,
         title: 'Channels',
