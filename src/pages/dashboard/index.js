@@ -6,19 +6,21 @@ import Card from "../../components/card";
 import axios from "axios";
 import Datatable from "../../components/datatable";
 import { CSVLink } from "react-csv";
-import 'react-date-range/dist/styles.css';
-import 'react-date-range/dist/theme/default.css';
-import { Calendar, DateRangePicker } from "react-date-range";
+import DateRangePicker from '@wojtekmaj/react-daterange-picker/dist/entry.nostyle';
 
 const Dashboard1 = () => {
+  const defaultEndDate = new Date();
+  const defaultStartDate = new Date();
+  defaultStartDate.setDate(defaultStartDate.getDate() - 30);
+  console.log('Date', defaultStartDate, defaultEndDate);
   const [results, setresults] = useState([]);
   const [connectedCount, setConnectedCount] = useState(0);
   const [averageDuration, setAverageDuration] = useState(0);
   const [stats, setStats] = useState({});
   const [chatbotId, setChatbotId] = useState('');
   const [cbVolumes, setCbVolumes] = useState({});
-  const [cbDateRange, setcbDateRange] = useState({startDate: new Date(0), endDate: new Date(), key: 'selection'});
-  const [vcDateRange, setvcDateRange] = useState({startDate: new Date(0), endDate: new Date(), key: 'selection'});
+  const [cbDateRange, setcbDateRange] = useState([defaultStartDate, defaultEndDate]);
+  const [vcDateRange, setvcDateRange] = useState([defaultStartDate, defaultEndDate]);
 
 
   const formatDuration = (duration) => {
@@ -30,17 +32,9 @@ const Dashboard1 = () => {
     setChatbotId(cb);
   }
 
-  const handleCBDateChange = (range) => {
-    setcbDateRange({ ...(range.selection), key: 'select' });
-  }
-
-  const handleVCDateChange = (range) => {
-    setvcDateRange({ ...(range.selection), key: 'select' });
-  }
-
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const url = `https://cb.mtalkz.cloud/stats?chatbot_id=${chatbotId}&start=${+(cbDateRange.startDate)}&end=${+(cbDateRange.endDate)}`;
+    const url = `https://cb.mtalkz.cloud/stats?chatbot_id=${chatbotId}&start=${cbDateRange[0].toISOString().split('T')[0]}&end=${cbDateRange[1].toISOString().split('T')[0]}`;
 
     axios.get(url, {headers:{
       'Accept': 'application/json',
@@ -104,7 +98,7 @@ const Dashboard1 = () => {
       <div className="w-full lg:px-2">
         {/* Chatbots Overview */}
         <Widget title="Chatbots Overview" right={
-          <DateRangePicker ranges={[cbDateRange]} onChange={handleCBDateChange}/>
+          <DateRangePicker value={cbDateRange} onChange={setcbDateRange}/>
         }>
           <div className="flex flex-row flex-wrap w-full mb-4">
             <Card title="Total Chatbots" totalMeg={stats.chatbots?.length || 0} />
@@ -117,7 +111,7 @@ const Dashboard1 = () => {
             <div className="flex flex-row mx-1 items-center justify-center">
               <div className="title text-base font-base font-bold font-poppins  text-center w-1/2">Chatbot</div>
               <select className="form-select block mt-1 text-sm border border-red-500 w-1/2" onChange={handleCBSelect} value={chatbotId}>
-                <option value="" disabled>(All Chatbots)</option>
+                <option value="">(All Chatbots)</option>
                 {stats.chatbots?.map(cb => {
                   return <option key={cb._id} value={cb._id}>{cb.name}</option>
                 })}
@@ -135,7 +129,7 @@ const Dashboard1 = () => {
 
         {/* Voice Call Campaign */}
         <Widget title="Voice Messaging" right={
-          <DateRangePicker ranges={[vcDateRange]} onChange={handleVCDateChange}/>
+          <DateRangePicker value={vcDateRange} onChange={setvcDateRange}/>
         }>
           <div className="flex flex-row flex-wrap w-full mb-4">
             {/* <ProgressBarWidget /> */}
