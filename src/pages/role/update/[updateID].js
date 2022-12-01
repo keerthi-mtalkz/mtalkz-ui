@@ -201,7 +201,7 @@ return (
 
        
  
-      <div style={{ width: "300px" }}>
+      <div style={{ width: "330px" }}>
       <div className="mb-1"> <span className="text-default">Permissions</span>
       
      <span className="text-red-600" >*</span>

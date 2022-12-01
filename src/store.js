@@ -2,7 +2,7 @@ import {createStore} from 'redux'
 import users from './json/users.json';
 
 const initialState = {
-  name: 'Mtalkz',
+  name: 'Mtalkz Connect',
   description: 'Mtalkz',
   user:  users[0],
   url: '#',

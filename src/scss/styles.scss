@@ -150,9 +150,12 @@ a.btn-transparent.active {
 }
 
 iframe#custom-iframesrc {
-  width: 77%;
-  height: 85vh;
+  margin-top: -1rem;
+  margin-left: -1rem;
+  width: calc(100vw - 16rem);
+  height: calc(100vh - 4rem);
+}
 
-  position: absolute;
-  z-index: 99999999 !important;
+[data-collapsed="true"] iframe#custom-iframesrc {
+  width: calc(100vw - 4rem);
 }

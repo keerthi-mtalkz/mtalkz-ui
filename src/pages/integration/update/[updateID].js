@@ -338,7 +338,7 @@ return (
              {/*input*/}
              <div className="w-full mb-4">
           
-             <div style={{ width: "300px" }}>
+             <div style={{ width: "330px" }}>
              <label className="block">
              <span className="text-default">Channel Slug</span>
      <span className="text-red-600" >*</span>
@@ -415,6 +415,8 @@ return (
                handleTagClick={handleTagClick}
                inputFieldPosition="bottom"
                autocomplete
+  classNames={{tag:"badge badge-default badge-indigo ml-1 rounded-lg",tagInputField:"form-input mt-1 text-xs block w-full bg-white"}}
+
              />
              {errors && errors.tags && (
               errors.tags.map((err)=>{
@@ -448,7 +450,7 @@ return (
      
     )}
     </div>
-    <div style={{ width: "300px" }} className="mb-5">
+    <div style={{ width: "330px" }} className="mb-5">
     <span className="text-default">Http Method</span>
     <span className="text-red-600" >*</span>
             <Select
@@ -477,6 +479,8 @@ return (
     handleTagClick={handleTagClick}
     inputFieldPosition="bottom"
     autocomplete
+  classNames={{tag:"badge badge-default badge-indigo ml-1 rounded-lg",tagInputField:"form-input mt-1 text-xs block w-full bg-white"}}
+
   />
   {errors && errors.param_names   && (
     errors.param_names  .map((err)=>{
@@ -487,7 +491,7 @@ return (
   
     </div>
   
-    <div className="flex">
+    <div className="flex justify-between">
     <div  className="mt-1">
     <span className="text-default">Requires Approval</span>
     </div>
@@ -512,7 +516,7 @@ return (
           })
          
         )}
-        <div className="flex">
+        <div className="flex justify-between">
         <div className="mt-1">
     <span className="text-default">Requires Access</span>
   <span className="text-red-600" >*</span>
@@ -541,7 +545,7 @@ return (
         </div>
   
         {access &&
-          <div style={{ width: "300px" }}>
+          <div style={{ width: "330px" }}>
     <span className="text-default">Access Granted To</span>
     <span className="text-red-600" >*</span>
             <Select

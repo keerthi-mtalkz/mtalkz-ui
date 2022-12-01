@@ -9,6 +9,8 @@ import '../scss/rc-slider.scss'
 import '../scss/react-datetime.scss'
 import '../scss/react-notifications.scss'
 import '../scss/nprogress.scss'
+import "react-calendar/dist/Calendar.css"
+import "@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css"
 
 Router.events.on('routeChangeStart', () => NProgress.start())
 Router.events.on('routeChangeComplete', () => NProgress.done())

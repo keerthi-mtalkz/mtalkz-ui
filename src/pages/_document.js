@@ -19,7 +19,7 @@ class MyDocument extends Document {
           />
           <meta
             name="description"
-            content="Concavo - React and Tailwind CSS admin template"
+            content="MTalkz Connect - Omnichannel Communication Platform"
           />
           <link
             href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
