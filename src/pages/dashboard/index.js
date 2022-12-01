@@ -12,7 +12,6 @@ const Dashboard1 = () => {
   const defaultEndDate = new Date();
   const defaultStartDate = new Date();
   defaultStartDate.setDate(defaultStartDate.getDate() - 30);
-  console.log('Date', defaultStartDate, defaultEndDate);
   const [results, setresults] = useState([]);
   const [connectedCount, setConnectedCount] = useState(0);
   const [averageDuration, setAverageDuration] = useState(0);
@@ -34,7 +33,7 @@ const Dashboard1 = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const url = `https://cb.mtalkz.cloud/stats?chatbot_id=${chatbotId}&start=${cbDateRange[0].toISOString().split('T')[0]}&end=${cbDateRange[1].toISOString().split('T')[0]}`;
+    const url = `https://cb.mtalkz.cloud/stats?chatbot_id=${chatbotId}&start=${+(cbDateRange[0])}&end=${+(cbDateRange[1])}`;
 
     axios.get(url, {headers:{
       'Accept': 'application/json',
