@@ -342,7 +342,7 @@ const addIntegration = () => {
              handleDelete={handleDelete}
              handleAddition={handleAddition}
              handleDrag={handleDrag}
-             inputFieldPosition="bottom"
+             inputFieldPosition="top"
              classNames={{tag:"badge badge-default badge-indigo ml-1 rounded-lg",tagInputField:"form-input mt-1 text-xs block w-full bg-white"}}
              autocomplete
            />
@@ -411,7 +411,7 @@ const addIntegration = () => {
   handleDelete={handleParamDelete}
   handleAddition={handleParamsAddition}
   handleDrag={handleParamDrag}
-  inputFieldPosition="bottom"
+  inputFieldPosition="top"
   autocomplete
   classNames={{tag:"badge badge-default badge-indigo ml-1 rounded-lg",tagInputField:"form-input mt-1 text-xs block w-full bg-white"}}
 />

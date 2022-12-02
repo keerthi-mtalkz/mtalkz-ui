@@ -413,7 +413,7 @@ return (
                handleAddition={handleAddition}
                handleDrag={handleDrag}
                handleTagClick={handleTagClick}
-               inputFieldPosition="bottom"
+               inputFieldPosition="top"
                autocomplete
   classNames={{tag:"badge badge-default badge-indigo ml-1 rounded-lg",tagInputField:"form-input mt-1 text-xs block w-full bg-white"}}
 
@@ -477,7 +477,7 @@ return (
     handleAddition={handleParamsAddition}
     handleDrag={handleParamDrag}
     handleTagClick={handleTagClick}
-    inputFieldPosition="bottom"
+    inputFieldPosition="top"
     autocomplete
   classNames={{tag:"badge badge-default badge-indigo ml-1 rounded-lg",tagInputField:"form-input mt-1 text-xs block w-full bg-white"}}
 

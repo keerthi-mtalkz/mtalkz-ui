@@ -136,7 +136,7 @@ const CreateList=()=>{
           <span className="text-default">Tags</span>
   <span className="text-red-600" >*</span>
           <ReactTags
-          inputFieldPosition="inline"
+          inputFieldPosition="top"
           tags={tags}
           delimiters={delimiters}
           handleDelete={handleDelete}
