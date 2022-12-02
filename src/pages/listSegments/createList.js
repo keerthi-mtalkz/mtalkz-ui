@@ -47,6 +47,7 @@ const CreateList=()=>{
     }
     const onSubmit = (data) => {
       setErrors(undefined)
+  
       const isValid=validateFields()
       if (typeof window !== "undefined" && isValid) {
         data.tags=tags.map((tag)=>{
@@ -55,7 +56,7 @@ const CreateList=()=>{
         data.customer_ids=[];
         const token = localStorage.getItem('token');
         ax.post("http://20.193.136.151:5000/lists/", data, { headers: {
-            'x-api-key': `Bearer ${token}`
+            'x-api-key': `${token}`
          }})
           .then((res) => {
             setStatus({ type: "success" });
@@ -136,7 +137,8 @@ const CreateList=()=>{
           handleAddition={handleAddition}
           handleDrag={handleDrag}
           autocomplete
-          classNames={"w-2/4"}
+          classNames={{tag:"badge badge-default badge-indigo ml-1 mt-1 rounded-lg",tagInputField:"form-input mt-1 text-xs block w-full bg-white"}}
+
         />
         {errors && errors.tags && (
          errors.tags.map((err)=>{
