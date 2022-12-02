@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 import {ax} from "../../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
 import Select from "react-select";
-import Switch from 'react-switch'
 
 
 const updateID = () => {

@@ -7,7 +7,7 @@ import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
 import React from "react";
 import SectionTitle from '../../components/section-title'
-import {Badge, CircularBadge} from '../../components/badges'
+import {Badge} from '../../components/badges'
 import ConfirmationModal from "../../components/confirmationmodal"
 import {useSelector, shallowEqual} from 'react-redux'
 

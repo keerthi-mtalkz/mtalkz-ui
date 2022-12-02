@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import { withRedux } from "../../lib/redux";
 import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
-import { status } from "nprogress";
 import Switch from 'react-switch'
 
 const addOrganization = () => {

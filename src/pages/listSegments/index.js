@@ -4,8 +4,6 @@ import React from "react";
 import SectionTitle from '../../components/section-title'
 import Link from "next/link";
 import {ax} from "../../utils/apiCalls";
-import Select from "react-select";
-import * as Icon from 'react-feather'
 import Datatable from "../../components/datatable";
 import DropdownWidget5 from '../../components/dropdown-widgets/dropdown-widget-5'
 import { useRouter } from "next/router";

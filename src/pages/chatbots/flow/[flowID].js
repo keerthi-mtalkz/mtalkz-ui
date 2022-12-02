@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import Layout from "../../../layouts";
 import { withRedux } from "../../../lib/redux";
 import { useRouter } from "next/router";

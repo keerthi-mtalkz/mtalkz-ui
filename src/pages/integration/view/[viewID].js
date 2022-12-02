@@ -6,7 +6,7 @@ import { withRedux } from "../../../lib/redux";
 import { useRouter } from "next/router";
 import {NotificationManager} from 'react-notifications'
 import {ax} from "../../../utils/apiCalls";
-import {Badge, CircularBadge} from '../../../components/badges'
+import {Badge} from '../../../components/badges'
 
 const viewID = () => {
     const router = useRouter();

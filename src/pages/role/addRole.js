@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import SectionTitle from "../../components/section-title";
 import { useForm } from "react-hook-form";
 import Layout from "../../layouts";

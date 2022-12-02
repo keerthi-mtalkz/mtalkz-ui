@@ -2,9 +2,7 @@ import {withRedux} from '../../lib/redux'
 import Layout from '../../layouts'
 import SectionTitle from '../../components/section-title'
 import Datatable from "../../components/datatable";
-import {USER_COLUMN_HEADERS} from "../../utils/columns"
 import { useEffect, useState } from 'react';
-import { getUsers } from '../../utils/apiCalls';
 import Link from "next/link";
 import {ax} from "../../utils/apiCalls"
 import React from "react";

@@ -13,7 +13,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import Datatable from "../../../components/datatable";
-import {Popover, Tooltip} from '../../../components/popovers'
 import {useSelector, shallowEqual} from 'react-redux'
 
 

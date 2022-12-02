@@ -4,7 +4,6 @@ import Layout from '../../layouts/empty'
 import Link from 'next/link'
 import {withRedux} from '../../lib/redux'
 import Form from '../../components/login-2'
-import {ToggleLeft} from 'react-feather'
 
 const Logo = () => {
   const {name} = useSelector(
