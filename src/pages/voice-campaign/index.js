@@ -108,11 +108,14 @@ const VoiceOBDForm = () => {
   const onSubmit = async (data) => {
     setBtnStatus(false)
     setBroadcastStatus([]);
-    const numbers = [... new Set(data.target_numbers.split("\n").filter(n => n.trim().length))];
-    numbers.map((number, i) => {
-      data = {
-        "id": campaignID,
-        "field_0": number
+    let numbers=data.target_numbers.split("\n");
+    numbers = numbers.filter(e => String(e).trim());
+    numbers = [...new Set(numbers)];
+    setNumberLength(numbers.length)
+    numbers.map((number,i)=>{
+        data={
+          "id": "199653",
+          "field_0":number  
       }
       dataset.push(fetch("https://zaapp.azurewebsites.net/integrations/smartflo/enter/single/lead", {
         method: "POST",

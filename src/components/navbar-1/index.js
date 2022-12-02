@@ -8,11 +8,15 @@ import Select from "react-select";
 import { getColor, toRGB } from "../../functions/colors";
 import {ax} from "../../utils/apiCalls"
 import {NotificationManager} from 'react-notifications';
+import ConfirmationModal from "../../components/confirmationmodal"
 
 
 const Navbar = () => {
   const [organizations,setOrganizations]=useState([])
   const [selectedOrganization,setSelectedOrganization]=useState([])
+  const [showDeletePopup,setShowDeletePopup]=useState(false)
+  const [deleteId,setDeleteId]=useState(undefined)
+
   const {toggleRightSidebar, collapsed,user} = useSelector(
     state => ({
       toggleRightSidebar: state.toggleRightSidebar,
@@ -96,6 +100,19 @@ const Navbar = () => {
         setStatus({ type: "error",message: err.response.data.message });
     });
   }
+  const ConfirmationPopup=(id)=>{
+    setDeleteId(id)
+    setShowDeletePopup(true)
+   }
+
+   const onCancel=()=>{
+    setShowDeletePopup(false)
+
+   }
+
+   const onSubmit=()=>{
+    handleSwitch(deleteId)
+   }
 
   useEffect(()=>{
     NotificationManager.removeAll()
@@ -109,13 +126,10 @@ const Navbar = () => {
 
   let handleSwitch = (value) => {
     const token= localStorage.getItem("token");
-
     setSelectedOrganization([{ label: value.label, value: value.value}])
  localStorage.setItem('orgName',value.label)
       localStorage.setItem('orgId', value.value )
 
-    const answer = window.confirm("are you sure?");
-    if (answer) {
       // Save it!
       ax.post(
         `/auth/organizations/switch`,
@@ -128,19 +142,22 @@ const Navbar = () => {
       )
         .then((res) => {
       router.push("/dashboard");
+    setShowDeletePopup(false)
+
            
         })
         .catch((err) => {
+    setShowDeletePopup(false)
+
           console.error("get /organizations error", err.message);
         });
-    } else {
-      // Do nothing!
-      console.log("Thing was not saved to the database.");
-    }
+   
   };
 
   return (
     <div className="navbar navbar-1">
+    {showDeletePopup && <ConfirmationModal title='Confirmation' content="Do you want to switch" onCancel={onCancel} onSubmit={onSubmit} > </ConfirmationModal>}
+
       <div className="navbar-inner w-full flex items-center justify-start">
         <button
           onClick={() =>
@@ -161,7 +178,7 @@ const Navbar = () => {
             options={options}
             // isMulti={true}
             placeholder="Select organization ..."
-            onChange={handleSwitch}
+            onChange={ConfirmationPopup}
             defaultValue={selectedOrganization}
             theme={(theme) => ({
               ...theme,

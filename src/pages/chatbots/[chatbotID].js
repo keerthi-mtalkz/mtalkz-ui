@@ -209,6 +209,7 @@ const Index = () => {
         <div className="flex flex-col gap-4">
           <label className="block">
             <span className="font-bold">Name</span>
+     <span className="text-red-600" >*</span>
             <input
               type="text"
               className="text-sm form-input mt-1 block w-full border"
@@ -220,6 +221,8 @@ const Index = () => {
           </label>
           <label className="block">
             <span className="font-bold">Welcome</span>
+     <span className="text-red-600" >*</span>
+
             <div className="grid grid-cols-3 w-full mb-2">
               <span>Message</span>
               <Switch
@@ -254,6 +257,8 @@ const Index = () => {
           </label>
           <label className="block">
             <span className="font-bold">Unrecognized Input</span>
+     <span className="text-red-600" >*</span>
+
             <textarea
               className="text-sm form-input mt-1 block w-full border"
               placeholder="Message"
@@ -265,6 +270,7 @@ const Index = () => {
         <div className="flex flex-col gap-4">
           <label className="block">
             <span className="font-bold">Channel</span>
+            <span className="text-red-600" >*</span>
             <select
               className="text-sm form-select block w-full"
               onChange={(e) => updateChatbot('channel', e.target.value)}
@@ -277,6 +283,7 @@ const Index = () => {
           </label>
           <label className="block">
             <span className="font-bold">Phone</span>
+            <span className="text-red-600" >*</span>
             <input
               type="tel"
               pattern="91[0-9]{10}"
@@ -289,6 +296,7 @@ const Index = () => {
           </label>
           <label className="block">
             <span className="font-bold">Token</span>
+            <span className="text-red-600" >*</span>
             <input
               type="password"
               className="text-sm form-input mt-1 block w-full border"
@@ -309,7 +317,6 @@ const Index = () => {
               min={10}
               onBlur={(e) => updateChatbot('timeout.seconds', e.target.value)}
               defaultValue={chatbot?.timeout?.seconds || ''}
-              required
             />
             <textarea
               className="text-sm form-input mt-1 block w-full border"
@@ -321,6 +328,8 @@ const Index = () => {
           </label>
           <label className="block">
             <span className="font-bold">Exit</span>
+            <span className="text-red-600" >*</span>
+
             <input
               type="text"
               className="text-sm form-input mt-1 block w-full border"
@@ -348,7 +357,7 @@ const Index = () => {
             <div className="inline-block">
               <b>{kw.key}</b>
               <p>{kw.description}</p>
-              <i>{kw.type === 'flowchart' ? kw.flowchartName : kw.keywordMessage}</i>
+              <i>{kw.type === 'flowchart' ? kw.flowChartName : kw.keywordMessage}</i>
             </div>
             <div className="inline-block">
               <Icon.Trash2 onClick={() => deleteKeyword(idx)} size={16}/>
@@ -361,6 +370,7 @@ const Index = () => {
         <form className="flex flex-col gap-4 cb-form">
           <label className="block">
             <span className="font-bold">Key</span>
+            <span className="text-red-600" >*</span>
             <input
               type="text"
               className="text-sm form-input mt-1 block w-full border"
@@ -382,6 +392,8 @@ const Index = () => {
           </label>
           <label className="block">
             <span className="font-bold">Type</span>
+            <span className="text-red-600" >*</span>
+
             <div className="grid grid-cols-3 w-1/2 mb-2">
               <span>Message</span>
               <Switch
@@ -406,8 +418,8 @@ const Index = () => {
             {currentKeyword.type === 'flowchart' && (
               <select
                 className="text-sm form-select block w-full"
-                onChange={(e) => updateKeyword('flowchartName', e.target.value)}
-                value={currentKeyword.flowchartName}
+                onChange={(e) => updateKeyword('flowChartName', e.target.value)}
+                value={currentKeyword.flowChartName}
                 required={true}
               >
                 <option value="">(None)</option>
