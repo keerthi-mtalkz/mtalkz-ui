@@ -104,29 +104,26 @@ const Index = () => {
     if (valid) {
       const data = { ...chatbot, keywords }
       const token1 = localStorage.getItem("token");
-      ax.post(
-        "https://cb.mtalkz.cloud/import",
-        { type: "chatbot", data },
-        {
-          headers: {
-            "x-api-key": token1,
-          },
-        }
-      )
-        .then((res) => {
+      const req= { type: "chatbot", data };
+      fetch("https://cb.mtalkz.cloud/import",{
+        method:"POST",
+        body: JSON.stringify(req),
+      headers: {"x-api-key": token1,
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+  }
+      } ).then(res => {
         setStatus({ type: "success",message:"Saved chatbot successfully" });
         setStatus(undefined);
         setTimeout(() => {
           router.push("/chatbots");
         }, 1000);
+      }) .catch((err) => {
+        setStatus({ type: "error" });
+      setStatus(undefined)
 
-         
-        })
-        .catch((err) => {
-          setStatus({ type: "error" });
-        setStatus(undefined)
-
-        });
+      });
+    
     }
   }
 
