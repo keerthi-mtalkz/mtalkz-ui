@@ -108,7 +108,9 @@ const VoiceOBDForm = () => {
   const onSubmit = async(data) => {
     setBtnStatus(false)
     setBroadcastStatus([]);
-    const numbers=data.target_numbers.split("\n");
+    let numbers=data.target_numbers.split("\n");
+    numbers = numbers.filter(e => String(e).trim());
+    numbers = [...new Set(numbers)];
     setNumberLength(numbers.length)
     numbers.map((number,i)=>{
         data={

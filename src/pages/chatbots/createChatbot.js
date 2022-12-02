@@ -18,11 +18,15 @@ const createChatbot = () => {
 
   const onSubmit = (data) => {
   const token = ls.get('token');
-    ax.post("https://cb.mtalkz.cloud/import", { type: "chatbot", data }, {
-      headers: {
-        'x-api-key': token
-      }
-    })
+  const req= { type: "chatbot", data };
+  fetch("https://cb.mtalkz.cloud/import",{
+    method:"POST",
+    body: JSON.stringify(req),
+    headers: {"x-api-key": token,
+    'Content-type': 'application/json',
+    'Accept': 'application/json',
+}
+  })
       .then((res) => {
         setStatus({ type: "success" });
         setTimeout(() => {

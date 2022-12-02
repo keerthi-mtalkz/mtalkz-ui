@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 
-const ModalHeader = ({onClick}) => (
+const ModalHeader = ({onClick,title}) => (
   <div className="modal-header">
-    <h3 className="text-xl font-semibold">Delete Confirmation</h3>
+    <h3 className="text-xl font-semibold">{title}</h3>
     <button
       className="modal-close btn btn-transparent"
       onClick={onClick}>
@@ -39,16 +39,16 @@ const ModalFooter = ({onClick,onSubmit}) => (
 
 
 
-const ConfirmationModal = ({onCancel,onSubmit}) => {
+const ConfirmationModal = ({onCancel,onSubmit,title="Delete Confirmation",content="Do you want to delete"}) => {
   return (
     <>
           <div className="backdrop fade-in fixed inset-0 z-40 bg-black" ></div>
           <div className="modal show justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative w-auto my-4 mx-auto max-w-lg">
               <div className="modal-content" style={{width:"550px"}}>
-                <ModalHeader onClick={() => onCancel()} />
+                <ModalHeader title={title} onClick={() => onCancel()} />
                 <p className="ml-5">Are you sure?</p>
-                <p className="ml-5">Do you want to delete</p>
+                <p className="ml-5">{content}</p>
                 <ModalFooter onClick={() => onCancel()}  onSubmit={()=>onSubmit()}/>
               </div>
             </div>
