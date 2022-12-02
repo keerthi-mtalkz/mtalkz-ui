@@ -55,14 +55,20 @@ const CreateList=()=>{
         })
         data.customer_ids=[];
         const token = localStorage.getItem('token');
-        ax.post("http://20.193.136.151:5000/lists/", data, { headers: {
-            'x-api-key': `${token}`
-         }})
+        fetch("http://20.193.136.151:5000/lists/",{
+          method:"POST",
+          body: JSON.stringify(data),
+          headers: {
+            'x-api-key': `${token}`,
+            'Content-type': 'application/json',
+        'Accept': 'application/json',
+         }
+        })
           .then((res) => {
             setStatus({ type: "success" });
             setStatus(undefined);
             setTimeout(() => {
-            router.push("/listSegments/createListSegment");
+            router.push("/listSegments/uploadList");
             }, 1000);
           })
           .catch((err) => {

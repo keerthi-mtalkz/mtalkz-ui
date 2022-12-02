@@ -92,7 +92,6 @@ const Navbar = () => {
       
       })
       .catch((err) => {
-        setStatus({ type: "error",message: err.response.data.message });
     });
   }
   const ConfirmationPopup=(id)=>{
