@@ -9,22 +9,23 @@ import SectionTitle from '../../components/section-title';
 const CallPatchFrom = () => {
   const [status, setStatus] = useState(undefined);
   const { register, handleSubmit } = useForm();
-  const [btnStatus,setBtnStatus] = useState(true);
+  const [btnStatus, setBtnStatus] = useState(true);
   const onSubmit = (data) => {
     setBtnStatus(false)
-    fetch("https://mtalkz.cloud/integrations/voice/callPatch",{
-      method:"POST",
+    fetch("https://mtalkz.cloud/integrations/voice/callPatch", {
+      method: "POST",
       body: JSON.stringify(data),
-    headers: {accessToken: "2a38a30d5743afb46059905e46c4f14a",
-    'Content-type': 'application/json',
-    'Accept': 'application/json',
-}
-    } ).then(res => {
-    document.getElementById("agent_number").value = "";
-    document.getElementById("destination_number").value = "";
+      headers: {
+        accessToken: "2a38a30d5743afb46059905e46c4f14a",
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      }
+    }).then(res => {
+      document.getElementById("agent_number").value = "";
+      document.getElementById("destination_number").value = "";
 
       const json = res.data;
-    setBtnStatus(true)
+      setBtnStatus(true)
 
       if (json.success) {
         setStatus({ type: "success", message: json.status?.message || "Call patched successfully" });
@@ -33,7 +34,7 @@ const CallPatchFrom = () => {
       }
       setStatus(undefined)
     }).catch(_err => {
-    setBtnStatus(true)
+      setBtnStatus(true)
 
       setStatus(undefined)
     })
@@ -90,7 +91,7 @@ const CallPatchFrom = () => {
           </label>
         </div>
         <div className="w-full">
-          <input type="submit" style={{"background-color":btnStatus?'#434190':"grey", color:"white"}}   disabled={!btnStatus} className="btn btn-default btn-block btn-rounded" value="Connect"/>
+          <input type="submit" style={{ "background-color": btnStatus ? '#434190' : "grey", color: "white" }} disabled={!btnStatus} className="btn btn-default btn-block btn-rounded" value="Connect" />
         </div>
       </form>
     </div>
@@ -98,14 +99,13 @@ const CallPatchFrom = () => {
 }
 
 const VoiceOBDForm = () => {
-  const [status, setStatus] = useState(undefined);
   const { register, handleSubmit } = useForm();
-  const [btnStatus,setBtnStatus] = useState(true);
-  const [broadcastStatus,setBroadcastStatus] = useState([]);
-  const [numberLength,setNumberLength] = useState([]);
-  const [showDiv,setShowDiv]=useState(false);
-  let dataset=[]
-  const onSubmit = async(data) => {
+  const [btnStatus, setBtnStatus] = useState(true);
+  const [broadcastStatus, setBroadcastStatus] = useState([]);
+  const [showDiv, setShowDiv] = useState(false);
+  const [campaignID, setCampaignID] = useState("199653")
+  let dataset = []
+  const onSubmit = async (data) => {
     setBtnStatus(false)
     setBroadcastStatus([]);
     let numbers=data.target_numbers.split("\n");
@@ -117,54 +117,46 @@ const VoiceOBDForm = () => {
           "id": "199653",
           "field_0":number  
       }
-    dataset.push( fetch("https://zaapp.azurewebsites.net/integrations/smartflo/enter/single/lead",{
-      method:"POST",
-      body:JSON.stringify(data),
-      headers: {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-  }
-    }))
-   })
-   const response= await Promise.all(dataset)
-   let res=[]
-   numbers.map((number,i)=>{
-    res.push({number:number,status:response[i].status==200?true:false})
- })
-   setBroadcastStatus([...res])
-   setBtnStatus(true)
-   setShowDiv(true)
-   setTimeout(() => {
-    document.getElementById("target_numbers").value = "";
-    setShowDiv(false)
-  }, 5000);
-
+      dataset.push(fetch("https://zaapp.azurewebsites.net/integrations/smartflo/enter/single/lead", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+        }
+      }))
+    })
+    const response = await Promise.all(dataset)
+    let res = []
+    numbers.map((number, i) => {
+      res.push({ number: number, status: response[i].status == 200 ? true : false })
+    })
+    setBroadcastStatus([...res])
+    setBtnStatus(true)
+    setShowDiv(true)
+    setTimeout(() => {
+      document.getElementById("target_numbers").value = "";
+      setShowDiv(false)
+    }, 5000);
   };
 
-React.useEffect(()=>{
-  console.log(broadcastStatus,dataset,"broadcastStatusbroadcastStatus");
-},[broadcastStatus])
+  React.useEffect(() => {
+    console.log(broadcastStatus, dataset, "broadcastStatusbroadcastStatus");
+  }, [broadcastStatus])
 
   return (
     <div>
       <SectionTitle title="Call Broadcast" subtitle="Broadcast recorded message" />
 
-      {status?.type === "success" && (
-        <div className="flex flex-wrap w-full">
-          <div className="p-2">
-            {NotificationManager.success(status.message, 'Success')}
-          </div>
-        </div>
-      )}
-      {status?.type === "error" && (
-        <div className="flex flex-wrap w-full">
-          <div className="p-2">
-            {NotificationManager.error(status.message, 'Error')}
-          </div>
-        </div>
-      )}
-
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col text-sm lg:w-1/3">
+        <div className="w-full mb-4">
+          <label className="block">
+            <span className="text-default">Select Campaign</span>
+            <select className="form-select block w-full mt-1 text-sm" value={campaignID} onChange={(e) => setCampaignID(e.target.value)}>
+              <option value="199653">Sample Campaign</option>
+            </select>
+          </label>
+        </div>
         <div className="w-full mb-4">
           <label className="block">
             <span className="text-default">Destination Numbers <span className="text-red-600" >*</span></span>
@@ -172,7 +164,7 @@ React.useEffect(()=>{
               name="target_numbers"
               type="text"
               id="target_numbers"
-              ref={register({ required: true})}
+              ref={register({ required: true })}
               className="form-input mt-1 text-xs block w-full bg-white"
               placeholder="Enter 1 number in each line"
               pattern="(\d{10}\n)*\d{10}"
@@ -182,24 +174,24 @@ React.useEffect(()=>{
           </label>
         </div>
         <div className="w-full">
-          <input type="submit" style={{"background-color":btnStatus?'#434190':"grey", color:"white"}}   disabled={!btnStatus}  className="btn btn-default btn-block btn-indigo btn-rounded" value="Broadcast"/>
+          <input type="submit" style={{ "background-color": btnStatus ? '#434190' : "grey", color: "white" }} disabled={!btnStatus} className="btn btn-default btn-block btn-indigo btn-rounded" value="Broadcast" />
         </div>
       </form>
-      {showDiv && broadcastStatus.map((data)=>{
+      {showDiv && broadcastStatus.map((data) => {
         return (
           <div className="flex mt-3">
-          <div className="mr-3">
-          {data.number} 
+            <div className="mr-3">
+              {data.number}
+            </div>
+            <div>
+              {data.status ? '✅' : '⛔'}
+            </div>
           </div>
-          <div>
-          {data.status ? '✅' : '⛔'}
-          </div>
-          </div>
-         
-        )
-      }) }
 
-     
+        )
+      })}
+
+
     </div>
   )
 }
@@ -208,12 +200,12 @@ const Index = () => {
   const tabs = [
     { index: 0, title: "Call Patch", content: <CallPatchFrom /> },
     { index: 1, title: "Broadcast", content: <VoiceOBDForm /> },
-  ]; 
+  ];
   return (
     <Layout>
       <div className="flex flex-wrap">
         <div className="w-full">
-            <UnderlinedTabs tabs={tabs} />
+          <UnderlinedTabs tabs={tabs} />
         </div>
       </div>
     </Layout>
