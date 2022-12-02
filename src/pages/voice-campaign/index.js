@@ -20,6 +20,9 @@ const CallPatchFrom = () => {
     'Accept': 'application/json',
 }
     } ).then(res => {
+    document.getElementById("agent_number").value = "";
+    document.getElementById("destination_number").value = "";
+
       const json = res.data;
     setBtnStatus(true)
 
@@ -61,6 +64,7 @@ const CallPatchFrom = () => {
             <span className="text-default">Agent Number <span className="text-red-600" >*</span></span>
             <input
               name="agent_number"
+              id="agent_number"
               type="text"
               ref={register({ required: true, maxLength: 10 })}
               className="form-input mt-1 text-xs block w-full bg-white"
@@ -74,6 +78,7 @@ const CallPatchFrom = () => {
             <span className="text-default">Customer Number <span className="text-red-600" >*</span></span>
             <input
               name="destination_number"
+              id="destination_number"
               type="text"
               ref={register({ required: true, maxLength: 10 })}
               className="form-input mt-1 text-xs block w-full bg-white"
@@ -128,6 +133,7 @@ const VoiceOBDForm = () => {
    setBtnStatus(true)
    setShowDiv(true)
    setTimeout(() => {
+    document.getElementById("target_numbers").value = "";
     setShowDiv(false)
   }, 5000);
 
@@ -163,6 +169,7 @@ React.useEffect(()=>{
             <textarea
               name="target_numbers"
               type="text"
+              id="target_numbers"
               ref={register({ required: true})}
               className="form-input mt-1 text-xs block w-full bg-white"
               placeholder="Enter 1 number in each line"
