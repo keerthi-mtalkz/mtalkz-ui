@@ -25,8 +25,10 @@ const ChatbotDashboard = () => {
   }
 
   useEffect(() => {
+    const [startdate, enddate] = cbDateRange || [];
+    if (!startdate || !enddate) return;
     const token = localStorage.getItem("token");
-    const url = `https://cb.mtalkz.cloud/stats?chatbot_id=${chatbotId}&start=${+(cbDateRange[0])}&end=${+(cbDateRange[1])}`;
+    const url = `https://cb.mtalkz.cloud/stats?chatbot_id=${chatbotId}&start=${+startdate}&end=${+enddate}`;
 
     axios.get(url, {headers:{
       'Accept': 'application/json',
@@ -109,7 +111,9 @@ const VoiceCallDashboard = () => {
   }
 
   useEffect(() => {
-    axios.get(`https://mtalkz.cloud/stats/callpatch?apiKey=9i5Qf4dnYmT67uFEAj5&startDate=${vcDateRange[0].toISOString().slice(0, 10)}&enddate=${vcDateRange[1].toISOString().slice(0, 10)}`).then(data => {
+    const [startdate, enddate] = vcDateRange || [];
+    if (!startdate || !enddate) return;
+    axios.get(`https://mtalkz.cloud/stats/callpatch?apiKey=9i5Qf4dnYmT67uFEAj5&startDate=${startdate.toISOString().slice(0, 10)}&enddate=${enddate.toISOString().slice(0, 10)}`).then(data => {
       setresults(data.data.results);
       let totalDuration = 0, totalConnected = 0;
       data.data.results.forEach(r => {
@@ -181,8 +185,10 @@ const VoiceCallDashboard = () => {
         <Datatable columns={columns} data={results} customclassName="usertableList" />
         <CSVLink data={results} filename={"voice-calls.csv"} className="btn btn-default btn-indigo btn-rounded">Download CSV</CSVLink>
         </div>
-        <iframe className="w-full lg:w-1/2 mb-4" src={`https://mtalkz.cloud/stats/callpatch?apiKey=9i5Qf4dnYmT67uFEAj5&pie=1&startdate=${vcDateRange[0].toISOString().slice(0, 10)}&enddate=${vcDateRange[1].toISOString().slice(0, 10)}`} style={{height: 450}}>
+        {vcDateRange &&
+          <iframe className="w-full lg:w-1/2 mb-4" src={`https://mtalkz.cloud/stats/callpatch?apiKey=9i5Qf4dnYmT67uFEAj5&pie=1&startdate=${vcDateRange[0]?.toISOString().slice(0, 10)}&enddate=${vcDateRange[1]?.toISOString().slice(0, 10)}`} style={{height: 450}}>
           </iframe>
+        }
       </div>
     </Widget>
   )
