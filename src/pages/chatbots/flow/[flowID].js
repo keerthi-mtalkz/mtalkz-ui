@@ -12,19 +12,15 @@ const index = () => {
   const router = useRouter();
   const chatid = router.query.flowID;
   const ak = router.query.ak;
-
+ console.log(chatid,"873745t4783574357")
 
 
  const token1 = ls.get("token");
   return (
     <Layout>
-    
     <div className="ifbox">
-      {/* <iframe src={iframSrc} id="custom-iframesrc" ></iframe> */}
-
       <iframe src={`https://cb.mtalkz.cloud/?cb=${chatid}&ak=${token1}`} title="Create Flow" id="custom-iframesrc"></iframe>
       </div>
-
     </Layout>
   );
 };
