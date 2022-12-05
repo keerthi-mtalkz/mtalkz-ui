@@ -93,7 +93,7 @@ const CallPatchFrom = () => {
           </label>
         </div>
         <div className="w-full">
-          <input type="submit" style={{ "background-color": btnStatus ? '#434190' : "grey", color: "white" }} disabled={!btnStatus} className="btn btn-default btn-block btn-rounded" value="Connect" />
+          <input type="submit" style={{ backgroundColor: btnStatus ? '#434190' : "grey", color: "white" }} disabled={!btnStatus} className="btn btn-default btn-block btn-rounded" value="Connect" />
         </div>
       </form>
     </div>
