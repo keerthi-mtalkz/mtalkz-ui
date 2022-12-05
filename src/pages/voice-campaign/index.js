@@ -5,6 +5,8 @@ import Layout from '../../layouts'
 import { UnderlinedTabs } from "../../components/tabs";
 import { NotificationManager } from 'react-notifications'
 import SectionTitle from '../../components/section-title';
+import CampaignListing from './campaign-listing';
+import Recordings from './recordings';
 
 const CallPatchFrom = () => {
   const [status, setStatus] = useState(undefined);
@@ -200,6 +202,8 @@ const Index = () => {
   const tabs = [
     { index: 0, title: "Call Patch", content: <CallPatchFrom /> },
     { index: 1, title: "Broadcast", content: <VoiceOBDForm /> },
+    { index: 2, title: "Configure", content: <CampaignListing /> },
+    { index: 3, title: "Recordings", content: <Recordings /> },
   ];
   return (
     <Layout>
