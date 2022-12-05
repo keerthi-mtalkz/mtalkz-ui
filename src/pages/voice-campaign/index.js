@@ -176,7 +176,7 @@ const VoiceOBDForm = () => {
           </label>
         </div>
         <div className="w-full">
-          <input type="submit" style={{ "background-color": btnStatus ? '#434190' : "grey", color: "white" }} disabled={!btnStatus} className="btn btn-default btn-block btn-indigo btn-rounded" value="Broadcast" />
+          <input type="submit" style={{ backgroundColor: btnStatus ? '#434190' : "grey", color: "white" }} disabled={!btnStatus} className="btn btn-default btn-block btn-indigo btn-rounded" value="Broadcast" />
         </div>
       </form>
       {showDiv && broadcastStatus.map((data) => {
