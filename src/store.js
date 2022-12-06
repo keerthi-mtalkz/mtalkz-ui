@@ -7,6 +7,7 @@ const initialState = {
   user:  users[0],
   url: '#',
   layout: 'layout-3',
+  vci:0,
   direction: 'ltr',
   collapsed: false,
   toggleRightSidebar: false,
@@ -69,6 +70,12 @@ const reducer = (state = initialState, action) => {
           [`${action.key}`]: action.value
         }
       }
+      case 'SET_VCI':
+        console.log(action.value,"efkhregfrjhebfrh")
+        return {
+          ...state,
+         vci:action.value
+        }
       case 'UPDATE_USER':
         console.log(action.value,"YGUyrduetfdeuwyfrtery")
         return {

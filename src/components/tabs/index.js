@@ -130,8 +130,8 @@ IconTabs.propTypes = {
   ).isRequired
 }
 
-export const UnderlinedTabs = ({tabs}) => {
-  const [openTab, setOpenTab] = React.useState(0)
+export const UnderlinedTabs = ({tabs,getIndex=undefined,index=0}) => {
+  const [openTab, setOpenTab] = React.useState(index)
   return (
     <div className="flex flex-wrap flex-col w-full tabs">
       <div className="flex flex-nowrap flex-row children-x-2">
@@ -139,6 +139,9 @@ export const UnderlinedTabs = ({tabs}) => {
           <div key={key} className="flex-none">
             <button
               onClick={() => {
+                if(getIndex){
+                  getIndex(tab.index)
+                }
                 setOpenTab(tab.index)
               }}
               className={

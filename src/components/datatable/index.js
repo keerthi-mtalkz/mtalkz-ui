@@ -92,7 +92,7 @@ const Datatable = ({columns, data}) => {
             return (
               <tr {...row.getRowProps()}>
                 {row.cells.map(cell => {
-                  return <td {...cell.getCellProps()} style={{"maxWidth": "10rem"}} className={"max-w-xs truncate break-words  text-ellipsis "}>{cell.render('Cell')}</td>
+                  return <td {...cell.getCellProps()} style={{"maxWidth": "12rem"}} className={"max-w-xs truncate break-words  text-ellipsis "}>{cell.render('Cell')}</td>
                 })}
               </tr>
             )

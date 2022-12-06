@@ -7,6 +7,7 @@ import { NotificationManager } from 'react-notifications'
 import SectionTitle from '../../components/section-title';
 import CampaignListing from './campaign-listing';
 import Recordings from './recordings';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux'
 
 const CallPatchFrom = () => {
   const [status, setStatus] = useState(undefined);
@@ -199,6 +200,23 @@ const VoiceOBDForm = () => {
 }
 
 const Index = () => {
+  const dispatch = useDispatch()
+
+  const {vci} = useSelector(
+    state => ({
+      vci: state.vci
+    }),
+    shallowEqual
+  )
+  console.log(vci,"eufgegfehgrehgf")
+  const [index,setIndex]=useState(vci)
+  const getIndex=(i)=>{
+    dispatch({
+      type: 'SET_VCI',
+        key: 'vci',
+        value: i
+    })
+  }
   const tabs = [
     { index: 0, title: "Call Patch", content: <CallPatchFrom /> },
     { index: 1, title: "Broadcast", content: <VoiceOBDForm /> },
@@ -209,7 +227,7 @@ const Index = () => {
     <Layout>
       <div className="flex flex-wrap">
         <div className="w-full">
-          <UnderlinedTabs tabs={tabs} />
+          <UnderlinedTabs tabs={tabs} getIndex={getIndex} index={index} />
         </div>
       </div>
     </Layout>

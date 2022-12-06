@@ -4,8 +4,10 @@ import {withRedux} from '../../lib/redux'
 import SectionTitle from "../../components/section-title";
 import { useForm } from "react-hook-form";
 import {NotificationManager} from 'react-notifications'
+import { useRouter } from "next/router";
 
 const AddRecording = () => {
+  const router = useRouter();
   const { register, handleSubmit, watch } = useForm();
 const [errors,setErrors] = React.useState(undefined)
 const [status, setStatus] = React.useState(undefined);
@@ -39,6 +41,10 @@ function changeHandler({
   setRecordings(res.data)
   setStatus({ type: "success" });
   setStatus(undefined);
+  setTimeout(() => {
+    router.push("/voice-campaign");
+    
+  }, 1000);
 
 
     }).catch((err)=>{
