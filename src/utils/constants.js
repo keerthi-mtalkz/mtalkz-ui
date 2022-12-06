@@ -5,7 +5,7 @@ export const BASE_URl=`https://api.mtalkz.cloud/api`
 
 export const ax = axios.create({
     baseURL: BASE_URl,
-    withCredentials: true,
+    withCredentials: false,
     headers: {
       "Content-type": "application/json",
       Accept: "application/json",

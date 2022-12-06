@@ -3,52 +3,72 @@ import Layout from '../../layouts'
 import {withRedux} from '../../lib/redux'
 import SectionTitle from "../../components/section-title";
 import { useForm } from "react-hook-form";
-import {ax} from "../../utils/apiCalls";
+import {NotificationManager} from 'react-notifications'
 
 const AddRecording = () => {
   const { register, handleSubmit, watch } = useForm();
 const [errors,setErrors] = React.useState(undefined)
 const [status, setStatus] = React.useState(undefined);
 const [file,setFile]=React.useState(undefined);
+const [recordings,setRecordings]=React.useState([])
+
+const [deleteId,setDeleteId]=React.useState(undefined)
+
 function changeHandler({
     target
   }) {
     if (!target.files.length) return;
-    let files = target.files;
+    console.log(target.files[0],"target.files.length")
+    let files = target.files[0];
     setFile(files)
-    
   }
 
 
   const onSubmit=(data)=>{
-    data.audio=file
     let formData = new FormData();
-  
-    //Adding files to the formdata
-    formData.append("audio",file);
+     formData.append("audio",file);
     formData.append("name", data.name);
     const token = localStorage.getItem('token');
-    ax.post("/voice-recordings", formData, { headers: {
-        'Authorization': `Bearer ${token}`
-     }})
-      .then((res) => {
-        setRes(res.data);
-        setStatus({ type: "success" });
-        setTimeout(() => {
-        router.push("/role");
-        }, 1000);
-      })
-      .catch((err) => {
-        if(err.response.data.errors){
-          setErrors(err.response.data.errors)
-        }else{
-          setStatus({ type: "error",message: err.response.data.message });
-        }
-      });
+    fetch("https://app.mtalkz.cloud/api/voice-recordings",{
+      method:"POST",
+      body: formData,
+      headers: {"Authorization":  `Bearer ${token}`,
+      'Accept': 'application/json',
+  }
+    }).then((res)=>{
+  setRecordings(res.data)
+  setStatus({ type: "success" });
+  setStatus(undefined);
+
+
+    }).catch((err)=>{
+      setStatus({ type: "error",message: err.response.data.message });
+    })
+
+
+
+   
+ 
+
   }
   return (
     <Layout>
     <SectionTitle title="Upload" subtitle="" />
+    {status?.type === "success" && (
+      <div className="flex flex-wrap w-full">
+      <div className="p-2">
+      { NotificationManager.success('Recording added successfully', 'Success')}
+      </div>
+    </div>
+    )}
+      {status?.type === "error" && (
+        <div className="flex flex-wrap w-full">
+        <div className="p-2">
+        { NotificationManager.error(status.message, 'Error')}
+         
+        </div>
+      </div>
+      )}
     <form
     onSubmit={handleSubmit(onSubmit)}
     className="flex flex-col text-sm mb-4 "
@@ -59,14 +79,14 @@ function changeHandler({
          name="name"
          type="text"
          ref={register()}
-         className="form-input mt-1 w-2/4 text-xs block ml-9 bg-white"
+         className="form-input mt-1 w-2/4 text-xs block ml-10 bg-white"
          placeholder="Enter your Recording Name"
        />
         </div>
         <div>
         <label>Attach audio file (only MP3 file)</label>
      <span className="text-red-600" >*</span>
-        <input  ref={register({required: true})} name="audio" type="file" accept=".mp3" onChange={(file)=>{changeHandler(file)}}>
+        <input  ref={register({required: true})} name="audio" className='ml-3' type="file" accept=".mp3" onChange={(file)=>{changeHandler(file)}}>
         </input>
        </div>
        <input
@@ -75,8 +95,6 @@ function changeHandler({
        value="upload"
      />
      </form>
-    <SectionTitle title="Listing" subtitle="" />
-
     </Layout>
   )
 }
