@@ -3,20 +3,24 @@ import Layout from '../../layouts'
 import {withRedux} from '../../lib/redux'
 import SectionTitle from "../../components/section-title";
 import { useForm } from "react-hook-form";
-import {ax} from "../../utils/apiCalls";
+import {NotificationManager} from 'react-notifications'
 
 const AddRecording = () => {
   const { register, handleSubmit, watch } = useForm();
 const [errors,setErrors] = React.useState(undefined)
 const [status, setStatus] = React.useState(undefined);
 const [file,setFile]=React.useState(undefined);
+const [recordings,setRecordings]=React.useState([])
+
+const [deleteId,setDeleteId]=React.useState(undefined)
+
 function changeHandler({
     target
   }) {
     if (!target.files.length) return;
-    let files = target.files;
+    console.log(target.files[0],"target.files.length")
+    let files = target.files[0];
     setFile(files)
-    
   }
 
 
@@ -25,26 +29,46 @@ function changeHandler({
      formData.append("audio",file);
     formData.append("name", data.name);
     const token = localStorage.getItem('token');
-    console.log(formData,"sdjhfeuirfgreyifg")
-    ax.post(
-      `/voice-recordings`,
-     formData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-      .then((res) => {
-      })
-      .catch((err) => {
-      });
+    fetch("https://app.mtalkz.cloud/api/voice-recordings",{
+      method:"POST",
+      body: formData,
+      headers: {"Authorization":  `Bearer ${token}`,
+      'Accept': 'application/json',
+  }
+    }).then((res)=>{
+  setRecordings(res.data)
+  setStatus({ type: "success" });
+  setStatus(undefined);
+
+
+    }).catch((err)=>{
+      setStatus({ type: "error",message: err.response.data.message });
+    })
+
+
+
+   
  
 
   }
   return (
     <Layout>
     <SectionTitle title="Upload" subtitle="" />
+    {status?.type === "success" && (
+      <div className="flex flex-wrap w-full">
+      <div className="p-2">
+      { NotificationManager.success('Recording added successfully', 'Success')}
+      </div>
+    </div>
+    )}
+      {status?.type === "error" && (
+        <div className="flex flex-wrap w-full">
+        <div className="p-2">
+        { NotificationManager.error(status.message, 'Error')}
+         
+        </div>
+      </div>
+      )}
     <form
     onSubmit={handleSubmit(onSubmit)}
     className="flex flex-col text-sm mb-4 "
@@ -71,8 +95,6 @@ function changeHandler({
        value="upload"
      />
      </form>
-    <SectionTitle title="Listing" subtitle="" />
-
     </Layout>
   )
 }
