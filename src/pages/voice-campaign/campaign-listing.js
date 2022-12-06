@@ -111,7 +111,7 @@ const CampaignListing = () => {
       Cell: (data) => {
         return (
           <div className="flex"> 
-      <Link href={``}>
+      <Link href={ { pathname: '/voice-campaign/addUpdateCampaign',query: { campaignId:`${data.row.original.id}`, view:`1` } }   }>
             <p>
               <i className="icon-eye  mr-5 text-1xl font-bold mb-2"></i>
             </p>
