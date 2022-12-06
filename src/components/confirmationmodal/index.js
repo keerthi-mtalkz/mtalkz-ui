@@ -28,12 +28,12 @@ const ModalHeader = ({onClick,title}) => (
 
 const ModalFooter = ({onClick,onSubmit}) => (
   <div className="modal-footer children-x-2">
-    <button style={{background:"red",padding:"10px",color:"white"}} type="button" onClick={onClick}>
+    <button className="btn btn-default btn-gray" type="button" onClick={onClick}>
       Cancel
     </button>
-    <button  style={{background:"#667eea",padding:"10px", width:"60px",color:"white"}} type="button" onClick={onSubmit}>
-    Ok
-  </button>
+    <button className="btn btn-default btn-red" type="button" onClick={onSubmit}>
+      OK
+    </button>
   </div>
 )
 
