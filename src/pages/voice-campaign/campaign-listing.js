@@ -8,13 +8,23 @@ import ConfirmationModal from "../../components/confirmationmodal"
 import moment from 'moment';
 import {NotificationManager} from 'react-notifications'
 import {Badge} from '../../components/badges'
+import {useSelector, shallowEqual} from 'react-redux'
+import * as Icon from 'react-feather'
 
 const CampaignListing = () => {
   const [campaign,setCampaign]=React.useState([])
   const [deleteId,setDeleteId]=React.useState(undefined)
   const [status, setStatus] = React.useState(undefined);
+  const [searchQuery, setSearchQuery] = React.useState("");
   const [showDeletePopup,setShowDeletePopup]=React.useState(false)
+  const {user} = useSelector(
+    state => ({
+      user: state.user
+    }),
+    shallowEqual
+  )
 
+  console.log(user,"user")
   const getListofcampaign=async ()=>{
     const token = localStorage.getItem('token');
     await ax
@@ -39,6 +49,28 @@ const CampaignListing = () => {
 
    }
 
+   const approveApi=(id)=>{
+    const token = localStorage.getItem('token');
+   fetch(`https://app.mtalkz.cloud/api/voice-campaigns/${id}/approve`,
+   {
+    method:"POST",
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      "Content-Type": "application/json",
+      "Content-Type": "application/json"
+     }
+   }
+  )
+      .then((res) => {
+        setStatus({ type: "success",message:"Approved Successfully" });
+        setStatus(undefined);
+          getListofcampaign();
+      })
+      .catch((err) => {
+          setStatus({ type: "error",message: err.response.data.message });
+      });
+   }
+
    const onSubmit=()=>{
     deleteCampaignApi()
    }
@@ -51,7 +83,7 @@ const CampaignListing = () => {
        }})
         .then((res) => {
           setShowDeletePopup(false)
-      setStatus({ type: "success" });
+      setStatus({ type: "success",message:"Deleted Successfully" });
           setTimeout(() => {
       setStatus(undefined);
 
@@ -66,7 +98,6 @@ const CampaignListing = () => {
         });
   
  }
-
   const columns = [
     {
       Header: 'NAME',
@@ -118,14 +149,14 @@ const CampaignListing = () => {
               <i className="icon-eye  mr-5 text-1xl font-bold mb-2"></i>
             </p>
         </Link>
-       <p
+      {!data.row.original.listed && <p
         style={{
           
           cursor: "pointer",
           lineHeight: "normal",
         }}
         onClick={() => ConfirmationPopup(data.row.original.id)}><i className="icon-trash mr-5 text-1xl font-bold mb-2"></i>
-        </p>
+        </p>} 
         {!data.row.original.listed &&
         <Link href={ { pathname: '/voice-campaign/addUpdateCampaign',query: { campaignId:`${data.row.original.id}` } }   }>
           <p>
@@ -137,7 +168,18 @@ const CampaignListing = () => {
         )
       }
 
-    }
+    },
+    {
+      Header: ' ',
+      sortable: false,
+      Cell: (data) => {
+        return (
+          <div className="flex ">
+           {user.is_system_user==1 && data.row.original.listed==0 && <button onClick={()=>{approveApi( data.row.original.id )}} > <Icon.ThumbsUp size={20} /></button> }
+          </div>
+        )
+      }
+    },
   ]
 
   React.useEffect(()=>{
@@ -149,10 +191,12 @@ const CampaignListing = () => {
   return (
     <div>
     {showDeletePopup && <ConfirmationModal onCancel={onCancel} onSubmit={onSubmit} > </ConfirmationModal>}
+    <SectionTitle title="Campaign Listing" subtitle="" />
+   
     {status?.type === "success" && (
      <div className="flex flex-wrap w-full">
      <div className="p-2">
-     { NotificationManager.success('Deleted Campaign successfully', 'Success')}
+     { NotificationManager.success(status.message, 'Success')}
      </div>
    </div>
    )}
@@ -164,24 +208,40 @@ const CampaignListing = () => {
        </div>
      </div>
      )}
-    <div className="flex flex-row pb-4">
-    <div className=" w-5/6">
-    <SectionTitle title="Campaign Listing" subtitle="" />
-    </div>
-
-  <div className="w-1/6  mt-18">
-  <Link href={{ pathname: '/voice-campaign/addUpdateCampaign' }} >
-  <button
-  className=" btn btn-default btn-indigo create-btn w-full"
-  type="button"
->
-  Add New
-</button>
-  </Link>
-</div>
-  </div>
+     <div className="flex flex-row pb-4">
+     <div className=" w-5/6">
+       <input
+         type="text"
+         name="search"
+         className="w-full p-2 ..."
+         onChange={(e) => setSearchQuery(e.target.value)}
+         placeholder="Search..."
+       />
+     </div>
+     { <div className="w-1/6 ">
+     {" "}
+     <Link href={{ pathname: '/voice-campaign/addUpdateCampaign' }}>
+         <button
+           className="ml-3  btn btn-default btn-indigo create-btn w-full"
+           type="button"
+         >
+           Add New
+         </button>
+     </Link>
+   </div>}
+     
+   </div>
   <Datatable columns={columns} data={
-    campaign} customclassName="usertableList" />
+    campaign?.filter((val) => {
+      if (searchQuery == "") {
+        return val;
+      } else if (
+       (val.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ) 
+      ) {
+        return val;
+      }
+    })
+    .map((value, idx) => {return value})} customclassName="usertableList" />
       
     </div>
   )
