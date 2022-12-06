@@ -16,7 +16,7 @@ const AddUpdateCampaign = () => {
 
   return (
     <Layout>
-      <iframe src={`/voice-bot-builder/index.html?token=${token}&id=${campaignId}&view=${view}`} frameBorder={0} id="custom-iframesrc"></iframe>
+     <iframe src={`/voice-bot-builder/index.html?token=${token}&id=${campaignId}&view=${view}`} frameBorder={0} id="custom-iframesrc"></iframe>
     </Layout>
   )
 }

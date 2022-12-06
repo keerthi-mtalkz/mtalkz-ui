@@ -5,6 +5,8 @@ import {ax} from "../../utils/apiCalls";
 import {withRedux} from '../../lib/redux'
 import Datatable from "../../components/datatable";
 import ConfirmationModal from "../../components/confirmationmodal"
+import moment from 'moment';
+import {NotificationManager} from 'react-notifications'
 
 const CampaignListing = () => {
   const [campaign,setCampaign]=React.useState([])
@@ -71,14 +73,27 @@ const CampaignListing = () => {
     },
     {
       Header: 'CREATED ON',
-      accessor: 'created_at'
+      sortable: false,
+      Cell: (data) => {
+        return (
+          <div className="flex"> 
+     { 
+            <p>
+             {moment(data.row.original.created_at).format("DD/MM/YYYY, hh:mm:ss A")}
+            </p>
+      }
+        </div>
+        )
+      }
+
+      
     },
     {
       Header: 'STATUS',
       sortable: false,
       Cell: (data) => {
         return (
-          <div className="flex justify-evenly"> 
+          <div className="flex "> 
      { 
             <p>
              {data.row.original.listed==0? "Under Review":"Listed"}
@@ -95,20 +110,27 @@ const CampaignListing = () => {
       cell: () => <Button variant="danger" data-tag="allowRowEvents" data-action="delete"><FontAwesomeIcon icon={faTrash} /></Button>,
       Cell: (data) => {
         return (
-          <div className="flex justify-evenly"> 
-      <Link href={`/user/view/${data.row.original.id}`}>
+          <div className="flex"> 
+      <Link href={``}>
             <p>
-              <i className="icon-eye text-1xl font-bold mb-2"></i>
+              <i className="icon-eye  mr-5 text-1xl font-bold mb-2"></i>
             </p>
         </Link>
        <p
         style={{
-
+          
           cursor: "pointer",
           lineHeight: "normal",
         }}
-        onClick={() => ConfirmationPopup(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+        onClick={() => ConfirmationPopup(data.row.original.id)}><i className="icon-trash mr-5 text-1xl font-bold mb-2"></i>
         </p>
+        {
+         <Link href={ { pathname: '/voice-campaign/addUpdateCampaign',query: { campaignId:`${data.row.original.id}` } }   }>
+          <p>
+            <i className="icon-note text-1xl font-bold mb-2"></i>
+          </p>
+      </Link>
+        } 
         </div>
         )
       }
