@@ -10,7 +10,8 @@ const Recordings = () => {
     const token = localStorage.getItem('token');
     await ax
       .get("/voice-recordings", {headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`,
+        
        }})
       .then((res) => {
       })
