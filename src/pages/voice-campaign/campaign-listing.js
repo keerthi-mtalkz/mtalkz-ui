@@ -122,8 +122,15 @@ const CampaignListing = () => {
           cursor: "pointer",
           lineHeight: "normal",
         }}
-        onClick={() => ConfirmationPopup(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+        onClick={() => ConfirmationPopup(data.row.original.id)}><i className="icon-trash mr-5 text-1xl font-bold mb-2"></i>
         </p>
+        {
+         <Link href={ { pathname: '/voice-campaign/addUpdateCampaign',query: { campaignId:`${data.row.original.id}` } }   }>
+          <p>
+            <i className="icon-note text-1xl font-bold mb-2"></i>
+          </p>
+      </Link>
+        } 
         </div>
         )
       }

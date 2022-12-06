@@ -208,7 +208,6 @@ const Index = () => {
     }),
     shallowEqual
   )
-  console.log(vci,"eufgegfehgrehgf")
   const [index,setIndex]=useState(vci)
   const getIndex=(i)=>{
     dispatch({
