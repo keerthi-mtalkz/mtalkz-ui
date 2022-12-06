@@ -39,7 +39,7 @@ const ModalFooter = ({onClick,onSubmit}) => (
 
 
 
-const ConfirmationModal = ({onCancel,onSubmit,title="Delete Confirmation",content="Do you want to delete"}) => {
+const ConfirmationModal = ({onCancel,onSubmit,title="Are You Sure?",content="Do you really want to delete it?",secondaryContent="This action cannot be reversed. You will permanently lose this data."}) => {
   return (
     <>
           <div className="backdrop fade-in fixed inset-0 z-40 bg-black" ></div>
@@ -47,8 +47,8 @@ const ConfirmationModal = ({onCancel,onSubmit,title="Delete Confirmation",conten
             <div className="relative w-auto my-4 mx-auto max-w-lg">
               <div className="modal-content" style={{width:"550px"}}>
                 <ModalHeader title={title} onClick={() => onCancel()} />
-                <p className="ml-5">Are you sure?</p>
-                <p className="ml-5">{content}</p>
+                <p className="mt-5 mx-5">{content}</p>
+                <p className="mt-1 mb-5 mx-5">{secondaryContent}</p>
                 <ModalFooter onClick={() => onCancel()}  onSubmit={()=>onSubmit()}/>
               </div>
             </div>
