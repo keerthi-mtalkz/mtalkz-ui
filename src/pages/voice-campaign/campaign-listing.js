@@ -7,6 +7,7 @@ import Datatable from "../../components/datatable";
 import ConfirmationModal from "../../components/confirmationmodal"
 import moment from 'moment';
 import {NotificationManager} from 'react-notifications'
+import {Badge} from '../../components/badges'
 
 const CampaignListing = () => {
   const [campaign,setCampaign]=React.useState([])
@@ -93,13 +94,14 @@ const CampaignListing = () => {
       sortable: false,
       Cell: (data) => {
         return (
-          <div className="flex "> 
-     { 
-            <p>
-             {data.row.original.listed==0? "Under Review":"Listed"}
-            </p>
-      }
-        </div>
+          <div className="flex ">
+          {
+            data.row.original.listed ? 
+            <Badge size="default" color="green" rounded>Listed</Badge>
+            :
+            <Badge size="default" color="yellow" rounded>Under Review</Badge>
+          }
+          </div>
         )
       }
 
