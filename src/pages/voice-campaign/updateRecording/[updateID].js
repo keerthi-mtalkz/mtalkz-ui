@@ -26,7 +26,7 @@ const updateID = () => {
           'Authorization': `Bearer ${token}`
          }})
         .then((res) => {
-          setRes(res.data.user);
+          setRes(res.data.recording);
         })
         .catch((err) => {
           console.error("get /user error", err);
