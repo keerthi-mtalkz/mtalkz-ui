@@ -180,7 +180,7 @@ const VoiceOBDForm = () => {
           <label className="block">
             <span className="text-default">Select Campaign</span>
             <select className="form-select block w-full mt-1 text-sm" value={campaignID}  onChange={(e) => setCampaignID(e.target.value)}>
-              {campaigns.filter((cam)=>cam.list_id != null).map((campaign)=>{
+              {campaigns.map((campaign)=>{
                 return (
                   <option value={campaign.list_id}>{campaign.name}</option>
 
