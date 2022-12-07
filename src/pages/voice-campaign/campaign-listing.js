@@ -2,6 +2,7 @@ import React from 'react'
 import SectionTitle from "../../components/section-title";
 import Link from "next/link";
 import { ax } from "../../utils/apiCalls";
+import {SLACK_MESG_CONTENT} from "../../utils/constants"
 import { withRedux } from '../../lib/redux'
 import Datatable from "../../components/datatable";
 import ConfirmationModal from "../../components/confirmationmodal"
@@ -84,6 +85,27 @@ const CampaignListing = () => {
       });
 
   }
+
+  const stopCampaign=(name)=>{
+    SLACK_MESG_CONTENT.blocks[2].text.text=`• Organisation: *mTalkz Mobility Services (P) LTD.* \n • Campaign Name:  *${name}*`
+    fetch("https://mtalkz.cloud/postslack",{
+      method:"POST",
+      body: JSON.stringify(SLACK_MESG_CONTENT),
+      headers: {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+  }
+    })
+        .then((res) => {
+          
+      })
+        .catch((err) => {
+         
+             
+        });
+  
+  
+  }
   const columns = [
     {
       Header: 'NAME',
@@ -135,7 +157,7 @@ const CampaignListing = () => {
                 <i className="icon-eye  mr-5 text-1xl font-bold mb-2"></i>
               </p>
             </Link>
-            {!data.row.original.listed &&
+            {!data.row.original.listed ?
               <>
                 <p style={{
                     cursor: "pointer",
@@ -148,7 +170,15 @@ const CampaignListing = () => {
                     <i className="icon-note text-1xl font-bold mb-2"></i>
                   </p>
                 </Link>
-                {user.is_system_user == 1 && <p className="ml-4"><Icon.ThumbsUp size={20} onClick={()=>{router.push({pathname:"/voice-campaign/approveList", query:{approveListId:data.row.original.id}}) }}/></p>}
+                {user.is_system_user == 1 && <p className="ml-4"><Icon.ThumbsUp  size={20} onClick={()=>{router.push({pathname:"/voice-campaign/approveList", query:{approveListId:data.row.original.id}}) }}/></p>}
+              </>:
+              <>
+              <p style={{
+                cursor: "pointer",
+                lineHeight: "normal",
+              }}
+              onClick={() => stopCampaign(data.row.original.name)}><Icon.StopCircle color='red' size={20} ></Icon.StopCircle>
+            </p>
               </>
             }
           </div>

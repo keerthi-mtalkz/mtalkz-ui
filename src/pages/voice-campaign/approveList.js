@@ -36,7 +36,12 @@ const approveList = () => {
             router.push("/voice-campaign")
           })
           .catch((err) => {
-            err.response && setStatus({ type: "error",message: err.response.data.message });
+            if(err.response.data.errors){
+                setErrors(err.response.data.errors)
+              }else{
+                setErrors(undefined)
+                setStatus({ type: "error",message: err.response.data.message });
+              }
           });
        }
 
