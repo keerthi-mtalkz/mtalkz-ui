@@ -178,7 +178,7 @@ try {
   fetchURL(recordingsUrl).then(data => {
     console.log('Recordings', data);
     recordings = {};
-    data.forEach(rec => {
+    if (data.length) data.forEach(rec => {
       recordings[rec.url] = rec.name;
     });
   })
