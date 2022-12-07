@@ -8,6 +8,7 @@ import SectionTitle from '../../components/section-title';
 import CampaignListing from './campaign-listing';
 import Recordings from './recordings';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux'
+import { ax } from "../../utils/apiCalls";
 
 const CallPatchFrom = () => {
   const [status, setStatus] = useState(undefined);
@@ -106,18 +107,37 @@ const VoiceOBDForm = () => {
   const [btnStatus, setBtnStatus] = useState(true);
   const [broadcastStatus, setBroadcastStatus] = useState([]);
   const [showDiv, setShowDiv] = useState(false);
-  const [campaignID, setCampaignID] = useState("199653")
+  const [campaignID, setCampaignID] = useState()
   let dataset = []
+  const [campaigns, setCampaigns] = React.useState([])
+
+  const getListofcampaign = async () => {
+    const token = localStorage.getItem('token');
+    await ax
+      .get("/voice-campaigns", {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then((res) => {
+        res.data=res.data.filter((cam)=>cam.list_id != null)
+        setCampaigns(res.data)
+        res.data.length>0 && setCampaignID(res.data[0].list_id)
+      })
+      .catch((err) => {
+      });
+  }
+
+  
   const onSubmit = async (data) => {
     setBtnStatus(false)
     setBroadcastStatus([]);
     let numbers=data.target_numbers.split("\n");
     numbers = numbers.filter(e => String(e).trim());
     numbers = [...new Set(numbers)];
-    setNumberLength(numbers.length)
     numbers.map((number,i)=>{
         data={
-          "id": "199653",
+          "id": campaignID,
           "field_0":number  
       }
       dataset.push(fetch("https://zaapp.azurewebsites.net/integrations/smartflo/enter/single/lead", {
@@ -144,6 +164,10 @@ const VoiceOBDForm = () => {
   };
 
   React.useEffect(() => {
+    getListofcampaign()
+  },[])
+
+  React.useEffect(() => {
     console.log(broadcastStatus, dataset, "broadcastStatusbroadcastStatus");
   }, [broadcastStatus])
 
@@ -155,8 +179,14 @@ const VoiceOBDForm = () => {
         <div className="w-full mb-4">
           <label className="block">
             <span className="text-default">Select Campaign</span>
-            <select className="form-select block w-full mt-1 text-sm" value={campaignID} onChange={(e) => setCampaignID(e.target.value)}>
-              <option value="199653">Sample Campaign</option>
+            <select className="form-select block w-full mt-1 text-sm" value={campaignID}  onChange={(e) => setCampaignID(e.target.value)}>
+              {campaigns.filter((cam)=>cam.list_id != null).map((campaign)=>{
+                return (
+                  <option value={campaign.list_id}>{campaign.name}</option>
+
+                )
+              })}
+            
             </select>
           </label>
         </div>
@@ -217,10 +247,10 @@ const Index = () => {
     })
   }
   const tabs = [
-    { index: 0, title: "Call Patch", content: <CallPatchFrom /> },
-    { index: 1, title: "Broadcast", content: <VoiceOBDForm /> },
-    { index: 2, title: "Configure", content: <CampaignListing /> },
-    { index: 3, title: "Recordings", content: <Recordings /> },
+    { index: 0, title: "Campaigns", content: <CampaignListing /> },
+    { index: 1, title: "Recordings", content: <Recordings /> },
+    { index: 2, title: "Broadcast", content: <VoiceOBDForm /> },
+    { index: 3, title: "Call Patch", content: <CallPatchFrom /> },
   ];
   return (
     <Layout>
