@@ -9,6 +9,7 @@ import {NotificationManager} from 'react-notifications'
 import Icon from '../../components/icon'
 import ls from 'local-storage'
 import ConfirmationModal from "../../components/confirmationmodal"
+import { Badge } from "../../components/badges";
 
 // fetch chatbots
 const Chatbots = () => {
@@ -160,6 +161,9 @@ const Chatbots = () => {
                         <div className="title text-base font-base font-bold font-poppins">
                           {value.name}
                         </div>
+                        {value.published &&
+                        <Badge size="sm" color="green" rounded>Live</Badge>
+                        }
                         <p className="text-secondary pb-3">
                           Phone : {value.phone}
                         </p>
