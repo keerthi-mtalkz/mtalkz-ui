@@ -7,7 +7,7 @@ import { NotificationManager } from 'react-notifications'
 import SectionTitle from '../../components/section-title';
 import CampaignListing from './campaign-listing';
 import Recordings from './recordings';
-import {useSelector, useDispatch, shallowEqual} from 'react-redux'
+import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 import { ax } from "../../utils/apiCalls";
 
 const CallPatchFrom = () => {
@@ -120,25 +120,25 @@ const VoiceOBDForm = () => {
         }
       })
       .then((res) => {
-        res.data=res.data.filter((cam)=>cam.list_id != null)
+        res.data = res.data.filter((cam) => cam.list_id != null)
         setCampaigns(res.data)
-        res.data.length>0 && setCampaignID(res.data[0].list_id)
+        res.data.length > 0 && setCampaignID(res.data[0].list_id)
       })
       .catch((err) => {
       });
   }
 
-  
+
   const onSubmit = async (data) => {
     setBtnStatus(false)
     setBroadcastStatus([]);
-    let numbers=data.target_numbers.split("\n");
+    let numbers = data.target_numbers.split("\n");
     numbers = numbers.filter(e => String(e).trim());
     numbers = [...new Set(numbers)];
-    numbers.map((number,i)=>{
-        data={
-          "id": campaignID,
-          "field_0":number  
+    numbers.map((number, i) => {
+      data = {
+        "id": campaignID,
+        "field_0": number
       }
       dataset.push(fetch("https://zaapp.azurewebsites.net/integrations/smartflo/enter/single/lead", {
         method: "POST",
@@ -163,9 +163,26 @@ const VoiceOBDForm = () => {
     }, 5000);
   };
 
+  const onUpload = (data) => {
+    console.log('Data', data);
+    let formData = new FormData();
+    formData.append("file", data.files[0]);
+    fetch(`https://zaapp.azurewebsites.net/success/${campaignID}`, {
+      method: "POST",
+      body: formData,
+      headers: {
+        'Accept': 'application/json',
+      }
+    }).then((res) => {
+      console.log('Response', res);
+    }).catch((err) => {
+      console.error('Error', err);
+    })
+  }
+
   React.useEffect(() => {
     getListofcampaign()
-  },[])
+  }, [])
 
   React.useEffect(() => {
     console.log(broadcastStatus, dataset, "broadcastStatusbroadcastStatus");
@@ -179,14 +196,14 @@ const VoiceOBDForm = () => {
         <div className="w-full mb-4">
           <label className="block">
             <span className="text-default">Select Campaign</span>
-            <select className="form-select block w-full mt-1 text-sm" value={campaignID}  onChange={(e) => setCampaignID(e.target.value)}>
-              {campaigns.map((campaign)=>{
+            <select className="form-select block w-full mt-1 text-sm" value={campaignID} onChange={(e) => setCampaignID(e.target.value)}>
+              {campaigns.map((campaign) => {
                 return (
                   <option value={campaign.list_id}>{campaign.name}</option>
 
                 )
               })}
-            
+
             </select>
           </label>
         </div>
@@ -207,7 +224,19 @@ const VoiceOBDForm = () => {
           </label>
         </div>
         <div className="w-full">
-          <input type="submit" style={{ backgroundColor: btnStatus ? '#434190' : "grey", color: "white" }} disabled={!btnStatus} className="btn btn-default btn-block btn-indigo btn-rounded" value="Broadcast" />
+          <input type="submit" style={{ backgroundColor: btnStatus ? '#434190' : "grey", color: "white" }} disabled={!btnStatus} className="btn btn-default btn-block btn-rounded" value="Broadcast" />
+        </div>
+      </form>
+      <h4 className="text-center my-4 w-full text-sm lg:w-1/3">OR</h4>
+      <form onSubmit={handleSubmit(onUpload)} className="flex flex-col text-sm lg:w-1/3">
+        <div className="w-full mb-4">
+          <label className="block">
+            <span className="text-default">Upload File</span>
+            <input type="file" name="file" required/>
+          </label>
+        </div>
+        <div className="w-full">
+          <input type="submit" className="btn btn-default btn-block btn-indigo btn-rounded" value="Upload"/>
         </div>
       </form>
       {showDiv && broadcastStatus.map((data) => {
@@ -232,18 +261,18 @@ const VoiceOBDForm = () => {
 const Index = () => {
   const dispatch = useDispatch()
 
-  const {vci} = useSelector(
+  const { vci } = useSelector(
     state => ({
       vci: state.vci
     }),
     shallowEqual
   )
-  const [index,setIndex]=useState(vci)
-  const getIndex=(i)=>{
+  const [index, setIndex] = useState(vci)
+  const getIndex = (i) => {
     dispatch({
       type: 'SET_VCI',
-        key: 'vci',
-        value: i
+      key: 'vci',
+      value: i
     })
   }
   const tabs = [
