@@ -109,6 +109,8 @@ const VoiceOBDForm = () => {
   const [showDiv, setShowDiv] = useState(false);
   const [campaignID, setCampaignID] = useState()
   let dataset = []
+const [file,setFile]=React.useState(undefined);
+
   const [campaigns, setCampaigns] = React.useState([])
 
   const getListofcampaign = async () => {
@@ -163,10 +165,10 @@ const VoiceOBDForm = () => {
     }, 5000);
   };
 
-  const onUpload = (data) => {
-    console.log('Data', data);
+  const onUpload = () => {
+    console.log("hfgvgvygfv")
     let formData = new FormData();
-    formData.append("file", data.files[0]);
+    formData.append("file", file);
     fetch(`https://zaapp.azurewebsites.net/success/${campaignID}`, {
       method: "POST",
       body: formData,
@@ -188,6 +190,13 @@ const VoiceOBDForm = () => {
     console.log(broadcastStatus, dataset, "broadcastStatusbroadcastStatus");
   }, [broadcastStatus])
 
+  function changeHandler({
+    target
+  }) {
+    if (!target.files.length) return;
+    let files = target.files[0];
+    setFile(files)
+  }
   return (
     <div>
       <SectionTitle title="Call Broadcast" subtitle="Broadcast recorded message" />
@@ -214,7 +223,7 @@ const VoiceOBDForm = () => {
               name="target_numbers"
               type="text"
               id="target_numbers"
-              ref={register({ required: true })}
+              ref={register()}
               className="form-input mt-1 text-xs block w-full bg-white"
               placeholder="Enter 1 number in each line"
               pattern="(\d{10}\n)*\d{10}"
@@ -228,17 +237,18 @@ const VoiceOBDForm = () => {
         </div>
       </form>
       <h4 className="text-center my-4 w-full text-sm lg:w-1/3">OR</h4>
-      <form onSubmit={handleSubmit(onUpload)} className="flex flex-col text-sm lg:w-1/3">
-        <div className="w-full mb-4">
-          <label className="block">
-            <span className="text-default">Upload File</span>
-            <input type="file" name="file" required/>
-          </label>
-        </div>
-        <div className="w-full">
-          <input type="submit" className="btn btn-default btn-block btn-indigo btn-rounded" value="Upload"/>
-        </div>
-      </form>
+      <div className='className="flex flex-col text-sm lg:w-1/3'>
+      <div className="w-full mb-4">
+      <label className="block">
+        <span className="text-default">Upload File</span>
+        <input type="file" name="file" onChange={(file)=>{changeHandler(file)}} required/>
+      </label>
+    </div>
+    <div className="w-full">
+      <input type="submit" onClick={()=>{onUpload()}}  className="btn btn-default btn-block btn-indigo btn-rounded" value="Upload"/>
+    </div>
+      </div>
+      
       {showDiv && broadcastStatus.map((data) => {
         return (
           <div className="flex mt-3">
