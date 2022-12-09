@@ -181,12 +181,12 @@ const VoiceCallDashboard = () => {
         <Card title="Average Duration" totalMeg={formatDuration(averageDuration)} />
       </div>
       <div className="flex flex-wrap py-2">
-        <div className="w-full lg:w-1/2 mb-4">
+        <div className="w-full lg:w-3/5 mb-4">
         <Datatable columns={columns} data={results} customclassName="usertableList" />
         <CSVLink data={results} filename={"voice-calls.csv"} className="btn btn-default btn-indigo btn-rounded">Download CSV</CSVLink>
         </div>
         {vcDateRange &&
-          <iframe className="w-full lg:w-1/2 mb-4" src={`https://mtalkz.cloud/stats/callpatch?apiKey=9i5Qf4dnYmT67uFEAj5&pie=1&startdate=${vcDateRange[0]?.toISOString().slice(0, 10)}&enddate=${vcDateRange[1]?.toISOString().slice(0, 10)}`} style={{height: 450}}>
+          <iframe className="w-full lg:w-2/5 mb-4" src={`https://mtalkz.cloud/stats/callpatch?apiKey=9i5Qf4dnYmT67uFEAj5&pie=1&startdate=${vcDateRange[0]?.toISOString().slice(0, 10)}&enddate=${vcDateRange[1]?.toISOString().slice(0, 10)}`} style={{height: 450}}>
           </iframe>
         }
       </div>
