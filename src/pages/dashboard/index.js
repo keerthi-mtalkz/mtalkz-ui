@@ -54,7 +54,7 @@ const ChatbotDashboard = () => {
 
       <div className='flex flex-col w-full mb-4 lg:w-1/2'>
         <div className="flex flex-row mx-1 items-center justify-center">
-          <div className="title text-base font-base font-bold font-poppins  text-center w-1/2">Chatbot</div>
+          <div className="title text-sm font-base font-bold font-poppins text-center w-1/2">Chatbot Stats For</div>
           <select className="form-select block mt-1 text-sm border border-red-500 w-1/2" onChange={handleCBSelect} value={chatbotId}>
             <option value="">(All Chatbots)</option>
             {stats.chatbots?.map(cb => {
