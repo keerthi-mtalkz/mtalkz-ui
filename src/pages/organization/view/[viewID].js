@@ -30,7 +30,7 @@ const viewID = () => {
 
     const fetchOrgs = async () => {
         if (typeof window !== "undefined") {
-      const token1 = localStorage.getItem('token');
+      const token1 = sessionStorage.getItem('token');
       await ax
         .get(`/organizations/${viewid}`, {headers: {
         
@@ -64,7 +64,7 @@ const viewID = () => {
 
     const fetchCredits = async () => {
       if (typeof window !== "undefined") {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     await ax
       .get(`/organizations/${viewid}/credits/${selectedResource.value}`, {headers: {
         'Authorization': `Bearer ${token}`
@@ -87,7 +87,7 @@ const viewID = () => {
   };
 
   const getPermissions = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     await ax
       .get("/permissions", {headers: {
         'Authorization': `Bearer ${token}`
@@ -121,7 +121,7 @@ const viewID = () => {
       credits:credits?credits:0,
       floating_credits :floatingcredits?floatingcredits : 0
     }
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     ax.post(`/organizations/${viewid}/credits/${selectedResource.value}`,data, { headers: {
       'Authorization': `Bearer ${token}`
    }})
@@ -134,7 +134,7 @@ const viewID = () => {
   }
 
     const getResources = async () => {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       await ax
         .get("/resources", {headers: {
           'Authorization': `Bearer ${token}`

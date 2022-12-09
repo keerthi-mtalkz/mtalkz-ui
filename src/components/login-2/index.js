@@ -21,9 +21,9 @@ const Login1 = () => {
     .then((res) => {
       setStatus({ type: "success" });
       res.data.user.img="m1.png"
-      localStorage.setItem("token",res.data.token)
-      localStorage.setItem("user", JSON.stringify(res.data.user))
-      localStorage.setItem("userName", res.data.user.name)
+      sessionStorage.setItem("token",res.data.token)
+      sessionStorage.setItem("user", JSON.stringify(res.data.user))
+      sessionStorage.setItem("userName", res.data.user.name)
 
       dispatch({
         type: 'UPDATE_USER',

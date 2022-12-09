@@ -24,7 +24,7 @@ const ApiKey = () => {
     shallowEqual
   )
   const getApiKeys = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     await ax
       .get("/api-keys", {
         headers: {
@@ -66,7 +66,7 @@ const ApiKey = () => {
   }
 
   const handleDelete = () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
 
     ax.delete(`/api-keys/${deleteId}`, {
       headers: {

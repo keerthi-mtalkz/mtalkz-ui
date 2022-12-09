@@ -29,7 +29,7 @@ const Channel=()=>{
 )
 
   const getChannels = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     await ax
       .get("/channels", {headers: {
         'Authorization': `Bearer ${token}`
@@ -73,7 +73,7 @@ const Channel=()=>{
 
      const deleteChannels = () => {
   
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
 
     ax.delete(`/channels/${deleteId}`, {headers: {
       'Authorization': `Bearer ${token}`

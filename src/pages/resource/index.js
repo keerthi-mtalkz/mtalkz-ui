@@ -24,7 +24,7 @@ const Resource=()=>{
   shallowEqual
 )
   const getResources = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     await ax
       .get("/resources", {headers: {
         'Authorization': `Bearer ${token}`
@@ -70,7 +70,7 @@ const Resource=()=>{
 
      const deleteResource = () => {
 
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
 
     ax.delete(`/resources/${deleteId}`, {headers: {
       'Authorization': `Bearer ${token}`

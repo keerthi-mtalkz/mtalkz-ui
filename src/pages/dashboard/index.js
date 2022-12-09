@@ -27,7 +27,7 @@ const ChatbotDashboard = () => {
   useEffect(() => {
     const [startdate, enddate] = cbDateRange || [];
     if (!startdate || !enddate) return;
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const url = `https://cb.mtalkz.cloud/stats?chatbot_id=${chatbotId}&start=${+startdate}&end=${+enddate}`;
 
     axios.get(url, {headers:{

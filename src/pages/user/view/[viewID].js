@@ -37,7 +37,7 @@ const viewID = () => {
     const [dateErrorMsg,setDateErrorMsg]=useState(undefined)
     const fetch = async () => {
       if (typeof window !== "undefined") {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       await ax
         .get(`/users/${viewid}`, {headers: {
         
@@ -66,7 +66,7 @@ const viewID = () => {
     setDateErrorMsg(undefined)
     const sd=moment(startDate).format("YYYY-MM-DD");
     const ed=moment(endDate).format("YYYY-MM-DD");
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     await ax
     .get(`/users/${viewid}/activities/${sd}/${ed}`, {headers: {
       'Authorization': `Bearer ${token}`

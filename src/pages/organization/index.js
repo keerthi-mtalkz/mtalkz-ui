@@ -27,7 +27,7 @@ const Organization=()=>{
   shallowEqual
 )
   const getOrganizations = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     await ax
       .get("/organizations", {headers: {
         'Authorization': `Bearer ${token}`
@@ -72,7 +72,7 @@ const Organization=()=>{
 
   const deleteOrganization = () => {
    
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
 
       ax.delete(`/organizations/${deleteId}`, {headers: {
         'Authorization': `Bearer ${token}`

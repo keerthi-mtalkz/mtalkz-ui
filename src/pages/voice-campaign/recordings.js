@@ -16,7 +16,7 @@ const Recordings = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
 
   const getListofRecordings = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     await ax
       .get("/voice-recordings", {
         headers: {
@@ -51,7 +51,7 @@ const Recordings = () => {
 
   const deleteRecordingApi = () => {
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
 
     ax.delete(`/voice-recordings/${deleteId}`, {
       headers: {

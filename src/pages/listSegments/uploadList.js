@@ -15,7 +15,7 @@ const UploadList = () => {
 
   const uploadFile = async () => {
     let url = "http://20.193.136.151:5000/customers/upload"
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const data = {
       file: file
     }

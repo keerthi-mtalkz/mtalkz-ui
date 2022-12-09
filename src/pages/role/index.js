@@ -43,7 +43,7 @@ const Role=()=>{
       deleteRoleApi()
      }
      const getRolesApi=async()=>{
-    const token= localStorage.getItem("token");
+    const token= sessionStorage.getItem("token");
       await ax
         .get("/roles", {
           headers: {
@@ -59,7 +59,7 @@ const Role=()=>{
    }
 
    const deleteRoleApi=(id)=>{
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
 
         ax.delete(`/roles/${deleteId}`, {headers: {
           'Authorization': `Bearer ${token}`

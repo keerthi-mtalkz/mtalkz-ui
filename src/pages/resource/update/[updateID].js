@@ -19,7 +19,7 @@ const updateID = () => {
   
     const fetch = async () => {
       if (typeof window !== "undefined") {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       await ax
         .get(`/resources/${updateid}`, {headers: {
         
@@ -47,7 +47,7 @@ const updateID = () => {
     const { register, handleSubmit, watch } = useForm();
     const onSubmit = (data) => {
       if (typeof window !== "undefined") {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       ax.put(`/resources/${updateid}`, data, {headers: {
         'Authorization': `Bearer ${token}`
       }})

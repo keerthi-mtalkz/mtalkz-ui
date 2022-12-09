@@ -37,7 +37,7 @@ const User=()=>{
   };
     
      const getUsersApi=async()=>{
-    const token= localStorage.getItem("token");
+    const token= sessionStorage.getItem("token");
       await ax
         .get("/users", {
           headers: {
@@ -69,7 +69,7 @@ const User=()=>{
 
    const deleteUserApi=()=>{
  
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
 
         ax.delete(`/users/${deleteId}`, {headers: {
           'Authorization': `Bearer ${token}`

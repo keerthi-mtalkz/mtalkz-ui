@@ -52,7 +52,7 @@ const CreateList = () => {
         return tag.id
       })
       data.customer_ids = [];
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       fetch("http://20.193.136.151:5000/lists/", {
         method: "POST",
         body: JSON.stringify(data),

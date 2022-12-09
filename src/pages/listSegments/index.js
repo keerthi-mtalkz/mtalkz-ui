@@ -107,7 +107,7 @@ const ListAndSegments=()=>{
       
     {/*delete list api integration*/}
       const deleteListApi=()=>{
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
           ax.delete(`http://20.193.136.151:5000/lists/${deleteId}`, {headers: {
             'x-api-key ': `Bearer ${token}`
            }})
@@ -129,7 +129,7 @@ const ListAndSegments=()=>{
    
     {/*get list api integration*/}
     const getListsApi=async(search=false)=>{
-      const token= localStorage.getItem("token");
+      const token= sessionStorage.getItem("token");
      let url=   "http://20.193.136.151:5000/lists/?like=false&skip=0&limit=10"
       if(search && searchTag != "" && searchList != "" )
       {

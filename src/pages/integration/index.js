@@ -26,7 +26,7 @@ const Integration=()=>{
 )
 
   const getIntegrations = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     await ax
       .get("/integrations", {headers: {
         'Authorization': `Bearer ${token}`
@@ -72,7 +72,7 @@ const Integration=()=>{
 
      const deleteIntegration = () => {
 
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
 
     ax.delete(`/integrations/${deleteId}`, {headers: {
       'Authorization': `Bearer ${token}`

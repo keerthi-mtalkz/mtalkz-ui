@@ -21,7 +21,7 @@ const addOrganization = () => {
     if (typeof window !== "undefined") {
         data.is_reseller=checked;
         data.reseller_id=2;
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     ax.post("/organizations", data, {headers: {
       'Authorization': `Bearer ${token}`
      }})

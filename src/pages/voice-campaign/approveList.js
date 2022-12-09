@@ -18,7 +18,7 @@ const approveList = () => {
   
     const onSubmit=(data)=>{
         console.log(data)
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
        fetch(`https://app.mtalkz.cloud/api/voice-campaigns/${approveListId}/approve`,
        {
         method:"POST",

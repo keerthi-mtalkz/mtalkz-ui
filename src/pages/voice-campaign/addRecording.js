@@ -30,7 +30,7 @@ function changeHandler({
     let formData = new FormData();
      formData.append("audio",file);
     formData.append("name", data.name);
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     fetch("https://app.mtalkz.cloud/api/voice-recordings",{
       method:"POST",
       body: formData,

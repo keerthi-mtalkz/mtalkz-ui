@@ -20,6 +20,7 @@ const Chatbots = () => {
   const [deleteId,setDeleteId]=useState(undefined)
   const router = useRouter();
   const user = ls.get("user");
+  console.log(user,"ejhfgewfewhfg")
   const fetchChatbots = async () => {
     const token = ls.get("token");
     axios

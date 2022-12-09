@@ -20,7 +20,7 @@ const updateID = () => {
 
   const getOrganizationDetails = async () => {
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       await ax
         .get(`/organizations/${updateid}`, {
           headers: {
@@ -48,7 +48,7 @@ const updateID = () => {
   const onSubmit = (data) => {
     data.is_reseller=checked;
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       ax.put(`/organizations/${updateid}`, data, {
         headers: {
 

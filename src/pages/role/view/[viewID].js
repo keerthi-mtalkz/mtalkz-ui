@@ -17,7 +17,7 @@ const viewID = () => {
     const [status, setStatus] = useState(undefined);
     const fetchRoles = async () => {
         if (typeof window !== "undefined") {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       await ax
         .get(`/roles/${viewid}`, {headers: {
           'Authorization': `Bearer ${token}`

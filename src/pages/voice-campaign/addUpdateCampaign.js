@@ -10,7 +10,7 @@ const AddUpdateCampaign = () => {
   const [token, setToken] = useState(null)
 
   useEffect(() => {
-    const t = localStorage.getItem('token');
+    const t = sessionStorage.getItem('token');
     setToken(t);
   }, [])
 

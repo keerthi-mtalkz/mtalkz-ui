@@ -24,7 +24,7 @@ const [permissions,setPermissions]=useState([])
 
     const fetch = async () => {
       if (typeof window !== "undefined") {
-      const token1 = localStorage.getItem('token');
+      const token1 = sessionStorage.getItem('token');
       await ax
         .get(`/roles/${updateid}`, {headers: {
         
@@ -50,7 +50,7 @@ const [permissions,setPermissions]=useState([])
     
   const getPermissions = async () => {
     if(permissions.length == 0){
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       await ax
         .get("/permissions", {headers: {
           'Authorization': `Bearer ${token}`
@@ -96,7 +96,7 @@ const [permissions,setPermissions]=useState([])
       if (typeof window !== "undefined"&& isValid) {
         let _selectedPermissions=selectedPermission.map((permission)=> permission.value )
         data.permission_ids=_selectedPermissions
-      const token1 = localStorage.getItem('token');
+      const token1 = sessionStorage.getItem('token');
       ax.put(`/roles/${updateid}`, data, {headers: {
         'Authorization': `Bearer ${token1}`
       }})
