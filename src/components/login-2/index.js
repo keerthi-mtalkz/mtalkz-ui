@@ -37,8 +37,7 @@ const Login1 = () => {
       if(err.response.data. message){
         setStatus({ type: "error",message: err.response.data.errors.password[0] });
       }else{
-        setStatus({ type: "error",message: `Invalid credentials. Please try again with the correct credentials.
-        If you do not have an account, please register with us first.` });
+        setStatus({ type: "error", message: `Invalid credentials. Please try again with the correct credentials.` });
       }
       console.error("get login error", err.response.data.message);
     });
@@ -48,8 +47,10 @@ const Login1 = () => {
   return (
     <>
     {status?.type === "error" && (
-      <div className="bg-red-500 text-white rounded w-full flex flex-wrap items-center justify-start p-3 text-sm mb-4">
+      <div className="bg-red-500 text-white rounded w-full p-3 text-sm mb-4">
        {status.message}
+       <br/>
+       If you need an account, please <a href="https://mtalkz.com/request-demo/" className="font-bold">reach out to us</a>.
       </div>
     )}
       <form
@@ -100,9 +101,9 @@ const Login1 = () => {
       <div className="w-full children-x-1">
         <span className="text-secondary">New user?</span>
         <span>
-          <Link href="/pages/create-account">
+          <Link href="https://mtalkz.com/request-demo/">
             <a className="link">
-              Create account here
+              Request an account
             </a>
           </Link>
         </span>
