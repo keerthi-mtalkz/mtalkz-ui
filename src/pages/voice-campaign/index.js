@@ -132,55 +132,63 @@ const [file,setFile]=React.useState(undefined);
 
 
   const onSubmit = async (data) => {
-    setBtnStatus(false)
-    setBroadcastStatus([]);
-    let numbers = data.target_numbers.split("\n");
-    numbers = numbers.filter(e => String(e).trim());
-    numbers = [...new Set(numbers)];
-    numbers.map((number, i) => {
-      data = {
-        "id": campaignID,
-        "field_0": number
-      }
-      dataset.push(fetch("https://zaapp.azurewebsites.net/integrations/smartflo/enter/single/lead", {
+    if(!file){
+      setBtnStatus(false)
+      setBroadcastStatus([]);
+      let numbers = data.target_numbers.split("\n");
+      numbers = numbers.filter(e => String(e).trim());
+      numbers = [...new Set(numbers)];
+      numbers.map((number, i) => {
+        data = {
+          "id": campaignID,
+          "field_0": number
+        }
+        dataset.push(fetch("https://zaapp.azurewebsites.net/integrations/smartflo/enter/single/lead", {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+          }
+        }))
+      })
+      const response = await Promise.all(dataset)
+      let res = []
+      numbers.map((number, i) => {
+        res.push({ number: number, status: response[i].status == 200 ? true : false })
+      })
+      setBroadcastStatus([...res])
+      setBtnStatus(true)
+      setShowDiv(true)
+      setTimeout(() => {
+        document.getElementById("target_numbers").value = "";
+        setShowDiv(false)
+      }, 5000);
+    }else
+    {
+      setBtnStatus(false)
+      setBroadcastStatus([]);
+      let formData = new FormData();
+      formData.append("file", file);
+      fetch(`https://zaapp.azurewebsites.net/success/${campaignID}`, {
         method: "POST",
-        body: JSON.stringify(data),
+        body: formData,
         headers: {
-          'Content-type': 'application/json',
           'Accept': 'application/json',
         }
-      }))
-    })
-    const response = await Promise.all(dataset)
-    let res = []
-    numbers.map((number, i) => {
-      res.push({ number: number, status: response[i].status == 200 ? true : false })
-    })
-    setBroadcastStatus([...res])
-    setBtnStatus(true)
-    setShowDiv(true)
-    setTimeout(() => {
-      document.getElementById("target_numbers").value = "";
-      setShowDiv(false)
-    }, 5000);
+      }).then((res) => {
+      setBtnStatus(true)
+
+        console.log('Response', res);
+      }).catch((err) => {
+      setBtnStatus(true)
+
+        console.error('Error', err);
+      })
+    }
+    
   };
 
-  const onUpload = () => {
-    console.log("hfgvgvygfv")
-    let formData = new FormData();
-    formData.append("file", file);
-    fetch(`https://zaapp.azurewebsites.net/success/${campaignID}`, {
-      method: "POST",
-      body: formData,
-      headers: {
-        'Accept': 'application/json',
-      }
-    }).then((res) => {
-      console.log('Response', res);
-    }).catch((err) => {
-      console.error('Error', err);
-    })
-  }
 
   React.useEffect(() => {
     getListofcampaign()
@@ -228,26 +236,26 @@ const [file,setFile]=React.useState(undefined);
               placeholder="Enter 1 number in each line"
               pattern="(\d{10}\n)*\d{10}"
               title="Please enter 10-digit mobile numbers, 1 number per line"
-              required
+              required={file==undefined}
             />
           </label>
         </div>
-        <div className="w-full">
-          <input type="submit" style={{ backgroundColor: btnStatus ? '#434190' : "grey", color: "white" }} disabled={!btnStatus} className="btn btn-default btn-block btn-rounded" value="Broadcast" />
-        </div>
-      </form>
       <h4 className="text-center my-4 w-full text-sm lg:w-1/3">OR</h4>
-      <div className='className="flex flex-col text-sm lg:w-1/3'>
+
+        <div className='className="flex flex-col text-sm '>
       <div className="w-full mb-4">
       <label className="block">
         <span className="text-default">Upload File</span>
-        <input type="file" name="file" onChange={(file)=>{changeHandler(file)}} required/>
+        <input type="file" name="file" onChange={(file)=>{changeHandler(file)}}/>
       </label>
     </div>
     <div className="w-full">
-      <input type="submit" onClick={()=>{onUpload()}}  className="btn btn-default btn-block btn-indigo btn-rounded" value="Upload"/>
+    <input type="submit" style={{ backgroundColor: btnStatus ? '#434190' : "grey", color: "white" }} disabled={!btnStatus} className="btn btn-default btn-block btn-rounded" value="Broadcast" />
+
     </div>
       </div>
+      </form>
+      
       
       {showDiv && broadcastStatus.map((data) => {
         return (
