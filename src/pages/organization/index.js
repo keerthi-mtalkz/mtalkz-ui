@@ -46,7 +46,7 @@ const Organization=()=>{
         permissions["update"]= userpermissions.includes("organizations.update")
         permissions["delete"]= userpermissions.includes("organizations.destroy")
         permissions["view"]= userpermissions.includes("organizations.show")
-        permissions["add"]= userpermissions.includes("organizations.storeU")
+        permissions["add"]= userpermissions.includes("organizations.store")
         setPermissions({...permissions})
 
   };
