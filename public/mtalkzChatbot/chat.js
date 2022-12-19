@@ -375,7 +375,7 @@ matlkzchatbotgetUserIp();
 }, 1000);
 
 }
-
+matlkzchatbotcreateMainHtml()
 // Collapsible
 var coll = document.getElementsByClassName("mtalkz-cb-collapsible");
 var chat = []
