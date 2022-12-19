@@ -1,17 +1,16 @@
 //Configuring Default Values
-const defaultValues={
+const matlkzchatbotdefaultValues={
     backgroundColor: '#434190',
     chatbotId:null,
     logo:"./mtalkz-logo.png",
     name:"mTalkz Support"
 }
-function initializeValues(configureValues){
-    let keys = Object.keys(configureValues);
-    keys.map((key, i) =>defaultValues[key]=configureValues[key])
-}
-initializeValues({ backgroundColor: '#434190',chatbotId:"639aebe410afd9ce5533261f"})
 //Main html
-const createMainHtml=()=>{
+const matlkzchatbotcreateMainHtml=(configureValues)=>{
+     if(configureValues){
+        let keys = Object.keys(configureValues);
+        keys.map((key, i) =>matlkzchatbotdefaultValues[key]=configureValues[key]) 
+     }
     const botHtml=`
     <style>
     .mtalkz-cb-chat-bar-collapsible {
@@ -22,7 +21,7 @@ const createMainHtml=()=>{
     }
     
     .mtalkz-cb-collapsible {
-        background-color: ${defaultValues.backgroundColor};
+        background-color: ${matlkzchatbotdefaultValues.backgroundColor};
         color: white;
         cursor: pointer;
         padding: 18px;
@@ -324,8 +323,8 @@ const createMainHtml=()=>{
     </style>
     <div   class="mtalkz-cb-chat-bar-collapsible"  >
     <button id="mtalkz-cb-chat-button"  class="mtalkz-cb-collapsible" type="button" >
-    <img style="margin-bottom: 10px;" src=${defaultValues.logo} alt="Mtalkz Connect" />
-   <span style="margin-left: -35px;"> ${defaultValues.name}</span>
+    <img style="margin-bottom: 10px;" src=${matlkzchatbotdefaultValues.logo} alt="Mtalkz Connect" />
+   <span style="margin-left: -35px;"> ${matlkzchatbotdefaultValues.name}</span>
     </button>
     <div class="mtalkz-cb-content">
         <div class="mtalkz-cb-full-chat-block">
@@ -350,7 +349,7 @@ const createMainHtml=()=>{
                         <button style=" height: 33px;
                         background: indigo;
                         color: white;
-                        border: none;"   onclick="sendButton()"   >send</button>
+                        border: none;"   onclick="matlkzchatbotsendButton()"   >send</button>
                             
                         </div>
                     </div>
@@ -371,12 +370,12 @@ document.querySelector("body").innerHTML+=botHtml;
 document.querySelector("html").innerHTML+=script;
 
 setTimeout(() => {
-    firstBotMessage();
-getUserIp();
+    matlkzchatbotfirstBotMessage();
+matlkzchatbotgetUserIp();
 }, 1000);
 
 }
-createMainHtml()
+
 // Collapsible
 var coll = document.getElementsByClassName("mtalkz-cb-collapsible");
 var chat = []
@@ -395,7 +394,7 @@ for (let i = 0; i < coll.length; i++) {
 
     });
 }
-function getHumanReadableDate(timestamp){
+function matlkzchatbotgetHumanReadableDate(timestamp){
     let date = new Date(timestamp);
       const day = date.toLocaleString('default', { day: '2-digit' });
       const month = date.toLocaleString('default', { month: 'short' });
@@ -407,7 +406,7 @@ function getHumanReadableDate(timestamp){
     
   }
   
-  function getBotResponse(input,chatbotId,uniq_id) {
+  function matlkzchatbotgetBotResponse(input,chatbotId,uniq_id) {
       const data={
           message: input,
           uniq_id:uniq_id
@@ -418,6 +417,7 @@ function getHumanReadableDate(timestamp){
         headers: {
         'Content-type': 'application/json',
         'Accept': 'application/json',
+        'Origin':"https://cb.mtalkz.cloud"
     }
       })
           .then((res) => {
@@ -428,15 +428,18 @@ function getHumanReadableDate(timestamp){
                
           });
   }
-  function getChatDetails(chatbotId,uniq_id){
+  function matlkzchatbotgetChatDetails(chatbotId,uniq_id){
     fetch(`https://cb.mtalkz.cloud/messages/${chatbotId}/${uniq_id}`,{
         method:"GET",
+        headers: {
+            'Origin':"https://cb.mtalkz.cloud"
+        }
   }
     ).then((res) => {
         let _replies=[]
         console.log(res.data.forEach((data)=>{_replies.push(JSON.parse(data));console.log(JSON.parse(data))}),"response") 
    _replies.map((res)=>{
-    res.ts=getHumanReadableDate(res.ts)
+    res.ts=matlkzchatbotgetHumanReadableDate(res.ts)
   })
      return _replies;
     }).catch((err) => {
@@ -445,7 +448,7 @@ function getHumanReadableDate(timestamp){
       
   
   }
- function getTime() {
+ function matlkzchatbotgetTime() {
     let today = new Date();
     hours = today.getHours();
     minutes = today.getMinutes();
@@ -462,7 +465,7 @@ function getHumanReadableDate(timestamp){
     return time;
   }
 
-async function getUserIp (){
+async function matlkzchatbotgetUserIp (){
     // const ip= await fetch("https://ipapi.co/json",{method:"GET"});
     //  let ipAddress=ip.data.ip
     //  ipAddress= ipAddress.replaceAll('.', '')
@@ -470,21 +473,21 @@ async function getUserIp (){
     }
 
 // Gets the first message
-function firstBotMessage() {
+function matlkzchatbotfirstBotMessage() {
     let firstMessage = "Welome to Mtalkz"
     document.getElementById("mtalkz-cb-botStarterMessage").innerHTML = '<p class="mtalkz-cb-botText"><span>' + firstMessage + '</span></p>';
      
-    let time = getTime();
+    let time = matlkzchatbotgetTime();
 
     document.querySelector("#mtalkz-cb-chat-timestamp").append(time);
     document.getElementById("mtalkz-cb-userInput").scrollIntoView(false);
 }
-function onSubmit(data){
-    sendButton(data);
+function matlkzchatbotonSubmit(data){
+    matlkzchatbotsendButton(data);
 }
 // Retrieves the response
-function getHardResponse(userText) {
-    let _botResponse = getBotResponse(userText,defaultValues.chatbotId,12345432);
+function matlkzchatbotgetHardResponse(userText) {
+    let _botResponse = matlkzchatbotgetBotResponse(userText,matlkzchatbotdefaultValues.chatbotId,12345432);
     let botHtml;
     _botResponse.map((botResponse)=>{
             if(botResponse && botResponse.type == "text"){
@@ -505,7 +508,7 @@ function getHardResponse(userText) {
             ${
              Object.values(botResponse.data.buttonsList).map((item,index) =>  {
             return (
-             '<div class="mtalkz-cb-button-div"  onclick="onSubmit(`'  +item + '`)" >'
+             '<div class="mtalkz-cb-button-div"  onclick="matlkzchatbotonSubmit(`'  +item + '`)" >'
              + item
             +'</div>'
             )
@@ -534,7 +537,7 @@ function getHardResponse(userText) {
                      return (
                       
        index==0 ?'<div class="mtalkz-cb-radio-lable">'+   Object.keys(botResponse.data.sectionsList)[pindex] +'</div>': "" 
-           +'<div   class="mtalkz-cb-rcw-img-btn mtalkz-cb-radio-div" style="display:flex justify-content :space-evenly"  onclick="onSubmit(`'  +i.title + '`)" >'+
+           +'<div   class="mtalkz-cb-rcw-img-btn mtalkz-cb-radio-div" style="display:flex justify-content :space-evenly"  onclick="matlkzchatbotonSubmit(`'  +i.title + '`)" >'+
            '<label style="font-size:14px" >'+i.title+'</label> <input type="radio" id='+i.title+' name="contact" value={'+ i.title + '}></input> </div>'
                        )
                    } )
@@ -552,7 +555,7 @@ function getHardResponse(userText) {
     
 }
 //Gets the text text from the input box and processes it
-function getResponse(data=undefined) {
+function matlkzchatbotgetResponse(data=undefined) {
     let userText;
     if(data){
         userText=data
@@ -576,25 +579,22 @@ function getResponse(data=undefined) {
     document.querySelector("#mtalkz-cb-chatbox").innerHTML+=userHtml
     document.getElementById("mtalkz-cb-chat-bar-bottom").scrollIntoView(true);
     setTimeout(() => {
-        getHardResponse(userText);
+        matlkzchatbotgetHardResponse(userText);
     }, 1000)
 
 }
 // Handles sending text via button clicks
-function buttonSendText(sampleText) {
+function matlkzchatbotbuttonSendText(sampleText) {
     let userHtml = '<p class="mtalkz-cb-userText"><span>' + sampleText + '</span></p>';
     document.getElementById("mtalkz-cb-textInput").value=""
     document.getElementById("mtalkz-cb-chatbox").append(userHtml);
     document.getElementById("mtalkz-cb-chat-bar-bottom").scrollIntoView(true);
 
-    //Uncomment this if you want the bot to respond to this buttonSendText event
+    //Uncomment this if you want the bot to respond to this matlkzchatbotbuttonSendText event
     // setTimeout(() => {
-    //     getHardResponse(sampleText);
+    //     matlkzchatbotgetHardResponse(sampleText);
     // }, 1000)
 }
-function sendButton(data=undefined) {
-    getResponse(data);
-}
-function heartButton() {
-    buttonSendText("Heart clicked!")
+function matlkzchatbotsendButton(data=undefined) {
+    matlkzchatbotgetResponse(data);
 }
