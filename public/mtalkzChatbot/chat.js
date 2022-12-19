@@ -417,7 +417,7 @@ function matlkzchatbotgetHumanReadableDate(timestamp){
         headers: {
         'Content-type': 'application/json',
         'Accept': 'application/json',
-        'Origin':"https://cb.mtalkz.cloud"
+        'origin':"https://cb.mtalkz.cloud"
     }
       })
           .then((res) => {
@@ -432,7 +432,7 @@ function matlkzchatbotgetHumanReadableDate(timestamp){
     fetch(`https://cb.mtalkz.cloud/messages/${chatbotId}/${uniq_id}`,{
         method:"GET",
         headers: {
-            'Origin':"https://cb.mtalkz.cloud"
+            'origin':"https://cb.mtalkz.cloud"
         }
   }
     ).then((res) => {
