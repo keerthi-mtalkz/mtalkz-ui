@@ -408,7 +408,6 @@ function getHumanReadableDate(timestamp){
   }
   
   function getBotResponse(input,chatbotId,uniq_id) {
-      const token= `168|9KOW6dOzVhbPTWIGdjhw9b0tbsNAdZyRdLXoh3Oh`
       const data={
           message: input,
           uniq_id:uniq_id
@@ -419,7 +418,6 @@ function getHumanReadableDate(timestamp){
         headers: {
         'Content-type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`
     }
       })
           .then((res) => {
@@ -431,18 +429,15 @@ function getHumanReadableDate(timestamp){
           });
   }
   function getChatDetails(chatbotId,uniq_id){
-    const token= `168|9KOW6dOzVhbPTWIGdjhw9b0tbsNAdZyRdLXoh3Oh`
-    axios.get(`https://cb.mtalkz.cloud/messages/${chatbotId}/${uniq_id}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    }).then(res => {
+    fetch(`https://cb.mtalkz.cloud/messages/${chatbotId}/${uniq_id}`,{
+        method:"GET",
+  }
+    ).then((res) => {
       let _replies=[]
    _replies.map((res)=>{
     res.ts=getHumanReadableDate(res.ts)
   })
      return _replies;
-  
     }).catch((err) => {
       console.error(err,"errorhgfg ufuf fur uyiefjef fhref ")
     });
