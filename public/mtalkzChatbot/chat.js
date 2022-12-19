@@ -418,7 +418,8 @@ function matlkzchatbotgetHumanReadableDate(timestamp){
         'Content-type': 'application/json',
         'Accept': 'application/json',
         'origin':"https://cb.mtalkz.cloud"
-    }
+    },
+    mode:"no-cors"
       })
           .then((res) => {
            return getChatDetails(chatbotId,uniq_id)
@@ -433,7 +434,8 @@ function matlkzchatbotgetHumanReadableDate(timestamp){
         method:"GET",
         headers: {
             'origin':"https://cb.mtalkz.cloud"
-        }
+        },
+        mode:"no-cors"
   }
     ).then((res) => {
         let _replies=[]
