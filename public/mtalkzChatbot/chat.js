@@ -433,7 +433,8 @@ function getHumanReadableDate(timestamp){
         method:"GET",
   }
     ).then((res) => {
-      let _replies=[]
+        let _replies=[]
+        console.log(res.data.forEach((data)=>{_replies.push(JSON.parse(data));console.log(JSON.parse(data))}),"response") 
    _replies.map((res)=>{
     res.ts=getHumanReadableDate(res.ts)
   })
