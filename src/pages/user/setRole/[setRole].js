@@ -23,14 +23,14 @@ const setRole = () => {
     const fetch = async (roles) => {
       
       if (typeof window !== "undefined") {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       await ax
         .get(`/users/${updateid}`, {headers: {
         
           'Authorization': `Bearer ${token}`
          }})
         .then((res) => {
-      const orgId=localStorage.getItem("orgId");
+      const orgId=sessionStorage.getItem("orgId");
         const  current_role_id = res.data.user.org_roles[orgId]
         if(current_role_id){
          let role= roles.filter((role)=>role.value==current_role_id)
@@ -53,7 +53,7 @@ const setRole = () => {
 
     const fetchRole = async () => {
       if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       await ax
         .get("/roles", {
           headers: {
@@ -84,10 +84,10 @@ const setRole = () => {
     const { register, handleSubmit } = useForm();
 
     const onSubmit = () => {
-      const orgId=localStorage.getItem("orgId");
+      const orgId=sessionStorage.getItem("orgId");
       if (typeof window !== "undefined") {
         console.log(orgId,"orgIdorgId")
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       ax.get(`/users/${updateid}/set-role/${selectedRole[0].value}`,{headers: {
         'Authorization': `Bearer ${token}`
       }})

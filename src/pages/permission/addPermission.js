@@ -17,7 +17,7 @@ const addPermission = () => {
 
   const onSubmit = (data) => {
     if (typeof window !== "undefined") {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     ax.post("/permissions", data, {headers: {
       'Authorization': `Bearer ${token}`
      }})

@@ -75,7 +75,7 @@ const Index = () => {
 
 
   const fetchChatbot = () => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     axios.get('https://cb.mtalkz.cloud/export/' + chatbotID, {
       headers: {
         'x-api-key': token
@@ -102,7 +102,7 @@ const Index = () => {
     })
     if (valid) {
       const data = { ...chatbot, keywords }
-      const token1 = localStorage.getItem("token");
+      const token1 = sessionStorage.getItem("token");
       const req = { type: "chatbot", data };
       fetch("https://cb.mtalkz.cloud/import", {
         method: "POST",
@@ -150,7 +150,7 @@ const Index = () => {
   }
 
   const handleFlowDelete = () => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     axios
       .get(`https://cb.mtalkz.cloud/delete/${chatid}/${deleteId}`, {
         headers: {

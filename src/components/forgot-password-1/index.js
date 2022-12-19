@@ -11,7 +11,7 @@ const ForgotPassword = () => {
   const router = useRouter();
   const [errors,setErrors] = useState(undefined)
   const onSubmit = async(data) => {
-    localStorage.setItem("userEmail",data.email)
+    sessionStorage.setItem("userEmail",data.email)
     await ax
     .post(`/auth/reset-password`,data )
     .then((res) => {

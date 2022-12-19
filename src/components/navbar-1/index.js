@@ -31,7 +31,7 @@ const Navbar = () => {
 
 
   const logOut =async ( ) =>{
-    const token= localStorage.getItem("token");
+    const token= sessionStorage.getItem("token");
     await ax
       .get("/auth/logout", {
         headers: {
@@ -39,10 +39,10 @@ const Navbar = () => {
         },
       })
     .then((res) => {
-      localStorage.removeItem("token")
-      localStorage.removeItem("user")
-      localStorage.removeItem("orgName")
-      localStorage.removeItem("orgId")
+      sessionStorage.removeItem("token")
+      sessionStorage.removeItem("user")
+      sessionStorage.removeItem("orgName")
+      sessionStorage.removeItem("orgId")
       router.push("/pages/login");
     })
     .catch((err) => {
@@ -51,7 +51,7 @@ const Navbar = () => {
   }
   
   const getOraganizations = async () => {
-    const token= localStorage.getItem("token");
+    const token= sessionStorage.getItem("token");
     await ax
       .get("/auth/organizations", {
         headers: {
@@ -61,13 +61,13 @@ const Navbar = () => {
       .then(async(res) => {
         setOrganizations(res?.data?.organizations);
       const org=  res?.data?.organizations.filter((o)=>o.id===user.current_organization_id)
-      if(localStorage.getItem('orgName')==null){
+      if(sessionStorage.getItem('orgName')==null){
         setSelectedOrganization([{ label: org[0].name, value: org[0].id }])
-        localStorage.setItem('orgName',org[0].name)
-        localStorage.setItem('orgId', org[0].id )
+        sessionStorage.setItem('orgName',org[0].name)
+        sessionStorage.setItem('orgId', org[0].id )
      
       }else{
-        setSelectedOrganization([{ label: localStorage.getItem('orgName'), value: localStorage.getItem('orgId')}])
+        setSelectedOrganization([{ label: sessionStorage.getItem('orgName'), value: sessionStorage.getItem('orgId')}])
       }
       })
       .catch((err) => {
@@ -79,7 +79,7 @@ const Navbar = () => {
   },[selectedOrganization])
 
   const getPermissions=async ()=>{
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     await ax
       .get("/auth/permissions", {headers: {
         'Authorization': `Bearer ${token}`
@@ -119,10 +119,10 @@ const Navbar = () => {
   });
 
   let handleSwitch = (value) => {
-    const token= localStorage.getItem("token");
+    const token= sessionStorage.getItem("token");
     setSelectedOrganization([{ label: value.label, value: value.value}])
- localStorage.setItem('orgName',value.label)
-      localStorage.setItem('orgId', value.value )
+ sessionStorage.setItem('orgName',value.label)
+      sessionStorage.setItem('orgId', value.value )
 
       // Save it!
       ax.post(

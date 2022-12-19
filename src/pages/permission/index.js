@@ -25,7 +25,7 @@ const Permission=()=>{
 const [_permissions,_setPermissions]=React.useState({get:false,update:false,delete:false,view:false})
 
   const getPermissionsApi = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     await ax
       .get("/permissions", {headers: {
         'Authorization': `Bearer ${token}`
@@ -71,7 +71,7 @@ const [_permissions,_setPermissions]=React.useState({get:false,update:false,dele
 
      const deletePermission = () => {
  
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
 
     ax.delete(`/permissions/${deleteId}`, {headers: {
       'Authorization': `Bearer ${token}`

@@ -30,7 +30,7 @@ const CampaignListing = () => {
 
   console.log(user, "user")
   const getListofcampaign = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     await ax
       .get("/voice-campaigns", {
         headers: {
@@ -61,7 +61,7 @@ const CampaignListing = () => {
   }
   const deleteCampaignApi = () => {
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
 
     ax.delete(`/voice-campaigns/${deleteId}`, {
       headers: {

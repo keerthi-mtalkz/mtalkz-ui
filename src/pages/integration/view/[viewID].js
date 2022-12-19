@@ -17,7 +17,7 @@ const viewID = () => {
   
     const fetchIntegrations = async () => {
         if (typeof window !== "undefined") {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       await ax
         .get(`/integrations/${viewid}`, {headers: {
         

@@ -21,7 +21,7 @@ const [selectedResource,setSelectedResource]=useState([]);
   const [showModal,setShowModal]=useState(false)
 const [res,setRes]=useState(undefined)
   const getResources = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     await ax
       .get("/resources", {headers: {
         'Authorization': `Bearer ${token}`
@@ -57,7 +57,7 @@ const [res,setRes]=useState(undefined)
     const isValid=validateFields()
     const data={"resource_id":selectedResource.value,"is_active":checked,"label":details.label}
     if (typeof window !== "undefined" && isValid) {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     ax.post("/api-keys", data, {headers: {
       'Authorization': `Bearer ${token}`
      }})

@@ -35,7 +35,7 @@ const validateFields=()=>{
       data.is_system_role=checked;
       let _selectedPermissions=selectedPermission.map((permission)=> permission.value )
         data.permission_ids=_selectedPermissions
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     ax.post("/roles", data, { headers: {
         'Authorization': `Bearer ${token}`
      }})
@@ -58,7 +58,7 @@ const validateFields=()=>{
 
   const getPermissions = async () => {
     if(permissions.length == 0){
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       await ax
         .get("/permissions", {headers: {
           'Authorization': `Bearer ${token}`

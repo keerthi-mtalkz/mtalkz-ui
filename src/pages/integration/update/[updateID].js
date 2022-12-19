@@ -34,7 +34,7 @@ const updateID = () => {
 
   
   const getChannels = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     await ax
       .get("/channels", {headers: {
         'Authorization': `Bearer ${token}`
@@ -110,7 +110,7 @@ const updateID = () => {
 
   
     const getOrganizations = async () => {
-      const token= localStorage.getItem("token");
+      const token= sessionStorage.getItem("token");
       await ax
         .get("/organizations", {
           headers: {
@@ -137,7 +137,7 @@ const updateID = () => {
 
     const fetch = async () => {
       if (typeof window !== "undefined") {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       await ax
         .get(`/integrations/${updateid}`, {headers: {
         
@@ -235,7 +235,7 @@ const updateID = () => {
 
       data.param_names=_params
       data.access_granted_to=_selectedOrgs
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       ax.put(`/integrations/${updateid}`, data, {headers: {
         'Authorization': `Bearer ${token}`
       }})

@@ -114,7 +114,7 @@ const [file,setFile]=React.useState(undefined);
   const [campaigns, setCampaigns] = React.useState([])
 
   const getListofcampaign = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     await ax
       .get("/voice-campaigns", {
         headers: {

@@ -25,7 +25,7 @@ const [resources,setResources]=useState([]);
   
     const fetch = async () => {
       if (typeof window !== "undefined") {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       await ax
         .get(`/api-keys/${updateid}`, {headers: {
           'Authorization': `Bearer ${token}`
@@ -50,7 +50,7 @@ const [resources,setResources]=useState([]);
     const onSubmit = (details) => {
         const data={"is_active":checked,"label":details.label,"resource_id":selectedResource.value}
       if (typeof window !== "undefined") {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       ax.put(`/api-keys/${updateid}`, data, {headers: {
         'Authorization': `Bearer ${token}`
       }})
@@ -73,7 +73,7 @@ const [resources,setResources]=useState([]);
   
 
     const getResources = async () => {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       await ax
         .get("/resources", {headers: {
           'Authorization': `Bearer ${token}`

@@ -16,7 +16,7 @@ const viewID = () => {
 
   const fetchApiKey = async () => {
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       await ax
         .get(`/api-keys/${viewid}`, {
           headers: {

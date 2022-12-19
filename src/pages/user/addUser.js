@@ -19,7 +19,7 @@ const addUser = () => {
   const onSubmit = (data) => {
     if (typeof window !== "undefined") {
         data.is_system_user=checked;
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     ax.post("/users", data, {headers: {
       'Authorization': `Bearer ${token}`
      }})

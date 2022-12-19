@@ -75,7 +75,7 @@ const addIntegration = () => {
   }
 
   const getOrganizations = async () => {
-    const token= localStorage.getItem("token");
+    const token= sessionStorage.getItem("token");
     await ax
       .get("/organizations", {
         headers: {
@@ -95,7 +95,7 @@ const addIntegration = () => {
   });
 
   const getChannels = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     await ax
       .get("/channels", {headers: {
         'Authorization': `Bearer ${token}`
@@ -159,7 +159,7 @@ const addIntegration = () => {
       data.tags=_tags;
     data.param_names=_params
     data.access_granted_to=selectedOrganizations
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     ax.post("/integrations", data, {headers: {
       'Authorization': `Bearer ${token}`
      }})
