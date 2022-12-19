@@ -14,14 +14,14 @@ initializeValues({ backgroundColor: '#434190',chatbotId:"639aebe410afd9ce5533261
 const createMainHtml=()=>{
     const botHtml=`
     <style>
-    .chat-bar-collapsible {
+    .mtalkz-cb-chat-bar-collapsible {
         position: fixed;
         bottom: 0;
         right: 50px;
         box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     }
     
-    .collapsible {
+    .mtalkz-cb-collapsible {
         background-color: ${defaultValues.backgroundColor};
         color: white;
         cursor: pointer;
@@ -35,14 +35,14 @@ const createMainHtml=()=>{
         border-bottom: none;
     }
     
-    .content {
+    .mtalkz-cb-content {
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.2s ease-out;
         background-color: #f1f1f1;
     }
     
-    .full-chat-block {
+    .mtalkz-cb-full-chat-block {
         width: 350px;
         background: white;
         text-align: center;
@@ -52,13 +52,13 @@ const createMainHtml=()=>{
         transition: max-height 0.2s ease-out;
     }
     
-    .outer-container {
+    .mtalkz-cb-outer-container {
         min-height: 500px;
         bottom: 0%;
         position: relative;
     }
     
-    .chat-container {
+    .mtalkz-cb-chat-container {
         max-height: 500px;
         width: 100%;
         position: absolute;
@@ -68,11 +68,11 @@ const createMainHtml=()=>{
         hyphens: auto;
     }
     
-    .chat-container::-webkit-scrollbar {
+    .mtalkz-cb-chat-container::-webkit-scrollbar {
         display: none;
     }
     
-    .chat-bar-input-block {
+    .mtalkz-cb-chat-bar-input-block {
         display: flex;
         float: left;
         box-sizing: border-box;
@@ -84,7 +84,7 @@ const createMainHtml=()=>{
         padding: 10px 0px 10px 10px;
     }
     
-    .chat-bar-icons {
+    .mtalkz-cb-chat-bar-icons {
         display: flex;
         justify-content: space-evenly;
         box-sizing: border-box;
@@ -93,11 +93,11 @@ const createMainHtml=()=>{
         font-size: 20px;
     }
     
-    .rcw-message-client {
+    .mtalkz-cb-rcw-message-client {
         flex-direction: row-reverse
     }
     
-    .rcw-message {
+    .mtalkz-cb-rcw-message {
         margin: 10px 10px 10px 0px;
         display: flex;
         word-wrap: break-word
@@ -105,7 +105,7 @@ const createMainHtml=()=>{
     
     ;
     
-    .rcw-client {
+    .mtalkz-cb-rcw-client {
         display: flex;
         flex-direction: column;
         margin-left: auto
@@ -113,7 +113,7 @@ const createMainHtml=()=>{
     
     ;
     
-    .rcw-message-text {
+    .mtalkz-cb-rcw-message-text {
         background-color: #a3eaf7;
         border-radius: 10px;
         max-width: 215px;
@@ -126,7 +126,7 @@ const createMainHtml=()=>{
     
     ;
     
-    .rcw-snippet {
+    .mtalkz-cb-rcw-snippet {
         color: black;
         background-color: white;
         border-radius: 10px;
@@ -139,7 +139,7 @@ const createMainHtml=()=>{
     
     ;
     
-    .rcw-messages-container {
+    .mtalkz-cb-rcw-messages-container {
         background-color: lightgrey;
         height: 60vh;
         max-height: 330px;
@@ -149,7 +149,7 @@ const createMainHtml=()=>{
     
     ;
     
-    .rcw-img-btn {
+    .mtalkz-cb-rcw-img-btn {
         color: black;
         background-color: white;
         border-radius: 10px;
@@ -164,7 +164,7 @@ const createMainHtml=()=>{
     
     ;
     
-    .rcw-btn {
+    .mtalkz-cb-rcw-btn {
         background: lightblue;
         padding: 8px;
         border-radius: 10px;
@@ -176,17 +176,17 @@ const createMainHtml=()=>{
     ;
     
     
-    #chat-icon:hover {
+    #mtalkz-cb-chat-icon:hover {
         opacity: .7;
     }
     
     /* Chat bubbles */
     
-    #userInput {
+    #mtalkz-cb-userInput {
         width: 75%;
     }
     
-    .input-box {
+    .mtalkz-cb-input-box {
         float: left;
         border: none;
         box-sizing: border-box;
@@ -199,7 +199,7 @@ const createMainHtml=()=>{
         outline: none
     }
     
-    .userText {
+    .mtalkz-cb-userText {
         color: white;
         font-family: Helvetica;
         font-size: 16px;
@@ -208,7 +208,7 @@ const createMainHtml=()=>{
         clear: both;
     }
     
-    .userText span {
+    .mtalkz-cb-userText span {
         line-height: 1.5em;
         display: inline-block;
         background: #434190;
@@ -220,29 +220,16 @@ const createMainHtml=()=>{
         animation: floatup .5s forwards
     }
     
-    .botText {
+    .mtalkz-cb-botText {
         color: #000;
         font-family: Helvetica;
         font-weight: normal;
         font-size: 16px;
         text-align: left;
     }
-    .fa {
-        display: inline-block;
-        font: normal normal normal 14px/1 FontAwesome;
-        font-size: inherit;};
-
-        .fa-fw {
-            width: 1.28571429em;
-            text-align: center;
-        };
-
-        .fa-send {
-            content: "\f1d8";
-        }
 
 
-    .botText span {
+    .mtalkz-cb-botText span {
         line-height: 1.5em;
         display: inline-block;
         background: #e0e0e0;
@@ -255,7 +242,7 @@ const createMainHtml=()=>{
     }
     
     
-    .button-div {
+    .mtalkz-cb-button-div {
         color: black;
         background-color: #e0e0e0;
         border-radius: 10px;
@@ -269,19 +256,19 @@ const createMainHtml=()=>{
         margin-top: -8px;
     }
     
-    .section-list {
+    .mtalkz-cb-section-list {
         background-color: #e0e0e0;
         margin: 10px;
         width: 215px
     }
     
-    .radio-lable {
+    .mtalkz-cb-radio-lable {
         font-size: 11px;
         color: darkblue;
         padding: 10px
     }
     
-    .radio-div {
+    .mtalkz-cb-radio-div {
         margin-left: 10px;
         margin-bottom: 2px;
         padding: 5px;
@@ -313,19 +300,19 @@ const createMainHtml=()=>{
     }
     
     @media screen and (max-width:600px) {
-        .full-chat-block {
+        .mtalkz-cb-full-chat-block {
             width: 100%;
             border-radius: 0px;
         }
     
-        .chat-bar-collapsible {
+        .mtalkz-cb-chat-bar-collapsible {
             position: fixed;
             bottom: 0;
             right: 0;
             width: 100%;
         }
     
-        .collapsible {
+        .mtalkz-cb-collapsible {
             width: 100%;
             border: 0px;
             border-top: 3px solid white;
@@ -335,31 +322,31 @@ const createMainHtml=()=>{
         
     }
     </style>
-    <div   class="chat-bar-collapsible"  >
-    <button id="chat-button"  class="collapsible" type="button" >
+    <div   class="mtalkz-cb-chat-bar-collapsible"  >
+    <button id="mtalkz-cb-chat-button"  class="mtalkz-cb-collapsible" type="button" >
     <img style="margin-bottom: 10px;" src=${defaultValues.logo} alt="Mtalkz Connect" />
    <span style="margin-left: -35px;"> ${defaultValues.name}</span>
     </button>
-    <div class="content">
-        <div class="full-chat-block">
+    <div class="mtalkz-cb-content">
+        <div class="mtalkz-cb-full-chat-block">
             <!-- Message Container -->
-            <div class="outer-container">
-                <div class="chat-container">
+            <div class="mtalkz-cb-outer-container">
+                <div class="mtalkz-cb-chat-container">
                     <!-- Messages -->
-                    <div id="chatbox">
-                        <h5 id="chat-timestamp"></h5>
-                        <p id="botStarterMessage" class="botText"><span>Loading...</span></p>
+                    <div id="mtalkz-cb-chatbox">
+                        <h5 id="mtalkz-cb-chat-timestamp"></h5>
+                        <p id="mtalkz-cb-botStarterMessage" class="mtalkz-cb-botText"><span>Loading...</span></p>
                     </div>
 
                     <!-- User input box -->
-                    <div class="chat-bar-input-block">
-                        <div id="userInput">
-                            <input id="textInput" class="input-box" type="text" name="msg"
+                    <div class="mtalkz-cb-chat-bar-input-block">
+                        <div id="mtalkz-cb-userInput">
+                            <input id="mtalkz-cb-textInput" class="mtalkz-cb-input-box" type="text" name="msg"
                                 placeholder="Tap 'Enter' to send a message">
                             <p></p>
                         </div>
 
-                        <div class="chat-bar-icons">
+                        <div class="mtalkz-cb-chat-bar-icons">
                         <button style=" height: 33px;
                         background: indigo;
                         color: white;
@@ -368,7 +355,7 @@ const createMainHtml=()=>{
                         </div>
                     </div>
 
-                    <div id="chat-bar-bottom">
+                    <div id="mtalkz-cb-chat-bar-bottom">
                         <p></p>
                     </div>
 
@@ -391,7 +378,7 @@ getUserIp();
 }
 createMainHtml()
 // Collapsible
-var coll = document.getElementsByClassName("collapsible");
+var coll = document.getElementsByClassName("mtalkz-cb-collapsible");
 var chat = []
 
 for (let i = 0; i < coll.length; i++) {
@@ -489,12 +476,12 @@ async function getUserIp (){
 // Gets the first message
 function firstBotMessage() {
     let firstMessage = "Welome to Mtalkz"
-    document.getElementById("botStarterMessage").innerHTML = '<p class="botText"><span>' + firstMessage + '</span></p>';
+    document.getElementById("mtalkz-cb-botStarterMessage").innerHTML = '<p class="mtalkz-cb-botText"><span>' + firstMessage + '</span></p>';
      
     let time = getTime();
 
-    document.querySelector("#chat-timestamp").append(time);
-    document.getElementById("userInput").scrollIntoView(false);
+    document.querySelector("#mtalkz-cb-chat-timestamp").append(time);
+    document.getElementById("mtalkz-cb-userInput").scrollIntoView(false);
 }
 function onSubmit(data){
     sendButton(data);
@@ -505,11 +492,11 @@ function getHardResponse(userText) {
     let botHtml;
     _botResponse.map((botResponse)=>{
             if(botResponse && botResponse.type == "text"){
-                botHtml = `<div><p class="botText" id="textMesg">  ${botResponse.data &&  '<span>'+  botResponse.data.message +'</span>'}</p><label>${botResponse.ts}</label></div>`;
+                botHtml = `<div><p class="mtalkz-cb-botText" id="textMesg">  ${botResponse.data &&  '<span>'+  botResponse.data.message +'</span>'}</p><label>${botResponse.ts}</label></div>`;
            }else if(botResponse && botResponse.type == "reply"){
-               botHtml = `<div class="botText">
-               <div  class="rcw-message">
-             <div  class="rcw-img-btn">
+               botHtml = `<div class="mtalkz-cb-botText">
+               <div  class="mtalkz-cb-rcw-message">
+             <div  class="mtalkz-cb-rcw-img-btn">
            ${botResponse.data.options && botResponse.data.options.header.type=="text" ? '<div>' + botResponse.data.options.header.text + '</div>' : ""} 
            ${botResponse.data.options && botResponse.data.options.header.type=="image" ?
            '<img src={botResponse.data.options.header.image.link} alt="invalid url" style={{"max-width":"200px", height:"100px"}}></img>':""} 
@@ -522,7 +509,7 @@ function getHardResponse(userText) {
             ${
              Object.values(botResponse.data.buttonsList).map((item,index) =>  {
             return (
-             '<div class="button-div"  onclick="onSubmit(`'  +item + '`)" >'
+             '<div class="mtalkz-cb-button-div"  onclick="onSubmit(`'  +item + '`)" >'
              + item
             +'</div>'
             )
@@ -533,9 +520,9 @@ function getHardResponse(userText) {
             <label>${botResponse.ts}</label>
                </div>`;
            }else if(botResponse && botResponse.type == "list"){
-               botHtml=`<div class="botText">
-               <div class="rcw-message">
-               <div class="rcw-img-btn">
+               botHtml=`<div class="mtalkz-cb-botText">
+               <div class="mtalkz-cb-rcw-message">
+               <div class="mtalkz-cb-rcw-img-btn">
                <div>
                <span>
                ${botResponse.data.bodyText}
@@ -544,14 +531,14 @@ function getHardResponse(userText) {
                </div>
                </div>
                </div> 
-               <div class="section-list" style="border-radius:10px">
+               <div class="mtalkz-cb-section-list" style="border-radius:10px">
                ${
                    Object.values(botResponse.data.sectionsList).map((item,pindex)=>
                    item.map((i,index)=> {
                      return (
                       
-       index==0 ?'<div class="radio-lable">'+   Object.keys(botResponse.data.sectionsList)[pindex] +'</div>': "" 
-           +'<div   class="rcw-img-btn radio-div" style="display:flex justify-content :space-evenly"  onclick="onSubmit(`'  +i.title + '`)" >'+
+       index==0 ?'<div class="mtalkz-cb-radio-lable">'+   Object.keys(botResponse.data.sectionsList)[pindex] +'</div>': "" 
+           +'<div   class="mtalkz-cb-rcw-img-btn mtalkz-cb-radio-div" style="display:flex justify-content :space-evenly"  onclick="onSubmit(`'  +i.title + '`)" >'+
            '<label style="font-size:14px" >'+i.title+'</label> <input type="radio" id='+i.title+' name="contact" value={'+ i.title + '}></input> </div>'
                        )
                    } )
@@ -562,10 +549,10 @@ function getHardResponse(userText) {
                </div>`
            }
 
-           document.querySelector("#chatbox").innerHTML+=botHtml;
+           document.querySelector("#mtalkz-cb-chatbox").innerHTML+=botHtml;
     })
   
-    document.getElementById("chat-bar-bottom").scrollIntoView(true);
+    document.getElementById("mtalkz-cb-chat-bar-bottom").scrollIntoView(true);
     
 }
 //Gets the text text from the input box and processes it
@@ -574,7 +561,7 @@ function getResponse(data=undefined) {
     if(data){
         userText=data
     }else{
-        userText  = document.getElementById("textInput").value 
+        userText  = document.getElementById("mtalkz-cb-textInput").value 
         if (userText == "") {
             userText = "I love Code Palace!";
         }
@@ -588,10 +575,10 @@ function getResponse(data=undefined) {
     var minute = date.getMinutes();
     var second = date.getSeconds();
     var d= day + '-' + month + " "  + hour + ':' + minute + ':' + second +(date.getHours() >= 12 ? "PM" : "AM");
-    let userHtml = '<p class="userText"><span>' + userText + '</span><label style="justify-content:end">'+d+'</label></p>';
-    document.getElementById("textInput").value=""
-    document.querySelector("#chatbox").innerHTML+=userHtml
-    document.getElementById("chat-bar-bottom").scrollIntoView(true);
+    let userHtml = '<p class="mtalkz-cb-userText"><span>' + userText + '</span><label style="justify-content:end">'+d+'</label></p>';
+    document.getElementById("mtalkz-cb-textInput").value=""
+    document.querySelector("#mtalkz-cb-chatbox").innerHTML+=userHtml
+    document.getElementById("mtalkz-cb-chat-bar-bottom").scrollIntoView(true);
     setTimeout(() => {
         getHardResponse(userText);
     }, 1000)
@@ -599,10 +586,10 @@ function getResponse(data=undefined) {
 }
 // Handles sending text via button clicks
 function buttonSendText(sampleText) {
-    let userHtml = '<p class="userText"><span>' + sampleText + '</span></p>';
-    document.getElementById("textInput").value=""
-    document.getElementById("chatbox").append(userHtml);
-    document.getElementById("chat-bar-bottom").scrollIntoView(true);
+    let userHtml = '<p class="mtalkz-cb-userText"><span>' + sampleText + '</span></p>';
+    document.getElementById("mtalkz-cb-textInput").value=""
+    document.getElementById("mtalkz-cb-chatbox").append(userHtml);
+    document.getElementById("mtalkz-cb-chat-bar-bottom").scrollIntoView(true);
 
     //Uncomment this if you want the bot to respond to this buttonSendText event
     // setTimeout(() => {
