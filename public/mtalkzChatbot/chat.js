@@ -415,14 +415,14 @@ function matlkzchatbotgetHumanReadableDate(timestamp){
         method:"POST",
         body: JSON.stringify(data),
         headers: {
-        'Content-type': 'application/json',
+        "Content-Type": 'application/json',
         'Accept': 'application/json',
         'origin':"https://cb.mtalkz.cloud"
     },
     mode:"no-cors"
       })
           .then((res) => {
-           return getChatDetails(chatbotId,uniq_id)
+           return matlkzchatbotgetChatDetails(chatbotId,uniq_id)
         })
           .catch((err) => {
             console.log(err,"error")
@@ -488,8 +488,8 @@ function matlkzchatbotonSubmit(data){
     matlkzchatbotsendButton(data);
 }
 // Retrieves the response
-function matlkzchatbotgetHardResponse(userText) {
-    let _botResponse = matlkzchatbotgetBotResponse(userText,matlkzchatbotdefaultValues.chatbotId,12345432);
+ async function matlkzchatbotgetHardResponse(userText) {
+    let _botResponse =await matlkzchatbotgetBotResponse(userText,matlkzchatbotdefaultValues.chatbotId,12345432);
     let botHtml;
     _botResponse.map((botResponse)=>{
             if(botResponse && botResponse.type == "text"){
