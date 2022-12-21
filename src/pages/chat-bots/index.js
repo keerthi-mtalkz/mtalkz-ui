@@ -139,12 +139,10 @@ const Chatbot = () => {
       )
     },
     {
-      Header: 'ID',
-      accessor: 'mongo_id'
-    },
-    {
-      Header: 'Callback URL',
-      accessor: 'callback_url',
+      Header: 'ID / Callback URL',
+      Cell: (data) => (
+        <span>{data.row.original.channel === 'web' ? data.row.original.mongo_id : data.row.original.callback_url}</span>
+      )
     },
     {
       Header: 'Actions',
