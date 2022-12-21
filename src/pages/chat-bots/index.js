@@ -128,6 +128,10 @@ const Chatbot = () => {
       )
     },
     {
+      Header: 'Integration',
+      accessor: 'integration_name'
+    },
+    {
       Header: 'Channel',
       sortable: true,
       Cell: (data) => (
