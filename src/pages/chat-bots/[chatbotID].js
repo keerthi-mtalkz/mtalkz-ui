@@ -1,3 +1,4 @@
+import ls from 'local-storage';
 import Link from "next/link";
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -30,7 +31,7 @@ const ChatbotConfiguration = () => {
 
   /** Chatbot Operations */
   const chatid = useRouter().query.chatbotID;
-  const token = localStorage.getItem("token");
+  const token = ls.get("token");
 
   const fetchChatbot = () => {
     ax.get('/chatbots/' + chatid, {
@@ -346,7 +347,7 @@ const KeywordsList = () => {
   )
 
   const chatid = useRouter().query.chatbotID;
-  const token = localStorage.getItem("token");
+  const token = ls.get("token");
 
   const getKeywords = () => {
     ax.get("/keywords?chatbot_id=" + chatid, {
@@ -527,7 +528,7 @@ const FlowchartsList = () => {
   )
 
   const chatid = useRouter().query.chatbotID;
-  const token = localStorage.getItem('token');
+  const token = ls.get('token');
 
   const getFlowcharts = () => {
     ax.get("/flowcharts?chatbot_id=" + chatid, {
