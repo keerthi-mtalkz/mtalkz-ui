@@ -48,7 +48,7 @@ const ChatbotDashboard = () => {
       <div className="flex flex-row flex-wrap w-full mb-4">
         <Card title="Total Chatbots" totalMeg={stats.chatbots?.length || 0} />
         <Card title="Published Chatbots" totalMeg={stats.chatbots?.filter(cb => cb.published).length || 0} />
-        <Card title="Unique Users" totalMeg={stats.phones?.length || 0} />
+        <Card title="Unique Users" totalMeg={stats.uniq_ids?.length || 0} />
         <Card title="User Sessions" totalMeg={stats.sessions || 0} />
       </div>
 

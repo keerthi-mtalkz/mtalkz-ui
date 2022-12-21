@@ -8,7 +8,7 @@ const navigation = [
     title: '',
     items: [
       {
-        url: '/chatbots',
+        url: '/chat-bots',
         icon: <Icon.MessageCircle size={20} />,
         title: 'Chatbots',
         items: []
