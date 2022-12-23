@@ -222,6 +222,31 @@ const ChatbotConfiguration = () => {
           }
 
           <div className="w-full mb-4">
+            <label className="block">
+              <span className="text-default">Node Execution Limit (per User Session)</span>
+              <span className="text-red-600">*</span>
+
+              <input
+                name="node_execution_limit"
+                type="number"
+                min="5"
+                max="100"
+                step="1"
+                ref={register({ required: true, min: 5, max: 100 })}
+                className="form-input mt-1 text-xs block w-full bg-white"
+                placeholder="Enter a number"
+                value={chatbot.node_execution_limit}
+                onChange={handleDataUpdate}
+              />
+            </label>
+            {errors && errors.node_execution_limit && (
+              errors.node_execution_limit.map((err) => {
+                return <p className="mt-1 text-xs text-red-500">{err}</p>
+              })
+            )}
+          </div>
+
+          <div className="w-full mb-4">
             <label className="block flex justify-between">
               <span className="text-default">Published</span>
 
@@ -439,7 +464,7 @@ const KeywordsList = () => {
       Cell: (data) => (
         <div className="flex justify-evenly ">
           {permissions.update && (
-            <Link href={`keywords/update/${chatid}_${data.row.original.id}`}>
+            <Link href={`keywords/update/${chatid}-${data.row.original.id}`}>
               <p>
                 <i className="icon-note text-1xl font-bold mb-2"></i>
               </p>
@@ -607,8 +632,15 @@ const FlowchartsList = () => {
       sortable: false,
       Cell: (data) => (
         <div className="flex justify-evenly ">
+          {permissions.view && (
+            <Link href={`flowcharts/${chatid}-${data.row.original.id}-1`}>
+              <p>
+                <i className="icon-eye text-1xl font-bold mb-2"></i>
+              </p>
+            </Link>
+          )}
           {permissions.update && (
-            <Link href={`flowcharts/${chatid}_${data.row.original.id}`}>
+            <Link href={`flowcharts/${chatid}-${data.row.original.id}`}>
               <p>
                 <i className="icon-note text-1xl font-bold mb-2"></i>
               </p>
@@ -682,11 +714,125 @@ const FlowchartsList = () => {
   )
 }
 
+const FlowchartsLibrary = () => {
+  const [flowcharts, setFlowcharts] = useState([])
+  const [status, setStatus] = useState(undefined);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [permissions, setPermissions] = React.useState({ get: false, add: false, view: false })
+  const { userpermissions } = useSelector(
+    state => ({
+      userpermissions: state.userpermissions,
+    }),
+    shallowEqual
+  )
+
+  const chatid = useRouter().query.chatbotID;
+  const token = ls.get('token');
+
+  const getFlowcharts = () => {
+    ax.get("/flowcharts?public=1", {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then((res) => {
+      setFlowcharts(res.data);
+    }).catch((err) => {
+      setStatus({ type: "error", message: err.response.data.message });
+      console.error("get /flowcharts error", err);
+    });
+  };
+
+  const getPermissions = async () => {
+    let permissions = { get: false, view: false, add: false }
+    permissions["get"] = userpermissions.includes("chatbots.index") && getFlowcharts()
+    permissions["view"] = userpermissions.includes("chatbots.show")
+    permissions["add"] = userpermissions.includes("chatbots.store")
+    setPermissions({ ...permissions })
+  };
+
+  React.useEffect(() => {
+    getPermissions();
+  }, []);
+
+  const columns = [
+    {
+      Header: 'Name',
+      accessor: 'name',
+    },
+    {
+      Header: 'Variables',
+      accessor: 'variables.length',
+    },
+    {
+      Header: 'Nodes',
+      accessor: 'nodes.length',
+    },
+    {
+      Header: 'Actions',
+      sortable: false,
+      Cell: (data) => (
+        <div className="flex justify-evenly ">
+          {permissions.view && (
+            <Link href={`flowcharts/import/${chatid}-${data.row.original.id}-1`}>
+              <p>
+                <i className="icon-eye text-1xl font-bold mb-2"></i>
+              </p>
+            </Link>
+          )}
+          {permissions.add && (
+            <Link href={`flowcharts/import/${chatid}-${data.row.original.id}`}>
+              <p>
+                <i className="icon-note text-1xl font-bold mb-2"></i>
+              </p>
+            </Link>
+          )}
+        </div>
+      )
+    }
+  ]
+  return (
+    <div>
+      {status?.type === "error" && (
+        <div className="flex flex-wrap w-full">
+          <div className="p-2">
+            {NotificationManager.error(status.message, 'Error')}
+          </div>
+        </div>
+      )}
+      <div className="flex flex-row pb-4">
+        <div className=" w-full">
+          <input
+            type="text"
+            name="search"
+            className="w-full p-2 ..."
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search..."
+          />
+        </div>
+      </div>
+
+      <Datatable columns={columns} data={flowcharts?.filter((val) => {
+        if (searchQuery == "") {
+          return val;
+        } else if (
+          (val.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()) || val.slug.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
+            val.channel_slug.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
+            val.http_method.toLowerCase().includes(searchQuery.toLocaleLowerCase())
+          )
+        ) {
+          return val;
+        }
+      }).map((value) => { return value })} className="overflow-x-scroll" />
+    </div>
+  )
+}
+
 const Chatbot = () => {
   const tabs = [
     { index: 0, title: "Configuration", content: <ChatbotConfiguration /> },
     { index: 1, title: "Keywords", content: <KeywordsList /> },
     { index: 2, title: "Flows", content: <FlowchartsList /> },
+    { index: 3, title: "Library", content: <FlowchartsLibrary /> },
   ];
   return (
     <Layout>

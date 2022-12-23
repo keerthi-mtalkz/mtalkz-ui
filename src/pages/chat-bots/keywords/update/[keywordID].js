@@ -11,7 +11,7 @@ import { ax } from "../../../../utils/apiCalls";
 
 const updateKeyword = () => {
   const router = useRouter();
-  const [chatID, keywordID] = router.query.keywordID?.split('_') || [0,0];
+  const [chatID, keywordID] = router.query.keywordID?.split('-') || [0,0];
   const [status, setStatus] = useState(undefined);
   const { register, handleSubmit } = useForm();
   const [errors, setErrors] = useState(undefined);
