@@ -789,7 +789,7 @@ const FlowchartsLibrary = () => {
           {permissions.add && (
             <Link href={`flowcharts/import/${chatid}-${data.row.original.id}`}>
               <p>
-                <i className="icon-note text-1xl font-bold mb-2"></i>
+                <i className="icon-docs text-1xl font-bold mb-2"></i>
               </p>
             </Link>
           )}
