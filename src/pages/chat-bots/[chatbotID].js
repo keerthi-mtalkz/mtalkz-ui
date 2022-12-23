@@ -620,11 +620,18 @@ const FlowchartsList = () => {
       accessor: 'name',
     },
     {
+      Header: 'Visibility',
+      sortable: true,
+      Cell: (data) => {
+        <Badge size='sm' color={data.row.original.public ? 'green' : 'blue'} rounded>{data.row.original.public ? 'Public' : 'Private'}</Badge>
+      },
+    },
+    {
       Header: 'Variables',
       accessor: 'variables.length',
     },
     {
-      Header: 'Nodes',
+      Header: 'Primary Nodes',
       accessor: 'nodes.length',
     },
     {
@@ -832,7 +839,7 @@ const Chatbot = () => {
     { index: 0, title: "Configuration", content: <ChatbotConfiguration /> },
     { index: 1, title: "Keywords", content: <KeywordsList /> },
     { index: 2, title: "Flows", content: <FlowchartsList /> },
-    { index: 3, title: "Library", content: <FlowchartsLibrary /> },
+    { index: 3, title: "Public Flows", content: <FlowchartsLibrary /> },
   ];
   return (
     <Layout>
