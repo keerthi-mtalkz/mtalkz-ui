@@ -622,9 +622,9 @@ const FlowchartsList = () => {
     {
       Header: 'Visibility',
       sortable: true,
-      Cell: (data) => {
+      Cell: (data) => (
         <Badge size='sm' color={data.row.original.public ? 'green' : 'blue'} rounded>{data.row.original.public ? 'Public' : 'Private'}</Badge>
-      },
+      ),
     },
     {
       Header: 'Variables',
