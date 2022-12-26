@@ -31,6 +31,7 @@ function showChatBot(){
 
 //Main html
 const mtkzcbInit=(configureValues={})=>{
+mtkzcbgetUserIp();
      if(configureValues){
         let keys = Object.keys(configureValues);
         keys.map((key, i) =>matlkzchatbotdefaultValues[key]=configureValues[key]) 
@@ -43,7 +44,6 @@ const mtkzcbInit=(configureValues={})=>{
             mtkzcbfrequentApiCall()
         }
      }
-mtkzcbgetUserIp();
 
      if(matlkzchatbotdefaultValues.chatbotId){
     const botHtml=`
@@ -588,7 +588,7 @@ function mtkzcbonSubmit(data){
 
 // Retrieves the response
  async function mtkzcbHardResponse(userText) {
-    const id=localStorage.getItem("uniqueId")
+    const id= parseInt(localStorage.getItem("uniqueId")) 
     await mtkzcbgetBotResponse(userText,matlkzchatbotdefaultValues.chatbotId,id);
    
     
@@ -634,8 +634,6 @@ function mtkzcbfrequentApiCall(){
               }
                 ).then((res) => {
                     return res.json()
-                   
-            
                 }).then((res)=>{
                     let _botResponse=[]
                      res.forEach((data)=>{
@@ -644,8 +642,6 @@ function mtkzcbfrequentApiCall(){
                     _botResponse && _botResponse.map((res)=>{
                     res.ts=mtkzcbgetHumanReadableDate(res.ts)
                     })
-    
-    
                     let botHtml;
                     
                     _botResponse && _botResponse.map((botResponse)=>{
@@ -656,8 +652,8 @@ function mtkzcbfrequentApiCall(){
                                <div  class="mtalkz-cb-rcw-message">
                              <div  class="mtalkz-cb-rcw-img-btn">
                            ${botResponse.data.options && botResponse.data.options.header.type=="text" ? '<div style="margin-left: 10px;">' + botResponse.data.options.header.text.trim() + '</div>' : ""} 
-                           ${botResponse.data.options && botResponse.data.options.header.type=="image" ?
-                           '<img src={botResponse.data.options.header.image.link} alt="invalid url" style={{"max-width":"200px", height:"100px"}}></img>':""} 
+                           ${botResponse.data.options && botResponse.data.options.header.type=="image"?
+                           '<img src={botResponse.data.options.header.mediaUrl} alt="invalid url" style={{"max-width":"200px", height:"100px"}}></img>':""} 
                              <span id="mtalkz-cb">
                              ${botResponse.data.bodyText}
                             </span>
@@ -680,7 +676,12 @@ function mtkzcbfrequentApiCall(){
                            }else if(botResponse && botResponse.type == "list"){
                                botHtml=`<div class="mtalkz-cb-botText">
                                <div class="mtalkz-cb-rcw-message">
-                               <div class="mtalkz-cb-rcw-img-btn">
+                               <div class="mtalkz-cb-rcw-img-btn mtalkz-cb-botText">
+                               <span style="margin-bottom: 3px;">
+                           ${botResponse.data.options && botResponse.data.options.header.type=="text" ? '<div style="margin-left: 10px;">' + botResponse.data.options.header.text.trim() + '</div>' : ""} 
+                           ${botResponse.data.options && botResponse.data.options.header.type=="image" ?
+                           '<img src={botResponse.data.options.header.mediaUrl} alt="invalid url" style={{"max-width":"200px", height:"100px"}}></img>':""} 
+                           </span>
                                <div>
                                <span id="mtalkz-cb-list-text">
                                ${botResponse.data.bodyText}
@@ -713,7 +714,7 @@ function mtkzcbfrequentApiCall(){
     
     
                 })  .catch((err) => {
-                  console.error(err,"error in getting the response")
+                  console.error(err,"error in getting ")
                 });
               
          }
@@ -737,5 +738,4 @@ function mtkzcbbuttonSendText(sampleText) {
 function mtkzcbbotsendButton(data=undefined) {
     mtkzcbgetResponse(data ? data:document.getElementById("mtalkz-cb-textInput").value);
 }
-
 
