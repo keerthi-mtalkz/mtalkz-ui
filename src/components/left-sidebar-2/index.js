@@ -91,9 +91,10 @@ const List = ({items}) => {
 }
 
 const Sidebar = () => {
-  const {collapsed} = useSelector(
+  const {collapsed,userpermissions} = useSelector(
     state => ({
-      collapsed: state.collapsed
+      collapsed: state.collapsed,
+      userpermissions: state.userpermissions,
     }),
     shallowEqual
   )
@@ -109,7 +110,7 @@ const Sidebar = () => {
             <Title>{menu.title}</Title>
           </div>
           <div className="flex flex-col">
-            {menu.items.map((items, j) => (
+            {menu.items.filter((m)=>userpermissions.includes(m.index)).map((items, j) => (
               <List key={j} items={items} />
             ))}
           </div>
