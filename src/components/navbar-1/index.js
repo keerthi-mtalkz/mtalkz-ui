@@ -9,6 +9,7 @@ import { getColor, toRGB } from "../../functions/colors";
 import {ax} from "../../utils/apiCalls"
 import {NotificationManager} from 'react-notifications';
 import ConfirmationModal from "../../components/confirmationmodal"
+import moment from 'moment'
 
 
 const Navbar = () => {
@@ -43,6 +44,9 @@ const Navbar = () => {
       localStorage.removeItem("user")
       localStorage.removeItem("orgName")
       localStorage.removeItem("orgId")
+      localStorage.removeItem("tokenGeneratedTime")
+      localStorage.removeItem("tokenExpireTime")
+
       router.push("/pages/login");
     })
     .catch((err) => {
@@ -51,6 +55,7 @@ const Navbar = () => {
   }
   
   const getOraganizations = async () => {
+   
     const token= localStorage.getItem("token");
     await ax
       .get("/auth/organizations", {
@@ -76,6 +81,7 @@ const Navbar = () => {
   };
 
   useEffect(()=>{
+    console.log("organizations")
   },[selectedOrganization])
 
   const getPermissions=async ()=>{
@@ -110,8 +116,22 @@ const Navbar = () => {
 
   useEffect(()=>{
     NotificationManager.removeAll()
-    getOraganizations()
-   getPermissions()
+    const currentTime = moment(new Date());
+    const tokenIssueTime = localStorage.getItem('tokenGeneratedTime')
+    const tokenExpireTime= localStorage.getItem('tokenExpireTime')
+     console.log(currentTime,tokenIssueTime, moment(currentTime).diff(tokenIssueTime, "minutes"),"^^^^^^^^^^")
+     if(localStorage.getItem('token')){
+      if( moment(currentTime).diff(tokenIssueTime, "minutes") >=
+      tokenExpireTime){
+        router.push("/pages/login");
+      }else{
+        getOraganizations()
+      }
+     }else{
+      router.push("/pages/login");
+     }
+   
+   
   },[])
 
   const options = organizations?.map((value) => {
@@ -137,7 +157,7 @@ const Navbar = () => {
         .then((res) => {
       router.push("/dashboard");
     setShowDeletePopup(false)
-
+     getPermissions()
            
         })
         .catch((err) => {
