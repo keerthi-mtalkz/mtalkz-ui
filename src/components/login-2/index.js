@@ -1,9 +1,10 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import {useForm} from 'react-hook-form'
 import {ax} from "../../utils/apiCalls"
 import {useDispatch} from 'react-redux'
+import moment from 'moment';
 
 
 
@@ -14,14 +15,32 @@ const Login1 = () => {
   const router = useRouter()
   const [status, setStatus] = useState(undefined);
 
+  const getPermissions=async ()=>{
+    const token = localStorage.getItem('token');
+    await ax
+      .get("/auth/permissions", {headers: {
+        'Authorization': `Bearer ${token}`
+       }})
+      .then((res) => {
+        dispatch({
+          type: 'UPDATE_PERMISSIONS',
+          value: res.data.permissions
+        })
+      })
+      .catch((err) => {
+    });
+  }
 
   const onSubmit = async(data) => {
     await ax
     .post("/auth/login", data)
     .then((res) => {
+      console.log()
       setStatus({ type: "success" });
       res.data.user.img="m1.png"
       localStorage.setItem("token",res.data.token)
+      localStorage.setItem('tokenGeneratedTime', moment(new Date()));
+      localStorage.setItem('tokenExpireTime',2880)
       localStorage.setItem("user", JSON.stringify(res.data.user))
       localStorage.setItem("userName", res.data.user.name)
 
@@ -29,6 +48,7 @@ const Login1 = () => {
         type: 'UPDATE_USER',
         value: res.data.user
       })
+      getPermissions()
       setTimeout(() => {
       router.push("/dashboard");
       }, 1000);
@@ -43,6 +63,7 @@ const Login1 = () => {
     });
     
   };
+
 
   return (
     <>
