@@ -6,7 +6,7 @@ const matlkzchatbotdefaultValues={
     logo:"./mtalkz-logo.png",
     name:"mTalkz Support",
     welcomeText:"Welcome To MtalkzSupport",
-    polingIntervalSec:3,
+    polingIntervalSec:5,
     botmesgbd: "#f4f4f4",
     usermesgbg: '#434190',
     sendbtnbg:"#434190",
@@ -20,10 +20,10 @@ const matlkzchatbotdefaultValues={
 function showChatBot(){
     if(document.getElementsByClassName("mtalkz-cb-chat-bar-collapsible")[0].style.visibility==="visible")
     {
-        document.getElementById("mtalkz-cb-showHideChatbot").innerHTML="show"
+        document.getElementById("mtalkz-cb-showHideChatbot").innerHTML="&#x1F4AC;"
         document.getElementsByClassName("mtalkz-cb-chat-bar-collapsible")[0].style.visibility="hidden"
     }else{
-        document.getElementById("mtalkz-cb-showHideChatbot").innerHTML="hide"
+        document.getElementById("mtalkz-cb-showHideChatbot").innerHTML="&times; "
         document.getElementsByClassName("mtalkz-cb-chat-bar-collapsible")[0].style.visibility="visible"
 
     }
@@ -51,10 +51,23 @@ mtkzcbgetUserIp();
     .mtalkz-cb-chat-bar-collapsible {
         position: fixed;
         bottom: 32;
-        right: 60px;
+        right: 40px;
         box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.2);
         border-radius: 10px 10px 0px 0px;   
         visibility: hidden;
+    }
+
+    .mtalkz-cb-image-div{
+        line-height: 1.5em;
+        display: inline-block;
+        background: #f4f4f4;
+        padding: 10px;
+        border-radius: 6px;
+        border-bottom-left-radius: 2px;
+        max-width: 80%;
+        margin-left: 10px;
+        animation: floatup .5s forwards;
+        margin-top: 15px;
     }
     .mtalkz-cb-showHideButtonDiv{
         bottom: 44px;
@@ -64,10 +77,13 @@ mtkzcbgetUserIp();
     }
     .mtalkz-cb-showHideButton{
         border: none;
-        padding: 10px;
-        border-radius: 10px;
+        padding: 0;
+        border-radius: 50%;
         background: #434190;
         color: white;
+        width: 2rem;
+        height: 2rem;
+        font-size: 1.5em;
        }
     .mtalkz-cb-collapsible {
         background-color: ${matlkzchatbotdefaultValues.backgroundColor};
@@ -162,6 +178,8 @@ mtkzcbgetUserIp();
         background-color: rgb(235, 235, 235);
         border-radius: 10px 10px 0px 0px;
         padding: 10px 0px 10px 10px;
+        position: sticky;
+        bottom:0
     }
     
     .mtalkz-cb-chat-bar-icons {
@@ -323,7 +341,7 @@ mtkzcbgetUserIp();
         padding: 10px;
         border-radius: 6px;
         border-bottom-left-radius: 2px;
-        max-width: 80%;
+        max-width: 95%;
         margin-left: 10px;
         animation: floatup .5s forwards;
         
@@ -433,7 +451,7 @@ mtkzcbgetUserIp();
     <div>
     <div  class="mtalkz-cb-showHideButtonDiv" >
     <button class="mtalkz-cb-showHideButton" id="mtalkz-cb-showHideChatbot" type="button" onclick="showChatBot()" value="show">
-    show
+    &#x1F4AC;
     </button>
     </div>
     <div   class="mtalkz-cb-chat-bar-collapsible"  >
@@ -449,7 +467,7 @@ mtkzcbgetUserIp();
                 <div class="mtalkz-cb-chat-container">
                     <!-- Messages -->
                     <div id="mtalkz-cb-chatbox">
-                        <h5 id="mtalkz-cb-chat-timestamp"></h5>
+                        <div id="mtalkz-cb-chat-timestamp"></div>
                     </div>
 
                     <!-- User input box -->
@@ -491,9 +509,12 @@ mtkzcbfirstBotMessage();}else{
 
 function mtkzcbgetHumanReadableDate(timestamp){
     let date = new Date(timestamp);
-      var hour = date.getHours();
-      var minute = date.getMinutes();
-      return  hour + ':' + (date.getMinutes()<10?'0':'')+ date.getMinutes() + " "+ (date.getHours() >= 12 ? "PM" : "AM");
+    var hours = date.getHours();
+
+    let ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+      return (hours<10?'0':'')+ hours + ':' + (date.getMinutes()<10?'0':'')+ date.getMinutes() + " "+ampm;
   }
 
 
@@ -608,9 +629,10 @@ function mtkzcbgetResponse(data=undefined) {
     
     const date = new Date();
     var hour = date.getHours();
-    var minute = date.getMinutes();
-    var second = date.getSeconds();
-    var d=   hour + ':' + (date.getMinutes()<10?'0':'')+ date.getMinutes()+" "  +(date.getHours() >= 12 ? "PM" : "AM");
+    let ampm = hour >= 12 ? 'pm' : 'am';
+    hour = hour % 12;
+    hour = hour ? hour : 12;
+    var d= (hour<10?'0':'')+  hour + ':' + (date.getMinutes()<10?'0':'')+ date.getMinutes()+" "  +ampm;
     let userHtml = '<p class="mtalkz-cb-userText"><span>' + userText + '</span><label style="justify-content:end;margin-right: 10px;margin-top: 2px;"}">'+d+'</label></p>';
     document.getElementById("mtalkz-cb-textInput").value=""
     document.querySelector("#mtalkz-cb-chatbox").innerHTML+=userHtml
@@ -640,21 +662,30 @@ function mtkzcbfrequentApiCall(){
                         const d= data.replaceAll("\\n","<br/>")
                         _botResponse.push(JSON.parse(d))})
                     _botResponse && _botResponse.map((res)=>{
+                        if( res.data.preview_url){
+                            console.log(res.data.message,"res.data.message")
+                          let messages=  res.data.message.split("https://");
+                          let link= "https://" + messages[1]
+                          link = `<a href=${link} target="_blank">${link}</a>`
+                          res.data.message =  messages[0] + link
+                        }
                     res.ts=mtkzcbgetHumanReadableDate(res.ts)
                     })
                     let botHtml;
                     
                     _botResponse && _botResponse.map((botResponse)=>{
+                        console.log(botResponse.type ,"botResponse.type ")
                             if(botResponse && botResponse.type == "text"){
                                 botHtml = `<div><p class="mtalkz-cb-botText" id="textMesg">  ${botResponse.data &&  '<span>'+  botResponse.data.message +'</span>'}</p><label>${botResponse.ts}</label></div>`;
                            }else if(botResponse && botResponse.type == "reply"){
                                botHtml = `<div class="mtalkz-cb-botText">
                                <div  class="mtalkz-cb-rcw-message">
                              <div  class="mtalkz-cb-rcw-img-btn">
-                           ${botResponse.data.options && botResponse.data.options.header.type=="text" ? '<div style="margin-left: 10px;">' + botResponse.data.options.header.text.trim() + '</div>' : ""} 
+                             <span id="mtalkz-cb" >
+                           ${botResponse.data.options && botResponse.data.options.header.type=="text" ? '<div style="font-weight: bold;">' + botResponse.data.options.header.text.trim() + '</div>' : ""} 
                            ${botResponse.data.options && botResponse.data.options.header.type=="image"?
-                           '<img src={botResponse.data.options.header.mediaUrl} alt="invalid url" style={{"max-width":"200px", height:"100px"}}></img>':""} 
-                             <span id="mtalkz-cb">
+                           '<img src='+ botResponse.data.options.header.image.link+' alt="invalid url" style="max-width:80%; height:200px"></img>':""} 
+                             
                              ${botResponse.data.bodyText}
                             </span>
                              </div>
@@ -677,15 +708,15 @@ function mtkzcbfrequentApiCall(){
                                botHtml=`<div class="mtalkz-cb-botText">
                                <div class="mtalkz-cb-rcw-message">
                                <div class="mtalkz-cb-rcw-img-btn mtalkz-cb-botText">
-                               <span style="margin-bottom: 3px;">
-                           ${botResponse.data.options && botResponse.data.options.header.type=="text" ? '<div style="margin-left: 10px;">' + botResponse.data.options.header.text.trim() + '</div>' : ""} 
-                           ${botResponse.data.options && botResponse.data.options.header.type=="image" ?
-                           '<img src={botResponse.data.options.header.mediaUrl} alt="invalid url" style={{"max-width":"200px", height:"100px"}}></img>':""} 
-                           </span>
+                           ${botResponse.data.options && botResponse.data.options.header.type=="text" ? '<div style="margin-left: 10px;"><span>' + botResponse.data.options.header.text.trim() + '</span></div>' : ""} 
+                          
                                <div>
                                <span id="mtalkz-cb-list-text">
-                               ${botResponse.data.bodyText}
-                               ${botResponse.data.button}
+                               ${botResponse.data.options && botResponse.data.options.header.type=="image" ?
+                               '<img src='+botResponse.data.options.header.image.link+' alt="invalid url" style="max-width:200px; height:100px"></img></br>':""} 
+                               ${botResponse.data.bodyText} </br>
+                               <div style="text-transform: uppercase;
+                               font-size: 12px;">${botResponse.data.button}</div>
                                </span>
                                </div>
                                </div>
@@ -702,15 +733,37 @@ function mtkzcbfrequentApiCall(){
                                    } ).join('')
                                    ).join('')
                                    }
+                                   ${botResponse.data.options.footerText ? '<div style="margin-left: 10px; color: gray;">'+botResponse.data.options.footerText+'</div>' : ""}
                                </div>
                             <label>${botResponse.ts}</label>
                                </div>`
+                           }else if(botResponse && botResponse.type == 'document'){
+                            botHtml = `<div><p class="mtalkz-cb-botText"><span>  ${botResponse.data.options.filename && '<a href ='+ botResponse.data.link +'  target="_blank">'+  botResponse.data.options.filename  + '</a>'}</span></p><label>${botResponse.ts}</label></div>`;
+                           }else if(botResponse && botResponse.type == 'video'){
+                            botHtml =` <div class="mtalkz-cb-botText" ><p><span><video width="300" height = "200" controls>
+                            <source src="https://img-9gag-fun.9cache.com/photo/axo7VNp_460sv.mp4" type="video/mp4">
+                            Your browser does not support HTML video.
+                          </video></span></p> <label>${botResponse.ts}</label></div>`
+                           }else if(botResponse && botResponse.type == 'audio'){
+                            botHtml =`<div class="mtalkz-cb-botText" style="margin-left:10px"><p>
+                            <audio controls>
+                            <source src=${botResponse.data.link} type="audio/ogg"></source>
+                          </audio></p>
+                          <label>${botResponse.ts}</label>
+                            </div>`
+                           }else if(botResponse && botResponse.type == 'location'){
+                            botHtml =`<div></div>`
+                           }else if(botResponse && botResponse.type == 'image'){
+                            botHtml =   `
+                           <div class="mtalkz-cb-botText" ><div class="mtalkz-cb-image-div"> <div>  <img src=${botResponse.data.link}  alt="invalid url" style="max-width:80%; max-height:200px">
+                          
+                          </img></div><div style="text-align: center;">${botResponse.data.options.caption} </div></div><label>${botResponse.ts}</label><div>` 
                            }
                            document.querySelector("#mtalkz-cb-chatbox").innerHTML+=botHtml;
-                           document.getElementById("mtalkz-cb-list-text").innerHTML=document.getElementById("mtalkz-cb-list-text").innerHTML.trim().replace(/&nbsp;/g, '')
+                        //    document.getElementById("mtalkz-cb-list-text").innerHTML=document.getElementById("mtalkz-cb-list-text")?.innerHTML?.trim().replace(/&nbsp;/g, '')
                     })
-                  
-                    document.getElementById("mtalkz-cb-chat-bar-bottom").scrollIntoView(true);
+                    console.log(res,"yrfdwevfhegwfhgefbrehgf")
+                    res.length>0 && document.getElementById("mtalkz-cb-chat-bar-bottom").scrollIntoView(true);
     
     
                 })  .catch((err) => {
@@ -718,7 +771,7 @@ function mtkzcbfrequentApiCall(){
                 });
               
          }
-        },(matlkzchatbotdefaultValues.polingIntervalSec <1 ? 1:matlkzchatbotdefaultValues.polingIntervalSec) * 1000 )
+        },(matlkzchatbotdefaultValues.polingIntervalSec <2 ? 2:matlkzchatbotdefaultValues.polingIntervalSec) * 1000 )
     }
    
    
@@ -728,7 +781,7 @@ function mtkzcbbuttonSendText(sampleText) {
     let userHtml = '<p class="mtalkz-cb-userText"><span>' + sampleText + '</span></p>';
     document.getElementById("mtalkz-cb-textInput").value=""
     document.getElementById("mtalkz-cb-chatbox").append(userHtml);
-    document.getElementById("mtalkz-cb-chat-bar-bottom").scrollIntoView(true);
+    // document.getElementById("mtalkz-cb-chat-bar-bottom").scrollIntoView(true);
 
     //Uncomment this if you want the bot to respond to this mtkzcbbuttonSendText event
     // setTimeout(() => {
