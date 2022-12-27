@@ -142,7 +142,7 @@ const [file,setFile]=React.useState(undefined);
         "id": campaignID,
         "field_0": number
       }
-      dataset.push(fetch("https://zaapp.azurewebsites.net/integrations/smartflo/enter/single/lead", {
+      dataset.push(fetch("https://zaapp.azurewebsites.net/integrations/voice/enter/single/lead", {
         method: "POST",
         body: JSON.stringify(data),
         headers: {
