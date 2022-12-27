@@ -9,7 +9,8 @@ import React from "react";
 import SectionTitle from '../../components/section-title'
 import {Badge} from '../../components/badges'
 import ConfirmationModal from "../../components/confirmationmodal"
-import {useSelector, shallowEqual} from 'react-redux'
+import {useSelector, shallowEqual} from 'react-redux';
+import Card from "./card"
 
 const Integration=()=>{
  const [integrations,setIntegrations]=useState([])
@@ -213,7 +214,21 @@ const getColorBasedOnMethod=(method)=>{
        
       </div>
     </div>
-    
+     {integrations?.filter((val) => {
+      if (searchQuery == "") {
+        return val;
+      } else if (
+       (val.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()) || val.slug.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
+        val.channel_slug.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
+        val.http_method.toLowerCase().includes(searchQuery.toLocaleLowerCase())
+        ) 
+      ) {
+        return val;
+      }
+    })
+    .map((value, idx) => {return (
+      <Card data={value}></Card>
+    )})}
     <Datatable columns={columns}  data={integrations?.filter((val) => {
       if (searchQuery == "") {
         return val;
@@ -229,6 +244,9 @@ const getColorBasedOnMethod=(method)=>{
       }
     })
     .map((value, idx) => {return value})} className="overflow-x-scroll"/>
+
+   
+
     </Layout>
     )
 }
