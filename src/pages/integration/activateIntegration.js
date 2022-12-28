@@ -42,8 +42,29 @@ const activateIntegration = () => {
 }
 };
 const onSubmit = (data) => {
-    console.log(data,"ajdfmhrfv")
-}
+ data.is_default_for_channel  = checked;
+ const token = localStorage.getItem('token');
+    ax.post(`/integrations/${activateID}/activate`, data, {headers: {
+      'Authorization': `Bearer ${token}`
+     }})
+      .then((res) => {
+        setStatus({ type: "success" });
+        setTimeout(() => {
+        router.push("/integration");
+        }, 1000);
+      })
+      .catch((err) => {
+        if(err.response.data.errors){
+          setErrors(err.response.data.errors)
+        }else{
+          setStatus({ type: "error",message: err.response.data.message });
+        }
+        setTimeout(() => {
+          router.push("/integration");
+          }, 1000);
+      });
+    }
+
 
 useEffect(() => {
   fetchIntegrations();
@@ -55,6 +76,21 @@ useEffect(() => {
   return (
     <Layout>
     <SectionTitle title="Activate Integration" subtitle="" />
+    {status?.type === "success" && (
+      <div className="flex flex-wrap w-full">
+      <div className="p-2">
+      { NotificationManager.success('Activated integration successfully', 'Success')}
+      </div>
+    </div>
+    )}
+      {status?.type === "error" && (
+        <div className="flex flex-wrap w-full">
+        <div className="p-2">
+        { NotificationManager.error(status.message, 'Error')}
+         
+        </div>
+      </div>
+      )}
     <div style={{    width:" 40%"
     }}> 
     <form
@@ -80,16 +116,15 @@ useEffect(() => {
       return(
         <div className="w-full mb-4">
         <label className="block">
-          <span className="text-default">param {i}</span>
+          <span className="text-default">{name}</span>
           <input
             name={name+i}
             type="text"
             ref={register()}
             className="form-input mt-1 text-xs block w-full bg-white"
             required
-            defaultValue={name}
-            title="Please enter a name"
-          
+            title={`please enter ${name}`}
+            placeholder={`please enter ${name}`}
           />
         </label>
       </div>
