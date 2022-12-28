@@ -18,8 +18,7 @@ import 'react-pagination-bar/dist/index.css'
 const Integration=()=>{
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
-  const pagePostsLimit = 1;
-  const integrationLength=0;
+  const pagePostsLimit = 10;
  const [integrations,setIntegrations]=useState([])
  const [status, setStatus] = useState(undefined);
  const [searchQuery, setSearchQuery] = useState("");
