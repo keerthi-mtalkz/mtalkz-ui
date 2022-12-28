@@ -683,14 +683,14 @@ function mtkzcbfrequentApiCall(){
 
                                <div  class="mtalkz-cb-rcw-message">
                              <div  class="mtalkz-cb-rcw-img-btn">
-                           ${botResponse.data.options && botResponse.data.options.header.type=="text" ? '<div style="font-weight: bold;">' + botResponse.data.options.header.text.trim() + '</div>' : ""} 
-                           ${botResponse.data.options && botResponse.data.options.header.type=="image"?
-                           '<img src='+ botResponse.data.options.header.image.link+' alt="invalid url" style="max-width:80%; height:200px"></img>':""} 
+                           ${botResponse.data.options?.header?.type==="text" ? '<div style="font-weight: bold;">' + botResponse.data.options.header.text.trim() + '</div>' : ""} 
+                           ${botResponse.data.options?.header?.type==="image"?
+                           '<img src='+ botResponse.data.options.header.image.link+' alt="invalid url" style="max-width:80%; max-height:200px"></img>':""} 
                              
                              ${botResponse.data.bodyText}
                              </div>
                             </div> 
-                            ${botResponse.data.options.footerText ? '<div style="color: gray;">'+botResponse.data.options.footerText+'</div>' : ""}
+                            ${botResponse.data.options?.footerText ? '<div style="color: gray;">'+botResponse.data.options.footerText+'</div>' : ""}
 
                             <div>
                             ${
@@ -714,11 +714,11 @@ function mtkzcbfrequentApiCall(){
                                botHtml=`<div class="mtalkz-cb-botText">
                                <div class="mtalkz-cb-rcw-message">
                                <div class="mtalkz-cb-rcw-img-btn mtalkz-cb-botText">
-                           ${botResponse.data.options && botResponse.data.options.header.type=="text" ? '<div style="margin-left: 10px;"><span>' + botResponse.data.options.header.text.trim() + '</span></div>' : ""} 
+                           ${botResponse.data.options?.header?.type==="text" ? '<div style="margin-left: 10px;"><span>' + botResponse.data.options.header.text.trim() + '</span></div>' : ""} 
                           
                                <div>
                                <span id="mtalkz-cb-list-text">
-                               ${botResponse.data.options && botResponse.data.options.header.type=="image" ?
+                               ${botResponse.data.options?.header?.type==="image" ?
                                '<img src='+botResponse.data.options.header.image.link+' alt="invalid url" style="max-width:200px; height:100px"></img></br>':""} 
                               <div style="font-size: 14px;"> ${botResponse.data.bodyText}</div>
                                <div style="text-transform: uppercase;
@@ -735,7 +735,7 @@ function mtkzcbfrequentApiCall(){
                                    } ).join('')
                                    ).join('')
                                    }
-                                   ${botResponse.data.options.footerText ? '<div style=" color: gray;">'+botResponse.data.options.footerText+'</div>' : ""}
+                                   ${botResponse.data.options?.footerText ? '<div style=" color: gray;">'+botResponse.data.options.footerText+'</div>' : ""}
                                </div>
                                </span>
                                </div>
@@ -745,7 +745,7 @@ function mtkzcbfrequentApiCall(){
                             <label>${botResponse.ts}</label>
                                </div>`
                            }else if(botResponse && botResponse.type == 'document'){
-                            botHtml = `<div><p class="mtalkz-cb-botText"><span>  ${botResponse.data.options.filename && '<a href ='+ botResponse.data.link +'  target="_blank">'+  botResponse.data.options.filename  + '</a>'}</span></p><label>${botResponse.ts}</label></div>`;
+                            botHtml = `<div><p class="mtalkz-cb-botText"><span><a href="${botResponse.data.link}" target="_blank">${botResponse.data.options?.filename||botResponse.data.link.split('/').pop()}</a></span></p><label>${botResponse.ts}</label></div>`;
                            }else if(botResponse && botResponse.type == 'video'){
                             botHtml =` <div class="mtalkz-cb-botText" ><p><span><video width="300" height = "200" controls>
                             <source src="https://img-9gag-fun.9cache.com/photo/axo7VNp_460sv.mp4" type="video/mp4">
@@ -764,7 +764,7 @@ function mtkzcbfrequentApiCall(){
                             botHtml =   `
                            <div class="mtalkz-cb-botText" ><div class="mtalkz-cb-image-div"> <div>  <img src=${botResponse.data.link}  alt="invalid url" style="max-width:80%; max-height:200px">
                           
-                          </img></div><div style="text-align: center;">${botResponse.data.options.caption} </div></div><label>${botResponse.ts}</label><div>` 
+                          </img></div><div style="text-align: center;">${botResponse.data.options?.caption} </div></div><label>${botResponse.ts}</label><div>` 
                            }
                            document.querySelector("#mtalkz-cb-chatbox").innerHTML+=botHtml;
                         //    document.getElementById("mtalkz-cb-list-text").innerHTML=document.getElementById("mtalkz-cb-list-text")?.innerHTML?.trim().replace(/&nbsp;/g, '')
