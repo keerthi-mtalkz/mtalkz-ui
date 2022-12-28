@@ -11,7 +11,7 @@ const matlkzchatbotdefaultValues={
     usermesgbg: '#434190',
     sendbtnbg:"#434190",
     chatbotHeight:"80vh",
-    autoDisplay:1
+    autoDisplay:0
 }
 
 
@@ -35,10 +35,13 @@ mtkzcbgetUserIp();
      if(configureValues){
         let keys = Object.keys(configureValues);
         keys.map((key, i) =>matlkzchatbotdefaultValues[key]=configureValues[key]) 
-        setTimeout(() => {
-            console.log(matlkzchatbotdefaultValues.autoDisplay*1000)
-            document.getElementsByClassName("mtalkz-cb-chat-bar-collapsible")[0].style.visibility!="visible" && showChatBot()
-        }, matlkzchatbotdefaultValues.autoDisplay*1000);
+        if( matlkzchatbotdefaultValues.autoDisplay >= 0){
+            setTimeout(() => {
+                console.log(matlkzchatbotdefaultValues.autoDisplay*1000)
+                document.getElementsByClassName("mtalkz-cb-chat-bar-collapsible")[0].style.visibility!="visible" && showChatBot()
+            }, matlkzchatbotdefaultValues.autoDisplay*1000);
+        }
+    
         if(matlkzchatbotdefaultValues.chatbotId!=null)
         {
             mtkzcbfrequentApiCall()
@@ -132,6 +135,12 @@ mtkzcbgetUserIp();
         left: 0;
         scroll-behavior: smooth;
         hyphens: auto;
+    }
+
+    .mtalkz-cb-list-description{
+        font-size: 10px;
+        margin-left: 10px;
+        color: gray;
     }
 
     .btn-group-vertical {
@@ -363,19 +372,16 @@ mtkzcbgetUserIp();
     
     .mtalkz-cb-section-list {
         background-color: #f4f4f4;
-        margin-left: 10px;
         width: 215px;
     }
     
     .mtalkz-cb-radio-lable {
         font-size: 11px;
         color: darkblue;
-        padding: 10px;
         text-transform: uppercase;
     }
     
     .mtalkz-cb-radio-div {
-        margin-bottom: 4px;
         display: flex;
         justify-content: space-between;
         padding-right: 8px;
@@ -508,13 +514,7 @@ mtkzcbfirstBotMessage();}else{
 // // Collapsible
 
 function mtkzcbgetHumanReadableDate(timestamp){
-    let date = new Date(timestamp);
-    var hours = date.getHours();
-
-    let ampm = hours >= 12 ? 'pm' : 'am';
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-      return (hours<10?'0':'')+ hours + ':' + (date.getMinutes()<10?'0':'')+ date.getMinutes() + " "+ampm;
+   return new Date(timestamp).toLocaleTimeString('en-HI', {timeStyle: 'short'})
   }
 
 
@@ -544,20 +544,7 @@ function mtkzcbgetHumanReadableDate(timestamp){
 
 
  function mtkzcbgetTime() {
-    let today = new Date();
-    var daysOfWeek = {
-        0: "Sunday",
-        1: "Monday",
-        2: "Tuesday",
-        3: "Wednesday",
-        4: "Thursday",
-        5: "Friday",
-        6: "Saturday",
-       };
-    const day = today.toLocaleString('default', { day: '2-digit' });
-      const month = today.toLocaleString('default', { month: 'short' });
-      const year = today.toLocaleString('default', { year: 'numeric' });
-    return (daysOfWeek[today.getDay()]+ " " + month + " " + day + ", "+year);
+    return new Date().toLocaleDateString('en-HI', {dateStyle: 'full'})
   }
 
 
@@ -625,14 +612,7 @@ function mtkzcbgetResponse(data=undefined) {
         return
     }
 
-    
-    
-    const date = new Date();
-    var hour = date.getHours();
-    let ampm = hour >= 12 ? 'pm' : 'am';
-    hour = hour % 12;
-    hour = hour ? hour : 12;
-    var d= (hour<10?'0':'')+  hour + ':' + (date.getMinutes()<10?'0':'')+ date.getMinutes()+" "  +ampm;
+    var d=new Date().toLocaleTimeString('en-HI', {timeStyle: 'short'})
     let userHtml = '<p class="mtalkz-cb-userText"><span>' + userText + '</span><label style="justify-content:end;margin-right: 10px;margin-top: 2px;"}">'+d+'</label></p>';
     document.getElementById("mtalkz-cb-textInput").value=""
     document.querySelector("#mtalkz-cb-chatbox").innerHTML+=userHtml
@@ -647,7 +627,7 @@ function mtkzcbfrequentApiCall(){
     const id=parseInt(localStorage.getItem('uniqueId'));
     if(id){
         setInterval(()=>{
-            if(matlkzchatbotdefaultValues.chatbotId){
+            if( document.getElementsByClassName("mtalkz-cb-chat-bar-collapsible")[0].style.visibility==="visible" &&  matlkzchatbotdefaultValues.chatbotId){
                 fetch(`https://cb.mtalkz.cloud/messages/${matlkzchatbotdefaultValues.chatbotId}/${id}`,{
                     method:"GET",
                     headers: {
@@ -669,6 +649,13 @@ function mtkzcbfrequentApiCall(){
                           link = `<a href=${link} target="_blank">${link}</a>`
                           res.data.message =  messages[0] + link
                         }
+                        if(res.type== "list"){
+                            Object.values(res.data.sectionsList).map((item,pindex)=>
+                                 item.map((i,index)=> {
+                                    i.description= i.description || " " 
+                            
+                                 }))
+                        }
                     res.ts=mtkzcbgetHumanReadableDate(res.ts)
                     })
                     let botHtml;
@@ -679,15 +666,15 @@ function mtkzcbfrequentApiCall(){
                                 botHtml = `<div><p class="mtalkz-cb-botText" id="textMesg">  ${botResponse.data &&  '<span>'+  botResponse.data.message +'</span>'}</p><label>${botResponse.ts}</label></div>`;
                            }else if(botResponse && botResponse.type == "reply"){
                                botHtml = `<div class="mtalkz-cb-botText">
+                             <span id="mtalkz-cb" >
+
                                <div  class="mtalkz-cb-rcw-message">
                              <div  class="mtalkz-cb-rcw-img-btn">
-                             <span id="mtalkz-cb" >
                            ${botResponse.data.options && botResponse.data.options.header.type=="text" ? '<div style="font-weight: bold;">' + botResponse.data.options.header.text.trim() + '</div>' : ""} 
                            ${botResponse.data.options && botResponse.data.options.header.type=="image"?
                            '<img src='+ botResponse.data.options.header.image.link+' alt="invalid url" style="max-width:80%; height:200px"></img>':""} 
                              
                              ${botResponse.data.bodyText}
-                            </span>
                              </div>
                             </div> 
                             <div>
@@ -702,6 +689,11 @@ function mtkzcbfrequentApiCall(){
                              ).join('')
                              }
                             </div>
+                            ${botResponse.data.options.footerText ? '<div style="margin-left: 10px; color: gray;">'+botResponse.data.options.footerText+'</div>' : ""}
+
+                            </span>
+
+                           
                             <label>${botResponse.ts}</label>
                                </div>`;
                            }else if(botResponse && botResponse.type == "list"){
@@ -717,24 +709,25 @@ function mtkzcbfrequentApiCall(){
                                ${botResponse.data.bodyText} </br>
                                <div style="text-transform: uppercase;
                                font-size: 12px;">${botResponse.data.button}</div>
-                               </span>
-                               </div>
-                               </div>
-                               </div> 
                                <div class="mtalkz-cb-section-list" style="border-radius:10px;padding-bottom: 4px;">
                                ${
                                    Object.values(botResponse.data.sectionsList).map((item,pindex)=>
                                  item.map((i,index)=> {
                                     return (
                                         index===0? '<div class="mtalkz-cb-radio-lable">'+   
-                                         Object.keys(botResponse.data.sectionsList)[pindex] +'</div>'+ '<div class="mtalkz-cb-rcw-img-btn mtalkz-cb-radio-div" style="display:flex justify-content :space-evenly"  onclick="mtkzcbbotsendButton(`'  +i.title + '`)" ><label style="font-size:14px" >'+i.title+'</label> <input type="radio" id='+i.title+' name="mtalkzcontact" value='+ i.title + '></input></div>': ""+
+                                         Object.keys(botResponse.data.sectionsList)[pindex] +'</div>'+ '<div class="mtalkz-cb-rcw-img-btn mtalkz-cb-radio-div" style="display:flex justify-content :space-evenly"  onclick="mtkzcbbotsendButton(`'  +i.title + '`)" ><label style="font-size:14px" >'+i.title+'</label> <input type="radio" id='+i.title+' name="mtalkzcontact" value='+ i.title + '></input></div>'+'<div class="mtalkz-cb-list-description">'+i.description+'</div>': ""+
                                          '<div class="mtalkz-cb-rcw-img-btn mtalkz-cb-radio-div" style="display:flex justify-content :space-evenly"  onclick="mtkzcbbotsendButton(`'  +i.title + '`)" ><label style="font-size:14px" >'+i.title+'</label> <input type="radio" id='+i.title+' name="mtalkzcontac1t" value='+ i.title + '></input></div>'
-                                                         )
+                                            +'<div class="mtalkz-cb-list-description">'+i.description+'</div>'         )
                                    } ).join('')
                                    ).join('')
                                    }
-                                   ${botResponse.data.options.footerText ? '<div style="margin-left: 10px; color: gray;">'+botResponse.data.options.footerText+'</div>' : ""}
+                                   ${botResponse.data.options.footerText ? '<div style="padding: 10px; color: gray;">'+botResponse.data.options.footerText+'</div>' : ""}
                                </div>
+                               </span>
+                               </div>
+                               </div>
+                               </div> 
+                             
                             <label>${botResponse.ts}</label>
                                </div>`
                            }else if(botResponse && botResponse.type == 'document'){
@@ -745,10 +738,10 @@ function mtkzcbfrequentApiCall(){
                             Your browser does not support HTML video.
                           </video></span></p> <label>${botResponse.ts}</label></div>`
                            }else if(botResponse && botResponse.type == 'audio'){
-                            botHtml =`<div class="mtalkz-cb-botText" style="margin-left:10px"><p>
+                            botHtml =`<div class="mtalkz-cb-botText" style="margin-top:10px; margin-bottom:10px"><span>
                             <audio controls>
                             <source src=${botResponse.data.link} type="audio/ogg"></source>
-                          </audio></p>
+                          </audio></span>
                           <label>${botResponse.ts}</label>
                             </div>`
                            }else if(botResponse && botResponse.type == 'location'){
