@@ -214,11 +214,9 @@ const Chatbot = () => {
         <Datatable columns={columns} data={chatbots?.filter((val) => {
           if (searchQuery == "") {
             return val;
-          } else if (
-            (val.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()) || val.slug.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
-              val.channel_slug.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
-              val.http_method.toLowerCase().includes(searchQuery.toLocaleLowerCase())
-            )
+          } else if ( 
+            val.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()) || val.channel.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
+              val.integration_name.toLowerCase().includes(searchQuery.toLocaleLowerCase())
           ) {
             return val;
           }
