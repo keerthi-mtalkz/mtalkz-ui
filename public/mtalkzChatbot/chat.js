@@ -142,7 +142,17 @@ mtkzcbgetUserIp();
         margin-left: 10px;
         color: gray;
     }
-
+.mtalkz-cb-chat-btn-div{
+    line-height: 1.5em;
+    display: inline-block;
+    background: #f4f4f4;
+    padding: 10px;
+    border-radius: 6px;
+    border-bottom-left-radius: 2px;
+    max-width: 95%;
+    margin-left: 10px;
+    animation: floatup .5s forwards;
+}
     .btn-group-vertical {
         flex-direction: column;
         align-items: flex-start;
@@ -360,14 +370,13 @@ mtkzcbgetUserIp();
     .mtalkz-cb-button-div {
         color: white;
         background-color: #5d76cb;
-        max-width: 70%;
         padding: 5px;
         text-align: center;
         white-space: pre-wrap;
         cursor: pointer;
-        margin-left: 10px;
         margin-bottom: 2px;
         font-weight: 700;
+        width:240px
     }
     
     .mtalkz-cb-section-list {
@@ -396,6 +405,10 @@ mtkzcbgetUserIp();
         margin-right: 10px;
         animation: floatup .5s forwards;
         text-transform: capitalize;
+    }
+
+    .mtalkz-cb-chat-timestamp{
+        font-family: Helvetica;
     }
     
     p {
@@ -473,7 +486,7 @@ mtkzcbgetUserIp();
                 <div class="mtalkz-cb-chat-container">
                     <!-- Messages -->
                     <div id="mtalkz-cb-chatbox">
-                        <div id="mtalkz-cb-chat-timestamp"></div>
+                        <div id="mtalkz-cb-chat-timestamp" class="mtalkz-cb-chat-timestamp" ></div>
                     </div>
 
                     <!-- User input box -->
@@ -666,7 +679,7 @@ function mtkzcbfrequentApiCall(){
                                 botHtml = `<div><p class="mtalkz-cb-botText" id="textMesg">  ${botResponse.data &&  '<span>'+  botResponse.data.message +'</span>'}</p><label>${botResponse.ts}</label></div>`;
                            }else if(botResponse && botResponse.type == "reply"){
                                botHtml = `<div class="mtalkz-cb-botText">
-                             <span id="mtalkz-cb" >
+                               <span id="mtalkz-cb" >
 
                                <div  class="mtalkz-cb-rcw-message">
                              <div  class="mtalkz-cb-rcw-img-btn">
@@ -677,6 +690,8 @@ function mtkzcbfrequentApiCall(){
                              ${botResponse.data.bodyText}
                              </div>
                             </div> 
+                            ${botResponse.data.options.footerText ? '<div style="color: gray;">'+botResponse.data.options.footerText+'</div>' : ""}
+
                             <div>
                             ${
                              Object.values(botResponse.data.buttonsList).map((item,index) =>  {
@@ -689,7 +704,6 @@ function mtkzcbfrequentApiCall(){
                              ).join('')
                              }
                             </div>
-                            ${botResponse.data.options.footerText ? '<div style="margin-left: 10px; color: gray;">'+botResponse.data.options.footerText+'</div>' : ""}
 
                             </span>
 
@@ -706,7 +720,7 @@ function mtkzcbfrequentApiCall(){
                                <span id="mtalkz-cb-list-text">
                                ${botResponse.data.options && botResponse.data.options.header.type=="image" ?
                                '<img src='+botResponse.data.options.header.image.link+' alt="invalid url" style="max-width:200px; height:100px"></img></br>':""} 
-                               ${botResponse.data.bodyText} </br>
+                              <div style="font-size: 14px;"> ${botResponse.data.bodyText}</div>
                                <div style="text-transform: uppercase;
                                font-size: 12px;">${botResponse.data.button}</div>
                                <div class="mtalkz-cb-section-list" style="border-radius:10px;padding-bottom: 4px;">
@@ -721,7 +735,7 @@ function mtkzcbfrequentApiCall(){
                                    } ).join('')
                                    ).join('')
                                    }
-                                   ${botResponse.data.options.footerText ? '<div style="padding: 10px; color: gray;">'+botResponse.data.options.footerText+'</div>' : ""}
+                                   ${botResponse.data.options.footerText ? '<div style=" color: gray;">'+botResponse.data.options.footerText+'</div>' : ""}
                                </div>
                                </span>
                                </div>
