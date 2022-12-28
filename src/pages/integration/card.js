@@ -1,24 +1,11 @@
-import React, { useState, useEffect } from "react";
-import SectionTitle from "../../components/section-title";
-import { useForm } from "react-hook-form";
-import Layout from "../../layouts";
-import { useRouter } from "next/router";
-import { withRedux } from "../../lib/redux";
-import {ax} from "../../utils/apiCalls";
-import {HTTP_METHODS} from "../../utils/constants";
-import {NotificationManager} from 'react-notifications';
-import { WithContext as ReactTags } from 'react-tag-input';
-import Switch from 'react-switch'
-import Select from "react-select";
+import React from "react";
 import {Badge} from '../../components/badges'
-
 import Link from "next/link";
 
 const Card = ({data,permissions,navigateActivate}) => {
     const cardInfo=data;
-  console.log(data,permissions);
-  return (
-     <div 
+  return  cardInfo?
+       <div 
      key={data.id}
       className="p-4  max-w-2xl  rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700" style={{background:"#eff7fd",display:"flex", marginBottom:"10px"}}>
         <div style={{width: "20%",
@@ -95,8 +82,8 @@ const Card = ({data,permissions,navigateActivate}) => {
          
           </div>
         </div>
-     </div>
-  )
+     </div> : <div></div>
+  
  
 
 };
