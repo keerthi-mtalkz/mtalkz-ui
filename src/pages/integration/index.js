@@ -11,8 +11,11 @@ import {Badge} from '../../components/badges'
 import ConfirmationModal from "../../components/confirmationmodal"
 import {useSelector, shallowEqual} from 'react-redux';
 import Card from "./card"
+import { useRouter } from "next/router";
 
 const Integration=()=>{
+  const router = useRouter();
+
  const [integrations,setIntegrations]=useState([])
  const [status, setStatus] = useState(undefined);
  const [searchQuery, setSearchQuery] = useState("");
@@ -111,6 +114,14 @@ const getColorBasedOnMethod=(method)=>{
   }
 }
 
+const navigateActivate=(id)=>{
+  router.push({
+    pathname:  "/integration/activateIntegration",
+    query: { activateID: id },
+  }
+   )
+}
+
 
   const columns =  [
       {
@@ -143,7 +154,8 @@ const getColorBasedOnMethod=(method)=>{
         cell: () => <Button variant="danger" data-tag="allowRowEvents" data-action="delete"><FontAwesomeIcon icon={faTrash} /></Button>,
         Cell: (data) => {
        
-        return (<div className="flex justify-evenly ">
+        return (
+          <div className="flex justify-evenly ">
         {permissions.view &&  <Link href={`/integration/view/${data.row.original.id}`}>
         <p>
           <i className="icon-eye text-1xl font-bold mb-2"></i>
@@ -227,7 +239,7 @@ const getColorBasedOnMethod=(method)=>{
       }
     })
     .map((value, idx) => {return (
-      <Card data={value}></Card>
+      <Card data={value} permissions={permissions} navigateActivate={navigateActivate}></Card>
     )})}
     <Datatable columns={columns}  data={integrations?.filter((val) => {
       if (searchQuery == "") {
