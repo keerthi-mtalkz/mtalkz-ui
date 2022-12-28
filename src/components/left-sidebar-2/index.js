@@ -110,7 +110,7 @@ const Sidebar = () => {
             <Title>{menu.title}</Title>
           </div>
           <div className="flex flex-col">
-            {menu.items.filter((m)=>userpermissions.includes(m.index)).map((items, j) => (
+            {menu.items.map((items, j) => (
               <List key={j} items={items} />
             ))}
           </div>

@@ -9,9 +9,17 @@ import React from "react";
 import SectionTitle from '../../components/section-title'
 import {Badge} from '../../components/badges'
 import ConfirmationModal from "../../components/confirmationmodal"
-import {useSelector, shallowEqual} from 'react-redux'
+import {useSelector, shallowEqual} from 'react-redux';
+import Card from "./card"
+import { useRouter } from "next/router";
+import { Pagination } from "react-pagination-bar"
+import 'react-pagination-bar/dist/index.css'
 
 const Integration=()=>{
+  const router = useRouter();
+  const [currentPage, setCurrentPage] = useState(1);
+  const pagePostsLimit = 1;
+  const integrationLength=0;
  const [integrations,setIntegrations]=useState([])
  const [status, setStatus] = useState(undefined);
  const [searchQuery, setSearchQuery] = useState("");
@@ -95,80 +103,17 @@ const Integration=()=>{
  
 };
 
-const getColorBasedOnMethod=(method)=>{
-  switch(method){
-    case "get" :
-     return "green"
-    case "post" :
-     return "pink"
-    case "patch" :
-     return "yellow"
-    case "delete " :
-     return "red"
-    case "head" :
-     return "blue"
+const navigateActivate=(id,type=undefined)=>{
+  if(type){
+    ConfirmationPopup(id);
+    return
   }
+  router.push({
+    pathname:  "/integration/activateIntegration",
+    query: { activateID: id },
+  }
+   )
 }
-
-
-  const columns =  [
-      {
-        Header: 'Name',
-        accessor: 'name'
-      },
-      {
-        Header: 'Channel Name',
-        accessor: 'channel_name'
-      },
-      {
-        Header: 'Description',
-        accessor: 'description'
-      },
-      {
-        Header:'HTTP Method',
-        sortable: false,
-        Cell: (data) => {
-
-          return (<div className="flex  ">
-          <Badge  size={'default'} color={getColorBasedOnMethod(data.row.original.http_method )} rounded>
-            {data.row.original.http_method }
-          </Badge>
-           </div>)}
-
-      },
-      {
-        Header: 'Actions',
-        sortable: false,
-        cell: () => <Button variant="danger" data-tag="allowRowEvents" data-action="delete"><FontAwesomeIcon icon={faTrash} /></Button>,
-        Cell: (data) => {
-       
-        return (<div className="flex justify-evenly ">
-        {permissions.view &&  <Link href={`/integration/view/${data.row.original.id}`}>
-        <p>
-          <i className="icon-eye text-1xl font-bold mb-2"></i>
-        </p>
-    </Link>}
-    {permissions.delete &&   <p
-      style={{
-       
-        cursor: "pointer",
-        lineHeight: "normal",
-      }}
-      onClick={() => ConfirmationPopup(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
-</p> }
-
-{permissions.update &&  <Link href={`/integration/update/${data.row.original.id}`}>
-<p>
-  <i className="icon-note text-1xl font-bold mb-2"></i>
-</p>
-</Link>}
-      
-
-</div>
-        )}
-       
-      }
-    ]
   return (
     <Layout className="overflow-x-scroll">
     {showDeletePopup && <ConfirmationModal onCancel={onCancel} onSubmit={onSubmit} > </ConfirmationModal>}
@@ -202,7 +147,7 @@ const getColorBasedOnMethod=(method)=>{
       </div>
       <div className="w-1/6 ">
         {" "}
-        {permissions.add &&  <Link href={`/integration/addIntegration`}>
+        {!  permissions.add &&  <Link href={`/integration/addIntegration`}>
         <button
           className="ml-3  btn btn-default btn-indigo create-btn w-full"
           type="button"
@@ -213,22 +158,50 @@ const getColorBasedOnMethod=(method)=>{
        
       </div>
     </div>
-    
-    <Datatable columns={columns}  data={integrations?.filter((val) => {
+    {integrations?.filter((val) => {
       if (searchQuery == "") {
         return val;
       } else if (
        (val.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()) || val.slug.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
         val.channel_slug.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
         val.http_method.toLowerCase().includes(searchQuery.toLocaleLowerCase())
-        
-        
         ) 
       ) {
         return val;
       }
-    })
-    .map((value, idx) => {return value})} className="overflow-x-scroll"/>
+    }).slice((currentPage - 1) * pagePostsLimit, currentPage * pagePostsLimit)
+    .map((value, idx) => {return (
+      <Card data={value} permissions={permissions} navigateActivate={navigateActivate}></Card>
+    )})}
+    <Pagination
+      currentPage={currentPage}
+      itemsPerPage={pagePostsLimit}
+      onPageChange={(pageNumber) => setCurrentPage(pageNumber)}
+      totalItems={integrations?.filter((val) => {
+        if (searchQuery == "") {
+          return val;
+        } else if (
+         (val.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()) || val.slug.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
+          val.channel_slug.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
+          val.http_method.toLowerCase().includes(searchQuery.toLocaleLowerCase())
+          ) 
+        ) {
+          return val;
+        }
+      }).length}
+      pageNeighbours={2}
+    />
+
+
+
+
+
+
+
+
+
+
+     
     </Layout>
     )
 }
