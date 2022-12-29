@@ -10,8 +10,9 @@ const matlkzchatbotdefaultValues={
     botmesgbd: "#f4f4f4",
     usermesgbg: '#434190',
     sendbtnbg:"#434190",
-    chatbotHeight:"80vh",
-    autoDisplay:0
+    chatbotHeight:"360px",
+    autoOpenDelay:0,
+    chatbotMaxHeight:"80vh",
 }
 
 
@@ -35,11 +36,10 @@ mtkzcbgetUserIp();
      if(configureValues){
         let keys = Object.keys(configureValues);
         keys.map((key, i) =>matlkzchatbotdefaultValues[key]=configureValues[key]) 
-        if( matlkzchatbotdefaultValues.autoDisplay >= 0){
+        if( matlkzchatbotdefaultValues.autoOpenDelay >= 0){
             setTimeout(() => {
-                console.log(matlkzchatbotdefaultValues.autoDisplay*1000)
                 document.getElementsByClassName("mtalkz-cb-chat-bar-collapsible")[0].style.visibility!="visible" && showChatBot()
-            }, matlkzchatbotdefaultValues.autoDisplay*1000);
+            }, matlkzchatbotdefaultValues.autoOpenDelay*1000);
         }
     
         if(matlkzchatbotdefaultValues.chatbotId!=null)
@@ -53,8 +53,8 @@ mtkzcbgetUserIp();
     <style>
     .mtalkz-cb-chat-bar-collapsible {
         position: fixed;
-        bottom: 32;
-        right: 40px;
+        bottom: 48px;
+        right: 12px;
         box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.2);
         border-radius: 10px 10px 0px 0px;   
         visibility: hidden;
@@ -73,9 +73,9 @@ mtkzcbgetUserIp();
         margin-top: 15px;
     }
     .mtalkz-cb-showHideButtonDiv{
-        bottom: 44px;
+        bottom: 12px;
         position: fixed;
-        right: 3px;
+        right: 12px;
       
     }
     .mtalkz-cb-showHideButton{
@@ -122,9 +122,11 @@ mtkzcbgetUserIp();
     }
     
     .mtalkz-cb-outer-container {
-        min-height: ${matlkzchatbotdefaultValues.chatbotHeight};
+        max-height: ${matlkzchatbotdefaultValues.chatbotMaxHeight};
         bottom: 0%;
         position: relative;
+        height:${matlkzchatbotdefaultValues.chatbotHeight};
+
     }
     
     .mtalkz-cb-chat-container {
@@ -360,7 +362,7 @@ mtkzcbgetUserIp();
         padding: 10px;
         border-radius: 6px;
         border-bottom-left-radius: 2px;
-        max-width: 95%;
+        max-width: 80%;
         margin-left: 10px;
         animation: floatup .5s forwards;
         
@@ -376,14 +378,21 @@ mtkzcbgetUserIp();
         cursor: pointer;
         margin-bottom: 2px;
         font-weight: 700;
-        width:240px
+        max-width:100%
     }
     
     .mtalkz-cb-section-list {
         background-color: #f4f4f4;
-        width: 215px;
+        max-width:100%
     }
-    
+     
+    .mtalkz-cb-logo{
+        max-width:40px;
+        max-height:40px;
+    }
+
+
+
     .mtalkz-cb-radio-lable {
         font-size: 11px;
         color: darkblue;
@@ -475,7 +484,7 @@ mtkzcbgetUserIp();
     </div>
     <div   class="mtalkz-cb-chat-bar-collapsible"  >
     <button id="mtalkz-cb-chat-button"  class="mtalkz-cb-collapsible mtalkz-cb-header" type="button" >
-    <img  src=${matlkzchatbotdefaultValues.logo} alt="Mtalkz Connect" >
+    <img class="mtalkz-cb-logo"  src=${matlkzchatbotdefaultValues.logo} alt="Mtalkz Connect" >
     <span> ${matlkzchatbotdefaultValues.name}</span>
   </img>
     </button>
@@ -656,7 +665,6 @@ function mtkzcbfrequentApiCall(){
                         _botResponse.push(JSON.parse(d))})
                     _botResponse && _botResponse.map((res)=>{
                         if( res.data.preview_url){
-                            console.log(res.data.message,"res.data.message")
                           let messages=  res.data.message.split("https://");
                           let link= "https://" + messages[1]
                           link = `<a href=${link} target="_blank">${link}</a>`
@@ -674,7 +682,6 @@ function mtkzcbfrequentApiCall(){
                     let botHtml;
                     
                     _botResponse && _botResponse.map((botResponse)=>{
-                        console.log(botResponse.type ,"botResponse.type ")
                             if(botResponse && botResponse.type == "text"){
                                 botHtml = `<div><p class="mtalkz-cb-botText" id="textMesg">  ${botResponse.data &&  '<span>'+  botResponse.data.message +'</span>'}</p><label>${botResponse.ts}</label></div>`;
                            }else if(botResponse && botResponse.type == "reply"){
@@ -747,19 +754,25 @@ function mtkzcbfrequentApiCall(){
                            }else if(botResponse && botResponse.type == 'document'){
                             botHtml = `<div><p class="mtalkz-cb-botText"><span><a href="${botResponse.data.link}" target="_blank">${botResponse.data.options?.filename||botResponse.data.link.split('/').pop()}</a></span></p><label>${botResponse.ts}</label></div>`;
                            }else if(botResponse && botResponse.type == 'video'){
-                            botHtml =` <div class="mtalkz-cb-botText" ><p><span><video width="300" height = "200" controls>
-                            <source src="https://img-9gag-fun.9cache.com/photo/axo7VNp_460sv.mp4" type="video/mp4">
+                            botHtml =`<div class="mtalkz-cb-botText" ><p><span><video style="max-width:200px; max-height:200px" controls>
+                            <source src=${botResponse.data.link} type="video/mp4">
                             Your browser does not support HTML video.
                           </video></span></p> <label>${botResponse.ts}</label></div>`
                            }else if(botResponse && botResponse.type == 'audio'){
                             botHtml =`<div class="mtalkz-cb-botText" style="margin-top:10px; margin-bottom:10px"><span>
-                            <audio controls>
-                            <source src=${botResponse.data.link} type="audio/ogg"></source>
+                            <audio controls style="max-width:250px !important;max-height:200px">
+                            <source  src=${botResponse.data.link} type="audio/ogg"></source>
                           </audio></span>
                           <label>${botResponse.ts}</label>
                             </div>`
                            }else if(botResponse && botResponse.type == 'location'){
-                            botHtml =`<div></div>`
+                            botHtml =`<div><p class="mtalkz-cb-botText" > 
+                            <span> Latitude : ${botResponse.data.latitude}</br> Longitude : ${botResponse.data.longitude} </br>
+                            ${botResponse.data.options.name ?  'Name:'+  botResponse.data.options.name +'</br>':""}
+                            ${botResponse.data.options.address ?  'Address:'+  botResponse.data.options.address :""}
+                            </span>
+                            
+                           </p><label>${botResponse.ts}</label></div>`
                            }else if(botResponse && botResponse.type == 'image'){
                             botHtml =   `
                            <div class="mtalkz-cb-botText" ><div class="mtalkz-cb-image-div"> <div>  <img src=${botResponse.data.link}  alt="invalid url" style="max-width:80%; max-height:200px">
@@ -769,7 +782,6 @@ function mtkzcbfrequentApiCall(){
                            document.querySelector("#mtalkz-cb-chatbox").innerHTML+=botHtml;
                         //    document.getElementById("mtalkz-cb-list-text").innerHTML=document.getElementById("mtalkz-cb-list-text")?.innerHTML?.trim().replace(/&nbsp;/g, '')
                     })
-                    console.log(res,"yrfdwevfhegwfhgefbrehgf")
                     res.length>0 && document.getElementById("mtalkz-cb-chat-bar-bottom").scrollIntoView(true);
     
     
