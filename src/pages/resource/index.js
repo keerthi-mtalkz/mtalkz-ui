@@ -9,7 +9,7 @@ import React from "react";
 import SectionTitle from '../../components/section-title'
 import ConfirmationModal from "../../components/confirmationmodal"
 import {useSelector, shallowEqual} from 'react-redux'
-
+import ls from 'local-storage'
 const Resource=()=>{
  const [resources,setResources]=useState([])
  const [status, setStatus] = useState(undefined);
@@ -17,12 +17,7 @@ const Resource=()=>{
  const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false})
  const [deleteId,setDeleteId]=React.useState(undefined)
  const [showDeletePopup,setShowDeletePopup]=React.useState(false)
- const {userpermissions} = useSelector(
-  state => ({
-    userpermissions: state.userpermissions,
-  }),
-  shallowEqual
-)
+ const userpermissions = ls.get('permissions')
   const getResources = async () => {
     const token = localStorage.getItem('token');
     await ax

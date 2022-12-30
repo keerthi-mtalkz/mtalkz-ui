@@ -10,23 +10,17 @@ import React from "react";
 import SectionTitle from "../../components/section-title";
 import ConfirmationModal from "../../components/confirmationmodal"
 import {useSelector, shallowEqual} from 'react-redux'
+import ls from 'local-storage'
 
 
 const Channel=()=>{
  const [channels,setChannels]=useState([])
  const [status, setStatus] = useState(undefined);
  const [searchQuery, setSearchQuery] = useState("");
- const { register, handleSubmit, watch, errors } = useForm();
  const [deleteId,setDeleteId]=React.useState(undefined)
  const [showDeletePopup,setShowDeletePopup]=React.useState(false)
  const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false})
-
- const {userpermissions} = useSelector(
-  state => ({
-    userpermissions: state.userpermissions,
-  }),
-  shallowEqual
-)
+ const userpermissions = ls.get('permissions')
 
   const getChannels = async () => {
     const token = localStorage.getItem('token');

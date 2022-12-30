@@ -22,6 +22,7 @@ const Login1 = () => {
         'Authorization': `Bearer ${token}`
        }})
       .then((res) => {
+        localStorage.setItem('permissions', JSON.stringify( res.data.permissions))
         dispatch({
           type: 'UPDATE_PERMISSIONS',
           value: res.data.permissions

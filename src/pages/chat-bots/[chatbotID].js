@@ -14,7 +14,7 @@ import { UnderlinedTabs } from "../../components/tabs";
 import Layout from '../../layouts';
 import { withRedux } from '../../lib/redux';
 import { ax } from "../../utils/apiCalls";
-
+import ls from 'local-storage'
 const ChatbotConfiguration = () => {
   /** Chatbot data Management */
   const { register, handleSubmit } = useForm();
@@ -364,12 +364,7 @@ const KeywordsList = () => {
   const [permissions, setPermissions] = React.useState({ get: false, update: false, delete: false, view: false })
   const [deleteId, setDeleteId] = React.useState(undefined)
   const [showDeletePopup, setShowDeletePopup] = React.useState(false)
-  const { userpermissions } = useSelector(
-    state => ({
-      userpermissions: state.userpermissions,
-    }),
-    shallowEqual
-  )
+  const userpermissions = ls.get('permissions')
 
   const chatid = useRouter().query.chatbotID;
   const token = ls.get("token");
@@ -545,12 +540,7 @@ const FlowchartsList = () => {
   const [permissions, setPermissions] = React.useState({ get: false, update: false, delete: false, view: false })
   const [deleteId, setDeleteId] = React.useState(undefined)
   const [showDeletePopup, setShowDeletePopup] = React.useState(false)
-  const { userpermissions } = useSelector(
-    state => ({
-      userpermissions: state.userpermissions,
-    }),
-    shallowEqual
-  )
+  const userpermissions = ls.get('permissions')
 
   const chatid = useRouter().query.chatbotID;
   const token = ls.get('token');
@@ -726,12 +716,7 @@ const FlowchartsLibrary = () => {
   const [status, setStatus] = useState(undefined);
   const [searchQuery, setSearchQuery] = useState("");
   const [permissions, setPermissions] = React.useState({ get: false, add: false, view: false })
-  const { userpermissions } = useSelector(
-    state => ({
-      userpermissions: state.userpermissions,
-    }),
-    shallowEqual
-  )
+  const userpermissions = ls.get('permissions')
 
   const chatid = useRouter().query.chatbotID;
   const token = ls.get('token');

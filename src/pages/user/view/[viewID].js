@@ -13,8 +13,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import Datatable from "../../../components/datatable";
-import {useSelector, shallowEqual} from 'react-redux'
-
+import ls from 'local-storage'
 
 
 const viewID = () => {
@@ -28,12 +27,8 @@ const viewID = () => {
     const [endDate, setEndDate] = useState( date );
     const [activities,setActivities]=useState([]);
     const [permissions,setPermissions] = useState(false) 
-    const {userpermissions} = useSelector(
-      state => ({
-        userpermissions: state.userpermissions,
-      }),
-      shallowEqual
-    )
+    const userpermissions = ls.get('permissions')
+
     const [dateErrorMsg,setDateErrorMsg]=useState(undefined)
     const fetch = async () => {
       if (typeof window !== "undefined") {
