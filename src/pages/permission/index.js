@@ -9,19 +9,14 @@ import React from "react";
 import SectionTitle from '../../components/section-title'
 import ConfirmationModal from "../../components/confirmationmodal"
 import {useSelector, shallowEqual} from 'react-redux'
-
+import ls from 'local-storage'
 const Permission=()=>{
  const [permissions,setPermissions]=useState([])
  const [status, setStatus] = useState(undefined);
  const [searchQuery, setSearchQuery] = useState("");
  const [deleteId,setDeleteId]=React.useState(undefined)
  const [showDeletePopup,setShowDeletePopup]=React.useState(false)
- const {userpermissions} = useSelector(
-  state => ({
-    userpermissions: state.userpermissions,
-  }),
-  shallowEqual
-)
+ const userpermissions = ls.get('permissions')
 const [_permissions,_setPermissions]=React.useState({get:false,update:false,delete:false,view:false})
 
   const getPermissionsApi = async () => {
