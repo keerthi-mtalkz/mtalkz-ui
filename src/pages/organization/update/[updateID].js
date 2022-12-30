@@ -9,6 +9,7 @@ import {ax} from "../../../utils/apiCalls"
 import { NotificationManager } from 'react-notifications'
 import Switch from 'react-switch'
 import { useSelector, shallowEqual } from 'react-redux'
+import ls from 'local-storage'
 
 
 const updateID = () => {
