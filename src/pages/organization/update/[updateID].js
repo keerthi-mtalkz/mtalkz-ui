@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import {ax} from "../../../utils/apiCalls"
 import { NotificationManager } from 'react-notifications'
 import Switch from 'react-switch'
+import { useSelector, shallowEqual } from 'react-redux'
 
 
 const updateID = () => {
@@ -17,6 +18,7 @@ const updateID = () => {
   const [status, setStatus] = useState(undefined);
   const [errors,setErrors]=useState(undefined)
   const [checked, handleChange] = useState(false)
+  const isSystemUser = ls.get("isSystemUser");
 
   const getOrganizationDetails = async () => {
     if (typeof window !== "undefined") {
@@ -48,6 +50,7 @@ const updateID = () => {
   const onSubmit = (data) => {
     data.is_reseller=checked;
     if (typeof window !== "undefined") {
+      data.port = parseInt(data.port);
       const token = localStorage.getItem('token');
       ax.put(`/organizations/${updateid}`, data, {
         headers: {
@@ -71,6 +74,8 @@ const updateID = () => {
         });
     }
   };
+
+
 
   return (
     <Layout>
@@ -188,6 +193,28 @@ const updateID = () => {
                
               )}
             </div>
+
+              {/*input*/}
+              {isSystemUser == 1 &&   <div className="w-full mb-4">
+              <label className="block">
+                <span className="text-default">Port</span>
+                <input
+                  name="port"
+                  type="number"
+                  ref={register()}
+                  defaultValue={res.port}
+                  className="form-input mt-1 text-xs block w-full bg-white"
+                  placeholder="Enter port number"
+                  title="the value range should be between 1024 - 65535"
+                />
+              </label>
+              {errors && errors.port && (
+                errors.port.map((err)=>{
+                 return <p className="mt-1 text-xs text-red-500">{err}</p>
+                })
+              )}
+            </div>}
+
 
 
    <div className="flex justify-between">
