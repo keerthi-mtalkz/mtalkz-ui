@@ -362,7 +362,7 @@ mtkzcbgetUserIp();
         padding: 10px;
         border-radius: 6px;
         border-bottom-left-radius: 2px;
-        max-width: 80%;
+        max-width: 85%;
         margin-left: 10px;
         animation: floatup .5s forwards;
         
@@ -697,7 +697,7 @@ function mtkzcbfrequentApiCall(){
                              ${botResponse.data.bodyText}
                              </div>
                             </div> 
-                            ${botResponse.data.options?.footerText ? '<div style="color: gray;">'+botResponse.data.options.footerText+'</div>' : ""}
+                            ${botResponse.data.options?.footerText ? '<div style="color: gray;font-size: small;">'+botResponse.data.options.footerText+'</div>' : ""}
 
                             <div>
                             ${
@@ -742,7 +742,7 @@ function mtkzcbfrequentApiCall(){
                                    } ).join('')
                                    ).join('')
                                    }
-                                   ${botResponse.data.options?.footerText ? '<div style=" color: gray;">'+botResponse.data.options.footerText+'</div>' : ""}
+                                   ${botResponse.data.options?.footerText ? '<div style=" color: gray;font-size: small">'+botResponse.data.options.footerText+'</div>' : ""}
                                </div>
                                </span>
                                </div>
