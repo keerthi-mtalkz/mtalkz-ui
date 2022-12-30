@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import {ax} from "../../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
 import Select from "react-select";
+import Switch from 'react-switch'
 
 
 const updateID = () => {
@@ -20,14 +21,54 @@ const [errors,setErrors] = useState(undefined)
 
 const [permissions,setPermissions]=useState([])
  const [selectedPermission,setSelectedPermission]=useState("")
+const standard = {};
+const additional = [];
+let selectstandard={}
+const [_standard,_setStandard ]=  useState({});
+const [_additional,_setAdditional ]=  useState([]);
 
+const titelize = (slug) => slug.split("-").map(w => w.charAt(0).toUpperCase() + w.substring(1)).join(' ');
 
-    const fetch = async () => {
-      if (typeof window !== "undefined") {
+const renderSwitch = (perm,key=null,index=0) => {
+ 
+  let permissions={..._standard};
+ return <Switch
+    onChange={(checked) =>{
+      permissions[key][index].selected=checked
+       _setStandard({...permissions})}}
+    checked={perm.selected}
+    handleDiameter={24}
+    uncheckedIcon={false}
+    checkedIcon={false}
+    boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
+    height={20}
+    width={48}
+    className="react-switch"
+  />
+}
+const renderSwitchadd = (perm,i) => {
+  let permissions=[..._additional]
+ return <Switch
+    onChange={(checked) =>{
+      permissions[i].selected=checked;
+      _setAdditional([...permissions])
+    }}
+    checked={perm.selected}
+    handleDiameter={24}
+    uncheckedIcon={false}
+    checkedIcon={false}
+    boxShadow="0px 1px 5px rgba(0, 0, 0, 0.2)"
+    height={20}
+    width={48}
+    className="react-switch"
+  />
+}
+
+    const fetch = async (st,ad) => {
+      if (typeof window !== "undefined" ) {
       const token1 = localStorage.getItem('token');
       await ax
         .get(`/roles/${updateid}`, {headers: {
-        
           'Authorization': `Bearer ${token1}`
          }})
         .then((res) => {
@@ -37,6 +78,25 @@ const [permissions,setPermissions]=useState([])
             permissions.push({label:permission.name, value:permission.id})
           })
           setSelectedPermission([...permissions])
+          Object.keys(st).map(key => {
+            const perms = st[key];
+            perms.filter((p)=>p!= null).map((perm)=>{
+            var selectedPermission =  res.data.permissions.find(permission=>permission.id === perm.id)
+            
+            if(selectedPermission){
+              perm.selected = true
+            }
+            })
+          })
+          ad.map((add)=>{
+            var selectedPermission =  res.data.permissions.find(permission=>permission.id === add.id)
+            if(selectedPermission){
+              add.selected = true
+            }
+          })
+          _setStandard({...st})
+          _setAdditional([...ad])
+
         })
         .catch((err) => {
           setStatus({ type: "error",message: err.response.data.message });
@@ -47,6 +107,7 @@ const [permissions,setPermissions]=useState([])
         });
       }
     };
+
     
   const getPermissions = async () => {
     if(permissions.length == 0){
@@ -56,12 +117,31 @@ const [permissions,setPermissions]=useState([])
           'Authorization': `Bearer ${token}`
          }})
         .then((res) => {
-          let permissions=[]
-          res.data.map((permission)=>{
-            permissions.push( { label: permission.name, value: permission.id })
-          })
-          setPermissions([...permissions]);
-         fetch();
+          let permissions=res.data
+          setPermissions(permissions)
+          permissions.forEach(_permission => {
+            const element=_permission.route;
+            const parts = element.split('.');
+            const entity = parts[0];
+            const permission = parts.slice(1).join('.');
+            const idx = ['index','show','store','update','destroy'].indexOf(permission);
+            if ( idx >= 0) {
+              if (!standard[entity]) {
+                standard[entity] = [null, null, null, null, null];
+                selectstandard[entity] = [null, null, null, null, null];
+              }
+              standard[entity][idx] = permission;
+              selectstandard[entity][idx]={permission: permission,selected:false,id:_permission.id}
+            } else {
+              additional.push({parts:parts,selected:false,id:_permission.id});
+            }
+           
+          });
+          _setStandard({...selectstandard})
+          _setAdditional([...additional])
+          fetch({...selectstandard},[...additional])
+         
+
         })
         .catch((err) => {
           setStatus({ type: "error",message: err.response.data.message });
@@ -82,20 +162,22 @@ const [permissions,setPermissions]=useState([])
   
     const { register, handleSubmit, watch } = useForm();
 
-    const validateFields=()=>{
-      if(selectedPermission.length ===0)
-      {
-      setErrors({permission_ids:['Permissions are required']})
-      return false
-      }
-      else return true
-    }
+  
 
     const onSubmit = (data) => {
-      const isValid=validateFields()
-      if (typeof window !== "undefined"&& isValid) {
-        let _selectedPermissions=selectedPermission.map((permission)=> permission.value )
-        data.permission_ids=_selectedPermissions
+    let _selectedPermissions=[]
+      if (typeof window !== "undefined") {
+        Object.keys(_standard).map(key => {
+          const perms = _standard[key];
+          perms.map((perm)=>{
+            perm && perm.selected && _selectedPermissions.push(perm.id)
+  
+          })
+        })
+        _additional.map((add)=>{
+          add.selected && _selectedPermissions.push(add.id)
+        })
+          data.permission_ids=_selectedPermissions
       const token1 = localStorage.getItem('token');
       ax.put(`/roles/${updateid}`, data, {headers: {
         'Authorization': `Bearer ${token1}`
@@ -196,32 +278,50 @@ return (
          
         )}
       </div>
-
-
-       
- 
-      <div style={{ width: "330px" }}>
-      <div className="mb-1"> <span className="text-default">Permissions</span>
-      
-     <span className="text-red-600" >*</span>
-      
-      </div>
-      <Select
-        options={permissions}
-        placeholder="Select Permissions"
-        onChange={handleSwitch}
-        isMulti={true}
-        value={selectedPermission}
-        
-      />
-      {errors && errors.permission_ids && (
-        errors.permission_ids.map((err)=>{
-         return <p className="mt-1 text-xs text-red-500">{err}</p>
-        })
-       
-      )}
-    </div>
-
+    <div>
+    <span className="text-default" >Standard Permissions</span>
+   <table className='table' style={{marginBottom:"25px"}}>
+     <thead>
+       <tr>
+         <th></th>
+         <th>List</th>
+         <th>Show</th>
+         <th>Create</th>
+         <th>Update</th>
+         <th>Delete</th>
+       </tr>
+     </thead>
+     <tbody>
+       {Object.keys(_standard).map(key => {
+         const perms = _standard[key];
+         return (
+           <tr key={key}>
+             <td>{titelize(key)}</td>
+             <td>{perms[0] ? renderSwitch(perms[0],key,0) : ''}</td>
+             <td>{perms[1] ? renderSwitch(perms[1],key,1) : ''}</td>
+             <td>{perms[2] ? renderSwitch(perms[2],key,2) : ''}</td>
+             <td>{perms[3] ? renderSwitch(perms[3],key,3) : ''}</td>
+             <td>{perms[4] ? renderSwitch(perms[4],key,4) : ''}</td>
+           </tr>
+         )
+       })}
+     </tbody>
+   </table>
+   <span className="text-default">Additional Permissions</span>
+   <table className='table'>
+     <tbody>
+       {_additional.map((perm,i) => {
+         const [entity, ...permission] = perm.parts;
+         return (
+           <tr key={perm.parts.join('.')}>
+             <td>{titelize(entity) + ' - ' + titelize(permission.reverse().join('-'))}</td>
+             <td>{renderSwitchadd(perm,i)}</td>
+           </tr>
+         )
+       })}
+     </tbody>
+   </table>
+ </div>
 
       {/*input*/}
 
