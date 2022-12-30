@@ -9,7 +9,7 @@ import React from "react";
 import {NotificationManager} from 'react-notifications'
 import ConfirmationModal from "../../components/confirmationmodal"
 import {useSelector, shallowEqual} from 'react-redux'
-
+import ls from 'local-storage'
 
 
 const Role=()=>{
@@ -18,13 +18,7 @@ const Role=()=>{
     const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false,setRole:false})
     const [deleteId,setDeleteId]=React.useState(undefined)
     const [showDeletePopup,setShowDeletePopup]=React.useState(false)
-    const {userpermissions} = useSelector(
-      state => ({
-        userpermissions: state.userpermissions,
-      }),
-      shallowEqual
-    )
-
+    const userpermissions = ls.get('permissions')
     const [status, setStatus] = React.useState(undefined);
 
 

@@ -9,7 +9,7 @@ import SectionTitle from '../../components/section-title';
 import Layout from '../../layouts';
 import { withRedux } from '../../lib/redux';
 import { ax } from "../../utils/apiCalls";
-
+import ls from 'local-storage'
 const Chatbot = () => {
   const [chatbots, setChatbots] = useState([])
   const [status, setStatus] = useState(undefined);
@@ -17,12 +17,7 @@ const Chatbot = () => {
   const [permissions, setPermissions] = React.useState({ get: false, update: false, delete: false, view: false })
   const [deleteId, setDeleteId] = React.useState(undefined)
   const [showDeletePopup, setShowDeletePopup] = React.useState(false)
-  const { userpermissions } = useSelector(
-    state => ({
-      userpermissions: state.userpermissions,
-    }),
-    shallowEqual
-  )
+  const userpermissions = ls.get('permissions')
 
   const getChatbots = async () => {
     const token = localStorage.getItem('token');

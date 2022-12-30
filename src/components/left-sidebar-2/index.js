@@ -91,10 +91,9 @@ const List = ({items}) => {
 }
 
 const Sidebar = () => {
-  const {collapsed,userpermissions} = useSelector(
+  const {collapsed} = useSelector(
     state => ({
       collapsed: state.collapsed,
-      userpermissions: state.userpermissions,
     }),
     shallowEqual
   )

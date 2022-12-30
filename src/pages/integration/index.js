@@ -12,7 +12,8 @@ import ConfirmationModal from "../../components/confirmationmodal"
 import {useSelector, shallowEqual} from 'react-redux';
 import Card from "./card"
 import { useRouter } from "next/router";
-import { Pagination } from "react-pagination-bar"
+import { Pagination } from "react-pagination-bar";
+import ls from 'local-storage'
 import 'react-pagination-bar/dist/index.css'
 
 const Integration=()=>{
@@ -25,12 +26,7 @@ const Integration=()=>{
  const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false})
  const [deleteId,setDeleteId]=React.useState(undefined)
  const [showDeletePopup,setShowDeletePopup]=React.useState(false)
- const {userpermissions} = useSelector(
-  state => ({
-    userpermissions: state.userpermissions,
-  }),
-  shallowEqual
-)
+ const userpermissions = ls.get('permissions')
 
   const getIntegrations = async () => {
     const token = localStorage.getItem('token');

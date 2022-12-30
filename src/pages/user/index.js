@@ -9,15 +9,11 @@ import React from "react";
 import {NotificationManager} from 'react-notifications'
 import ConfirmationModal from "../../components/confirmationmodal"
 import {useSelector, shallowEqual} from 'react-redux'
+import ls from 'local-storage'
 
 
 const User=()=>{
-  const {userpermissions} = useSelector(
-    state => ({
-      userpermissions: state.userpermissions,
-    }),
-    shallowEqual
-  )
+  const userpermissions = ls.get('permissions')
     const [userData,setUserData]=React.useState([]);
   const [status, setStatus] = React.useState(undefined);
   const [searchQuery, setSearchQuery] = React.useState("");

@@ -91,6 +91,7 @@ const Navbar = () => {
         'Authorization': `Bearer ${token}`
        }})
       .then((res) => {
+        localStorage.setItem('permissions', JSON.stringify( res.data.permissions))
         dispatch({
           type: 'UPDATE_PERMISSIONS',
           value: res.data.permissions
@@ -209,11 +210,6 @@ const Navbar = () => {
             value={selectedOrganization}
           />
         </div>
-       
-        <Link href="/pages/login-1">
-          <a className="btn btn-default flex lg:hidden">Logout</a>
-        </Link>
-     
         <div className='mr-5 cursor-pointer' onClick={()=>{logOut()}}>LOGOUT</div>
       
       </div>

@@ -9,7 +9,7 @@ import SectionTitle from '../../components/section-title';
 import Layout from '../../layouts';
 import { withRedux } from '../../lib/redux';
 import { ax } from "../../utils/apiCalls";
-
+import ls from 'local-storage'
 const ApiKey = () => {
   const [apiKeys, setApiKeys] = useState([])
   const [status, setStatus] = useState(undefined);
@@ -17,12 +17,7 @@ const ApiKey = () => {
   const [permissions, setPermissions] = React.useState({ get: false, update: false, delete: false, view: false })
   const [deleteId, setDeleteId] = React.useState(undefined)
   const [showDeletePopup, setShowDeletePopup] = React.useState(false)
-  const { userpermissions } = useSelector(
-    state => ({
-      userpermissions: state.userpermissions,
-    }),
-    shallowEqual
-  )
+  const userpermissions = ls.get('permissions')
   const getApiKeys = async () => {
     const token = localStorage.getItem('token');
     await ax
