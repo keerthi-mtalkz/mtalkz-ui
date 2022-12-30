@@ -14,7 +14,6 @@ import { UnderlinedTabs } from "../../components/tabs";
 import Layout from '../../layouts';
 import { withRedux } from '../../lib/redux';
 import { ax } from "../../utils/apiCalls";
-import ls from 'local-storage'
 const ChatbotConfiguration = () => {
   /** Chatbot data Management */
   const { register, handleSubmit } = useForm();
