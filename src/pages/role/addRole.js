@@ -12,21 +12,15 @@ const addRole = () => {
   const router = useRouter();
   const [res, setRes] = useState({});
   const [status, setStatus] = useState(undefined);
-
   const { register, handleSubmit, watch } = useForm();
   const [checked, handleChange] = useState(false)
 const [permissions,setPermissions]=useState([])
- const [selectedPermission,setSelectedPermission]=useState("")
 const [errors,setErrors] = useState(undefined)
 const standard = {};
 const additional = [];
 let selectstandard={}
 const [_standard,_setStandard ]=  useState({});
 const [_additional,_setAdditional ]=  useState([]);
-
-
-
-
 
 const titelize = (slug) => slug.split("-").map(w => w.charAt(0).toUpperCase() + w.substring(1)).join(' ');
 
@@ -67,7 +61,6 @@ const renderSwitchadd = (perm,i) => {
 
   const onSubmit = (data) => {
     let _selectedPermissions=[]
-
     if (typeof window !== "undefined") {
       data.is_system_role=checked;
       Object.keys(_standard).map(key => {

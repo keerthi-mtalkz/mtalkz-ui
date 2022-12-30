@@ -7,6 +7,8 @@ import { withRedux } from "../../lib/redux";
 import {ax} from "../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications'
 import Switch from 'react-switch'
+import { useSelector, shallowEqual } from 'react-redux'
+import ls from 'local-storage'
 
 const addOrganization = () => {
   const router = useRouter();
@@ -14,13 +16,15 @@ const addOrganization = () => {
   const [status, setStatus] = useState(undefined);
   const [checked, handleChange] = useState(false)
   const [errors,setErrors]=useState(undefined)
-   
-  const { register, handleSubmit, watch } = useForm();
-
+  
+  const { register, handleSubmit } = useForm();
+  const isSystemUser = ls.get("isSystemUser");
+  
   const onSubmit = (data) => {
     if (typeof window !== "undefined") {
         data.is_reseller=checked;
         data.reseller_id=2;
+        data.port = parseInt(data.port);
     const token = localStorage.getItem('token');
     ax.post("/organizations", data, {headers: {
       'Authorization': `Bearer ${token}`
@@ -42,10 +46,6 @@ const addOrganization = () => {
 
     }
   };
-
-  useEffect(()=>{
-    
-  },[])
 
   return (
     <Layout>
@@ -135,8 +135,6 @@ const addOrganization = () => {
     </div>
 
     {/*input*/}
-
-    {/*input*/}
     <div className="w-full mb-4">
       <label className="block">
         <span className="text-default">Address</span>
@@ -156,6 +154,25 @@ const addOrganization = () => {
       )}
     </div>
 
+    {/*input*/}
+   {isSystemUser == 1 && <div className="w-full mb-4">
+   <label className="block">
+     <span className="text-default">Port</span>
+     <input
+       name="port"
+       type="number"
+       ref={register()}
+       className="form-input mt-1 text-xs block w-full bg-white"
+       placeholder="Enter port number"
+       title="the value range should be between 1024 - 65535"
+     />
+   </label>
+   {errors && errors.port && (
+     errors.port.map((err)=>{
+      return <p className="mt-1 text-xs text-red-500">{err}</p>
+     })
+   )}
+ </div>} 
      {/*input*/}
      <div className="w-full mb-4">
      <label className="block">

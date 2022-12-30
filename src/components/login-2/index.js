@@ -44,6 +44,7 @@ const Login1 = () => {
       localStorage.setItem('tokenExpireTime',2880)
       localStorage.setItem("user", JSON.stringify(res.data.user))
       localStorage.setItem("userName", res.data.user.name)
+      localStorage.setItem("isSystemUser", JSON.stringify(res.data.user.is_system_user))
 
       dispatch({
         type: 'UPDATE_USER',
