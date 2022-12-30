@@ -12,6 +12,7 @@ import { Badge } from '../../components/badges'
 import { useSelector, shallowEqual } from 'react-redux'
 import * as Icon from 'react-feather'
 import { useRouter } from "next/router";
+import ls from 'local-storage'
 
 const CampaignListing = () => {
   const router = useRouter();
@@ -27,6 +28,8 @@ const CampaignListing = () => {
     }),
     shallowEqual
   )
+ const userpermissions = ls.get('permissions')
+
 
   console.log(user, "user")
   const getListofcampaign = async () => {
@@ -170,7 +173,7 @@ const CampaignListing = () => {
                     <i className="icon-note text-1xl font-bold mb-2"></i>
                   </p>
                 </Link>
-                {user.is_system_user == 1 && <p className="ml-4"><Icon.ThumbsUp  size={20} onClick={()=>{router.push({pathname:"/voice-campaign/approveList", query:{approveListId:data.row.original.id}}) }}/></p>}
+                {userpermissions.includes("voice-campaigns.approve") && <p className="ml-4"><Icon.ThumbsUp  size={20} onClick={()=>{router.push({pathname:"/voice-campaign/approveList", query:{approveListId:data.row.original.id}}) }}/></p>}
               </>:
               <>
               <p style={{
