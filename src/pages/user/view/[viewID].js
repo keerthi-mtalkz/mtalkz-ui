@@ -26,8 +26,7 @@ const viewID = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState( date );
     const [activities,setActivities]=useState([]);
-    const [permissions,setPermissions] = useState(false) 
-    const userpermissions = ls.get('permissions')
+    const [userpermissions,setUserpermissions] = useState(ls.get('permissions')) 
 
     const [dateErrorMsg,setDateErrorMsg]=useState(undefined)
     const fetch = async () => {
@@ -49,10 +48,9 @@ const viewID = () => {
     };
 
     useEffect(() => {
-      
-      userpermissions.includes("users.activities") &&  getUserActivities();
+      userpermissions &&  userpermissions.includes("users.activities") &&  getUserActivities();
         fetch();
-    }, []);
+    }, [setUserpermissions]);
 
   const getUserActivities=async()=>{
     
@@ -187,7 +185,7 @@ return (
     </div>
  </div>  
  <div>
- { userpermissions.includes("users.activities") && <div className="flex ml-10">
+ {userpermissions &&  userpermissions.includes("users.activities") && <div className="flex ml-10">
  <div>
  <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
  Start Date
@@ -214,19 +212,14 @@ return (
  {
  dateErrorMsg != undefined   &&<p className="mt-1 text-xs text-red-500 ml-10">{dateErrorMsg}</p>
  }
- {activities.length>0 && userpermissions.includes("users.activities") && dateErrorMsg=== undefined ?<div className="ml-10 mt-10">
+ {activities.length>0 && userpermissions && userpermissions.includes("users.activities") && dateErrorMsg=== undefined ?<div className="ml-10 mt-10">
   <Datatable  columns={columns} data={activities}  /></div> : <p className="text-sm ml-10 mt-10 font-medium text-gray-900 truncate dark:text-white">
-{userpermissions.includes("users.activities") && "No Activites Found"}
+{userpermissions && userpermissions.includes("users.activities") && "No Activites Found"}
  </p>}
 
  </div>
  
     </div>
-    
-
-
-
-   
     </Layout>
   );
 };
