@@ -10,6 +10,7 @@ import {NotificationManager} from 'react-notifications'
 import ConfirmationModal from "../../components/confirmationmodal"
 import {useSelector, shallowEqual} from 'react-redux'
 import ls from 'local-storage'
+import * as Icon from 'react-feather'
 
 
 const User=()=>{
@@ -19,16 +20,21 @@ const User=()=>{
   const [searchQuery, setSearchQuery] = React.useState("");
   const [permissions,setPermissions]=React.useState({get:false,update:false,delete:false,view:false,update:false,setRole:false})
  const [showDeletePopup,setShowDeletePopup]=React.useState(false)
+ const [showDeactivatePopup,setShowDeactivatePopup]=React.useState(false)
+
  const [deleteId,setDeleteId]=useState(undefined)
+ const [deactivateId,setDeactivateId]=useState(undefined)
+
 
   const getPermissions = async () => {
-    let permissions={get:false,update:false,delete:false,view:false,add:false,setRole:false}
+    let permissions={get:false,update:false,delete:false,view:false,add:false,setRole:false,deactivate:false}
     permissions["get"]= userpermissions.includes("users.index") && getUsersApi()
     permissions["update"]= userpermissions.includes("users.update")
     permissions["delete"]= userpermissions.includes("users.destroy")
     permissions["view"]= userpermissions.includes("users.show")
     permissions["setRole"]= userpermissions.includes("users.role.set")
     permissions["add"]= userpermissions.includes("users.store")
+    permissions["deactivate"]= userpermissions.includes("users.deactivate")
     setPermissions({...permissions})
   };
     
@@ -52,15 +58,29 @@ const User=()=>{
     setDeleteId(id)
     setShowDeletePopup(true)
    }
+   const DetacivateConfirmationPopup=(id)=>{
+    setDeactivateId(id)
+    setShowDeactivatePopup(true)
+   }
 
    const onCancel=()=>{
   setStatus(undefined)
     setShowDeletePopup(false)
 
    }
+   const onDeativateCancel=()=>{
+    setStatus(undefined)
+    setShowDeactivatePopup(false)
+  
+     }
 
    const onSubmit=()=>{
     deleteUserApi()
+   }
+
+   const onDeativateSubmit=()=>{
+    deactivateUserApi()
+
    }
 
    const deleteUserApi=()=>{
@@ -72,7 +92,7 @@ const User=()=>{
          }})
           .then((res) => {
             setShowDeletePopup(false)
-        setStatus({ type: "success" });
+        setStatus({ type: "success",message:"Deleted user successfully" });
             setTimeout(() => {
         setStatus(undefined);
 
@@ -91,6 +111,25 @@ const User=()=>{
     useEffect(()=>{
       getPermissions()
     },[])
+
+    const deactivateUserApi=()=>{
+      const token = localStorage.getItem('token');
+      ax.get(`/users/${deactivateId}/deactivate`, {headers: {
+        'Authorization': `Bearer ${token}`
+       }})
+        .then((res) => {
+      setStatus({ type: "success",message:"Detacivated user successfully" });
+      setShowDeactivatePopup(false)
+          setTimeout(() => {
+            getUsersApi();
+          }, 1000);
+        })
+        .catch((err) => {
+      setShowDeactivatePopup(false)
+          setStatus({ type: "error",message: err.response.data.message });
+          console.error("get /usres error", err.message);
+        }); 
+    }
 
     const columns = [
         {
@@ -140,6 +179,13 @@ const User=()=>{
               </p>
           </Link>
             }
+            {
+              permissions.deactivate &&  <div onClick={()=>{DetacivateConfirmationPopup(data.row.original.id)}}>
+              <p>
+              <Icon.StopCircle color='red' size={20} ></Icon.StopCircle>
+              </p>
+          </div>
+            }
               
     
             </div>
@@ -151,11 +197,13 @@ const User=()=>{
       return (
         <Layout>
         {showDeletePopup && <ConfirmationModal onCancel={onCancel} onSubmit={onSubmit} > </ConfirmationModal>}
+        {showDeactivatePopup && <ConfirmationModal content='This action cannot be reversed. You will permanently deactivate the user'  title='Do you really want to deactivate it?'  onCancel={onDeativateCancel} onSubmit={onDeativateSubmit} > </ConfirmationModal>}
+
      <SectionTitle title="User Management" subtitle="" />
      {status?.type === "success" && (
       <div className="flex flex-wrap w-full">
       <div className="p-2">
-      { NotificationManager.success('Deleted user successfully', 'Success')}
+      { NotificationManager.success(status.message, 'Success')}
       </div>
     </div>
     )}
