@@ -46,7 +46,7 @@ const Navbar = () => {
       localStorage.removeItem("orgId")
       localStorage.removeItem("tokenGeneratedTime")
       localStorage.removeItem("tokenExpireTime")
-
+     localStorage.clear()
       router.push("/pages/login");
     })
     .catch((err) => {
@@ -96,7 +96,6 @@ const Navbar = () => {
           type: 'UPDATE_PERMISSIONS',
           value: res.data.permissions
         })
-      
       })
       .catch((err) => {
     });
@@ -116,11 +115,16 @@ const Navbar = () => {
    }
 
   useEffect(()=>{
+
     NotificationManager.removeAll()
     const currentTime = moment(new Date());
     const tokenIssueTime = localStorage.getItem('tokenGeneratedTime')
     const tokenExpireTime= localStorage.getItem('tokenExpireTime')
-     console.log(currentTime,tokenIssueTime, moment(currentTime).diff(tokenIssueTime, "minutes"),"^^^^^^^^^^")
+     if(!localStorage.getItem('permissions'))
+      {
+       getPermissions()
+      }
+    
      if(localStorage.getItem('token')){
       if( moment(currentTime).diff(tokenIssueTime, "minutes") >=
       tokenExpireTime){

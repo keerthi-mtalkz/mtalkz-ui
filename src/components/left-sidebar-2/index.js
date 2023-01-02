@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useSelector, useDispatch, shallowEqual} from 'react-redux'
 import Link from 'next/link'
 import navigation from '../../navigation'
@@ -8,7 +8,7 @@ import Badge from '../left-sidebar-1/badge'
 import Title from '../left-sidebar-1/title'
 import Projects from '../left-sidebar-1/projects'
 import Tags from '../left-sidebar-1/tags'
-
+import ls from 'local-storage';
 const Single = ({items}) => {
   const {collapsed} = useSelector(
     state => ({
@@ -27,6 +27,7 @@ const Single = ({items}) => {
       </li>
     )
   }
+
   return (
     <li className="list-item">
       <Link href={items.url}>
@@ -91,12 +92,16 @@ const List = ({items}) => {
 }
 
 const Sidebar = () => {
+   const [permissions,setPermissions] = useState([])
   const {collapsed} = useSelector(
     state => ({
       collapsed: state.collapsed,
     }),
     shallowEqual
   )
+  useEffect(()=>{
+    setPermissions(ls.get('permissions'))
+  },[])
   return (
     <div className="left-sidebar left-sidebar-2 text-sm">
       <div className="flex flex-col text-sm">
@@ -109,7 +114,7 @@ const Sidebar = () => {
             <Title>{menu.title}</Title>
           </div>
           <div className="flex flex-col">
-            {menu.items.map((items, j) => (
+            {menu.items.filter((data)=>permissions.includes(data.index)).map((items, j) => (
               <List key={j} items={items} />
             ))}
           </div>
