@@ -4,8 +4,11 @@ import { NotificationManager } from 'react-notifications';
 import Layout from '../../layouts';
 import { withRedux } from '../../lib/redux';
 import { ax } from "../../utils/apiCalls";
+import { useRouter } from "next/router";
 
 const UploadList = () => {
+  const router = useRouter();
+
   const [status, setStatus] = React.useState(undefined);
   const fileTypes = ["CSV"];
   const [file, setFile] = React.useState(null);
@@ -19,18 +22,22 @@ const UploadList = () => {
     const data = {
       file: file
     }
-    await ax
-      .post(url, data, {
-        headers: {
-          'x-api-key': `${token}`
-        }
-      })
-      .then((res) => {
+    setTimeout(() => {
+      router.push("/listSegments/importReview");
+    }, 1000);
+    // await ax
+    //   .post(url, data, {
+    //     headers: {
+    //       'x-api-key': `${token}`
+    //     }
+    //   })
+    //   .then((res) => {
 
-      })
-      .catch((err) => {
+    //   })
+    //   .catch((err) => {
 
-      });
+    //   });
+     
   }
 
   return (
