@@ -66,8 +66,9 @@ const CreateList = () => {
           setStatus({ type: "success" });
           setStatus(undefined);
           setTimeout(() => {
-            router.push("/listSegments/uploadList");
+            router.push({pathname:"/listSegments/uploadList",query:{name:data.name}});
           }, 1000);
+       
         })
         .catch((err) => {
           if (err.response.data.errors) {
@@ -178,6 +179,8 @@ const CreateList = () => {
             className="btn cursor-pointer btn-default btn-block btn-red mt-5 text-center mr-5 "
             value="Cancel"
             onClick={() => {
+
+              
               router.push("/listSegments/createListSegment");
             }}
           />

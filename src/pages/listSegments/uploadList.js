@@ -5,40 +5,53 @@ import Layout from '../../layouts';
 import { withRedux } from '../../lib/redux';
 import { ax } from "../../utils/apiCalls";
 import { useRouter } from "next/router";
+import ls from 'local-storage'
+import Breadcrumb from '../../components/breadcrumbs';
 
 const UploadList = () => {
   const router = useRouter();
-
   const [status, setStatus] = React.useState(undefined);
   const fileTypes = ["CSV"];
   const [file, setFile] = React.useState(null);
+    console.log(router.query.name,"&&&&&&&&&&&&&&&&&&&&")
   const handleChange = (file) => {
     setFile(file);
   };
 
   const uploadFile = async () => {
-    let url = "http://20.193.136.151:5000/customers/upload"
-    const token = localStorage.getItem("token");
-    const data = {
-      file: file
-    }
+    let formData = new FormData();
+    formData.append("file",file);
+   const token = localStorage.getItem('token');
+   fetch("http://20.193.136.151:5000/lists/upload",{
+     method:"POST",
+     body: formData,
+     headers: {"x-api-key":  `${token}`,
+     'Accept': 'application/json',
+ }
+   }).then((res)=>{
+    return res.json()
+   
+   }).then((res)=>{
+   
+  ls.set('filepath',res.filePath);
+  ls.set('sampleRecord',JSON.stringify(res.sampleRecord));
+    console.log(res,"efgregferhgfdefehgfrg")
+    setStatus({ type: "success" });
+    setStatus(undefined);
+    
     setTimeout(() => {
-      router.push("/listSegments/importReview");
+      setTimeout(() => {
+        router.push({pathname:"/listSegments/importReview",query:{name:router.query.name}});
+      }, 1000);
     }, 1000);
-    // await ax
-    //   .post(url, data, {
-    //     headers: {
-    //       'x-api-key': `${token}`
-    //     }
-    //   })
-    //   .then((res) => {
-
-    //   })
-    //   .catch((err) => {
-
-    //   });
-     
+   }).catch((err)=>{
+     setStatus({ type: "error",message: err.response.data.message });
+   })
   }
+
+  const items2 = [
+    { title: 'List & Segments', url: '/listSegments', last: false }
+  ]
 
   return (
     <Layout className="overflow-x-scroll">
@@ -56,6 +69,12 @@ const UploadList = () => {
           </div>
         </div>
       )}
+      <div className='flex text-center mb-6'>
+      <div >
+        <Breadcrumb items={items2} />
+      </div>
+      <div style={{ marginTop: "-5px" }} className='font-bold mb-1 p-1 text-lg'>{ router.query.name}</div>
+    </div>
       <div>Upload File</div>
       <div className='flex w-full' >
         <div className="w-2/4 p-1  border-2 mr-2" >
@@ -63,7 +82,12 @@ const UploadList = () => {
             <FileUploader maxSize={50} handleChange={handleChange} name="file" types={fileTypes} />
             <p>Drag and drop your CSV here </p>
             <p>maxium file size 50mb</p>
-            <input type="file" accept=".csv" onChange={(e) => { setFile(e.target.value) }} />
+            <input type="file" id="file" accept=".csv" onChange={(e) => {
+              console.log(e.target.files[0],"sehgfrehfgbregfherfgrrg")
+              if (!e.target.files.length) return;
+              let files = e.target.files[0];
+              console.log(files)
+              setFile(files)}} />
           </div>
 
         </div>

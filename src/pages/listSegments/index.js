@@ -148,9 +148,12 @@ const ListAndSegments=()=>{
                   }
                 })
                 .then((res) => {
+
                     res.data.map((d)=>{
-                        d.membersCount=d.customer_ids.length
+                        d.membersCount=d.members_count
                     })
+                    console.log(res.data,"^^^^^^^^^^^^^^^^^^^^^")
+
                     setListSegments(res.data)
                     setSerchList("");
                     setSerchTag("")
