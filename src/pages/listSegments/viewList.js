@@ -82,8 +82,6 @@ const ViewList = () => {
         {item }
       </Badge>
         </div>
-        
-      
       })
     }
     </div>
