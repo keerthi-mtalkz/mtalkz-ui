@@ -205,8 +205,6 @@ setDisplayErrorModal(true)
                     res.data.map((d)=>{
                         d.membersCount=d.members_count
                     })
-                    console.log(res.data,"^^^^^^^^^^^^^^^^^^^^^")
-
                     setListSegments(res.data)
                     setSerchList("");
                     setSerchTag("")

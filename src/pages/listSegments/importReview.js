@@ -33,10 +33,13 @@ React.useEffect(()=>{
    Object.keys(_sampleRecords).forEach((k)=>{
         if(typeof(_sampleRecords[k]) != 'object'){
           sampleData.push({columnName:k,sampleData:_sampleRecords[k],type:typeof(_sampleRecords[k])})
+        }else{
+          sampleData.push({columnName:k,sampleData: JSON.stringify(_sampleRecords[k]) ,type:typeof(_sampleRecords[k])})
+
         }
    })
    setData([...sampleData])
-  let  options =   sampleData.map((element)=>{
+  let  options =   sampleData.filter((d)=>d.type != "object").map((element)=>{
     return { label: element.columnName, value: element.columnName };
   })
   setOptions([...options])
@@ -81,7 +84,7 @@ React.useEffect(()=>{
       "x-api-key": `Bearer ${token}`,
     }
   }).then((response)=>{
-    router.push("/")
+    router.push("/listSegments")
   }).catch((error)=>{})
  }
 
@@ -111,9 +114,9 @@ React.useEffect(()=>{
        <div className=" mt-2 mb-2" style={{background:"lightgrey",height:"2px"}}></div>
        <div className="font-semibold">Import review</div>
        <span>Please review the field mapping so we can add and update profiles based on your selections</span>
-       <div className="w-full mb-4 flex">
-       <label className="block">
-         <div style={{ width: "330px" , marginTop:"20px",marginBottom:"20px"}}>
+       <label className="flex" style={{alignItems:"center"}}>
+       <span >Select the CutomerId</span>
+         <div style={{ width: "330px" , marginTop:"20px",marginBottom:"20px",marginLeft:"20px"}}>
          <Select
            options={options}
            placeholder="Select Customer Id"
@@ -121,7 +124,9 @@ React.useEffect(()=>{
          />
        </div>
        </label>
-       <div className="grid grid-cols-3 w-full mb-4 align-center" style={{"align-items": "center","marginLeft":"10px","marginTop":"10px"}}>
+       <div className="grid grid-cols-3 w-full mb-4 align-center" style={{"align-items": "center","marginTop":"10px"}}>
+       <span>Overwrite existing customer records in case of duplicate customer IDs</span>
+       
        <Switch
          checked={checked}
          onChange={(checked) => handleChange(checked)}
@@ -129,9 +134,7 @@ React.useEffect(()=>{
          uncheckedIcon={false}
          checkedIcon={false}
        />
-       <span>Overwrite</span>
 
-     </div>
        
      </div>
       

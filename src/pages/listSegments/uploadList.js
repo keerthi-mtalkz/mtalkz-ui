@@ -13,7 +13,6 @@ const UploadList = () => {
   const [status, setStatus] = React.useState(undefined);
   const fileTypes = ["CSV"];
   const [file, setFile] = React.useState(null);
-    console.log(router.query.name,"&&&&&&&&&&&&&&&&&&&&")
   const handleChange = (file) => {
     setFile(file);
   };
@@ -35,7 +34,6 @@ const UploadList = () => {
    
   ls.set('filepath',res.filePath);
   ls.set('sampleRecord',JSON.stringify(res.sampleRecord));
-    console.log(res,"efgregferhgfdefehgfrg")
     setStatus({ type: "success" });
     setStatus(undefined);
     
@@ -83,10 +81,8 @@ const UploadList = () => {
             <p>Drag and drop your CSV here </p>
             <p>maxium file size 50mb</p>
             <input type="file" id="file" accept=".csv" onChange={(e) => {
-              console.log(e.target.files[0],"sehgfrehfgbregfherfgrrg")
               if (!e.target.files.length) return;
               let files = e.target.files[0];
-              console.log(files)
               setFile(files)}} />
           </div>
 
@@ -104,13 +100,16 @@ const UploadList = () => {
           <p className="mt-5 mb-5">If only some profiles being uploaded have explicitly consented to receive email marketing, add a column for Consent containing the word "Email" to subscribe those profiles. For SMS marketing, include the column SMS Consent Timestamp indicating the date and time the profile consented to receive SMS. A confirmation message will not be sent and any profiles that have unsubscribed will be resubscribed.</p>
         </div>
       </div>
+      <div style={{display:"flex",justifyContent:"center",marginTop:"20px"}}>
       <button
-        className="ml-3  btn btn-default btn-indigo create-btn w-full"
-        type="button"
-        onClick={() => { uploadFile() }}
-      >
-        Upload File
-      </button>
+      className="ml-3  btn btn-default btn-indigo create-btn w-1/4"
+      type="button"
+      onClick={() => { uploadFile() }}
+    >
+      Upload File
+    </button>
+      </div>
+    
 
     </Layout>
   )
