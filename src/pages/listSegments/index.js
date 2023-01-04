@@ -215,6 +215,10 @@ setDisplayErrorModal(true)
                
            }
 
+           const rowClick=(data)=>{
+            router.push({pathname:"/listSegments/viewList",query:{name:data.original.name}});
+           }
+
   return (
     <Layout className="overflow-x-scroll">
     {status?.type === "success" && (
@@ -279,7 +283,7 @@ setDisplayErrorModal(true)
 <input type={"button"}  style={{width:"100px",height:"40px",marginRight:"20px",background:"#434190",color:"white"}} onClick={()=>{router.push('/listSegments/createListSegment')}} value="Create List"></input>
 </div>
 </div>
-<Datatable columns={columns}  data={listSegments}></Datatable>
+<Datatable columns={columns}  data={listSegments} rowClick={rowClick}></Datatable>
 
     </Layout>
     )
