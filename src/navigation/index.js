@@ -23,7 +23,7 @@ const navigation = [
       },
       {
         url: '/listSegments',
-        index:"listsegments.index",
+        index:"users.index",
         icon: <Icon.User size={20} />,
         title: 'List & Segments',
         items: []

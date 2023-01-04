@@ -4,8 +4,12 @@ import { NotificationManager } from 'react-notifications';
 import Layout from '../../layouts';
 import { withRedux } from '../../lib/redux';
 import { ax } from "../../utils/apiCalls";
+import { useRouter } from "next/router";
+import ls from 'local-storage'
+import Breadcrumb from '../../components/breadcrumbs';
 
 const UploadList = () => {
+  const router = useRouter();
   const [status, setStatus] = React.useState(undefined);
   const fileTypes = ["CSV"];
   const [file, setFile] = React.useState(null);
@@ -14,24 +18,38 @@ const UploadList = () => {
   };
 
   const uploadFile = async () => {
-    let url = "http://20.193.136.151:5000/customers/upload"
-    const token = localStorage.getItem("token");
-    const data = {
-      file: file
-    }
-    await ax
-      .post(url, data, {
-        headers: {
-          'x-api-key': `${token}`
-        }
-      })
-      .then((res) => {
-
-      })
-      .catch((err) => {
-
-      });
+    let formData = new FormData();
+    formData.append("file",file);
+   const token = localStorage.getItem('token');
+   fetch("http://20.193.136.151:5000/lists/upload",{
+     method:"POST",
+     body: formData,
+     headers: {"x-api-key":  `${token}`,
+     'Accept': 'application/json',
+ }
+   }).then((res)=>{
+    return res.json()
+   
+   }).then((res)=>{
+   
+  ls.set('filepath',res.filePath);
+  ls.set('sampleRecord',JSON.stringify(res.sampleRecord));
+    setStatus({ type: "success" });
+    setStatus(undefined);
+    
+    setTimeout(() => {
+      setTimeout(() => {
+        router.push({pathname:"/listSegments/importReview",query:{name:router.query.name}});
+      }, 1000);
+    }, 1000);
+   }).catch((err)=>{
+     setStatus({ type: "error",message: err.response.data.message });
+   })
   }
+
+  const items2 = [
+    { title: 'List & Segments', url: '/listSegments', last: false }
+  ]
 
   return (
     <Layout className="overflow-x-scroll">
@@ -49,6 +67,12 @@ const UploadList = () => {
           </div>
         </div>
       )}
+      <div className='flex text-center mb-6'>
+      <div >
+        <Breadcrumb items={items2} />
+      </div>
+      <div style={{ marginTop: "-5px" }} className='font-bold mb-1 p-1 text-lg'>{ router.query.name}</div>
+    </div>
       <div>Upload File</div>
       <div className='flex w-full' >
         <div className="w-2/4 p-1  border-2 mr-2" >
@@ -56,7 +80,10 @@ const UploadList = () => {
             <FileUploader maxSize={50} handleChange={handleChange} name="file" types={fileTypes} />
             <p>Drag and drop your CSV here </p>
             <p>maxium file size 50mb</p>
-            <input type="file" accept=".csv" onChange={(e) => { setFile(e.target.value) }} />
+            <input type="file" id="file" accept=".csv" onChange={(e) => {
+              if (!e.target.files.length) return;
+              let files = e.target.files[0];
+              setFile(files)}} />
           </div>
 
         </div>
@@ -73,13 +100,16 @@ const UploadList = () => {
           <p className="mt-5 mb-5">If only some profiles being uploaded have explicitly consented to receive email marketing, add a column for Consent containing the word "Email" to subscribe those profiles. For SMS marketing, include the column SMS Consent Timestamp indicating the date and time the profile consented to receive SMS. A confirmation message will not be sent and any profiles that have unsubscribed will be resubscribed.</p>
         </div>
       </div>
+      <div style={{display:"flex",justifyContent:"center",marginTop:"20px"}}>
       <button
-        className="ml-3  btn btn-default btn-indigo create-btn w-full"
-        type="button"
-        onClick={() => { uploadFile() }}
-      >
-        Upload File
-      </button>
+      className="ml-3  btn btn-default btn-indigo create-btn w-1/4"
+      type="button"
+      onClick={() => { uploadFile() }}
+    >
+      Upload File
+    </button>
+      </div>
+    
 
     </Layout>
   )

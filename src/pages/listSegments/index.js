@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import ConfirmationModal from "../../components/confirmationmodal"
 import {NotificationManager} from 'react-notifications'
 import {Badge} from '../../components/badges'
-
+import ErrorModal from "../../components/errorModal"
 
 const ListAndSegments=()=>{
     const router = useRouter();
@@ -19,17 +19,48 @@ const ListAndSegments=()=>{
     const [searchTag,setSerchTag] = React.useState("")
     const [showDeletePopup,setShowDeletePopup]=React.useState(false)
     const [deleteId,setDeleteId]=React.useState(undefined)
+    const [showErrors,setShowErrors]=React.useState(undefined)
+    const [displayErrorModal,setDisplayErrorModal]=React.useState(false)
     const [listSegments,setListSegments]=React.useState([
       ]);
 
-      const onItemClick=(name,operation)=>{
+      const onItemClick=(name,operation,data)=>{
         if(operation=="Delete")
         {
             ConfirmationPopup(name)
         }
-        
+        if(operation == "Cancel Upload"){
+          cancelUpload(data)
+        }
+        if(operation == "Import Data"){
+          router.push({pathname:"/listSegments/uploadList",query:{name:name}});
 
+        }
     }
+
+  const cancelUpload=(cancelData)=>{
+    const token = localStorage.getItem('token');
+    const data = {
+      filePath:cancelData.last_upload.filePath
+    }
+    ax.post(`http://20.193.136.151:5000/lists/cancelUpload`, data,{headers: {
+      'x-api-key ': `Bearer ${token}`
+     }})
+      .then((res) => {
+        setShowDeletePopup(false)
+        setStatus({ type: "success" });
+        setTimeout(() => {
+         setStatus(undefined);
+         getListsApi();
+        }, 1000);
+      })
+      .catch((err) => {
+        setShowDeletePopup(false)
+        setStatus({ type: "error",message: err.response.data.message });
+        console.error("get /usres error", err.message);
+      });
+  }
+
     const ConfirmationPopup=(id)=>{
         setDeleteId(id)
         setShowDeletePopup(true)
@@ -39,6 +70,10 @@ const ListAndSegments=()=>{
       setStatus(undefined)
         setShowDeletePopup(false)
     
+       }
+       const showErrormodal=(data)=>{
+setShowErrors(data)
+setDisplayErrorModal(true)
        }
     
        const onSubmit=()=>{
@@ -87,12 +122,30 @@ const ListAndSegments=()=>{
              </div>)}
         },
         {
+          Header:"Status",
+          sortable:false,
+          Cell:(data)=>{
+            return (<div className="flex  ">
+            {
+             data.row.original.last_upload && <div>
+             <div>
+             { data.row.original.last_upload.status }
+             </div>
+             { data.row.original.last_upload.errors.length>0 && <div onClick={()=>{showErrormodal( data.row.original)}} style={{color:"blue",cursor:"pointer"}}>errors</div>}
+             </div> 
+             
+              
+            }
+          
+             </div>)}
+        },
+        {
             Header: 'Action',
             sortable: false,
           Cell: (data) => {
   
             return (<div className="flex  ">
-           <DropdownWidget5 name={data.row.original.name} onItemClick={onItemClick}></DropdownWidget5>
+           <DropdownWidget5 lastUploaded={data.row.original.last_upload} data={data.row.original} name={data.row.original.name} onItemClick={onItemClick}></DropdownWidget5>
              </div>)}
           },
       ]
@@ -148,8 +201,9 @@ const ListAndSegments=()=>{
                   }
                 })
                 .then((res) => {
+
                     res.data.map((d)=>{
-                        d.membersCount=d.customer_ids.length
+                        d.membersCount=d.members_count
                     })
                     setListSegments(res.data)
                     setSerchList("");
@@ -179,7 +233,7 @@ const ListAndSegments=()=>{
         </div>
         )}
     {showDeletePopup && <ConfirmationModal onCancel={onCancel} onSubmit={onSubmit} > </ConfirmationModal>}
-
+{displayErrorModal && <ErrorModal onSubmit={()=>{setDisplayErrorModal(false)}} content={showErrors}></ErrorModal>}
     <SectionTitle title="List & Segments" subtitle="" />
     <p>Below are your starred lists and segments. To view all your lists and segments or change the starred ones,
     <Link  href={`/#`} >

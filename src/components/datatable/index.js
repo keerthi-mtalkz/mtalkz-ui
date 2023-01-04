@@ -6,11 +6,9 @@ const IndeterminateCheckbox = React.forwardRef(
   ({indeterminate, ...rest}, ref) => {
     const defaultRef = React.useRef()
     const resolvedRef = ref || defaultRef
-
     React.useEffect(() => {
       resolvedRef.current.indeterminate = indeterminate
     }, [resolvedRef, indeterminate])
-
     return (
       <input
         type="checkbox"
@@ -22,7 +20,7 @@ const IndeterminateCheckbox = React.forwardRef(
   }
 )
 
-const Datatable = ({columns, data}) => {
+const Datatable = ({columns, data,selection=false,onCheckboxClick=undefined}) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -49,9 +47,29 @@ const Datatable = ({columns, data}) => {
     usePagination,
     useRowSelect,
     hooks => {
-      hooks.visibleColumns.push(columns => [
+      selection&& onCheckboxClick && hooks.visibleColumns.push(columns => [
         // Let's make a column for selection
-       
+      {
+          id: 'selection',
+          // The header can use the table's getToggleAllRowsSelectedProps method
+          // to render a checkbox
+          Header: ({getToggleAllRowsSelectedProps}) => (
+            <>
+              <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+            </>
+          ),
+          // The cell can use the individual row's getToggleRowSelectedProps method
+          // to the render a checkbox
+          Cell: ({row}) => (
+            <div onClick={()=>{onCheckboxClick(row)}}>
+              <IndeterminateCheckbox  {...row.getToggleRowSelectedProps()} on />
+            </div>
+          )
+        },
+        ...columns
+      ])
+      !selection &&  hooks.visibleColumns.push(columns => [
+        // Let's make a column for selection
         ...columns
       ])
     }
