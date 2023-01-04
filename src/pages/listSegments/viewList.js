@@ -33,7 +33,7 @@ const ViewList = () => {
   React.useEffect(()=>{
     getListDetails()
   },[])
-
+  // (new Date(created_at)).toLocaleString('en-HI', {dateStyle: 'medium', timeStyle: 'short'})
   const columns =  [
     {
       Header: 'Profile',
@@ -44,7 +44,7 @@ const ViewList = () => {
       sortable:false,
           Cell:(data)=>{
             return (<div className="flex  ">
-           { new Date(data.row.original.created_at).toLocaleDateString('en-HI', {dateStyle: 'full'})}  at {new Date(data.row.original.created_at).toLocaleTimeString('en-HI', {timeStyle: 'short'})}
+            {  (new Date(data.row.original.created_at)).toLocaleString('en-HI', {dateStyle: 'medium', timeStyle: 'short'})}
              </div>)}
     },
     {
@@ -53,11 +53,16 @@ const ViewList = () => {
           Cell:(data)=>{
             return (
               <div className="flex  ">
-           {data.row.original.updated_at ?<span>{ new Date(data.row.original.updated_at).toLocaleDateString('en-HI', {dateStyle: 'full'})}  at {new Date(data.row.original.updated_at).toLocaleTimeString('en-HI', {timeStyle: 'short'})}</span>:'-'}
+           {data.row.original.updated_at ?<span>{(new Date(data.row.original.updated_at)).toLocaleString('en-HI', {dateStyle: 'medium', timeStyle: 'short'})}
+           </span>:'-'}
              </div>)}
     }
   ]
 
+
+  const rowClick=(data)=>{
+    router.push({pathname:"/listSegments/customer360",query:{customerId:data.original.customer_id}});
+  }
   return (
     <Layout className="overflow-x-scroll">
       {status?.type === "error" && (
@@ -89,7 +94,7 @@ const ViewList = () => {
        <div className=" mt-2 mb-2" style={{background:"lightgrey",height:"2px"}}></div>
        <div>{data?.members?.length} Members</div>
       </div>
-     {data &&  <Datatable columns={columns}  data={data.members} ></Datatable> }
+     {data &&  <Datatable columns={columns}  data={data.members} rowClick={rowClick} ></Datatable> }
     </Layout>
   )
 }
