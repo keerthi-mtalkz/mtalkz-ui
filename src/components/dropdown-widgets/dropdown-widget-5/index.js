@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {useSelector, shallowEqual} from 'react-redux'
 import * as Icon from 'react-feather'
 
-const DropdownWidget5 = ({name,onItemClick}) => {
+const DropdownWidget5 = ({name,onItemClick,lastUploaded,data}) => {
   const {direction} = useSelector(
     state => ({
       direction: state.direction,
@@ -37,7 +37,21 @@ const DropdownWidget5 = ({name,onItemClick}) => {
   }, [dropdownRef, buttonRef])
 
   const items = [
+   
+  ]
+
+  if(lastUploaded && lastUploaded.status == "queued"){
+    items=[ {
+      name: 'Cancel Upload',
+    },
     {
+      name: 'Edit List Attributes',
+    },
+    {
+      name: 'Delete',
+    }]
+  }else{
+    items=[ {
       name: 'Import Data',
     },
     {
@@ -45,8 +59,10 @@ const DropdownWidget5 = ({name,onItemClick}) => {
     },
     {
       name: 'Delete',
-    }
-  ]
+    }]
+  }
+
+
   return (
     <div className="flex items-center justify-center w-8 mx-2">
       <div>
@@ -65,11 +81,18 @@ const DropdownWidget5 = ({name,onItemClick}) => {
           }`}>
           <div className="w-48 dropdown-content">
             <div className="flex flex-col w-full">
-              {items.map((item, i) => (
-                <div key={i} className="p-2 cursor-pointer bg-sky-500 hover:bg-sky-700" onClick={()=>{onItemClick(name,item.name)}}>
-                    <span style={{color: item.name=="Delete"?'red':'black'}}>{item.name}</span>
-                </div>
-              ))}
+              {items.map((item, i) => {
+                if(lastUploaded){
+  return  <div key={i} className="p-2 cursor-pointer bg-sky-500 hover:bg-sky-700" onClick={()=>{onItemClick(name,item.name,data)}}>
+  <span style={{color: item.name=="Delete"?'red':'black'}}>{item.name}</span>
+</div>
+                }
+                else{
+             return     <div key={i} className="p-2 cursor-pointer bg-sky-500 hover:bg-sky-700" onClick={()=>{onItemClick(name,item.name,data)}}>
+                  <span style={{color: item.name=="Delete"?'red':'black'}}>{item.name}</span>
+              </div>
+                }
+              })}
             </div>
           </div>
         </div>

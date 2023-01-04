@@ -81,7 +81,7 @@ React.useEffect(()=>{
       "x-api-key": `Bearer ${token}`,
     }
   }).then((response)=>{
-    router.push("listSegments")
+    router.push("/")
   }).catch((error)=>{})
  }
 
@@ -102,13 +102,13 @@ React.useEffect(()=>{
         </div>
       )}
       <div className="w-full">
-      <div className='flex text-center mb-6'>
+      <div className='flex text-center mb-2'>
       <div >
         <Breadcrumb items={items2} />
       </div>
       <div style={{ marginTop: "-5px" }} className='font-bold mb-1 p-1 text-lg'>{ router.query.name}</div>
     </div>
-       <div className=" mt-5 mb-5" style={{background:"lightgrey",height:"2px"}}></div>
+       <div className=" mt-2 mb-2" style={{background:"lightgrey",height:"2px"}}></div>
        <div className="font-semibold">Import review</div>
        <span>Please review the field mapping so we can add and update profiles based on your selections</span>
        <div className="w-full mb-4 flex">
@@ -121,7 +121,7 @@ React.useEffect(()=>{
          />
        </div>
        </label>
-       <div className="grid grid-cols-3 w-full mb-4 align-center" style={{"align-items": "center","marginLeft":"10px"}}>
+       <div className="grid grid-cols-3 w-full mb-4 align-center" style={{"align-items": "center","marginLeft":"10px","marginTop":"10px"}}>
        <Switch
          checked={checked}
          onChange={(checked) => handleChange(checked)}
