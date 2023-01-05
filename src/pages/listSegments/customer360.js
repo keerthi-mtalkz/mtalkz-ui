@@ -15,18 +15,36 @@ const Customer360 = () => {
     {title: 'List & Segments', url: '/listSegments', last: false},
   ]
   const [data,setData] = React.useState(undefined);
+  const [events,setEvents] = React.useState(undefined);
+
 
   const getListDetails=()=>{
   const token = localStorage.getItem('token');
     axios({
         method: 'get',
-        url: `http://20.193.136.151:5000/customers/?customer_id=${router.query.customerId}&skip=0&limit=10`,
+        url: `http://20.193.136.151:5000/customers/?customer_id=${router.query.customerId}`,
         headers:{
           "x-api-key": `Bearer ${token}`,
         }
       }).then((response)=>{
         setData(response.data)
+        getEvents()
       }).catch((error)=>{})
+  }
+
+  const getEvents = ()=>{
+  const token = localStorage.getItem('token');
+  axios({
+    method: 'get',
+    url: `http://20.193.136.151:5000/events/?customer_id=${router.query.customerId}`,
+    headers:{
+      "x-api-key": `Bearer ${token}`,
+    }
+  }).then((response)=>{
+    setEvents(response.data
+      )
+  }).catch((error)=>{})
+    
   }
 
   React.useEffect(()=>{
@@ -36,13 +54,14 @@ const Customer360 = () => {
 
   return (
     <Layout className="overflow-x-scroll">
+    {events && <div className="font-bold text-lg">{events[0].customer_id}</div>}
     <div  className="flex">
     <div style={{width:"70%"}}>
-    {data && data.map((element)=>{
+    {events && events.map((element)=>{
         return (
             <div className="flex p-4 w-full  bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700" style={{ padding:"10px",margin:"10px"}}>
             <div style={{width:"80%"}}>
-               <div className="font-semibold">{element.customer_id}</div>
+               <div className="font-semibold">{element.event}</div>
                <div className="mt-1" style={{color:"grey"}}>{JSON.stringify(element.attributes)}
                </div>
             </div>

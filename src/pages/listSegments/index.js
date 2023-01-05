@@ -34,7 +34,12 @@ const ListAndSegments=()=>{
         }
         if(operation == "Import Data"){
           router.push({pathname:"/listSegments/uploadList",query:{name:name}});
-
+        }
+        if(operation == "View List"){
+          router.push({pathname:"/listSegments/viewList",query:{name:data.name,listId:data.list_id}});
+        }
+        if(operation == "Edit List Attributes"){
+          router.push({pathname:"/listSegments/updateList",query:{name:data.name,listId:data.list_id}});
         }
     }
 
@@ -143,7 +148,6 @@ setDisplayErrorModal(true)
             Header: 'Action',
             sortable: false,
           Cell: (data) => {
-  
             return (<div className="flex  ">
            <DropdownWidget5 lastUploaded={data.row.original.last_upload} data={data.row.original} name={data.row.original.name} onItemClick={onItemClick}></DropdownWidget5>
              </div>)}
@@ -216,7 +220,7 @@ setDisplayErrorModal(true)
            }
 
            const rowClick=(data)=>{
-            router.push({pathname:"/listSegments/viewList",query:{name:data.original.name}});
+            router.push({pathname:"/listSegments/viewList",query:{name:data.original.name,listId:data.original.list_id}});
            }
 
   return (
@@ -283,7 +287,7 @@ setDisplayErrorModal(true)
 <input type={"button"}  style={{width:"100px",height:"40px",marginRight:"20px",background:"#434190",color:"white"}} onClick={()=>{router.push('/listSegments/createListSegment')}} value="Create List"></input>
 </div>
 </div>
-<Datatable columns={columns}  data={listSegments} rowClick={rowClick}></Datatable>
+<Datatable columns={columns}  data={listSegments} ></Datatable>
 
     </Layout>
     )
