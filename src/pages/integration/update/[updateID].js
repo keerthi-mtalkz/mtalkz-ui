@@ -196,9 +196,6 @@ const updateID = () => {
        if(tags.length==0 ){
         _errors={tags:['tags are required']}
        }
-       if(params.length==0){
-        _errors={..._errors,param_names:['parameters are required']}
-      }
       if(access && selectedOrganizations.length==0){
         _errors={..._errors,access_granted_to:['Organization are required']}
       }
