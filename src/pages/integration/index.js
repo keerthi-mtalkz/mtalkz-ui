@@ -54,7 +54,6 @@ const Integration=()=>{
   };
 
   React.useEffect(() => {
-    
     getPermissions();
   }, []);
 
@@ -142,7 +141,7 @@ const navigateActivate=(id,type=undefined)=>{
       </div>
       <div className="w-1/6 ">
         {" "}
-        {!  permissions.add &&  <Link href={`/integration/addIntegration`}>
+        {  permissions.add &&  <Link href={`/integration/addIntegration`}>
         <button
           className="ml-3  btn btn-default btn-indigo create-btn w-full"
           type="button"

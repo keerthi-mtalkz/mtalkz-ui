@@ -8,9 +8,8 @@ const Card = ({data,permissions,navigateActivate}) => {
        <div 
      key={data.id}
       className="p-4  max-w-2xl  rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700" style={{background:"#eff7fd",display:"flex", marginBottom:"10px"}}>
-        <div style={{width: "20%",
-            padding: "10px"}}>
-        <img style={{"maxHeight": "64px"}} src="https://www.w3schools.com/images/w3schools_green.jpg" alt="W3Schools.com"></img>
+        <div style={{width: "28%"}}>
+        <img style={{"maxHeight": "128px","maxWidth":"128px"}} src={cardInfo.icon_url?cardInfo.icon_url:"/integrationIcon.png" } alt=""></img>
         </div>
       
         <div style={{width: "85%"}}>
@@ -21,7 +20,7 @@ const Card = ({data,permissions,navigateActivate}) => {
           </div>
           <div style={{color:"gray"}}>{cardInfo.channel_slug}</div>
           <div>
-          <span>{"A card info to the practice wait tst that report after that keen interest"}</span>
+          <span>{cardInfo.description}</span>
           <div style={{display:"flex","marginTop": "10px"}}>
           {
             cardInfo.tags.map((tag,i)=>{
@@ -38,24 +37,24 @@ const Card = ({data,permissions,navigateActivate}) => {
           }
           </div>
           <div style={{display:"flex", justifyContent:"space-between",alignItems:"center"}} className="mt-5">
-          <button
+          
+          <input
           onClick={()=>{navigateActivate(data.id)}}
-          style={{
-            "background": "yellowgreen",
-    "padding": "10px",
-    "borderRadius": "10px",
-    "color": "white",
-          }}
-          >Activate</button> <div>
+          className="btn cursor-pointer btn-default btn-block btn-indigo"
+          style={{    width: "87px","background-color": "rgb(67, 65, 144)"}}
+          value="Activate"
+        />
+          
+          <div>
             <div style={{alignItems:"center", display:"flex"}}>
-            {!permissions.view && 
+            {permissions.view && 
               <Link href={`/integration/view/${data.id}`}>
               <p>
                 <i className="icon-eye text-1xl font-bold mb-2 mr-2"></i>
               </p>
           </Link>
              }
-        {!permissions.delete && 
+        {permissions.delete && 
           <p
           style={{
             cursor: "pointer",
@@ -66,7 +65,7 @@ const Card = ({data,permissions,navigateActivate}) => {
           
          }
     
-    {!permissions.update &&
+    {permissions.update &&
       <Link href={`/integration/update/${data.id}`}>
       <p>
         <i className="icon-note text-1xl  mr-2 font-bold mb-2"></i>
