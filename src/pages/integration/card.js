@@ -8,9 +8,8 @@ const Card = ({data,permissions,navigateActivate}) => {
        <div 
      key={data.id}
       className="p-4  max-w-2xl  rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700" style={{background:"#eff7fd",display:"flex", marginBottom:"10px"}}>
-        <div style={{width: "20%",
-            padding: "10px"}}>
-        <img style={{"maxHeight": "64px"}} src={cardInfo.icon_url?cardInfo.icon_url:"/defaultIntegration.png" } alt=""></img>
+        <div style={{width: "28%"}}>
+        <img style={{"maxHeight": "128px","maxWidth":"128px"}} src={cardInfo.icon_url?cardInfo.icon_url:"/integrationIcon.png" } alt=""></img>
         </div>
       
         <div style={{width: "85%"}}>
@@ -38,15 +37,15 @@ const Card = ({data,permissions,navigateActivate}) => {
           }
           </div>
           <div style={{display:"flex", justifyContent:"space-between",alignItems:"center"}} className="mt-5">
-          <button
+          
+          <input
           onClick={()=>{navigateActivate(data.id)}}
-          style={{
-            "background": "yellowgreen",
-    "padding": "10px",
-    "borderRadius": "10px",
-    "color": "white",
-          }}
-          >Activate</button> <div>
+          className="btn cursor-pointer btn-default btn-block btn-indigo"
+          style={{    width: "87px","background-color": "rgb(67, 65, 144)"}}
+          value="Activate"
+        />
+          
+          <div>
             <div style={{alignItems:"center", display:"flex"}}>
             {permissions.view && 
               <Link href={`/integration/view/${data.id}`}>
