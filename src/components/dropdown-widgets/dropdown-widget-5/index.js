@@ -41,7 +41,10 @@ const DropdownWidget5 = ({name,onItemClick,lastUploaded,data}) => {
   ]
 
   if(lastUploaded && lastUploaded.status == "queued"){
-    items=[ {
+    items=[{
+      name:"View List"
+    },
+       {
       name: 'Cancel Upload',
     },
     {
@@ -51,7 +54,11 @@ const DropdownWidget5 = ({name,onItemClick,lastUploaded,data}) => {
       name: 'Delete',
     }]
   }else{
-    items=[ {
+    items=[ 
+      {
+        name:"View List"
+      },
+      {
       name: 'Import Data',
     },
     {

@@ -20,7 +20,7 @@ const IndeterminateCheckbox = React.forwardRef(
   }
 )
 
-const Datatable = ({columns, data,selection=false,onCheckboxClick=undefined}) => {
+const Datatable = ({columns, data,selection=false,onCheckboxClick=undefined,rowClick=undefined}) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -108,7 +108,7 @@ const Datatable = ({columns, data,selection=false,onCheckboxClick=undefined}) =>
           {page.map((row, i) => {
             prepareRow(row)
             return (
-              <tr {...row.getRowProps()}>
+              <tr {...row.getRowProps()} onClick={()=>{rowClick && rowClick(row)}}>
                 {row.cells.map(cell => {
                   return <td {...cell.getCellProps()} style={{"maxWidth": "12rem"}} className={"max-w-xs truncate break-all text-xs"}>{cell.render('Cell')}</td>
                 })}
