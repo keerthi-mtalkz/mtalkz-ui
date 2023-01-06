@@ -10,7 +10,7 @@ const Card = ({data,permissions,navigateActivate}) => {
       className="p-4  max-w-2xl  rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700" style={{background:"#eff7fd",display:"flex", marginBottom:"10px"}}>
         <div style={{width: "20%",
             padding: "10px"}}>
-        <img style={{"maxHeight": "64px"}} src="https://www.w3schools.com/images/w3schools_green.jpg" alt="W3Schools.com"></img>
+        <img style={{"maxHeight": "64px"}} src={cardInfo.icon_url?cardInfo.icon_url:"/defaultIntegration.png" } alt=""></img>
         </div>
       
         <div style={{width: "85%"}}>
