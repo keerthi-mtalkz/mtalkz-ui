@@ -27,7 +27,7 @@ const ListAndSegments=()=>{
       const onItemClick=(name,operation,data)=>{
         if(operation=="Delete")
         {
-            ConfirmationPopup(name)
+            ConfirmationPopup(data.list_id)
         }
         if(operation == "Cancel Upload"){
           cancelUpload(data)
@@ -35,7 +35,7 @@ const ListAndSegments=()=>{
         if(operation == "Import Data"){
           router.push({pathname:"/listSegments/uploadList",query:{name:name}});
         }
-        if(operation == "View List"){
+        if(operation == "View List"){data.list_id
           router.push({pathname:"/listSegments/viewList",query:{name:data.name,listId:data.list_id}});
         }
         if(operation == "Edit List Attributes"){
