@@ -21,7 +21,7 @@ const Card = ({data,permissions,navigateActivate}) => {
           </div>
           <div style={{color:"gray"}}>{cardInfo.channel_slug}</div>
           <div>
-          <span>{"A card info to the practice wait tst that report after that keen interest"}</span>
+          <span>{cardInfo.description}</span>
           <div style={{display:"flex","marginTop": "10px"}}>
           {
             cardInfo.tags.map((tag,i)=>{
@@ -48,14 +48,14 @@ const Card = ({data,permissions,navigateActivate}) => {
           }}
           >Activate</button> <div>
             <div style={{alignItems:"center", display:"flex"}}>
-            {!permissions.view && 
+            {permissions.view && 
               <Link href={`/integration/view/${data.id}`}>
               <p>
                 <i className="icon-eye text-1xl font-bold mb-2 mr-2"></i>
               </p>
           </Link>
              }
-        {!permissions.delete && 
+        {permissions.delete && 
           <p
           style={{
             cursor: "pointer",
@@ -66,7 +66,7 @@ const Card = ({data,permissions,navigateActivate}) => {
           
          }
     
-    {!permissions.update &&
+    {permissions.update &&
       <Link href={`/integration/update/${data.id}`}>
       <p>
         <i className="icon-note text-1xl  mr-2 font-bold mb-2"></i>
