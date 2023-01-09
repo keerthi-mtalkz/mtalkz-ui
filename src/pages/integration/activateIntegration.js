@@ -154,7 +154,7 @@ useEffect(() => {
 type="cancel"
 className="btn cursor-pointer btn-default btn-block btn-red mt-5 text-center mr-5 "
 value="Cancel"
-onClick={()=>{        router.push("/integrtion");
+onClick={()=>{        router.push("/integration");
 }}
 />
   <input
