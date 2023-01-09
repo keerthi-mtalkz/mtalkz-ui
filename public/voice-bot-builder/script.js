@@ -140,6 +140,8 @@ const configuration = {
 let definition = {
   properties: {
     name: null,
+    start_at: null,
+    end_at: null,
     retries: 0,
     delay: 0,
     stauses: []
@@ -155,10 +157,10 @@ if (campaignId) {
   try {
     fetchURL(baseUrl).then(data => {
       console.log('Campaign', data);
-      const { name, retries, delay, statuses, listed, json } = data.campaign;
+      const { name, start_at, end_at, retries, delay, statuses, listed, json } = data.campaign;
       flowchart_name = name;
       definition = {
-        properties: { name, retries, delay, statuses: statuses || [] },
+        properties: { name, start_at, end_at, retries, delay, statuses: statuses || [] },
         sequence: json
       };
       if (listed) {
