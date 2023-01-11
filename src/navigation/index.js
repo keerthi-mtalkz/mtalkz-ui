@@ -36,6 +36,13 @@ const navigation = [
         items: []
       },
       {
+        url: '/campaign',
+        index:"users.index",
+        icon: <Icon.User size={20} />,
+        title: 'Campaign',
+        items: []
+      },
+      {
         url: '/role',
         index:"roles.index",
         icon: <Icon.Flag size={20} />,
@@ -72,7 +79,7 @@ const navigation = [
       },
       {
         url: '/apiKey',
-        index:"apikeys.index",
+        index:"api-keys.index",
         icon: <Icon.Anchor size={20} />,
         title: 'API Keys Management',
         items: []

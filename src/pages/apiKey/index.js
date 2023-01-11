@@ -38,11 +38,11 @@ const ApiKey = () => {
   };
   const getPermissions = async () => {
     let permissions = { get: false, update: false, delete: false, view: false, add: false }
-    permissions["get"] = userpermissions.includes("apikeys.index") && getApiKeys()
-    permissions["update"] = userpermissions.includes("apikeys.update")
-    permissions["delete"] = userpermissions.includes("apikeys.destroy")
-    permissions["view"] = userpermissions.includes("apikeys.show")
-    permissions["add"] = userpermissions.includes("apikeys.store")
+    permissions["get"] = userpermissions.includes("api-keys.index") && getApiKeys()
+    permissions["update"] = userpermissions.includes("api-keys.update")
+    permissions["delete"] = userpermissions.includes("api-keys.destroy")
+    permissions["view"] = userpermissions.includes("api-keys.show")
+    permissions["add"] = userpermissions.includes("api-keys.store")
     setPermissions({ ...permissions })
   };
 
