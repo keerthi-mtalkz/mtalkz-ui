@@ -12,6 +12,8 @@ import CustomModal from "../../components/custommodal";
 import Breadcrumb from '../../components/breadcrumbs';
 import Recipients from "./recipients";
 import Content from "./content"
+import Review from "./review"
+
 const addCampaign = () => {
   const router = useRouter();
   const [status, setStatus] = useState(undefined);
@@ -103,6 +105,8 @@ const [index,setIndex]=useState(0)
      </div>
       {index==0 && <Recipients saveContinue={()=>{setIndex(1)}} ></Recipients> }
       {index==1 && <Content saveContinue={()=>{setIndex(2)}}></Content> }
+      {index==2 && <Review saveContinue={()=>{setIndex(2)}}></Review> }
+
     
 
     </Layout>
