@@ -16,16 +16,16 @@ const updateCustomerID = () => {
     const token = localStorage.getItem('token');
       axios({
           method: 'get',
-          url: `http://20.193.136.151:5000/customers/?customer_id=${customerId}`,
+          url: `http://20.193.136.151:5000/customers/${customerId}`,
           headers:{
             "x-api-key": `Bearer ${token}`,
           }
         }).then((response)=>{
           setData(response.data)
           let data=[]
-        const keys =  Object.keys(response.data[0].attributes)
+        const keys =  Object.keys(response.data.attributes)
         keys.map((key)=>{
-            data.push({key:key,value:response.data[0].attributes[key]})
+            data.push({key:key,value:response.data.attributes[key]})
         })
         setUpdateData([...data])
         }).catch((error)=>{
@@ -36,7 +36,7 @@ const updateCustomerID = () => {
 
     const updateCustomer=(data)=>{
         const token = localStorage.getItem('token');
-        ax.put(`http://20.193.136.151:5000/customers/?customer_id=${customerId}`, data, {headers: {
+        ax.put(`http://20.193.136.151:5000/customers/${customerId}`, data, {headers: {
             'x-api-key': `${token}`
           }})
             .then((res) => {
@@ -148,7 +148,7 @@ const updateCustomerID = () => {
               <input
               type="text"
               className="form-input mt-1 text-xs block w-full bg-white"
-              placeholder="Enter your name"
+              placeholder="Enter value for this attribute"
               defaultValue={data.value!= " " ?  JSON.stringify(data.value) : data.value}
               onChange={(e)=>{
                 let data=updateData;
