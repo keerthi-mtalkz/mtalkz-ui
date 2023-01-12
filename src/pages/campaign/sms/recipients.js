@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { withRedux } from "../../lib/redux";
-import {ax} from "../../utils/apiCalls";
+import { withRedux } from "../../../lib/redux";
+import {ax} from "../../../utils/apiCalls";
 import Select from "react-select";
 import { WithContext as ReactTags } from 'react-tag-input';
 import {createFlow} from "./helper";
@@ -163,7 +163,7 @@ const Recipients = ({saveContinue}) => {
               name="firstname"
               type="text"
               className="form-input mt-1 text-xs block w-full bg-white"
-              placeholder="Eric"
+              placeholder="Please enter campaign name"
               onChange={(e)=>{setCampaignName(e.target.value)}}
               value={campaignName}
             />
@@ -180,7 +180,7 @@ const Recipients = ({saveContinue}) => {
         handleDrag={handleParamDrag}
         inputFieldPosition="top"
         autocomplete
-        classNames={{tag:"badge badge-default badge-indigo ml-1 rounded-lg",tagInputField:"form-input mt-1 text-xs block w-full bg-white"}}
+        classNames={{tag:"badge badge-default badge-indigo ml-1 rounded-lg",tagInputField:"form-input mt-1 mb-2 text-xs block w-full bg-white"}}
       />
         </div>
         </div>
@@ -238,6 +238,7 @@ const Recipients = ({saveContinue}) => {
 <div>
 <button 
  disabled={getBtnStatus()}
+ style={{background:getBtnStatus()?"grey":"#434190"}}
 className="ml-3  btn btn-default btn-indigo create-btn" type="button" onClick={()=>{
    goNext()
 }}>

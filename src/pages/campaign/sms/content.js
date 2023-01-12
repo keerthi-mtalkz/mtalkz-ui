@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { withRedux } from "../../lib/redux";
+import { withRedux } from "../../../lib/redux";
 import Select from "react-select";
 import { createFlow } from "./helper"
 
-const Content = ({ saveContinue }) => {
+const Content = ({ saveContinue, goBack }) => {
   const [shortLinks, setShortLinks] = useState(false);
   const [unicode, setUnicode] = useState(false);
   const [options, setOptions] = useState([]);
@@ -133,98 +133,108 @@ const Content = ({ saveContinue }) => {
   }
 
   return (
-    <div className="flex">
-      <div style={{ width: "35%" }} className="p-2 w-full  bg-white rounded-lg border shadow-md  dark:bg-gray-800 dark:border-gray-700">
-        <div className="text-center font-semibold p-3 mb-4">Message Content</div>
-        <textarea
-          name="message"
-          className="text-xs form-textarea mt-1  block w-full"
-          rows="6"
-          value={message}
-          onChange={(e) => {
-            setMessage(e.target.value);
-          }}
-          placeholder="Your message"></textarea>
-        <label className="block mt-2">
-          <span className="text-default">Add Property</span>
-          <div >
-            <Select
-              options={options}
-              placeholder="Select Property"
-              onChange={handleSwitchProperty}
-              value={property}
-            />
-          </div>
-        </label>
-        <label className="block mt-2">
-          <span className="text-default">Target Attribute</span>
+    <div>
+      <div className="flex">
+        <div style={{ width: "35%" }} className="p-2 w-full  bg-white rounded-lg border shadow-md  dark:bg-gray-800 dark:border-gray-700">
+          <div className="text-center font-semibold p-3 mb-4">Message Content</div>
+          <textarea
+            name="message"
+            className="text-xs form-textarea mt-1  block w-full"
+            rows="6"
+            value={message}
+            onChange={(e) => {
+              setMessage(e.target.value);
+            }}
+            placeholder="Your message"></textarea>
+          <label className="block mt-2">
+            <span className="text-default">Add Property</span>
+            <div >
+              <Select
+                options={options}
+                placeholder="Select Property"
+                onChange={handleSwitchProperty}
+                value={property}
+              />
+            </div>
+          </label>
+          <label className="block mt-2">
+            <span className="text-default">Target Attribute</span>
 
-          <div >
-            <Select
-              options={options}
-              placeholder="Select Attribute"
-              onChange={handleSwitchAttribute}
-              value={targetAttribute}
+            <div >
+              <Select
+                options={options}
+                placeholder="Select Attribute"
+                onChange={handleSwitchAttribute}
+                value={targetAttribute}
+              />
+            </div>
+          </label>
+          <div className="mt-2">
+            <input
+              name="shortLinks"
+              type="checkbox"
+              className="form-checkbox"
+              checked={shortLinks}
+              onChange={() => setShortLinks(!shortLinks)}
             />
+            <label className="ml-2 mt-3 text-sm">Automatically Shorten Links</label>
           </div>
-        </label>
-        <div className="mt-2">
-          <input
-            name="shortLinks"
-            type="checkbox"
-            className="form-checkbox"
-            checked={shortLinks}
-            onChange={() => setShortLinks(!shortLinks)}
-          />
-          <label className="ml-2 mt-3 text-sm">Automatically Shorten Links</label>
+          <div className="mt-2">
+            <input
+              name="unicode"
+              type="checkbox"
+              className="form-checkbox"
+              checked={unicode}
+              onChange={() => setUnicode(!unicode)}
+            />
+            <label className="ml-2 mt-3 text-sm">Unicode Message</label>
+          </div>
+          <div
+            style={{
+              "display": "flex",
+              justifyContent: "right",
+              color: "blue",
+              cursor: "pointer"
+            }}
+            onClick={() => {
+              messageUpdate()
+            }}>Refresh</div>
+
         </div>
-        <div className="mt-2">
-          <input
-            name="unicode"
-            type="checkbox"
-            className="form-checkbox"
-            checked={unicode}
-            onChange={() => setUnicode(!unicode)}
-          />
-          <label className="ml-2 mt-3 text-sm">Unicode Message</label>
+        <div className="ml-30" style={{ width: "300px", border: "6px solid gray", marginLeft: "100px", borderRadius: "44px" }}>
+          <div style={{ background: "#d3d3d34d", height: "16%", padding: "17px", borderTopLeftRadius: "36px", borderTopRightRadius: "36px" }} className="text-center p-2 font-bold">SENDER-ID</div>
+          <div className="mt-2" style={{ fontSize: "10px" }} >
+            <div className="flex justify-center">Text Message
+            </div>
+            <div className="flex justify-center"> {new Date().toLocaleTimeString('en-HI', { timeStyle: 'short' })}
+            </div>
+          </div>
+          <div
+            className="mt-1"
+            style={{
+              width: " 95%",
+              background: "#d3d3d34a",
+              borderRadius: " 5px",
+              padding: "4px",
+              marginLeft: "6px",
+              wordBreak: "break-all",
+              fontSize: "10px"
+            }}>
+            {phnMessage}
+          </div>
         </div>
-        <div
-          style={{
-            "display": "flex",
-            justifyContent: "right",
-            color: "blue",
-            cursor: "pointer"
-          }}
-          onClick={() => {
-            messageUpdate()
-          }}>Refresh</div>
 
       </div>
-      <div className="ml-30" style={{ width: "300px", border: "6px solid gray", marginLeft: "100px", borderRadius: "44px" }}>
-        <div style={{ background: "#d3d3d34d", height: "16%", padding: "17px", borderTopLeftRadius: "36px", borderTopRightRadius: "36px" }} className="text-center p-2 font-bold">SENDER-ID</div>
-        <div className="mt-2" style={{ fontSize: "10px" }} >
-          <div className="flex justify-center">Text Message
-          </div>
-          <div className="flex justify-center"> {new Date().toLocaleTimeString('en-HI', { timeStyle: 'short' })}
-          </div>
-        </div>
-        <div
-          className="mt-1"
-          style={{
-            width: " 95%",
-            background: "#d3d3d34a",
-            borderRadius: " 5px",
-            padding: "4px",
-            marginLeft: "6px",
-            wordBreak: "break-all",
-            fontSize: "10px"
+      <div style={{ marginTop: "30px" }}>
+        <button
+          className="ml-3  btn btn-default btn-indigo create-btn" type="button" onClick={() => {
+            goBack()
           }}>
-          {phnMessage}
-        </div>
-      </div>
-      <div>
+          Back
+        </button>
         <button
           disabled={getBtnStatus()}
+          style={{ background: getBtnStatus() ? "grey" : "#434190" }}
           className="ml-3  btn btn-default btn-indigo create-btn" type="button" onClick={() => {
             goNext()
           }}>
