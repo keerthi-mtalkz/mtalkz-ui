@@ -106,9 +106,6 @@ const [index,setIndex]=useState(0)
       {index==0 && <Recipients saveContinue={()=>{setIndex(1)} } ></Recipients> }
       {index==1 && <Content saveContinue={()=>{setIndex(2)}} goBack={()=>{setIndex(0)}}></Content> }
       {index==2 && <Review saveContinue={()=>{setIndex(2)}} goBack={()=>{setIndex(1)}}></Review> }
-
-    
-
     </Layout>
   );
 };
