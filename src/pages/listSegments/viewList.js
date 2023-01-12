@@ -132,7 +132,7 @@ const ViewList = () => {
         </p>}   
         {
            <div onClick={()=>{
-            router.push({pathname:"/listSegments/customer360",query:{customerId:data.original.customer_id}})
+            router.push(`/listSegments/updateCustomerID/${data.row.original.customer_id}`)
            }}>
           <p>
             <i className="icon-note text-1xl font-bold mb-2"></i>
