@@ -1,15 +1,10 @@
 import Link from "next/link";
 import React, { useState } from 'react';
 import { NotificationManager } from 'react-notifications';
-import { shallowEqual, useSelector } from 'react-redux';
-import { Badge } from '../../components/badges';
-import ConfirmationModal from "../../components/confirmationmodal";
-import Datatable from "../../components/datatable";
 import SectionTitle from '../../components/section-title';
 import Layout from '../../layouts';
 import { withRedux } from '../../lib/redux';
-import { ax } from "../../utils/apiCalls";
-import ls from 'local-storage'
+
 const Campaign = () => {
  const [status, setStatus] = useState(undefined);
   return (

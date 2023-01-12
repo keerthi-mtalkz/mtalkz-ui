@@ -1,34 +1,42 @@
-import React, { useState } from "react";
-import SectionTitle from "../../components/section-title";
-import { useForm } from "react-hook-form";
-import Layout from "../../layouts";
+import React from "react";
 import { useRouter } from "next/router";
 import { withRedux } from "../../lib/redux";
-import {ax} from "../../utils/apiCalls";
-import {NotificationManager} from 'react-notifications';
-import Select from "react-select";
-import Switch from 'react-switch';
-import CustomModal from "../../components/custommodal";
-import Breadcrumb from '../../components/breadcrumbs';
 import {createFlow,dummycreateFlow} from "./helper"
 
 const Review = () => {
   const router = useRouter();
  let keys = Object.keys(createFlow);
- console.log(typeof(createFlow["tags"]),createFlow["tags"],"shorten_linkshorten_link")
 
  const saveAndSubmit = async() =>{
     const token = localStorage.getItem('token');
-    await ax
-      .post("http://20.193.136.151:5000/campaigns/",
-      createFlow,
-      {
-        headers: {
-          'x-api-key': `${token}`
-        }
-      })
+     const apiData= {...createFlow}
+     apiData.tags = [];
+     apiData.target_attribute=[];
+     apiData.exclude_lists = []
+     apiData.target_lists = []
+
+     createFlow.tags.map((tag)=>{
+        apiData.tags.push(tag.value)
+     })
+     createFlow.target_attribute.map((attribute)=>{
+      apiData.target_attribute.push(attribute.value)
+     })
+     createFlow.target_lists.map((data) => {
+      apiData.target_lists.push(data.label)
+    })
+    createFlow.exclude_lists.map((data) => {
+      apiData.exclude_lists.push(data.label)
+    })
+    fetch("http://20.193.136.151:5000/campaigns/",{
+      method:"POST",
+      body: JSON.stringify(apiData),
+      headers: {
+        'x-api-key': `${token}`,
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      }
+    })
       .then((res) => {
-        console.log(res)
         keys.map((key)=>{
             createFlow[key]=dummycreateFlow[key]
         })
@@ -39,12 +47,10 @@ const Review = () => {
       });
  }
 
-
   return (
     <div>
-    <div style={{width:"50%"}} className="p-4  m-10 bg-white rounded-lg border shadow-md  dark:bg-gray-800 dark:border-gray-700">
+    <div style={{width:"50%",wordBreak:"break-all"}} className="p-4   m-10 bg-white rounded-lg border shadow-md  dark:bg-gray-800 dark:border-gray-700">
     {keys.map(key =>{
-       console.log(createFlow[key],"ceateflow")
        return (
          <div className="flex p-2 ">
          <div className="font-semibold" style={{width:"40%"}}>{key}</div>

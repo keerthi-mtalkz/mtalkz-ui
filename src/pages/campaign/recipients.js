@@ -1,17 +1,10 @@
 import React, { useState } from "react";
-import SectionTitle from "../../components/section-title";
-import { useForm } from "react-hook-form";
-import Layout from "../../layouts";
-import { useRouter } from "next/router";
 import { withRedux } from "../../lib/redux";
 import {ax} from "../../utils/apiCalls";
-import {NotificationManager} from 'react-notifications';
 import Select from "react-select";
-import Switch from 'react-switch';
-import CustomModal from "../../components/custommodal";
-import Breadcrumb from '../../components/breadcrumbs';
 import { WithContext as ReactTags } from 'react-tag-input';
-import {createFlow} from "./helper"
+import {createFlow} from "./helper";
+
 const Recipients = ({saveContinue}) => {
     const [listSegments,setListSegments]=React.useState([
     ]);
@@ -65,12 +58,10 @@ const Recipients = ({saveContinue}) => {
     }
 
     const handleSwitchDontsend=(value)=>{
-        console.log(value,"((((((((((((((")
         let dontsendto=[];
         value.map((val)=>{
             dontsendto.push({label:val.label, value:val.value})
         })
-        console.log(dontsendto);
         setSelectedDontsendto([...dontsendto])
     }
 
@@ -94,7 +85,7 @@ const Recipients = ({saveContinue}) => {
       },[]);
 
       const getBtnStatus = () =>{
-        if(campaignName=="" || params.length == 0 || selectedSendto.length==0 || selectedApikey.length==0 )
+        if(campaignName=="" || params.length == 0 || selectedSendto.length==0 )
         {
             return true
         }
@@ -102,13 +93,11 @@ const Recipients = ({saveContinue}) => {
       }
 
       const goNext = ()=>{
-        console.log(params,selectedSendto,"selectedSendtoselectedSendto")
         createFlow.channel="sms";
         createFlow.name= campaignName;
         createFlow.tags= params;
         createFlow.exclude_lists=selectedDontsendto;
         createFlow.target_lists=selectedSendto;
-        console.log(createFlow,"create flow")
         // createFlow.api_key=selectedApikey[0].value;
         saveContinue()
       }
@@ -158,7 +147,6 @@ const Recipients = ({saveContinue}) => {
                       });
                   };   
                   
-                  console.log(selectedSendto,"selectedsendto")
  
   return (
     <div>

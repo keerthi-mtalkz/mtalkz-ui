@@ -15,13 +15,18 @@ export const createFlow= {
     "target_attribute": "",
     "content": "",
     "shorten_link": false,
-    "unicode": false
+    "unicode": false,
+    "message":"",
+    "property":"",
+    "targetattributes":"",
+
   }
 
   export const dummycreateFlow= {
     "name": "",
     "channel": "",
     "api_key": "",
+    "message":"",
     "tags": [
       
     ],
@@ -35,5 +40,7 @@ export const createFlow= {
     "target_attribute": "",
     "content": "",
     "shorten_link": false,
-    "unicode": false
+    "unicode": false,
+    "property":"",
+    "targetattributes":"",
   }
