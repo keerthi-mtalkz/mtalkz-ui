@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import SectionTitle from "../../components/section-title";
+import SectionTitle from "../../../components/section-title";
 import { useForm } from "react-hook-form";
-import Layout from "../../layouts";
+import Layout from "../../../layouts";
 import { useRouter } from "next/router";
-import { withRedux } from "../../lib/redux";
-import {ax} from "../../utils/apiCalls";
+import { withRedux } from "../../../lib/redux";
+import {ax} from "../../../utils/apiCalls";
 import {NotificationManager} from 'react-notifications';
 import Select from "react-select";
 import Switch from 'react-switch';
-import CustomModal from "../../components/custommodal";
-import Breadcrumb from '../../components/breadcrumbs';
+import CustomModal from "../../../components/custommodal";
+import Breadcrumb from '../../../components/breadcrumbs';
 import Recipients from "./recipients";
 import Content from "./content"
 import Review from "./review"
@@ -103,12 +103,9 @@ const [index,setIndex]=useState(0)
       
      </div>
      </div>
-      {index==0 && <Recipients saveContinue={()=>{setIndex(1)}} ></Recipients> }
-      {index==1 && <Content saveContinue={()=>{setIndex(2)}}></Content> }
-      {index==2 && <Review saveContinue={()=>{setIndex(2)}}></Review> }
-
-    
-
+      {index==0 && <Recipients saveContinue={()=>{setIndex(1)} } ></Recipients> }
+      {index==1 && <Content saveContinue={()=>{setIndex(2)}} goBack={()=>{setIndex(0)}}></Content> }
+      {index==2 && <Review saveContinue={()=>{setIndex(2)}} goBack={()=>{setIndex(1)}}></Review> }
     </Layout>
   );
 };

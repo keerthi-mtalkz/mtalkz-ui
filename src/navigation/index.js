@@ -14,17 +14,11 @@ const navigation = [
         title: 'Chatbots',
         items: []
       },
-      {
-        url: '/user',
-        index:"users.index",
-        icon: <Icon.User size={20} />,
-        title: 'Users',
-        items: []
-      },
+     
       {
         url: '/listSegments',
         index:"users.index",
-        icon: <Icon.User size={20} />,
+        icon: <Icon.List size={20} />,
         title: 'List & Segments',
         items: []
       },
@@ -38,7 +32,7 @@ const navigation = [
       {
         url: '/campaign',
         index:"users.index",
-        icon: <Icon.User size={20} />,
+        icon: <Icon.Crosshair size={20} />,
         title: 'Campaign',
         items: []
       },
@@ -89,6 +83,13 @@ const navigation = [
         index:"integrations.index",
         icon: <Icon.Paperclip size={20} />,
         title: 'Integrations',
+        items: []
+      },
+      {
+        url: '/user',
+        index:"users.index",
+        icon: <Icon.User size={20} />,
+        title: 'My Team',
         items: []
       },
 

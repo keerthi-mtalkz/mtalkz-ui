@@ -8,14 +8,18 @@ import SectionTitle from '../../components/section-title';
 import Layout from '../../layouts';
 import { withRedux } from '../../lib/redux';
 import * as Icon from 'react-feather'
+import CampaignModal from "../../components/campaignsModal"
+import { createFlow } from "./sms/helper";
+import { useRouter } from "next/router";
 
 const Campaign = () => {
+  const router = useRouter();
  const [status, setStatus] = useState(undefined);
  const [searchQuery, setSearchQuery] = useState("");
  const [deleteId, setDeleteId] = React.useState(undefined)
   const [showDeletePopup, setShowDeletePopup] = React.useState(false)
   const [campaigns,setCampaigns] = React.useState([])
-
+const [showCampaignPopup,setShowCampaignPopup] = React.useState(false)
  const getCampaigns = async() =>{
   const token = localStorage.getItem('token');
  fetch("http://20.193.136.151:5000/campaigns/",{
@@ -53,6 +57,8 @@ const onSubmit = () => {
   handleDelete()
 }
 
+
+
 const handleDelete = () => {
   const token = localStorage.getItem('token');
   fetch(`http://20.193.136.151:5000/campaigns/${deleteId}`,{
@@ -64,8 +70,13 @@ const handleDelete = () => {
   })
       .then((res) => {
         setStatus({ type: "success" });
+        setStatus(undefined)
+        setShowDeletePopup(false)
+        getCampaigns()
+
     })
       .catch((err) => {
+        setShowDeletePopup(false)
         if(err?.response){
           setStatus({ type: "error",message: err.response.data.error });
         }
@@ -101,18 +112,30 @@ const columns = [
     Cell: (data) => {
       return (
         <div className="flex  " style={{color:"grey"}}>
-      {data.row.original.created_at}</div>)}
+        {new Date(data.row.original.created_at).toLocaleDateString('en-HI', {dateStyle: 'long'})},
+        {new Date(data.row.original.created_at).toLocaleTimeString('en-HI', {timeStyle: 'short'})}
+      </div>)}
   },
   {
     Header: 'SENT ON',
     Cell: (data) => {
       return (
-        <div className="flex  " style={{color:"grey"}}>
-      {data.row.original.updated_at}</div>)}
+      <div className="flex  " style={{color:"grey"}}>
+        {data.row.original.updated_at && new Date(data.row.original.updated_at).toLocaleDateString('en-HI', {dateStyle: 'long'})},
+        { data.row.original.updated_at && new Date(data.row.original.updated_at).toLocaleTimeString('en-HI', {timeStyle: 'short'})}
+     </div>)}
   },
   {
     Header: 'STATUS',
-    accessor: 'executed_at'
+    Cell: (data) => {
+      return (
+      <div className="flex  " style={{color:"grey"}}>
+         
+          <Badge  color={data.row.original.executed_at?"grey ":"green"} alt size="default" rounded>
+     {data.row.original.executed_at ? "sent" : "unsent"}
+   </Badge>
+        
+     </div>)}
   },
   {
     Header: 'Actions',
@@ -136,7 +159,7 @@ const columns = [
             cursor: "pointer",
             lineHeight: "normal",
           }}
-          onClick={() => ConfirmationPopup(data.row.original.id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
+          onClick={() => ConfirmationPopup(data.row.original.campaign_id)}><i className="icon-trash text-1xl font-bold mb-2"></i>
         </p>}
         { <Link href={`/`}>
           <p>
@@ -154,6 +177,14 @@ const columns = [
   return (
     <Layout>
     {showDeletePopup && <ConfirmationModal onCancel={onCancel} onSubmit={onSubmit} > </ConfirmationModal>}
+    {showCampaignPopup && <CampaignModal onCancel={()=>{setShowCampaignPopup(false)}} onSelect={(selectedItem)=>{
+        createFlow.channel=selectedItem;
+        if(selectedItem=="sms")
+        {
+          router.push("/campaign/sms");
+        }
+      
+      console.log(selectedItem,"selectedItem");setShowCampaignPopup(false)}}></CampaignModal>}
       <div className="flex flex-row pb-4">
       <SectionTitle title="Campaigns" subtitle="" />
       </div>
@@ -169,14 +200,14 @@ const columns = [
         </div>
         <div className="w-1/6 ">
           {" "}
-          {<Link href={`/campaign/addCampaign`}>
+        
             <button
               className="ml-3  btn btn-default btn-indigo create-btn w-full"
               type="button"
+              onClick={()=>{setShowCampaignPopup(true)}}
             >
               Create Campaign
             </button>
-          </Link>}
 
         </div>
       </div>
@@ -199,10 +230,7 @@ const columns = [
         if (searchQuery == "") {
           return val;
         } else if (
-          (val.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
-            val.tags.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
-            val?.executed_at?.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
-            val.tags.toLowerCase().includes(searchQuery.toLocaleLowerCase())
+          (val.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()) 
           )
         ) {
           return val;
